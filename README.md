@@ -18,9 +18,8 @@ If you run into any issues using this extension, please report them in the appro
 License
 -------
 
-Copyright (c) 2009-2012 Scott Ferguson
-Copyright (c) 2013 Matthew Peveler
-
+Copyright (c) 2009-2013 Scott Ferguson  
+Copyright (c) 2013 Matthew Peveler  
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
