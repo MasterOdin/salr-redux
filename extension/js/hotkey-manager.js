@@ -138,7 +138,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
                 case 98: /* b */
                     // Open unread threads
                     var curr_page = findCurrentPage();
-                    if (curr_page == 'bookmarkthreads.php') {
+                    if (curr_page == 'bookmarkthreads.php' || curr_page == 'usercp.php') {
                         if (that.b_count == 2) {
                             that.b_count=0;
                             that.openAllBookmarks();
@@ -382,17 +382,27 @@ HotKeyManager.prototype.openAllBookmarks = function() {
     var that = this;
 
     jQuery('tr.thread').each( function() {
+        var other = this;
+
+        var open_thread = function() {
+            if (jQuery('a[class*=count]', other).length > 0) {
+                var href = jQuery('a[class*=count]', other).attr('href');
+                postMessage({ 'message': 'OpenTab',
+                    'url'  : 'http://forums.somethingawful.com'+href });
+            }
+        };
+
+        if (that.settings.ignoreBookmarkStar === undefined) {
+            open_thread();
+        }
+
         var star_img = jQuery('img[src*="/star"]', this);
         if (star_img.size() == 0)
             return;
         var img_split = star_img.attr('src').split('/');
         var img_name = img_split[img_split.length-1];
         if (that.settings.ignoreBookmarkStar != img_name) {
-            if (jQuery('a[class*=count]', this).length > 0) {
-                var href = jQuery('a[class*=count]', this).attr('href');
-                postMessage({ 'message': 'OpenTab',
-                    'url'  : 'http://forums.somethingawful.com'+href });
-            }
+            open_thread();
         }
     });
 }

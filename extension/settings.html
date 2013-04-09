@@ -4,7 +4,6 @@
 <link rel="stylesheet" type="text/css" href="css/colorpicker.css" />
 <link rel="stylesheet" type="text/css" href="css/settings-style.css" />
 <link rel="stylesheet" type="text/css" href="http://forums.somethingawful.com/css/main.css" />
-<link rel="stylesheet" type="text/css" href="http://www.somethingawful.com/css/forums.css" />
 <link rel="stylesheet" type="text/css" href="http://forums.somethingawful.com/css/bbcode.css" />
 <script type="text/javascript" src="js/jquery/jquery.js"></script>
 
@@ -15,7 +14,7 @@
 <body>
     <header id="logo-header">
         <img onclick="configWindow();" src="images/logo.jpg">
-        <span id="title">Something Awful Last Read Settings</span>
+        <span id="title">Something Awful Last Read Redux Settings</span>
     </header>
     <div class="preference-title">
         Forums Username
@@ -31,42 +30,37 @@
     </div>
     <div style="clear: both;"></div>
     <table id="forum" class="threadlist">
-		<thead>
         <tr>
+        </tr>
             <th class="star"> </th>
             <th class="icon">Icon</th>
-            <th class="title">Title (Pages)</th>
+            <th class="title">Title</th>
             <th class="author">Author</th>
             <th class="replies">Re</th>
             <th class="views">Views</th>
             <th class="rating">Rating</th>
             <th class="lastpost"><nobr>Killed By</nobr></th>
-		</tr>
-		</thead>
-		<tbody>
         <tr id="thread-new" class="thread">
-            <td class="star"></td>
-            <td class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yospos-hackersafe.png" /></td>
-            <td class="title"><div class="title_inner"><div class="info"><a style="text-decoration:underline;" class="thread_title">This is a thread you have not yet seen</a></div></div></td>
-            <td class="author"></td>
-            <td class="replies">20</td>
-            <td class="views"></td>
-            <td class="rating"></td>
-            <td class="lastpost"></td>
+            <td id="thread-light" class="star"></td>
+            <td id="thread-dark" class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yospos-hackersafe.png" /></td>
+            <td id="thread-light" class="title"><a style="text-decoration:underline;" class="thread_title">This is a thread you have not yet seen</a><br /><br /></td>
+            <td id="thread-dark" class="author"></td>
+            <td id="thread-light" class="replies">20</td>
+            <td id="thread-dark" class="views"></td>
+            <td id="thread-light" class="rating"></td>
+            <td id="thread-dark" class="lastpost"></td>
         </tr>
         <tr id="thread-read" class="thread">
             <td id="thread-light" class="star"></td>
             <td id="thread-dark" class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yp-bsod.gif" /></td>
             <td id="thread-light" class="title">
-				<div class="title_inner">	
-					<div id="lastseen-forum" class="lastseen">
-					<a class="x">X</a>
-					</div>
-					<div id="lastseen-custom" class="lastseen">
-					<a id="lastseen-x" class="x"></a>
-					</div>
-					<div class="info"><a style="text-decoration:underline;" class="thread_title">This is a thread you have fully read</a></div>
-				</div>
+                <a style="text-decoration:underline;" class="thread_title">This is a thread you have fully read</a>
+                <div id="lastseen-forum" class="lastseen">
+                <a class="x">X</a>
+                </div>
+                <div id="lastseen-custom" class="lastseen">
+                <a id="lastseen-x" class="x"></a>
+                </div>
             </td>
             <td id="thread-dark" class="author"></td>
             <td id="thread-light" class="replies">20</td>
@@ -78,19 +72,16 @@
             <td id="thread-light" class="star"></td>
             <td id="thread-dark" class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yospos-janitor.gif" /></td>
             <td id="thread-light" class="title">
-				<div class="title_inner">	
-				<div class="info"><a style="text-decoration:underline;" class="thread_title">This is a thread with unread posts</a></div>
-					<div id="lastseen-forum" class="lastseen">
-						<a class="x">X</a>
-						<a class="count"><b>41</b></a>
-					</div>
-					<div id="lastseen-custom" class="lastseen">
-					<div id="lastseen-inline" style="font-size: 12px; float: left; margin-top: 4px; padding-right: 4px;">(41)</div>
-					<a id="lastseen-x" class="x"></a>
-					<a id="lastseen-count"></a>
-					
-					</div>
-				</div>
+                <a style="text-decoration:underline;" class="thread_title">This is a thread with unread posts</a>
+                <div id="lastseen-forum" class="lastseen">
+                <a class="x">X</a>
+                <a class="count"><b>41</b></a>
+                </div>
+                <div id="lastseen-custom" class="lastseen">
+                <div id="lastseen-inline" style="font-size: 12px; float: left; margin-top: 4px; padding-right: 4px;">(41)</div>
+                <a id="lastseen-x" class="x"></a>
+                <a id="lastseen-count"></a>
+                </div>
             </td>
             <td id="thread-dark" class="author"></td>
             <td id="thread-light" class="replies">
@@ -101,7 +92,6 @@
             <td id="thread-light" class="rating"></td>
             <td id="thread-dark" class="lastpost"></td>
         </tr>
-		</tbody>
     </table>
     <div class="forumbar">&nbsp;</div>
     <table>
@@ -258,7 +248,6 @@
             <br>
             </blockquote>
         </div>
-		<br />
         I am your friend and we are best buds (on the internet).
         <br /> <br />
         </td>
@@ -339,7 +328,7 @@
             </dl>
         </td>
         <td class="postbody">
-        I tried doubling my USBs and removing my USBs entirely. No solution could be found, is it my USBs??
+        i tried doubling my USBs and removing my USBs entirely. no solution could be found, is it my USBs??
         <br /><br /> <br /> <br />
         </td>
     </tr>
@@ -382,84 +371,84 @@
         <div class='display-preference'>
             <label><input id='hideAdvertisements' class='user-preference' type='checkbox' /> Hide header/footer ads</label>
         </div>
-		<div class="preference-title">
-			Header link display options
-		</div>
-		<section class="settings-panel">
+        <div class="preference-title">
+            Header link display options
+        </div>
+        <section class="settings-panel">
             <div class='display-preference'>
                 <label><input id='hideHeaderLinks' class='user-preference' type='checkbox' /> Hide top menu</label>
             </div>
             <div class='display-preference'>
                 <label><input id='showPurchases' class='user-preference' type='checkbox' /> Display Purchase menu links</label>
             </div>
-			<div class="sub-options">
-				<div class='display-preference'>
-					<label><input id='topPurchaseAcc' class='user-preference' type='checkbox' /> Account</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPurchasePlat' class='user-preference' type='checkbox' /> Platinum</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPurchaseAva' class='user-preference' type='checkbox' /> Avatar</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPurchaseArchives' class='user-preference' type='checkbox' /> Archives</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPurchaseNoAds' class='user-preference' type='checkbox' /> No-Ads</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPurchaseUsername' class='user-preference' type='checkbox' /> New Username</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPurchaseBannerAd' class='user-preference' type='checkbox' /> Banner Advertisment</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPurchaseEmoticon' class='user-preference' type='checkbox' /> Emoticon</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPurchaseSticky' class='user-preference' type='checkbox' /> Stick Thread</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPurchaseGiftCert' class='user-preference' type='checkbox' /> Gift Certificate</label>
-				</div>
-			</div>
+            <div class="sub-options">
+                <div class='display-preference'>
+                    <label><input id='topPurchaseAcc' class='user-preference' type='checkbox' /> Account</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchasePlat' class='user-preference' type='checkbox' /> Platinum</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseAva' class='user-preference' type='checkbox' /> Avatar</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseArchives' class='user-preference' type='checkbox' /> Archives</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseNoAds' class='user-preference' type='checkbox' /> No-Ads</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseUsername' class='user-preference' type='checkbox' /> New Username</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseBannerAd' class='user-preference' type='checkbox' /> Banner Advertisment</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseEmoticon' class='user-preference' type='checkbox' /> Emoticon</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseSticky' class='user-preference' type='checkbox' /> Stick Thread</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseGiftCert' class='user-preference' type='checkbox' /> Gift Certificate</label>
+                </div>
+            </div>
             <div class='display-preference'>
                 <label><input id='showNavigation' class='user-preference' type='checkbox' /> Display Navigation menu links</label>
             </div>
-			<div class="sub-options">
-				<div class='display-preference'>
-					<label><input id='topSAForums' class='user-preference' type='checkbox' /> SA Forums</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topSearch' class='user-preference' type='checkbox' /> Search the Forums</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topUserCP' class='user-preference' type='checkbox' /> User Control Panel</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topPrivMsgs' class='user-preference' type='checkbox' /> Private Message</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topForumRules' class='user-preference' type='checkbox' /> Forum Rules</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topSaclopedia' class='user-preference' type='checkbox' /> SAclopedia</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topGloryhole' class='user-preference' type='checkbox' /> Posting Gloryhole</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topLepersColony' class='user-preference' type='checkbox' /> Leper's Colony</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topSupport' class='user-preference' type='checkbox' /> Support</label>
-				</div>
-				<div class='display-preference'>
-					<label><input id='topLogout' class='user-preference' type='checkbox' /> Logout</label>
-				</div>
-			</div>
-		</section>
+            <div class="sub-options">
+                <div class='display-preference'>
+                    <label><input id='topSAForums' class='user-preference' type='checkbox' /> SA Forums</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topSearch' class='user-preference' type='checkbox' /> Search the Forums</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topUserCP' class='user-preference' type='checkbox' /> User Control Panel</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPrivMsgs' class='user-preference' type='checkbox' /> Private Message</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topForumRules' class='user-preference' type='checkbox' /> Forum Rules</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topSaclopedia' class='user-preference' type='checkbox' /> SAclopedia</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topGloryhole' class='user-preference' type='checkbox' /> Posting Gloryhole</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topLepersColony' class='user-preference' type='checkbox' /> Leper's Colony</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topSupport' class='user-preference' type='checkbox' /> Support</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topLogout' class='user-preference' type='checkbox' /> Logout</label>
+                </div>
+            </div>
+        </section>
     </section>
     <div style="clear: both;"></div>
 
@@ -467,14 +456,14 @@
         Thread Options
     </div>
     <section class="settings-panel">
-		<!-- zephmod -->
-		<div class='display-preference'>
+        <!-- zephmod -->
+        <div class='display-preference'>
             <label><input id='showUserAvatarImage' class='user-preference' type='checkbox' /> Show User Avatar Images</label>
         </div>
-		<div class='display-preference'>
+        <div class='display-preference'>
             <label><input id='showUserAvatar' class='user-preference' type='checkbox' /> Show User Avatars</label>
         </div>
-		<!-- /zephmod -->
+        <!-- /zephmod -->
 
         <div class='display-preference'>
             <label><input id='inlineVideo' class='user-preference' type='checkbox' /> Convert Youtube links to inline player</label>
@@ -516,16 +505,16 @@
         <div class='display-preference'>
           <label><input id='collapseTldrQuotes' class='user-preference' type='checkbox' /> Automatically collapse long quotes (double click to view them)</label>
         </div>
-		<div class='display-preference'>
-		  <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread<br />
-		  (posts per page: <select id='postsPerPage' class='user-preference'>
-					<option selected value='default'>forum default</option>
-					<option value='5'>5</option>
-					<option value='10'>10</option>
-					<option value='20'>20</option>
-					<option value='30'>30</option>
-					<option value='40'>40</option></select>)</label>
-		</div>
+        <div class='display-preference'>
+          <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread<br />
+          (posts per page: <select id='postsPerPage' class='user-preference'>
+                    <option selected value='default'>forum default</option>
+                    <option value='5'>5</option>
+                    <option value='10'>10</option>
+                    <option value='20'>20</option>
+                    <option value='30'>30</option>
+                    <option value='40'>40</option></select>)</label>
+        </div>
     </section>
 
     <div class="preference-title">
@@ -597,21 +586,21 @@
                 <label><input id='restrictImageSize' class='user-preference' type='checkbox' /> Restrict Size of Images</label>
             </div>
         </div>
-		<span class='settings-group-title'>Fix thumbnailed images</span>
-		<div class='settings-group'>
-			<div class='display-preference'>
-				<label><input id='fixTimg' class='user-preference' type='checkbox' /> Enable timg fix</label>
-			</div>
-			<div class='display-preference'>
-				<label><input id='forceTimg' class='user-preference' type='checkbox' /> Force thumbnailing on ALL images</label>
-			</div>
-		</div>
-		<span class='settings-group-title'>Use retina images</span>
-		<div class='settings-group'>
-			<div class='display-preference'>
-				<label><input id='retinaImages' class='user-preference' type='checkbox' /> Enable retina images</label>
-			</div>
-		</div>
+        <span class='settings-group-title'>Fix thumbnailed images</span>
+        <div class='settings-group'>
+            <div class='display-preference'>
+                <label><input id='fixTimg' class='user-preference' type='checkbox' /> Enable timg fix</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='forceTimg' class='user-preference' type='checkbox' /> Force thumbnailing on ALL images</label>
+            </div>
+        </div>
+        <span class='settings-group-title'>Use retina images</span>
+        <div class='settings-group'>
+            <div class='display-preference'>
+                <label><input id='retinaImages' class='user-preference' type='checkbox' /> Enable retina images</label>
+            </div>
+        </div>
     </section>
     <div style="clear: both;"></div>
     <div class="preference-title">
@@ -620,9 +609,6 @@
     <section class="settings-panel">
        <div class='display-preference'>
           <label><input id='qneProtection' class='user-preference' type='checkbox' /> Protect against accidental quotes instead of edits</label>
-       </div>
-       <div class='display-preference'>
-          <label><input id='hidePostButtonInThread' class='user-preference' type='checkbox' /> Hide the "Post" button in threads</label>
        </div>
        <div class='display-preference'>
            <label><input id='autoTLDR' class='user-preference' type='checkbox' /> Automatically collapse large quotes</label>

@@ -295,7 +295,6 @@ SALR.prototype.updateStyling = function() {
         var seenThread = false;
 
         if (that.settings.displayCustomButtons == 'true') {
-
             // Re-style the new post count link
             jQuery('a.count', thread).each(function() {
 
@@ -314,7 +313,12 @@ SALR.prototype.updateStyling = function() {
                 jQuery(this).css("width", "7px");
                 jQuery(this).css("height", "16px");
                 jQuery(this).css("padding-right", "11px");
-                jQuery(this).css("background-image", "url('" + other.base_image_uri + "lastpost.png')");
+                jQuery(this).css("background", "url('" + other.base_image_uri + "lastpost.png') no-repeat");
+                jQuery(this).css("min-width", "0px");
+                jQuery(this).addClass('no-after');
+
+                jQuery(this).parent().css("box-shadow", "0 0 0px #fff");
+            
 
                 if (that.settings.inlinePostCounts == 'true') {
                     jQuery('div.lastseen', thread).each(function() {          
@@ -351,6 +355,9 @@ SALR.prototype.updateStyling = function() {
                 jQuery(this).css("background-image", "url('" + other.base_image_uri + "unvisit.png')");
                 jQuery(this).css("height", "16px");
                 jQuery(this).css("width", "14px");
+
+                jQuery(this).parent().css("box-shadow", "0 0 0px #fff");
+                jQuery(this).addClass('no-after');
 
                 // Remove the 'X' from the anchor tag
                 jQuery(this).text('');
