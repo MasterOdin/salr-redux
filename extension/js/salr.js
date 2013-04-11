@@ -1592,8 +1592,8 @@ SALR.prototype.showLastThreePages = function() {
 	case 'showthread.php':
 		jQuery('div.pages').each(function() {
 			// number of pages in thread
-			var pages = parseInt( jQuery(this).text().match(/\((\d+)\)/)[1] );
-			
+			var pages = parseInt( jQuery(this).text().match(/(\d+) /)[1] );
+
 			// current page being viewed
 			var curpage = (window.location.href.indexOf('pagenumber') >= 0) ?
 				parseInt( window.location.href.match(/pagenumber=(\d+)/)[1] ) : 1;
