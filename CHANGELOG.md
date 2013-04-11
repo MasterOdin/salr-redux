@@ -9,6 +9,11 @@ Changelog List
 
 - Fixed Show First/Last three pages feature being broken (from forum update)
 - Fixed friend post highlighting not working
++ Added setting to hide SALR Logo in thread view
+- Fixed "Configure SALR" not appearing in bottom navigation bar
+- Moved "Configure SALR" setting to Navigation Bar setting group
++ Added setting to show top/bottom navigation bar independently of the other bar
+- Fixed "User CP" not disappearing in navigation bar if setting was false
 
 ### v1.5.7 (4/8/2013)
 

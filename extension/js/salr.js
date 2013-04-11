@@ -1,27 +1,29 @@
-// Copyright (c) 2009, Scott Ferguson
+// Copyright (c) 2009-2013 Scott Ferguson  
+// Copyright (c) 2013 Matthew Peveler  
 // All rights reserved.
-// 
+
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-//     * Redistributions of source code must retain the above copyright
-//       notice, this list of conditions and the following disclaimer.
-//     * Redistributions in binary form must reproduce the above copyright
-//       notice, this list of conditions and the following disclaimer in the
-//       documentation and/or other materials provided with the distribution.
-//     * Neither the name of the software nor the
-//       names of its contributors may be used to endorse or promote products
-//       derived from this software without specific prior written permission.
+
+// - Redistributions of source code must retain the above copyright
+//   notice, this list of conditions and the following disclaimer.
+// - Redistributions in binary form must reproduce the above copyright
+//   notice, this list of conditions and the following disclaimer in the
+//   documentation and/or other materials provided with the distribution.
+// - Neither the name of the software nor the
+//   names of its contributors may be used to endorse or promote products
+//   derived from this software without specific prior written permission.
 // 
-// THIS SOFTWARE IS PROVIDED BY SCOTT FERGUSON ''AS IS'' AND ANY
+// THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-// DISCLAIMED. IN NO EVENT SHALL SCOTT FERGUSON BE LIABLE FOR ANY
+// DISCLAIMED. IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY
 // DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
 // (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 function SALR(settings, base_image_uri) {
     this.settings = settings;
@@ -419,16 +421,14 @@ SALR.prototype.updateStyling = function() {
     });
 	
 	if(this.settings.displayConfigureSalr == 'true') {
-        if ( this.settings.showNavigation == 'true' ) {
-            jQuery('#navigation li.first').next('li').next('li').after("- <li><a id='configure' href='#'>Configure SALR</a></li>");
-        } else {
-            jQuery('#container').before("<div style='padding: 3px; text-align: center; font-size: 10px;'><a id='configure' href='#'>Configure SALR</a></div>");
-        }
+        jQuery('.navigation li.first').each(function() {
+            jQuery(this).next('li').next('li').after(" - <li><a class='salr-configure' href='#'>Configure SALR</a></li>");
+        });
 	}
 	
-	jQuery('#configure').click(function() {
+	jQuery('.salr-configure').click(function() {
 		that.openSettings();
-	});
+	});    
     
     // Hide header/footer links
     if (this.settings.hideHeaderLinks == 'true') {
@@ -446,10 +446,30 @@ SALR.prototype.updateStyling = function() {
 	}
     
 	if (this.settings.showNavigation == 'false') {
-		jQuery('#navigation').each(function() {
+		jQuery('.navigation').each(function() {
 			jQuery(this).remove();
 		});
 	}
+
+    if (this.settings.topNavBar == 'false') {
+        jQuery('#navigation').each(function() {
+            jQuery(this).remove();
+        });
+    }
+
+    if (this.settings.bottomNavBar == 'false') {
+        count = 0;
+        jQuery('.navigation').each(function() {
+            if (that.settings.topNavBar == 'false') {
+                jQuery(this).remove();
+            }
+            else {
+                if ((count++) == 1) {
+                    jQuery(this).remove();
+                }
+            }
+        });
+    }
 	
 	// Hide individual top menu items
 	if (this.settings.topPurchaseAcc == 'false') {
@@ -513,61 +533,68 @@ SALR.prototype.updateStyling = function() {
 	}
 
 	if (this.settings.topSAForums == 'false') {
-		jQuery("#navigation li:has(a[href='/index.php'])").each(function() {
+		jQuery(".navigation li:has(a[href='/index.php'])").each(function() {
 			jQuery(this).remove();
 		});
 	}
 
+    if (this.settings.topSALink == 'false') {
+        jQuery(".navigation li:has(a[href='http://www.somethingawful.com/'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
+
 	if (this.settings.topSearch == 'false') {
-		jQuery("#navigation li:has(a[href='/f/search'])").each(function() {
+		jQuery(".navigation li:has(a[href='/f/search'])").each(function() {
 			jQuery(this).remove();
 		});
 	}
 
 	if (this.settings.topUserCP == 'false') {
-		jQuery("#navigation li:has(a[href='usercp.php'])").each(function() {
+		jQuery(".navigation li:has(a[href='/usercp.php'])").each(function() {
+            console.log('huh');
 			jQuery(this).remove();
 		});
 	}
 
 	if (this.settings.topPrivMsgs == 'false') {
-		jQuery("#navigation li:has(a[href='/private.php'])").each(function() {
+		jQuery(".navigation li:has(a[href='/private.php'])").each(function() {
 			jQuery(this).remove();
 		});
 	}
 
 	if (this.settings.topForumRules == 'false') {
-		jQuery("#navigation li:has(a[href='http://www.somethingawful.com/d/forum-rules/forum-rules.php'])").each(function() {
+		jQuery(".navigation li:has(a[href='http://www.somethingawful.com/d/forum-rules/forum-rules.php'])").each(function() {
 			jQuery(this).remove();
 		});
 	}
 
 	if (this.settings.topSaclopedia == 'false') {
-		jQuery("#navigation li:has(a[href='/dictionary.php'])").each(function() {
+		jQuery(".navigation li:has(a[href='/dictionary.php'])").each(function() {
 			jQuery(this).remove();
 		});
 	}
 
 	if (this.settings.topGloryhole == 'false') {
-		jQuery("#navigation li:has(a[href='/stats.php'])").each(function() {
+		jQuery(".navigation li:has(a[href='/stats.php'])").each(function() {
 			jQuery(this).remove();
 		});
 	}
 
 	if (this.settings.topLepersColony == 'false') {
-		jQuery("#navigation li:has(a[href='/banlist.php'])").each(function() {
+		jQuery(".navigation li:has(a[href='/banlist.php'])").each(function() {
 			jQuery(this).remove();
 		});
 	}
 
 	if (this.settings.topSupport == 'false') {
-		jQuery("#navigation li:has(a[href='/supportmail.php'])").each(function() {
+		jQuery(".navigation li:has(a[href='/supportmail.php'])").each(function() {
 			jQuery(this).remove();
 		});
 	}
 
 	if (this.settings.topLogout == 'false') {
-		jQuery("#navigation li:has(a[href*='account.php?action=logout'])").each(function() {
+		jQuery(".navigation li:has(a[href*='account.php?action=logout'])").each(function() {
 			jQuery(this).remove();
 		});
 	}
@@ -827,6 +854,8 @@ SALR.prototype.detectFancySA = function() {
  *
  */
 SALR.prototype.addSalrBar = function() {
+    var that = this;
+
     //  Only valid on thread pages
     if(findCurrentPage() != 'showthread.php')
         return;
@@ -834,8 +863,13 @@ SALR.prototype.addSalrBar = function() {
     jQuery('div.threadbar.top').prepend('<div id="salrbar"></div>');
     jQuery('.threadbar').css({'height':'25px'});
 
-    var salr_logo = this.base_image_uri+"logo16_trans.png";
-    jQuery('#salrbar').append('<span id="salrlogo"><img src="'+salr_logo+'" /> SALR</span>');
+    if(that.settings.salrLogoHide != "true") {
+        var salr_logo = this.base_image_uri+"logo16_trans.png";
+        jQuery('#salrbar').append('<span id="salrlogo"><img src="'+salr_logo+'" /> SALR</span>');
+    }
+    else {
+        jQuery('#salrbar').append('<span id="salrlogo"></span>');
+    }
 };
 
 

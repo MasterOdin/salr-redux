@@ -64,6 +64,7 @@ jQuery(document).ready(function() {
     defaultSettings['topPurchaseSticky']            = 'true';
     defaultSettings['topPurchaseGiftCert']          = 'true';
     defaultSettings['topSAForums']                  = 'true';
+    defaultSettings['topSALink']                    = 'true';
     defaultSettings['topSearch']                    = 'true';
     defaultSettings['topUserCP']                    = 'true';
     defaultSettings['topPrivMsgs']                  = 'true';
@@ -84,6 +85,11 @@ jQuery(document).ready(function() {
 	defaultSettings['showUserAvatar']				= 'true';
 	
 	defaultSettings['retinaImages']					= 'false';
+
+    // to-do: add in defaults for all settings?
+    defaultSettings['salrLogoHide']                 = 'false';
+    defaultSettings['topNavBar']                    = 'true';
+    defaultSettings['bottomNavBar']                 = 'true';
   
     // Check stored settings, if value not set, set to default value
     for ( var key in defaultSettings ) {
