@@ -5,6 +5,10 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v1.5.8 (4/11/2013)
+
+- Fixed Show First/Last three pages feature being broken (from forum update)
+- Fixed friend post highlighting not working
 
 ### v1.5.7 (4/8/2013)
 

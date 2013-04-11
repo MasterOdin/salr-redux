@@ -961,7 +961,7 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
 SALR.prototype.updateFriendsList = function() {
     var friends = new Array();
 
-    jQuery('div#buddylist td:nth-child(2)>a').each( function() {
+    jQuery('div#buddylist dd:nth-child(2)>a').each( function() {
         friends.push(this.title);
     });
 
