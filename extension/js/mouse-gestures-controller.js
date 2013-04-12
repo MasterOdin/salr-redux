@@ -25,9 +25,10 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-function MouseGesturesController(base_image_uri) {
+function MouseGesturesController(base_image_uri, settings) {
     var that = this;
 
+    this.settings = settings;
     this.base_image_uri = base_image_uri;
 
     this.gesture_overlay_html = this.buildOverlay();
@@ -57,6 +58,12 @@ function MouseGesturesController(base_image_uri) {
     this.currentPage = Number(jQuery('option[selected="selected"]').val());
     if (this.currentPage <= 0)
         this.currentPage = 1;
+
+    if (this.settings.enableMouseMenu == 'false') {
+        jQuery(document).bind("contextmenu",function(e){
+            return false;
+        });
+    }
 
     jQuery('div#container').each(function() {
         var removeOverlay = function(x, y) {
@@ -114,7 +121,7 @@ function MouseGesturesController(base_image_uri) {
             that.updateButtonStyles(event.pageX, event.pageY);
         }
 
-if (1 == 2) {     
+/*
         var currentMousePos = {x: -1, y: -1 };
 
         var keyPressed = false;
@@ -152,21 +159,19 @@ if (1 == 2) {
                 removeOverlay(currentMousePos.x, currentMousePos.y);
             }
         });
-}           
+*/           
 
 
         jQuery(this).rightMouseDown(function(event) {
             jQuery('body').append(that.gesture_overlay_html);
-            jQuery('div#gesture-overlay').css({'left': event.pageX  115,
-                                 'top': event.pageY  115});
+            jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
+                                 'top': event.pageY - 115});
 
             that.setPageSpecificCSS();
 
             jQuery('div#gesture-overlay').rightMouseUp(function(event) {
                 removeOverlay(event.pageX, event.pageY);
             });
-            
-            // jQuery('div#gesture-overlay').noContext();
 
             jQuery('div#gesture-overlay').mousemove(drawIndicator);
         });

@@ -62,7 +62,7 @@ if(jQuery) (function(){
 					});
 				});
 				$(this)[0].oncontextmenu = function() {
-					return false;
+					//return false;
 				}
 			});
 			return $(this);
@@ -79,7 +79,7 @@ if(jQuery) (function(){
 					}
 				});
 				$(this)[0].oncontextmenu = function() {
-					return false;
+					//return false;
 				}
 			});
 			return $(this);
@@ -96,7 +96,7 @@ if(jQuery) (function(){
 					}
 				});
 				$(this)[0].oncontextmenu = function() {
-					return false;
+					//return false;
 				}
 			});
 			return $(this);
