@@ -441,9 +441,6 @@ QuickReplyBox.prototype.toggleSidebar = function(element) {
         case 'tag-menu':
             populate_method = this.setBBCodeSidebar;
             break;
-        case 'waffle-images-menu':
-            populate_method = this.setWaffleImagesSidebar;
-            break;
         case 'imgur-images-menu':
             populate_method = this.setImgurImagesSidebar;
             break;
@@ -537,13 +534,6 @@ QuickReplyBox.prototype.setBBCodeSidebar = function() {
                 '</div>';
     }
 
-    jQuery('#sidebar-list').html(html);
-
-    this.sidebar_html = html;
-};
-
-QuickReplyBox.prototype.setWaffleImagesSidebar = function() {
-    html = '<iframe src="' + chrome.extension.getURL('/') + 'waffle-upload.html" width="162" height="245" frameborder="0"></iframe>';
     jQuery('#sidebar-list').html(html);
 
     this.sidebar_html = html;
