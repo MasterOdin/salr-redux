@@ -75,6 +75,7 @@ div#side-bar {
     -webkit-box-shadow: -1px -1px 12px rgba(0,0,0,0.25);
     -webkit-border-top-left-radius: 6px;
     -webkit-border-top-right-radius: 6px;
+    z-index: 99;
 }
 
 div#top-bar {
@@ -92,6 +93,7 @@ div#top-bar {
     -webkit-box-shadow: -1px -1px 12px rgba(0,0,0,0.25);
     -webkit-border-top-left-radius: 6px;
     -webkit-border-top-right-radius: 6px;
+    z-index: 99;
 }
 
 div#topbar-preview {
@@ -101,6 +103,7 @@ div#topbar-preview {
     overflow-y: auto;
     word-wrap: break-word;
     border: 1px solid #999;
+    z-index: 99;
 }
 
 div#preview-content {
