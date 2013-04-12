@@ -112,25 +112,66 @@ function MouseGesturesController(base_image_uri) {
             that.updateButtonStyles(event.pageX, event.pageY);
         }
 
+if (1 == 2) {     
+        var currentMousePos = {x: -1, y: -1 };
+
+        var keyPressed = false;
+        jQuery(document).mousemove(function(event) {
+            if (keyPressed == false) {
+                currentMousePos.x = event.pageX;
+                currentMousePos.y = event.pageY;
+            }
+        });
+   
+        jQuery(document).keydown(function(event) {
+            if (event.keyCode == 18) {
+                keyPressed = true;
+                jQuery('body').append(that.gesture_overlay_html);
+                jQuery('div#gesture-overlay').css({'left': currentMousePos.x - 115,
+                                                    'top': currentMousePos.y - 115
+                                                    });
+                that.setPageSpecificCSS();
+
+                jQuery('div#gesture-overlay').keyup(function(event) {
+                    removeOverlay(currentMousePos.x, currentMousePos.y);
+                });
+                        
+                // jQuery('div#gesture-overlay').noContext();
+                
+
+                jQuery('div#gesture-overlay').mousemove(drawIndicator);
+            }
+        });
+
+        jQuery(document).keyup(function(event) {
+            if (event.keyCode == 18) {
+                keyPressed = false;
+                console.log("remove?");
+                removeOverlay(currentMousePos.x, currentMousePos.y);
+            }
+        });
+}           
         jQuery(this).rightMouseDown(function(event) {
             jQuery('body').append(that.gesture_overlay_html);
-            jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
-                                 'top': event.pageY - 115});
 
+            jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
+                                    'top': event.pageY - 115});
+            
             that.setPageSpecificCSS();
 
             jQuery('div#gesture-overlay').rightMouseUp(function(event) {
                 removeOverlay(event.pageX, event.pageY);
             });
+                    
+            //jQuery('div#gesture-overlay').noContext();
             
-            // jQuery('div#gesture-overlay').noContext();
 
             jQuery('div#gesture-overlay').mousemove(drawIndicator);
         });
 
         jQuery(this).rightMouseUp(function(event) {
             removeOverlay(event.pageX, event.pageY);
-        });
+        });   
     });
 }
 
@@ -171,7 +212,7 @@ MouseGesturesController.prototype.bindCanvasEvent = function() {
 };
 
 MouseGesturesController.prototype.setPageSpecificCSS = function() {
-    if (window.location.href == 'http://forums.somethingawful.com/') {
+    if (window.location.href == 'http://forums.somethingawful.com/' || this.currentPageName == 'index.php') {
         this.disableGesture('up');
         this.disableGesture('left');
         this.disableGesture('right');
@@ -192,6 +233,8 @@ MouseGesturesController.prototype.setPageSpecificCSS = function() {
 };
 
 MouseGesturesController.prototype.updateButtonStyles = function(x_coord, y_coord) {
+    console.log(x_coord);
+
     var gesture_top = jQuery('div#gesture-top');
     var gesture_bottom = jQuery('div#gesture-bottom');
     var gesture_left = jQuery('div#gesture-left');
