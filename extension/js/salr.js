@@ -1417,6 +1417,7 @@ SALR.prototype.displayUserNotes = function() {
                   "156041" : {'text' : 'SALR Developer', 'color' : '#9933FF'},  // wmbest2
                   "115838" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Ferg
                   "101547" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Rohaq
+                  "163390" : {'text' : 'SALR Developer', 'color' : '#9933FF'}  // Master_Odin
                 }; 
         postMessage({ 'message': 'ChangeSetting',
                            'option' : 'userNotes',

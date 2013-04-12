@@ -5,6 +5,10 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v1.5.9 (4/14/2013)
+
+- Fix Preview Reply pane being underneath images
+
 ### v1.5.8 (4/11/2013)
 
 - Fixed Show First/Last three pages feature being broken (from forum update)
