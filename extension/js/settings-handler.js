@@ -126,7 +126,7 @@ jQuery(document).ready(function() {
         populateCheckboxes(jQuery(this));
 
         jQuery(this).click(function() {
-            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).attr('checked'));
+            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).prop('checked'));
             highlightExamples();
         });
     });
@@ -178,6 +178,10 @@ jQuery(document).ready(function() {
 	});
 
     highlightExamples();
+
+    jQuery('button').click(function() {
+        configWindow();
+    });
 });
 
 function highlightExamples() {
@@ -374,10 +378,8 @@ function highlightExamples() {
  *
  */
 function onParentOptionSelect(element) {
-
-	var nextDiv = element.parent('div').next('div');
+	var nextDiv = element.parent().parent().next();
 	if(nextDiv.is('.sub-options')) {
-
 		if (element.is(':checked')) {
 			nextDiv.removeClass('disabled-options');
    	    	nextDiv.find('input').removeAttr('disabled');
@@ -515,6 +517,7 @@ function onSubmitClicked() {
 function configWindow() {
     win = window.open('background.html','config');
     win.document.writeln('<html><body><h1>SALR Configuration</h1>');
+    win.document.writeln('Browser: ' + window.navigator.userAgent.match(/Gecko\) (.+?) /)[0].substring(7) + "<br /><br />");
     win.document.writeln('<table border="1">');
     win.document.writeln('<tr><th>Key</th><th>Value</th></tr>');
     for (var key in localStorage) {
