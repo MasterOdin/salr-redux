@@ -5,9 +5,19 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v1.5.10 (4/15/2013)
+
+- Fixed "Open Updated Threads" opening tabs twice
+- Fixed right click menu being enabled even when the box wasn't ticked on initial installion of 1.5.9
+- Moved "Pages per thread" to be a sub-setting of First/Last Three Pages
+- Added ability to dump settings into a table of values for easy copy/paste.
+
 ### v1.5.9 (4/14/2013)
 
-- Fix Preview Reply pane being underneath images
+- Fixed Preview Reply pane being underneath images
++ Added option to allow default right click menu to appear when mouse gestures enabled
+- Fixed Ignore Star option in settings pane (as well as prevent script breaking when it was set) 
+- Fixed being able to change children settings when parent setting was disabled
 
 ### v1.5.8 (4/11/2013)
 
