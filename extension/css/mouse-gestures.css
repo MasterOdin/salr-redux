@@ -2,6 +2,7 @@ div#gesture-overlay {
     float: left;
     position: absolute;
     width: 231px;
+    z-index: 99;
 }
 
 div#gesture-top, div#gesture-bottom {

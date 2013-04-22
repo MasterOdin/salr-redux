@@ -55,9 +55,14 @@ function MouseGesturesController(base_image_uri, settings) {
             break;
     }
     // Current page
-    this.currentPage = Number(jQuery('option[selected="selected"]').val());
-    if (this.currentPage <= 0)
+    if (jQuery('option[selected="selected"]').length > 0) {
+        this.currentPage = Number(jQuery('option[selected="selected"]').val());
+        if (this.currentPage <= 0)
+            this.currentPage = 1;
+    }
+    else {
         this.currentPage = 1;
+    }
 
     var activeContext = false;
 
@@ -68,7 +73,11 @@ function MouseGesturesController(base_image_uri, settings) {
     });
 
     jQuery(document).keydown(function(event) {
-        activeContext = !activeContext;
+        if (event.keyCode == 18) {
+            if (that.settings.enableMouseMenu == "true") {
+                activeContext = !activeContext;
+            }
+        }
     });
 
     jQuery('div#container').each(function() {

@@ -11,6 +11,8 @@ Changelog List
 -+ alt key can be used to switch between mouse gestures or default 
 context menu
 + Button button in Mouse Gestures now refreshes current page
+- Mouse Gesture disables left/right on single page thread/forums properly
+- Mouse Gesture overlay appears above images on forum
 
 ### v1.5.10 (4/15/2013)
 
