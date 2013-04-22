@@ -59,11 +59,17 @@ function MouseGesturesController(base_image_uri, settings) {
     if (this.currentPage <= 0)
         this.currentPage = 1;
 
-    if (this.settings.enableMouseMenu != 'true') {
-        jQuery(document).bind("contextmenu",function(e){
+    var activeContext = false;
+
+    jQuery(document).bind("contextmenu", function(e) {
+        if (activeContext == false) {
             return false;
-        });
-    }
+        }
+    });
+
+    jQuery(document).keydown(function(event) {
+        activeContext = !activeContext;
+    });
 
     jQuery('div#container').each(function() {
         var removeOverlay = function(x, y) {
@@ -119,65 +125,28 @@ function MouseGesturesController(base_image_uri, settings) {
             context.closePath();
 
             that.updateButtonStyles(event.pageX, event.pageY);
-        }
+        }          
 
-/*
-        var currentMousePos = {x: -1, y: -1 };
-
-        var keyPressed = false;
-        jQuery(document).mousemove(function(event) {
-            if (keyPressed == false) {
-                currentMousePos.x = event.pageX;
-                currentMousePos.y = event.pageY;
-            }
-        });
-   
-        jQuery(document).keydown(function(event) {
-            if (event.keyCode == 18) {
-                keyPressed = true;
+        jQuery(this).rightMouseDown(function(event) {
+            if (activeContext == false) {
                 jQuery('body').append(that.gesture_overlay_html);
-                jQuery('div#gesture-overlay').css({'left': currentMousePos.x  115,
-                                                    'top': currentMousePos.y  115
-                                                    });
+                jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
+                                     'top': event.pageY - 115});
+
                 that.setPageSpecificCSS();
 
-                jQuery('div#gesture-overlay').keyup(function(event) {
-                    removeOverlay(currentMousePos.x, currentMousePos.y);
+                jQuery('div#gesture-overlay').rightMouseUp(function(event) {
+                    removeOverlay(event.pageX, event.pageY);
                 });
-                        
-                // jQuery('div#gesture-overlay').noContext();
-                
 
                 jQuery('div#gesture-overlay').mousemove(drawIndicator);
             }
         });
 
-        jQuery(document).keyup(function(event) {
-            if (event.keyCode == 18) {
-                keyPressed = false;
-                console.log("remove?");
-                removeOverlay(currentMousePos.x, currentMousePos.y);
-            }
-        });
-*/           
-
-
-        jQuery(this).rightMouseDown(function(event) {
-            jQuery('body').append(that.gesture_overlay_html);
-            jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
-                                 'top': event.pageY - 115});
-
-            that.setPageSpecificCSS();
-
-            jQuery('div#gesture-overlay').rightMouseUp(function(event) {
-                removeOverlay(event.pageX, event.pageY);
-            });
-
-            jQuery('div#gesture-overlay').mousemove(drawIndicator);
-        });
-
         jQuery(this).rightMouseUp(function(event) {
-            removeOverlay(event.pageX, event.pageY);
+            if (activeContext == false) {
+                removeOverlay(event.pageX, event.pageY);
+            }
         });
     });
 }
@@ -219,13 +188,15 @@ MouseGesturesController.prototype.bindCanvasEvent = function() {
 };
 
 MouseGesturesController.prototype.setPageSpecificCSS = function() {
-    if (window.location.href == 'http://forums.somethingawful.com/') {
+    if (window.location.href == 'http://forums.somethingawful.com/' 
+            || this.currentPageName == 'index.php') {
         this.disableGesture('up');
         this.disableGesture('left');
         this.disableGesture('right');
     }
 
-    if (this.currentPageName == 'usercp.php') {
+    if (this.currentPageName == 'usercp.php'
+            || this.currentPageName == 'bookmarkthreads.php') {
         this.disableGesture('left');
         this.disableGesture('right');
     }
@@ -293,8 +264,9 @@ MouseGesturesController.prototype.determineLocation = function(x_coord, y_coord)
 
     // First find if it is in a valid X coordinate, then determine if
     // it is also in a valid Y coordinate
-    if (x_coord > top_button.offset().left && x_coord < top_button.offset().left + 77) {
-        if (y_coord > top_button.offset().top && y_coord < top_button.offset().top + 77) {
+
+    if (y_coord > top_button.offset().top && y_coord < top_button.offset().top + 77) {
+        if (x_coord > top_button.offset().left && x_coord < top_button.offset().left + 77) {        
             return 'top';
         }
     } else if (x_coord > left_button.offset().left && x_coord < left_button.offset().left + 77) {
@@ -305,8 +277,8 @@ MouseGesturesController.prototype.determineLocation = function(x_coord, y_coord)
         if (y_coord > right_button.offset().top && y_coord < right_button.offset().top + 77) {
             return 'right';
         }
-    } else if (x_coord > bottom_button.offset().left && x_coord < bottom_button.offset().left + 77) {
-        if (y_coord > bottom_button.offset().top && y_coord < bottom_button.offset().top + 77) {
+    } else if (y_coord > bottom_button.offset().top+77 && y_coord < bottom_button.offset().top + 154) {
+        if (x_coord > bottom_button.offset().left+77 && x_coord < bottom_button.offset().left + 231) {       
             return 'bottom';
         }
     }
@@ -329,7 +301,8 @@ MouseGesturesController.prototype.topAction = function() {
     if (this.is_enabled(this.topAction)) {
         if (this.currentPageName == 'showthread.php' 
             || this.currentPageName == 'usercp.php'
-            || this.currentPageName == 'forumdisplay.php') 
+            || this.currentPageName == 'forumdisplay.php'
+            || this.currentPageName =='bookmarkthreads.php') 
         {
             var href = jQuery('span.mainbodytextlarge a').slice(-2, -1).attr('href');
 
@@ -354,6 +327,10 @@ MouseGesturesController.prototype.leftAction = function() {
     }
 };
 
+MouseGesturesController.prototype.bottomAction = function() {
+    postMessage({'message': 'ReloadTab'});
+}
+
 MouseGesturesController.prototype.disableGesture = function(gesture) {
     var button = false;
 
@@ -370,8 +347,8 @@ MouseGesturesController.prototype.disableGesture = function(gesture) {
             button = jQuery('div#gesture-right');
             this.disabled_gestures.push(this.rightAction);
             break;
-        case 'down':
-            button = jQuery('div#gesture-down');
+        case 'bottom':
+            button = jQuery('div#gesture-bottom');
             this.disabled_gestures.push(this.bottomAction);
             break;
     }

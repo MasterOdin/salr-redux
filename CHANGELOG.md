@@ -5,6 +5,13 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v1.5.11 (4/22/2013) - "I really hate mouse gestures"
+
+- Replaced right click option with alt key option
+-+ alt key can be used to switch between mouse gestures or default 
+context menu
++ Button button in Mouse Gestures now refreshes current page
+
 ### v1.5.10 (4/15/2013)
 
 - Fixed "Open Updated Threads" opening tabs twice

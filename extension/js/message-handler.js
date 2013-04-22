@@ -59,6 +59,9 @@ chrome.extension.onConnect.addListener(function(port) {
             case 'OpenTab':
                 openNewTab(data.url);
                 break;
+            case 'ReloadTab':
+                reloadTab();
+                break;
             case 'ShowPageAction':
                 chrome.pageAction.show(port.tab.id);
                 break;
@@ -148,6 +151,15 @@ function onToolbarClick() {
  */
 function openNewTab(aUrl) {
     chrome.tabs.create({url: aUrl});
+}
+
+/**
+ * Reload current tab
+ *
+ *
+ */
+function reloadTab() {
+    chrome.tabs.reload();
 }
 
 /**

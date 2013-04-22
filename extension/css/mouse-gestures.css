@@ -10,7 +10,14 @@ div#gesture-top, div#gesture-bottom {
     margin-left: -38px;
 }
 
+div#gesture-top {
+    top: 3px;
+    margin-left: -39px;
+    /*right: 10px;*/
+}
+
 div#gesture-bottom {
+    top: 0px;
     left: 0%;
 }
 
