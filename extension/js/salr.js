@@ -232,6 +232,9 @@ SALR.prototype.pageInit = function() {
             if (this.settings.highlightModAdmin == 'true') {
                 this.highlightModAdminPosts();
             }
+            if (this.settings.showLastThreePages == 'true') {
+                this.showLastThreePages();
+            }
 
             break;
         case 'misc.php':
@@ -258,7 +261,7 @@ SALR.prototype.pageInit = function() {
     }
 
     if (this.settings.enableMouseGestures == 'true') {
-        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri);
+        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings);
     }
 
     if (this.settings.enableKeyboardShortcuts == 'true') {
@@ -973,16 +976,16 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
                 }
             };
 
-            if (that.settings.ignoreBookmarkStar === undefined) {
+            if (that.settings.ignoreBookmarkStar === undefined || that.settings.ignoreBookmarkStar == "") {
                 open_thread();
+                return;
             }
 
-            var star_img = jQuery('img[src*="/star"]', this);
-            if (star_img.size() == 0)
+            var star_img = jQuery('td.star', this)[0].classList[1];
+            if (star_img.lenth == 0)
                 return;
-            var img_split = star_img.attr('src').split('/');
-            var img_name = img_split[img_split.length-1];
-            if (that.settings.ignoreBookmarkStar != img_name) {
+
+            if (that.settings.ignoreBookmarkStar != star_img) {
                 open_thread();
             }
         });

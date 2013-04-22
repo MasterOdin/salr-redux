@@ -366,6 +366,10 @@ function highlightExamples() {
             jQuery(this).css('background-color', '');
         }
     });
+
+    jQuery('button').click(function() {
+        configWindow();
+    });
 }
 
 /**
@@ -375,7 +379,7 @@ function highlightExamples() {
  */
 function onParentOptionSelect(element) {
 
-	var nextDiv = element.parent('div').next('div');
+	var nextDiv = element.parent().parent().next();
 	if(nextDiv.is('.sub-options')) {
 
 		if (element.is(':checked')) {

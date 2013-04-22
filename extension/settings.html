@@ -518,14 +518,18 @@
           <label><input id='collapseTldrQuotes' class='user-preference' type='checkbox' /> Automatically collapse long quotes (double click to view them)</label>
         </div>
         <div class='display-preference'>
-          <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread<br />
-          (posts per page: <select id='postsPerPage' class='user-preference'>
-                    <option selected value='default'>forum default</option>
+          <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread</label>
+        </div>
+        <div class='sub-options'>
+            <div class='display-preference'>
+                <label>Posts per Page: <select id='postsPerPage' class='user-preference'>
+                    <option selected value='default'>Forum Default</option>
                     <option value='5'>5</option>
                     <option value='10'>10</option>
                     <option value='20'>20</option>
                     <option value='30'>30</option>
-                    <option value='40'>40</option></select>)</label>
+                    <option value='40'>40</option></select></label>
+            </div>
         </div>
     </section>
 
@@ -557,8 +561,6 @@
             <div class='display-preference'>
                 <label><input id='quickReplyBookmark' class='user-preference' type='checkbox' /> Bookmark threads when using quick reply</label>
             </div>
-        </div>
-        <div class='sub-options'>
             <div class='display-preference'>
                 <label><input id='quickReplyFormat' class='user-preference' type='checkbox' /> Enable quick format keys</label>
             </div>
@@ -641,16 +643,17 @@
               <label>Ignore bookmarks with a 
                   <select id='ignoreBookmarkStar' class='user-preference'>
                       <option value="">Disabled</option>
-                      <option value="star1.gif">Red Star</option>
-                      <option value="star2.gif">Yellow Star</option>
-                      <option value="star0.gif">Blue Star</option>
+                      <option value="bm0">Gold Star</option>
+                      <option value="bm1">Red Star</option>
+                      <option value="bm2">Yellow Star</option>
                   </select>
               </label>
           </div>
        </div>
     </section>
     <div style="clear: both;"></div>
-    <br /> <br /> <br /> <br />
+    <br /> <br />
+    <button>Dump Settings</button><br /> <br />
 </body>
 </html>
 

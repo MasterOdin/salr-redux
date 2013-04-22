@@ -59,7 +59,7 @@ function MouseGesturesController(base_image_uri, settings) {
     if (this.currentPage <= 0)
         this.currentPage = 1;
 
-    if (this.settings.enableMouseMenu == 'false') {
+    if (this.settings.enableMouseMenu != 'true') {
         jQuery(document).bind("contextmenu",function(e){
             return false;
         });
