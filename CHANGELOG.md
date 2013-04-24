@@ -8,7 +8,7 @@ Changelog List
 ### v1.5.11 (4/22/2013) - "I really hate mouse gestures"
 
 - Replaced right click option with alt key option
--+ alt key can be used to switch between mouse gestures or default 
++ Alt key can be used to switch between mouse gestures or default 
 context menu
 + Button button in Mouse Gestures now refreshes current page
 - Mouse Gesture disables left/right on single page thread/forums properly
