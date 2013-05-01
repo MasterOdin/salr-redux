@@ -9,6 +9,7 @@ Changelog List
 
 - Fixed friend highlighting only working for first two friends in UserCP.php
 - Fixed Post thread button disappearing on all pages if a missing setting got set in the past
+- Separated out function calls between forumdisplay.php and showthread.php so aforementioned setting doesn't affect forum post button 
 
 ### v1.5.11 (4/22/2013) - "I really hate mouse gestures"
 
