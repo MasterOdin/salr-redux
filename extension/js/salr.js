@@ -61,6 +61,22 @@ SALR.prototype.pageInit = function() {
             if (this.settings.threadCaching == 'true') {
                 this.queryVisibleThreads();
             }
+            if (this.settings.displayPageNavigator == 'true') {
+                this.pageNavigator = new PageNavigator(this.base_image_uri);
+            }
+
+            this.updateForumsList();
+
+            if (this.settings.highlightModAdmin == 'true') {
+                this.skimModerators();
+                this.highlightModAdminPosts();
+            }
+
+            if (this.settings.showLastThreePages == 'true') {
+                this.showLastThreePages();
+            }
+                                                
+            break;
         case 'showthread.php':
             if (window.location.href.indexOf('postid=') >= 0) {
                 // Single post view doesn't work for archived threads
