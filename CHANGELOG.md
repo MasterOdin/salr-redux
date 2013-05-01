@@ -5,6 +5,12 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v1.5.12 (5/1/2013)
+
+- Fixed friend highlighting only working for first two friends in UserCP.php
+- Fixed Post thread button disappearing on all pages if a missing setting got set in the past
+- Separated out function calls between forumdisplay.php and showthread.php so aforementioned setting doesn't affect forum post button 
+
 ### v1.5.11 (4/22/2013) - "I really hate mouse gestures"
 
 - Replaced right click option with alt key option
