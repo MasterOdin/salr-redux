@@ -5,7 +5,7 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
-### v1.5.13 (4/27/2013)
+### v1.5.13 (5/2/2013)
 
 + Added defaults for all settings
 - Fixed style being for old forum layout on settings.html (most noticable in the quote box)
