@@ -11,8 +11,6 @@ Changelog List
 - Fixed style being for old forum layout on settings.html (most noticable in the quote box)
 - Fixed coloring on settings.html for thread highlighting
 - Fixed star column not being colored appropriately when using thread highlighting
-+ Added explanations on settings page for Hotkeys
-+ Added explanation on OP Hightlighting (requires UserCP setting to be true)
 
 ### v1.5.12 (5/1/2013)
 

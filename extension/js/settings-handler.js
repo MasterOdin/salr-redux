@@ -237,20 +237,21 @@ function highlightExamples() {
 
     jQuery('tr#thread-read').each(function() {
         if (localStorage.getItem('highlightThread')=='true') {
+            jQuery(this).find('td.star, td.title, td.replies, td.rating').each(function() {
+                jQuery(this).css({ "background-color" : localStorage.getItem('lightRead'), 
+                                   "background-image" : "url('images/gradient.png')",
+                                   "background-repeat" : "repeat-x",
+                                   "background-position" : "left"
+                                 });
+            });  
+
             jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {
                 jQuery(this).css({ "background-color" : localStorage.getItem('darkRead'), 
                                    "background-image" : "url('images/gradient.png')",
                                    "background-repeat" : "repeat-x",
                                    "background-position" : "left"
                                  });
-            });
-            jQuery(this).find('td.title, td.replies, td.rating').each(function() {
-                jQuery(this).css({ "background-color" : localStorage.getItem('lightRead'), 
-                                   "background-image" : "url('images/gradient.png')",
-                                   "background-repeat" : "repeat-x",
-                                   "background-position" : "left"
-                                 });
-            });                        
+            });                      
         } else {
             jQuery(this).css({ "background-color" : '', 
                                "background-image" : '',
@@ -261,7 +262,7 @@ function highlightExamples() {
 
     jQuery('tr#thread-unread').each(function() {
         if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).find('td.title, td.replies, td.rating').each(function() {            
+            jQuery(this).find('td.star, td.title, td.replies, td.rating').each(function() {            
                 jQuery(this).css({ "background-color" : localStorage.getItem('lightNewReplies'), 
                                    "background-image" : "url('images/gradient.png')",
                                    "background-repeat" : "repeat-x",
