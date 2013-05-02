@@ -234,12 +234,23 @@ jQuery(document).ready(function() {
 
 function highlightExamples() {
     // Thread highlighting samples
-    jQuery('tr#thread-read td#thread-light').each(function() {
+
+    jQuery('tr#thread-read').each(function() {
         if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).css({ "background-color" : localStorage.getItem('lightRead'), 
-                               "background-image" : "url('images/gradient.png')",
-                               "background-repeat" : "repeat-x"
-                             });
+            jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {
+                jQuery(this).css({ "background-color" : localStorage.getItem('darkRead'), 
+                                   "background-image" : "url('images/gradient.png')",
+                                   "background-repeat" : "repeat-x",
+                                   "background-position" : "left"
+                                 });
+            });
+            jQuery(this).find('td.title, td.replies, td.rating').each(function() {
+                jQuery(this).css({ "background-color" : localStorage.getItem('lightRead'), 
+                                   "background-image" : "url('images/gradient.png')",
+                                   "background-repeat" : "repeat-x",
+                                   "background-position" : "left"
+                                 });
+            });                        
         } else {
             jQuery(this).css({ "background-color" : '', 
                                "background-image" : '',
@@ -247,12 +258,24 @@ function highlightExamples() {
                              });
         }
     });
-    jQuery('tr#thread-read td#thread-dark').each(function() {
+
+    jQuery('tr#thread-unread').each(function() {
         if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).css({ "background-color" : localStorage.getItem('darkRead'), 
-                               "background-image" : "url('images/gradient.png')",
-                               "background-repeat" : "repeat-x"
-                             });
+            jQuery(this).find('td.title, td.replies, td.rating').each(function() {            
+                jQuery(this).css({ "background-color" : localStorage.getItem('lightNewReplies'), 
+                                   "background-image" : "url('images/gradient.png')",
+                                   "background-repeat" : "repeat-x",
+                                   "background-position": "left"
+                                 });
+            });
+
+            jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {                
+                jQuery(this).css({ "background-color" : localStorage.getItem('darkNewReplies'), 
+                                   "background-image" : "url('images/gradient.png')",
+                                   "background-repeat" : "repeat-x",
+                                   "background-position": "left"
+                                 });
+            });          
         } else {
             jQuery(this).css({ "background-color" : '', 
                                "background-image" : '',
@@ -260,32 +283,7 @@ function highlightExamples() {
                              });
         }
     });
-    jQuery('tr#thread-unread td#thread-light').each(function() {
-        if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).css({ "background-color" : localStorage.getItem('lightNewReplies'), 
-                               "background-image" : "url('images/gradient.png')",
-                               "background-repeat" : "repeat-x"
-                             });
-        } else {
-            jQuery(this).css({ "background-color" : '', 
-                               "background-image" : '',
-                               "background-repeat" : ''
-                             });
-        }
-    });
-    jQuery('tr#thread-unread td#thread-dark').each(function() {
-        if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).css({ "background-color" : localStorage.getItem('darkNewReplies'), 
-                               "background-image" : "url('images/gradient.png')",
-                               "background-repeat" : "repeat-x"
-                             });
-        } else {
-            jQuery(this).css({ "background-color" : '', 
-                               "background-image" : '',
-                               "background-repeat" : ''
-                             });
-        }
-    });
+
     jQuery('div#lastseen-forum').each(function() {
         if (localStorage.getItem('displayCustomButtons')=='true') {
             jQuery(this).css('display','none');          
