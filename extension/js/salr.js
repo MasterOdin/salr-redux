@@ -422,7 +422,7 @@ SALR.prototype.updateStyling = function() {
             });
 
             // Thread title, replies, and rating
-            jQuery(this).find('td.title, td.replies, td.rating').each(function() {
+            jQuery(this).find('td.star, td.title, td.replies, td.rating').each(function() {
                 var other = that;
 
                 jQuery(this).css({ "background-color" : lightShade, 

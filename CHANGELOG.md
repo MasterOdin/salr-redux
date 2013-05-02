@@ -8,8 +8,9 @@ Changelog List
 ### v1.5.13 (4/27/2013)
 
 + Added defaults for all settings
-- Fixed style being for old forums on settings.html
+- Fixed style being for old forum layout on settings.html (most noticable in the quote box)
 - Fixed coloring on settings.html for thread highlighting
+- Fixed star column not being colored appropriately when using thread highlighting
 + Added explanations on settings page for Hotkeys
 + Added explanation on OP Hightlighting (requires UserCP setting to be true)
 
