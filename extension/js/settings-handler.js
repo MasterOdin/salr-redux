@@ -35,26 +35,42 @@ jQuery(document).ready(function() {
         localStorage.setItem('salrInitialized', 'true');
     }
 
-  // Setting names.
+    // Setting names.
     var defaultSettings = [];
-    defaultSettings['userQuote']                    = '#a2cd5a';
+    defaultSettings['salrInitialized']              = 'true';
+
+    // Thread Highlighting
+    defaultSettings['hightlightThread']             = 'false';
     defaultSettings['darkRead']                     = '#6699cc';
     defaultSettings['lightRead']                    = '#99ccff';
     defaultSettings['darkNewReplies']               = '#99cc99';
     defaultSettings['lightNewReplies']              = '#ccffcc';
-    defaultSettings['youtubeHighlight']             = '#ff00ff';
-    defaultSettings['displayConfigureSalr']         = 'true';
-    defaultSettings['highlightFriendsColor']        = '#f2babb';
-    defaultSettings['highlightSelfColor']           = '#f2babb';
-    defaultSettings['highlightAdminColor']          = '#ff7256';
-    defaultSettings['highlightModeratorColor']      = '#b4eeb4';
-    defaultSettings['usernameHighlight']            = '#9933ff';
-    defaultSettings['inlinePostCounts']             = 'false';
     defaultSettings['displayCustomButtons']         = 'true';
+    defaultSettings['inlinePostCounts']             = 'false';
+
+    // Post Highlighting
+    defaultSettings['highlightOP']                  = 'false';
     defaultSettings['highlightOPColor']             = '#fff2aa';
-    defaultSettings['displayPageNavigator']         = 'true';
-    defaultSettings['userNotesEnabled']             = 'true';
-    defaultSettings['salrInitialized']              = 'true';
+    defaultSettings['highlightSelf']                = 'false';
+    defaultSettings['highlightSelfColor']           = '#f2babb';
+    defaultSettings['highlightOwnQuotes']           = 'false';
+    defaultSettings['userQuote']                    = '#a2cd5a';
+    defaultSettings['highlightOwnUsername']         = 'false';
+    defaultSettings['usernameHighlight']            = '#9933ff';
+    defaultSettings['highlightFriends']             = 'false';
+    defaultSettings['highlightFriendsColor']        = '#f2babb';
+    defaultSettings['highlightModAdmin']            = 'false';
+    defaultSettings['highlightModAdminUsername']    = 'false';
+    defaultSettings['highlightModeratorColor']      = '#b4eeb4';
+    defaultSettings['highlightAdminColor']          = '#ff7256';
+
+    // Forum Display Options
+    defaultSettings['displayNewPostsFirst']         = 'false';
+    defaultSettings['hideAdvertisements']           = 'false';
+
+    // Header Link Display Options
+    defaultSettings['hideHeaderLinks']              = 'true';
+    defaultSettings['showPurchases']                = 'true';
     defaultSettings['topPurchaseAcc']               = 'true';
     defaultSettings['topPurchasePlat']              = 'true';
     defaultSettings['topPurchaseAva']               = 'true';
@@ -65,9 +81,13 @@ jQuery(document).ready(function() {
     defaultSettings['topPurchaseEmoticon']          = 'true';
     defaultSettings['topPurchaseSticky']            = 'true';
     defaultSettings['topPurchaseGiftCert']          = 'true';
+    defaultSettings['showNavigation']               = 'true';       
+    defaultSettings['topNavBar']                    = 'true';
+    defaultSettings['bottomNavBar']                 = 'true';
     defaultSettings['topSAForums']                  = 'true';
     defaultSettings['topSALink']                    = 'true';
     defaultSettings['topSearch']                    = 'true';
+    defaultSettings['displayConfigureSalr']         = 'true';    
     defaultSettings['topUserCP']                    = 'true';
     defaultSettings['topPrivMsgs']                  = 'true';
     defaultSettings['topForumRules']                = 'true';
@@ -76,22 +96,54 @@ jQuery(document).ready(function() {
     defaultSettings['topLepersColony']              = 'true';
     defaultSettings['topSupport']                   = 'true';
     defaultSettings['topLogout']                    = 'true';
-    defaultSettings['showPurchases']                = 'true';
-    defaultSettings['showNavigation']               = 'true';
-    defaultSettings['autoTLDR']                     = 'false';
-	defaultSettings['showLastThreePages']			= 'false';
-	defaultSettings['postsPerPage']					= 'default';
-    defaultSettings['quickReplyFormat']             = 'true';
-	//zephmod
-	defaultSettings['showUserAvatarImage']			= 'true';
-	defaultSettings['showUserAvatar']				= 'true';
-	
-	defaultSettings['retinaImages']					= 'false';
 
-    // to-do: add in defaults for all settings?
+    // Thread Options
+    defaultSettings['showUserAvatarImage']          = 'true';
+    defaultSettings['showUserAvatar']               = 'true';
+    defaultSettings['inlineVideo']                  = 'false';             
+    defaultSettings['youtubeHighlight']             = '#ff00ff';
+    defaultSettings['threadCaching']                = 'false';
+    defaultSettings['boxQuotes']                    = 'false';
     defaultSettings['salrLogoHide']                 = 'false';
-    defaultSettings['topNavBar']                    = 'true';
-    defaultSettings['bottomNavBar']                 = 'true';
+    defaultSettings['whoPostedHide']                = 'false';
+    defaultSettings['searchThreadHide']             = 'false';
+    defaultSettings['enableUserNotes']              = 'false';
+    defaultSettings['enableThreadNotes']            = 'false';
+    defaultSettings['fixCancer']                    = 'true';
+    defaultSettings['adjustAfterLoad']              = 'true';
+    defaultSettings['hidePostButtonInThread']       = 'false';
+    defaultSettings['collapseTldrQuotes']           = 'false';
+    defaultSettings['showLastThreePages']           = 'false';
+    defaultSettings['postsPerPage']                 = 'default';
+
+    // Control Options
+    defaultSettings['displayPageNavigator']         = 'true';
+    defaultSettings['displayOmnibarIcon']           = 'false';
+    defaultSettings['enableKeyboardShortcuts']      = 'false';
+    defaultSettings['enableMouseGestures']          = 'false';
+    defaultSettings['enableMouseMenu']              = 'true';
+    defaultSettings['enableQuickReply']             = 'true';
+    defaultSettings['quickReplyBookmark']           = 'false';
+    defaultSettings['quickReplyFormat']             = 'true';
+
+    // Image Display Options
+    defaultSettings['replaceLinksWithImages']       = 'false';
+    defaultSettings['dontReplaceLinkNWS']           = 'false';
+    defaultSettings['dontReplaceLinkSpoiler']       = 'false';
+    defaultSettings['dontReplaceLinkRead']          = 'false';
+    defaultSettings['replaceImagesWithLinks']       = 'false';
+    defaultSettings['replaceImagesReadOnly']        = 'false';
+    defaultSettings['restrictImageSize']            = 'false';
+    defaultSettings['fixTimg']                      = 'false';
+    defaultSettings['forceTimg']                    = 'false';
+    defaultSettings['retinaImages']                 = 'false';
+    
+    // Other Options
+    defaultSettings['qneProtection']                = 'false';
+    defaultSettings['autoTLDR']                     = 'false';      
+    defaultSettings['showEditBookmarks']            = 'false';
+    defaultSettings['openAllUnreadLink']            = 'true';
+    defaultSettings['ignoreBookmarkStar']           = "";    
   
     // Check stored settings, if value not set, set to default value
     for ( var key in defaultSettings ) {
@@ -236,11 +288,12 @@ function highlightExamples() {
     });
     jQuery('div#lastseen-forum').each(function() {
         if (localStorage.getItem('displayCustomButtons')=='true') {
-            jQuery(this).css('display','none');
+            jQuery(this).css('display','none');          
         } else {
             jQuery(this).css('display','');
         }
     });
+    
     jQuery('div#lastseen-custom').each(function() {
         if (localStorage.getItem('displayCustomButtons')=='true') {
             jQuery(this).css({
@@ -256,14 +309,21 @@ function highlightExamples() {
                 }
             });
             jQuery('a#lastseen-count',this).each(function () {
+                jQuery(this).html('');
+
                 jQuery(this).css({
                     'border-left' : 'none',
                     'width' : '7px',
                     'height' : '16px',
                     'padding-right' : '11px',
-                    'background-image' : "url('images/lastpost.png')"
+                    'background-image' : "url('images/lastpost.png')",
+                    'min-width': "0px"
                 });
+
+                jQuery(this).addClass('no-after');
+                jQuery(this).parent().css("box-shadow", "0 0 0px #fff");
             });
+
             jQuery('a#lastseen-x',this).each(function() {
                 jQuery(this).css({
                     'background' : 'none',
@@ -271,7 +331,11 @@ function highlightExamples() {
                     'height' : '16px',
                     'width' : '14px'
                 });
-            });
+                jQuery(this).parent().css("box-shadow", "0 0 0px #fff");
+                jQuery(this).addClass('no-after');
+
+                jQuery(this).text('');
+            });        
         } else {
             jQuery(this).css('display','none');
         }

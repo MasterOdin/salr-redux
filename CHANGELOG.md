@@ -5,6 +5,14 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v1.5.13 (4/27/2013)
+
++ Added defaults for all settings
+- Fixed style being for old forums on settings.html
+- Fixed coloring on settings.html for thread highlighting
++ Added explanations on settings page for Hotkeys
++ Added explanation on OP Hightlighting (requires UserCP setting to be true)
+
 ### v1.5.12 (5/1/2013)
 
 - Fixed friend highlighting only working for first two friends in UserCP.php
