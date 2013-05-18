@@ -5,6 +5,10 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v1.5.14 (5/18/2013)
+
+- Fixed "Convert links into inline images" to properly deal with links that have ".(jp?eg|png|gif|bmp).html" in them (they made broken images)
+
 ### v1.5.13 (5/2/2013)
 
 + Added defaults for all settings

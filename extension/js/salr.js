@@ -633,7 +633,7 @@ SALR.prototype.updateStyling = function() {
 SALR.prototype.modifyImages = function() {
 	// fix timg, because it's broken
 	if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
-	
+
 	// Replace Links with Images
 	if (this.settings.replaceLinksWithImages == 'true') {
 
@@ -657,7 +657,7 @@ SALR.prototype.modifyImages = function() {
 
 		subset.each(function() {
 
-			var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)/);
+			var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!\.html)/);
 			if(match != null) {
 				jQuery(this).after("<img src='" + match[0] + "' />");
 				jQuery(this).remove();
