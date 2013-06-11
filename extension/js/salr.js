@@ -657,7 +657,7 @@ SALR.prototype.modifyImages = function() {
 
 		subset.each(function() {
 			var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/);
-			if(match != null) {
+			if(match != null && jQuery(this).has('img').length == 0) {
 				jQuery(this).after("<img src='" + match[0] + "' />");
 				jQuery(this).remove();
 			}

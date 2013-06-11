@@ -237,7 +237,7 @@ function highlightExamples() {
 
     jQuery('tr#thread-read').each(function() {
         if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).find('td.star, td.title, td.replies, td.rating').each(function() {
+            jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {
                 jQuery(this).css({ "background-color" : localStorage.getItem('lightRead'), 
                                    "background-image" : "url('images/gradient.png')",
                                    "background-repeat" : "repeat-x",
@@ -253,16 +253,19 @@ function highlightExamples() {
                                  });
             });                      
         } else {
-            jQuery(this).css({ "background-color" : '', 
-                               "background-image" : '',
-                               "background-repeat" : ''
-                             });
+            jQuery(this).children().each(function() {
+                jQuery(this).css({ "background-color" : '', 
+                                   "background-image" : '',
+                                   "background-repeat" : '',
+                                   "background-position": ''
+                                });
+            });
         }
     });
 
     jQuery('tr#thread-unread').each(function() {
         if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).find('td.star, td.title, td.replies, td.rating').each(function() {            
+            jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {            
                 jQuery(this).css({ "background-color" : localStorage.getItem('lightNewReplies'), 
                                    "background-image" : "url('images/gradient.png')",
                                    "background-repeat" : "repeat-x",
@@ -278,10 +281,13 @@ function highlightExamples() {
                                  });
             });          
         } else {
-            jQuery(this).css({ "background-color" : '', 
-                               "background-image" : '',
-                               "background-repeat" : ''
-                             });
+            jQuery(this).children().each(function() {
+                jQuery(this).css({ "background-color" : '', 
+                                   "background-image" : '',
+                                   "background-repeat" : '',
+                                   "background-position": ''
+                                });
+            });
         }
     });
 
@@ -585,11 +591,10 @@ function configWindow() {
     win.document.writeln('<table border="1">');
     win.document.writeln('<tr><th>Key</th><th>Value</th></tr>');
     for (var key in localStorage) {
-        if (key == 'forumsList')
-            continue;
-        if (key == 'modList')
-            continue;
-        if (key == 'userNotes')
+        if (key == 'forumsList' || 
+            key == 'modList'    ||
+            key == 'userNotes'  ||
+            key == 'forumPostKey' )
             continue;
         win.document.write('<tr><td>'+key+'</td>');
         win.document.writeln('<td>'+localStorage[key]+'</td></tr>');
