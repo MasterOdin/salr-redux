@@ -5,11 +5,18 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v1.5.16 (6/12/2013)
+
+- Fixed custom thread coloring not being removed when "x" is hit on thread
+- Removed friendList from settings dump page
++ Added new setting "Don't convert links containing images" for "Convert links into inline images"
++ Added new setting "If image was linked, put link after image link" for "Images-to-Links"
+
 ### v1.5.15 (6/11/2013)
 
-- Change "Convert links into inline images" to ignore when the link is of a picture (eg. [url=test.jpg][img]test.jpg[/img][/url])
-- Remove ForumPostKey from settings dump page
-- Fix regression in "Use custom thread highlighting" checkbox toggle for thread examples above not leaving custom highlighting
+- Changed "Convert links into inline images" to ignore when the link is of a picture (eg. [url=test.jpg][img]test.jpg[/img][/url])
+- Removed ForumPostKey from settings dump page
+- Fixed regression in "Use custom thread highlighting" checkbox toggle for thread examples above not leaving custom highlighting
 
 ### v1.5.14 (5/18/2013)
 

@@ -131,8 +131,10 @@ jQuery(document).ready(function() {
     defaultSettings['dontReplaceLinkNWS']           = 'false';
     defaultSettings['dontReplaceLinkSpoiler']       = 'false';
     defaultSettings['dontReplaceLinkRead']          = 'false';
+    defaultSettings['dontReplaceLinkImage']         = 'false';
     defaultSettings['replaceImagesWithLinks']       = 'false';
     defaultSettings['replaceImagesReadOnly']        = 'false';
+    defaultSettings['replaceImagesLink']            = 'false';
     defaultSettings['restrictImageSize']            = 'false';
     defaultSettings['fixTimg']                      = 'false';
     defaultSettings['forceTimg']                    = 'false';
@@ -591,9 +593,10 @@ function configWindow() {
     win.document.writeln('<table border="1">');
     win.document.writeln('<tr><th>Key</th><th>Value</th></tr>');
     for (var key in localStorage) {
-        if (key == 'forumsList' || 
-            key == 'modList'    ||
-            key == 'userNotes'  ||
+        if (key == 'friendsList' ||
+            key == 'forumsList'  || 
+            key == 'modList'     ||
+            key == 'userNotes'   ||
             key == 'forumPostKey' )
             continue;
         win.document.write('<tr><td>'+key+'</td>');

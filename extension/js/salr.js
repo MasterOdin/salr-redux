@@ -382,6 +382,17 @@ SALR.prototype.updateStyling = function() {
 
                 // Remove the 'X' from the anchor tag
                 jQuery(this).text('');
+
+                // Remove styling if x is hit
+                jQuery(this).click(function() {
+                    thread.children().each(function() {
+                        jQuery(this).css({  "background-color" : '', 
+                                            "background-image" : '',
+                                            "background-repeat" : '',
+                                            "background-position": ''
+                                        });
+                    });
+                });
             });
 
             // Eliminate last-seen styling
@@ -422,7 +433,7 @@ SALR.prototype.updateStyling = function() {
             });
 
             // Thread title, replies, and rating
-            jQuery(this).find('td.star, td.title, td.replies, td.rating').each(function() {
+            jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {
                 var other = that;
 
                 jQuery(this).css({ "background-color" : lightShade, 
@@ -571,7 +582,6 @@ SALR.prototype.updateStyling = function() {
 
 	if (this.settings.topUserCP == 'false') {
 		jQuery(".navigation li:has(a[href='/usercp.php'])").each(function() {
-            console.log('huh');
 			jQuery(this).remove();
 		});
 	}
@@ -631,6 +641,8 @@ SALR.prototype.updateStyling = function() {
 };
 
 SALR.prototype.modifyImages = function() {
+    var that = this;
+
 	// fix timg, because it's broken
 	if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
 
@@ -656,10 +668,11 @@ SALR.prototype.modifyImages = function() {
 		}
 
 		subset.each(function() {
+            console.log(jQuery(this).attr('href'));
 			var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/);
-			if(match != null && jQuery(this).has('img').length == 0) {
-				jQuery(this).after("<img src='" + match[0] + "' />");
-				jQuery(this).remove();
+			if(match != null && !(that.settings.dontReplaceLinkImage == 'true' && jQuery(this).has('img').length > 0)) {
+                jQuery(this).after("<img src='" + match[0] + "' />");
+                jQuery(this).remove();                
 			}
 		});
 	}
@@ -679,8 +692,17 @@ SALR.prototype.modifyImages = function() {
 
 		subset.each(function() {
 			var source = jQuery(this).attr('src');
-			jQuery(this).after("<a href='" + source + "'>" + source + "</a>");
-			jQuery(this).remove();
+            var add = "";
+            var change = jQuery(this);
+            if (jQuery(this).parent().attr('href') != null) {
+                if (that.settings.replaceImagesLink == 'true') {
+                    add = " (<a href='"+jQuery(this).parent().attr('href')+"' target=\"_blank\" rel=\"nofollow\">Original Link</a>)";
+                }
+                change = jQuery(this).parent();
+            }            
+            add = "<a href='" + source + "' target=\"_blank\" rel=\"nofollow\">" + source + "</a>" + add;
+			change.after(add);
+			change.remove();
 		});
 	}
 
