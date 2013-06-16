@@ -180,7 +180,7 @@ jQuery(document).ready(function() {
         populateCheckboxes(jQuery(this));
 
         jQuery(this).click(function() {
-            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).attr('checked'));
+            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).prop('checked'));
             highlightExamples();
         });
     });
