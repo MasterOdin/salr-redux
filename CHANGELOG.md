@@ -22,6 +22,9 @@ Changelog List
 * Reduced threshold to collapse long quote from 400 to 150. This is ~113 words words on a 1280x1024 monitor.
 * Moved all settings over slightly on the options page (~10px)
 * Made it so clicking on logo on settings page takes user to settings dump page (as this was default behavior at one point?)
+- Removed "Adjust window position after threads load" as this is a forum option
+- Removed "Fix thumbnailed images" as these got fixed on SA a while ago
+* Moved "SALR Bar" up a few pixels in thread view
 
 ### v1.5.16 (6/12/2013)
 

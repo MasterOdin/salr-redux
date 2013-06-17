@@ -69,7 +69,7 @@ jQuery(document).ready(function() {
     defaultSettings['hideAdvertisements']           = 'false';
 
     // Header Link Display Options
-    defaultSettings['hideHeaderLinks']              = 'true';
+    //defaultSettings['hideHeaderLinks']              = 'true';
     defaultSettings['showPurchases']                = 'true';
     defaultSettings['topPurchaseAcc']               = 'true';
     defaultSettings['topPurchasePlat']              = 'true';
@@ -110,7 +110,7 @@ jQuery(document).ready(function() {
     defaultSettings['enableUserNotes']              = 'false';
     defaultSettings['enableThreadNotes']            = 'false';
     defaultSettings['fixCancer']                    = 'true';
-    defaultSettings['adjustAfterLoad']              = 'true';
+    //defaultSettings['adjustAfterLoad']              = 'true';
     defaultSettings['hidePostButtonInThread']       = 'false';
     defaultSettings['collapseTldrQuotes']           = 'false';
     defaultSettings['showLastThreePages']           = 'false';
@@ -136,8 +136,8 @@ jQuery(document).ready(function() {
     defaultSettings['replaceImagesReadOnly']        = 'false';
     defaultSettings['replaceImagesLink']            = 'false';
     defaultSettings['restrictImageSize']            = 'false';
-    defaultSettings['fixTimg']                      = 'false';
-    defaultSettings['forceTimg']                    = 'false';
+    //defaultSettings['fixTimg']                      = 'false';
+    //defaultSettings['forceTimg']                    = 'false';
     defaultSettings['retinaImages']                 = 'false';
     
     // Other Options

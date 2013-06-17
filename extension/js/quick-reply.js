@@ -113,8 +113,8 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 '           <img src="' + this.base_image_uri + "quick-reply-imgur.png" + '" />' +
                 '       </div>' +
                 '       <div id="post-input-field">' +
-                '<textarea name="message" rows="18" size="10" id="post-message" tabindex="1">' +
-                '</textarea>' +
+                '           <textarea name="message" rows="18" size="10" id="post-message" tabindex="1">' +
+                '           </textarea>' +
                 '       </div>' +
                 '       <div id="post-options">' +
                 '           <label>' +
@@ -230,6 +230,8 @@ QuickReplyBox.prototype.create = function(username, quote) {
     this.fetchFormCookie(findThreadID());
     jQuery('#side-bar').hide();
     jQuery('#quick-reply').hide();
+
+    this.showWarning();
 };
 
 QuickReplyBox.prototype.show = function() {
@@ -285,6 +287,7 @@ QuickReplyBox.prototype.updatePreview = function() {
 
     var content = document.getElementById('topbar-preview');
     content.scrollTop = content.scrollHeight;
+    this.showWarning();
 };
 
 QuickReplyBox.prototype.appendText = function(text) {
@@ -619,4 +622,19 @@ QuickReplyBox.prototype.formatText = function() {
         src.value = pre+'[*]'+sel+post;
         event.preventDefault();
     }
+};
+
+QuickReplyBox.prototype.showWarning = function() {
+    if (this.settings.qneProtection == 'true') {
+        console.log("welp?");
+        if (this.settings.username) {
+            console.log(this.settings.username);
+            if(jQuery("#post-input-field > textarea[name='message']:contains('quote=\"" + this.settings.username + "\"')").length > 0)
+            {
+                console.log("we need this warning!");
+                jQuery("#post-options").after("<div class='qne_warn'><h4>Warning! Possible Quote/Edit mixup.</h4></div>");
+            }
+        }
+    }
+    console.log("well thsi got run at least!");
 };
