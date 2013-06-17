@@ -141,8 +141,7 @@ jQuery(document).ready(function() {
     defaultSettings['retinaImages']                 = 'false';
     
     // Other Options
-    defaultSettings['qneProtection']                = 'false';
-    defaultSettings['autoTLDR']                     = 'false';      
+    defaultSettings['qneProtection']                = 'false';      
     defaultSettings['showEditBookmarks']            = 'false';
     defaultSettings['openAllUnreadLink']            = 'true';
     defaultSettings['ignoreBookmarkStar']           = "";    
@@ -440,6 +439,18 @@ function highlightExamples() {
 
     jQuery('button').click(function() {
         configWindow();
+    });
+
+    jQuery("#logo").click(function() {
+        configWindow();
+    });
+
+    jQuery('.help').mouseover(function(e) {
+        var helpBox = jQuery(this).parent().children(".help-box");
+        helpBox.show(100);
+        helpBox.offset({left:jQuery(this).position().left+20,top:jQuery(this).position().top-10});
+    }).mouseout(function() {
+        jQuery(this).parent().children(".help-box").hide(100);
     });
 }
 

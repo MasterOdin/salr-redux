@@ -35,8 +35,12 @@ function PageNavigator(base_image_uri) {
     // currently viewing
     this.basePageID = findForumID();
     // Current page
-    this.currentPage = Number(jQuery('option[selected="selected"]').val());
-
+    this.currentPage = jQuery('option[selected="selected"]').val();
+    if (this.currentPage == null) {
+        this.currentPage = 1;
+    } else {
+        this.currentPage = Number(this.currentPage);
+    }
     this.writeNavigatorHtml();
     this.selectPage(this.currentPage);
     this.bindButtonEvents();

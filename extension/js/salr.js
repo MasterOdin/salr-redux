@@ -668,7 +668,6 @@ SALR.prototype.modifyImages = function() {
 		}
 
 		subset.each(function() {
-            console.log(jQuery(this).attr('href'));
 			var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/);
 			if(match != null && !(that.settings.dontReplaceLinkImage == 'true' && jQuery(this).has('img').length > 0)) {
                 jQuery(this).after("<img src='" + match[0] + "' />");
@@ -1602,7 +1601,7 @@ SALR.prototype.tldrQuotes = function() {
         
         jQuery("h4", obj).before("<span class='tldrclick' style='font-size: 70%; text-transform: uppercase; float: right; margin: 2px; font-weight: bold;'>Double-Click quote to collapse</span>");
         
-        if(that.settings.autoTLDR == 'true' && jQuery(obj).height() > 400){
+        if(that.settings.collapseTldrQuotes == 'true' && jQuery(obj).height() > 150){
             tldrHideQuote(obj);
             jQuery("span.tldrclick", obj).text("Double-Click quote to expand");
         }

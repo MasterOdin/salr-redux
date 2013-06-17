@@ -3,15 +3,25 @@ SALR Redux Changelog
 
 Listed below are the various bugfixes and enhancements that go into a given version. No idea what got changed/fixed between v0.8 and v1.5.5 so don't ask.
 
+General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is addition. After 2.0.0 is that * is a change, - is a removal and + is an addition. This doesn't show up in the .md view, only in the "code" view, but who really looks and cares about this stuff but developers?
+
 Changelog List
 --------------
 ### v2.0.0 (6/20/2013)
 
-- Updated jQuery to v1.10.1
-- Updated js/settings-handler.js to use .prop() instead of .attr() as appropriate
+* Updated jQuery to v1.10.1.
+* Updated js/settings-handler.js to use .prop() instead of .attr() as appropriate
 - Renamed a couple options (ex: User Avatar settings) to be clearer on their intent
-- Move color picker for inline youtube videos over next to the text input box
-- 
+- Removed "Hide top menu" setting as it didn't do anything
+- Removed second "Automatically collapse long quotes" setting
+* Renamed "Display quotes in boxes" to "Display quotes in simpler style"
+* Renamed "Hide SALR Logo" to "Hide SALR Logo in top thread bar"
++ Added little help question mark next to settings to explain what they do or if they require some option change
+* Move color picker for inline youtube videos over next to the text input box
+* Updated Page-Navigator selector for lastseen icon
+* Reduced threshold to collapse long quote from 400 to 150. This is ~113 words words on a 1280x1024 monitor.
+* Moved all settings over slightly on the options page (~10px)
+* Made it so clicking on logo on settings page takes user to settings dump page (as this was default behavior at one point?)
 
 ### v1.5.16 (6/12/2013)
 

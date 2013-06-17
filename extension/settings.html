@@ -16,7 +16,7 @@
 </head>
 <body>
     <header id="logo-header">
-        <img onclick="configWindow();" src="images/logo.jpg">
+        <img id="logo" src="images/logo.jpg">
         <span id="title">Something Awful Last Read Redux Settings</span>
     </header>
     <div class="preference-title">
@@ -109,7 +109,9 @@
     <tr>
         <td colspan="3">
             <div class='display-preference'>
-            <label><input id='highlightThread' class='user-preference' type='checkbox' /> Use custom thread highlighting</label>
+                <label><input id='highlightThread' class='user-preference' type='checkbox' /> Use custom thread highlighting</label> 
+                <img class="help" src="images/settings_question.png" />
+                <div class="help-box">This setting will show up on the forum list and the UCP thread list</div>
             </div>
         </td>
     </tr>
@@ -175,7 +177,9 @@
             <tr>
                 <td>
                     <div class='display-preference'>
-                    <label><input id='highlightOP' class='user-preference' type='checkbox' /> Enable OP post highlighting</label>
+                        <label><input id='highlightOP' class='user-preference' type='checkbox' /> Enable OP post highlighting</label>
+                        <img class="help" src="images/settings_question.png" />
+                        <div class="help-box">This setting requires that you turn on the 'Highlight the username of the "original poster" in thread posts' option in "Edit Options" in the User Control Panel.</div>
                     </div>
                 </td>
                 <td>
@@ -271,7 +275,9 @@
             <tr>
                 <td>
                     <div class='display-preference'>
-                    <label><input id='highlightFriends' class='user-preference' type='checkbox' /> Enable friend post highlighting</label>
+                        <label><input id='highlightFriends' class='user-preference' type='checkbox' /> Enable friend post highlighting</label>
+                        <img class="help" src="images/settings_question.png" />
+                        <div class="help-box">You must visit your User Control Panel once after activating this option for highlighting to work.</div>                        
                     </div>
                 </td>
                 <td>
@@ -384,9 +390,10 @@
             Header/Footer Link Display Options
         </div>
         <section class="settings-panel">
+            <!--
             <div class='display-preference'>
                 <label><input id='hideHeaderLinks' class='user-preference' type='checkbox' /> Hide top menu</label>
-            </div>
+            </div>-->
             <div class='display-preference'>
                 <label><input id='showPurchases' class='user-preference' type='checkbox' /> Display Purchase menu links</label>
             </div>
@@ -501,12 +508,14 @@
         <div style="clear: both;"></div>
         <div class='display-preference'>
             <label><input id='threadCaching' class='user-preference' type='checkbox' /> Highlight thread counts in yellow if you've posted there before</label>
+            <img class="help" src="images/settings_question.png" />
+            <div class="help-box">This will only highlight thread counts of threads you posted in after installing SALR and turning on this option.</div>              
         </div>
         <div class='display-preference'>
-            <label><input id='boxQuotes' class='user-preference' type='checkbox' /> Display quotes in boxes</label>
+            <label><input id='boxQuotes' class='user-preference' type='checkbox' /> Display quotes in simpler style</label>
         </div>
         <div class='display-preference'>
-            <label><input id='salrLogoHide' clsas='user-preference' type='checkbox' /> Hide SALR Logo</label>
+            <label><input id='salrLogoHide' clsas='user-preference' type='checkbox' /> Hide SALR Logo in top thread bar</label>
         </div>
         <div class='display-preference'>
             <label><input id='whoPostedHide' class='user-preference' type='checkbox' /> Hide Who Posted link</label>
@@ -650,9 +659,6 @@
        <div class='display-preference'>
           <label><input id='qneProtection' class='user-preference' type='checkbox' /> Protect against accidental quotes instead of edits</label>
        </div>        
-       <div class='display-preference'>
-           <label><input id='autoTLDR' class='user-preference' type='checkbox' /> Automatically collapse large quotes</label>
-        </div>
        <div class='display-preference'>
           <label><input id='showEditBookmarks' class='user-preference' type='checkbox' /> Always display "Edit Bookmarks" column in User CP</label>
        </div>

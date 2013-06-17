@@ -165,7 +165,7 @@ function findFirstUnreadPost() {
 
     // Check if the user has the "Show an icon next to each post indicating if
     // it has been seen or not" option enabled for the forums
-    var use_setseen = (jQuery('td.postdate > a[href*=action=setseen]').length > 0);
+    var use_setseen = (jQuery('td.postdate > a[href*="action=setseen"]').length > 0);
 
     jQuery('div#thread > table.post').each(function() {
         if (use_setseen) {
