@@ -203,7 +203,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
         that.toggleTopbar();
     });
 
-    jQuery('div.sidebar-menu-item').live('click', function() {
+    jQuery('div.sidebar-menu-item').on('click', function() {
         var selected_item = jQuery('div.menu-item-code', this).first().html();
 
         if (jQuery(this).is('.bbcode')) {

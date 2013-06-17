@@ -5,6 +5,14 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v2.0.0 (6/20/2013)
+
+- Updated jQuery to v1.10.1
+- Updated js/settings-handler.js to use .prop() instead of .attr() as appropriate
+- Renamed a couple options (ex: User Avatar settings) to be clearer on their intent
+- Move color picker for inline youtube videos over next to the text input box
+- 
+
 ### v1.5.16 (6/12/2013)
 
 - Fixed custom thread coloring not being removed when "x" is hit on thread
