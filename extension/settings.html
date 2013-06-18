@@ -295,7 +295,7 @@
     <tr class="altcolor1">
         <td class="userinfo">
             <dl class="userinfo"><dt id="mod-name" class="author">
-                <img src="http://fi.somethingawful.com/star_moderator.gif">&nbsp;Moderator</dt>
+                <img src="http://fi.somethingawful.com/star_moderator_user.png">&nbsp;Moderator</dt>
             </dl>
         </td>
         <td class="postbody">
@@ -342,7 +342,7 @@
     <tr class="altcolor2">
         <td class="userinfo">
             <dl class="userinfo"><dt id="admin-name" class="author">
-                <img src="http://fi.somethingawful.com/star_admin.gif">&nbsp;Admin</dt>
+                <img src="http://fi.somethingawful.com/star-admin.png">&nbsp;Admin</dt>
             </dl>
         </td>
         <td class="postbody">
@@ -545,6 +545,8 @@
         </div>
         <div class='display-preference'>
           <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread</label>
+            <img class="help" src="images/settings_question.png" />
+            <div class="help-box">Set the "Posts per Page" to the same as the "Default Posts per Thread:" option in the UCP.</div>                 
         </div>
         <div class='sub-options'>
             <div class='display-preference'>
@@ -555,7 +557,7 @@
                     <option value='20'>20</option>
                     <option value='30'>30</option>
                     <option value='40'>40</option></select></label>
-            </div>
+            </div>       
         </div>
     </section>
 
@@ -578,6 +580,9 @@
         <div class="sub-options">
             <div class='display-preference'>
                 <label><input id="enableMouseMenu" class='user-preference' type='checkbox' /> Allow Alt key to switch between mouse gestures and context menu</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='enableMouseUpUCP' class='user-preference' type='checkbox' /> Enable up arrow to go to UCP instead of up a forum layer</label>
             </div>
         </div>
         <div class='display-preference'>
@@ -671,7 +676,9 @@
        </div>
        <div class='sub-options'>
           <div class='display-preference'>
-              <label>Ignore bookmarks with a 
+            Ignore bookmarks with a<br />
+<!--    
+              <label>Ignore bookmarks with a<br /> 
                   <select id='ignoreBookmarkStar' class='user-preference'>
                       <option value="">Disabled</option>
                       <option value="bm0">Gold Star</option>
@@ -679,6 +686,10 @@
                       <option value="bm2">Yellow Star</option>
                   </select>
               </label>
+-->
+                <label><input id="ignoreBookmarkStarGold" class='user-preference' type='checkbox' /> Gold Star</label>
+                <label><input id="ignoreBookmarkStarRed" class='user-preference' type='checkbox' /> Red Star</label>
+                <label><input id="ignoreBookmarkStarYellow" class='user-preference' type='checkbox' /> Yellow Star</label>
           </div>
        </div>
     </section>

@@ -25,6 +25,11 @@ Changelog List
 - Removed "Adjust window position after threads load" as this is a forum option
 - Removed "Fix thumbnailed images" as these got fixed on SA a while ago
 * Moved "SALR Bar" up a few pixels in thread view
+* Updated admin/mod stars in setting view
++ Using alt key on changing from mouse gestures to context menu holds setting between pages
+* Made pageCount util.js routine a bit more robust for parts of the forum that don't always show pages (ie. Privage Messages)
++ Added ability to change between going up a forum layer or going to UCP on mouse gesture "Up" button
++ Added Accidental Quote, Not Edit warning to the Quick Relpy box enabled by the existing option at bottom of settings.html
 
 ### v1.5.16 (6/12/2013)
 

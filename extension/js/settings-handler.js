@@ -122,6 +122,7 @@ jQuery(document).ready(function() {
     defaultSettings['enableKeyboardShortcuts']      = 'false';
     defaultSettings['enableMouseGestures']          = 'false';
     defaultSettings['enableMouseMenu']              = 'true';
+    defaultSettings['enableMouseUpUCP']             = 'false';
     defaultSettings['enableQuickReply']             = 'true';
     defaultSettings['quickReplyBookmark']           = 'false';
     defaultSettings['quickReplyFormat']             = 'true';
@@ -144,7 +145,13 @@ jQuery(document).ready(function() {
     defaultSettings['qneProtection']                = 'false';      
     defaultSettings['showEditBookmarks']            = 'false';
     defaultSettings['openAllUnreadLink']            = 'true';
-    defaultSettings['ignoreBookmarkStar']           = "";    
+    //defaultSettings['ignoreBookmarkStar']           = "";
+    defaultSettings['ignoreBookmarkStarGold']       = 'false';
+    defaultSettings['ignoreBookmarkStarRed']        = 'false';
+    defaultSettings['ignoreBookmarkStarYellow']     = 'false';
+
+    // Misc Options (don't show up on settings.html)
+    defaultSettings['MouseActiveContext']           = 'false';
   
     // Check stored settings, if value not set, set to default value
     for ( var key in defaultSettings ) {

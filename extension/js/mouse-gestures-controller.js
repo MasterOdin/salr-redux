@@ -64,7 +64,7 @@ function MouseGesturesController(base_image_uri, settings) {
         this.currentPage = 1;
     }
 
-    var activeContext = false;
+    var activeContext = (localStorage.getItem("MouseActiveContext") == 'false') ? false : true;
 
     jQuery(document).bind("contextmenu", function(e) {
         if (activeContext == false) {
@@ -76,6 +76,7 @@ function MouseGesturesController(base_image_uri, settings) {
         if (event.keyCode == 18) {
             if (that.settings.enableMouseMenu == "true") {
                 activeContext = !activeContext;
+                localStorage.setItem("MouseActiveContext", activeContext);
             }
         }
     });
@@ -208,6 +209,9 @@ MouseGesturesController.prototype.setPageSpecificCSS = function() {
             || this.currentPageName == 'bookmarkthreads.php') {
         this.disableGesture('left');
         this.disableGesture('right');
+        if (this.settings.enableMouseUpUCP == 'true') {
+            this.disableGesture('up');
+        }
     }
 
     if (this.currentPage == 1) {
@@ -307,8 +311,13 @@ MouseGesturesController.prototype.topAction = function() {
     // If page is showthread.php, goto forumdisplay.php
     // If page is forumdisplay.php, goto forums.somethingawful.com
     // If page is forums.somethingawful.com, do nothing
+    // If page is something else, just go to forum root
+    // All if UCP option isn't enabled, else just go there
     if (this.is_enabled(this.topAction)) {
-        if (this.currentPageName == 'showthread.php' 
+        if (this.settings.enableMouseUpUCP == 'true') {
+            location.href ='http://forums.somethingawful.com/usercp.php';
+        }
+        else if (this.currentPageName == 'showthread.php' 
             || this.currentPageName == 'usercp.php'
             || this.currentPageName == 'forumdisplay.php'
             || this.currentPageName =='bookmarkthreads.php') 
@@ -320,6 +329,9 @@ MouseGesturesController.prototype.topAction = function() {
             }
 
             location.href = 'http://forums.somethingawful.com/' + href;
+        }
+        else {
+            location.href = 'http://forums.somethingawful.com';
         }
     }
 };
@@ -345,6 +357,11 @@ MouseGesturesController.prototype.disableGesture = function(gesture) {
 
     switch(gesture) {
         case 'up':
+            if (this.settings.enableMouseUpUCP == 'true' && 
+                    (this.currentPageName != 'usercp.php' &&
+                     this.currentPageName != 'bookmarkthreads.php')) {
+                return;
+            }
             button = jQuery('div#gesture-top');
             this.disabled_gestures.push(this.topAction);
             break;

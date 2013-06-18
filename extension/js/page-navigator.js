@@ -29,6 +29,7 @@ function PageNavigator(base_image_uri) {
     this.base_image_uri = base_image_uri;
 
     this.pageCount = countPages();
+
     // Determines if we are on a forum or a thread
     this.rootPageType = (findCurrentPage() == 'forumdisplay.php') ? 'forumid' : 'threadid';
     // Either forum ID or thread ID, depending on which we are

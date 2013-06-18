@@ -231,7 +231,8 @@ QuickReplyBox.prototype.create = function(username, quote) {
     jQuery('#side-bar').hide();
     jQuery('#quick-reply').hide();
 
-    this.showWarning();
+    // this takes care of a weird case where hitting "reply" inserted a tab on first use
+    jQuery('#post-message').val('');
 };
 
 QuickReplyBox.prototype.show = function() {
@@ -252,6 +253,7 @@ QuickReplyBox.prototype.hide = function() {
     jQuery(document).trigger('enableSALRHotkeys');
     jQuery('#quick-reply').hide("slow");
     jQuery('#post-message').val('');
+    jQuery('#post-warning').remove();
 
     // Return to quick reply mode
     jQuery('div#title-bar').text('Quick Reply');
@@ -287,7 +289,6 @@ QuickReplyBox.prototype.updatePreview = function() {
 
     var content = document.getElementById('topbar-preview');
     content.scrollTop = content.scrollHeight;
-    this.showWarning();
 };
 
 QuickReplyBox.prototype.appendText = function(text) {
@@ -325,8 +326,10 @@ QuickReplyBox.prototype.appendQuote = function(postid) {
                     if (textarea.length)
                         quote = textarea.val();
 
+                    // this is the first thing in the Quick Reply
                     if (that.quickReplyState.wait_for_quote) {
                         that.prependText(quote);
+                        that.showWarning();
                         that.quickReplyState.wait_for_quote=false;
                     } else {
                         that.appendText(quote);
@@ -365,7 +368,7 @@ QuickReplyBox.prototype.editPost = function(postid, subscribe) {
                     jQuery('#post-message').val(edit);
                     that.updatePreview();
                 });
-
+    jQuery('#post-warning').remove();
     jQuery('div#title-bar').text('Quick Edit');
     jQuery('form#quick-reply-form').attr('action', 'editpost.php');
     jQuery('input#quick-reply-action').val('updatepost');
@@ -626,15 +629,12 @@ QuickReplyBox.prototype.formatText = function() {
 
 QuickReplyBox.prototype.showWarning = function() {
     if (this.settings.qneProtection == 'true') {
-        console.log("welp?");
         if (this.settings.username) {
-            console.log(this.settings.username);
-            if(jQuery("#post-input-field > textarea[name='message']:contains('quote=\"" + this.settings.username + "\"')").length > 0)
-            {
-                console.log("we need this warning!");
-                jQuery("#post-options").after("<div class='qne_warn'><h4>Warning! Possible Quote/Edit mixup.</h4></div>");
+            var regex = "quote=\"" + this.settings.username + "\"";
+            match = jQuery("#post-message").val().match(new RegExp(regex,"gi"));
+            if (match != null) {
+                jQuery("#post-options").after("<div id='post-warning'><h4>Warning! Possible Quote/Edit mixup.</h4></div>");
             }
         }
     }
-    console.log("well thsi got run at least!");
 };

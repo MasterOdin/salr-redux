@@ -89,6 +89,9 @@ function findRealForumID() {
  */
 function countPages() {
     var pages = jQuery('div.pages').get(0);
+    if (pages == undefined) {
+        pages = 1;
+    }
     return (jQuery('option', pages).length ? jQuery('option', pages).length : 1);
 }
 

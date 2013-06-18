@@ -992,6 +992,19 @@ SALR.prototype.addSearchThreadForm = function() {
  */
 SALR.prototype.renderOpenUpdatedThreadsButton = function() {
     var that = this;
+    //var checkStars = (this.settings.ignoreBookmarkStarGold == 'true' ||
+    //                    this.settings.ignoreBookmarkStarRed == 'true' ||
+    //                    this.settings.ignoreBookmarkStarYellow == 'true') ? true : false;
+    var stars = [];
+    if (this.settings.ignoreBookmarkStarGold == 'true') {
+        stars.push("bm0");
+    }
+    if (this.settings.ignoreBookmarkStarRed == 'true') {
+        stars.push("bm1");
+    }
+    if (this.settings.ignoreBookmarkStarYellow == 'true') {
+        stars.push("bm2");
+    }
 
     jQuery('th.title:first').append('<div id="open-updated-threads"' +
                                     '     style="float:right; ' +
@@ -1012,7 +1025,7 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
                 }
             };
 
-            if (that.settings.ignoreBookmarkStar === undefined || that.settings.ignoreBookmarkStar == "") {
+            if (stars.length == 0) {
                 open_thread();
                 return;
             }
@@ -1021,7 +1034,8 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
             if (star_img.lenth == 0)
                 return;
 
-            if (that.settings.ignoreBookmarkStar != star_img) {
+            if (jQuery.inArray(star_img,stars) == -1) {
+                //console.log(jQuery.inArray(star_img,stars));
                 open_thread();
             }
         });
@@ -2136,7 +2150,7 @@ SALR.prototype.swapRetinaEmotes = function() {
 					var f = retinaFilename(item);
 				
 					if (list.indexOf(f) > 0) {
-						console.log('swapping in' + f);
+						//console.log('swapping in' + f);
 						var height = item.height();
 						var width = item.width();
 						item.attr('src',chrome.extension.getURL('/images/emoticons/'+f))
