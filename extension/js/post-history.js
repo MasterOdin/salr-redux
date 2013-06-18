@@ -51,20 +51,15 @@ PostHistory.prototype.addThread = function(thread_id) {
 
 PostHistory.prototype.getThreadStatus = function(thread_id) {
     var that = this;
+
     this.database.transaction(function(query) {
-        query.executeSql("SELECT * FROM threads", [],//WHERE thread_id = ?", [thread_id],
+        query.executeSql("SELECT * FROM threads WHERE thread_id = ?", [thread_id],
             function(transaction, result) {
-                var len = result.rows.length;
-                //console.log("found rows of " + len);
-                for (i = 0; i < len; i++) {
-                    //console.log(result.rows.item(i).thread_id);
-                }/*
                 if (result.rows.length > 0) {
                     that.callback(true, thread_id);
                 } else {
                     that.callback(false, thread_id);
-                }*/
-                that.callback(false,thread_id);
+                }
             });
     });
 };

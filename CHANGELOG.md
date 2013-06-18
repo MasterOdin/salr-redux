@@ -29,7 +29,8 @@ Changelog List
 + Using alt key on changing from mouse gestures to context menu holds setting between pages
 * Made pageCount util.js routine a bit more robust for parts of the forum that don't always show pages (ie. Privage Messages)
 + Added ability to change between going up a forum layer or going to UCP on mouse gesture "Up" button
-+ Added Accidental Quote, Not Edit warning to the Quick Relpy box enabled by the existing option at bottom of settings.html
++ Added Accidental Quote, Not Edit warning to the Quick Relpy box enabled by the existing option at bottom of settings.html 
++ Added ability to select several star colors to not open on the "Open all unread messages" option. 
 
 ### v1.5.16 (6/12/2013)
 
