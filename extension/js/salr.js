@@ -136,7 +136,7 @@ SALR.prototype.pageInit = function() {
             if (this.settings.enableSOAPLink == 'true') {
                 this.addSOAPLink();
             }
-            
+
             if (this.settings.collapseTldrQuotes == 'true') {
                 this.tldrQuotes();
             }
@@ -2176,6 +2176,6 @@ SALR.prototype.addSOAPLink = function() {
 
     jQuery('table.post').each(function() {
         var username = jQuery(this).find('dt.author').html();
-        jQuery(this).find('ul.profilelinks').append('<li><a href="http://esarahpalinonline.com/soap?username='+username+'">SOAP</a></li>');
+        jQuery(this).find('ul.profilelinks').append('<li><a href="http://esarahpalinonline.com/soap?username='+username+'" target="blank">SOAP</a></li>');
     });
 }

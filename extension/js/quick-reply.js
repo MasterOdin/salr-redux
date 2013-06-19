@@ -361,7 +361,7 @@ QuickReplyBox.prototype.editPost = function(postid, subscribe) {
                 },
                 function(response) {
                     // Pull quoted text from reply box
-                    var textarea = jQuery(response).find('textarea[name=message]')
+                    var textarea = jQuery(response).find('textarea[name=message]');
                     var edit = '';
                     if (textarea.length)
                         edit = textarea.val();
