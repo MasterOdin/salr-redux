@@ -133,6 +133,10 @@ SALR.prototype.pageInit = function() {
 
             this.displaySinglePostLink();
 
+            if (this.settings.enableSOAPLink == 'true') {
+                this.addSOAPLink();
+            }
+            
             if (this.settings.collapseTldrQuotes == 'true') {
                 this.tldrQuotes();
             }
@@ -739,7 +743,7 @@ SALR.prototype.skimModerators = function() {
         modList = { "12831"  : {'username' : ['elpintogrande'], 'mod' : 'A'},
                     "16393"  : {'username' : ['Fistgrrl'], 'mod' : 'A'},
                     "17553"  : {'username' : ['Livestock'], 'mod' : 'A'},
-                    "22720"  : {'username' : ['Ozma','Ozmaugh'], 'mod' : 'A'},
+                    "22720"  : {'username' : ['Ozma','Ozmaugh','Y Kant Ozma Post'], 'mod' : 'A'},
                     "23684"  : {'username' : ['mons all madden','mons al-madeen'], 'mod' : 'A'},
                     "24587"  : {'username' : ['hoodrow trillson'], 'mod' : 'A'},
                     "27691"  : {'username' : ['Lowtax'], 'mod' : 'A'},
@@ -852,26 +856,6 @@ SALR.prototype.displaySinglePostLink = function() {
         jQuery('a[href^=#post]', this).before('<a href="http://forums.somethingawful.com/showthread.php?action=showpost&postid='+getPostID(jQuery(this))+'">1</a> ');
     });
 };
-
- /**
- * Display Rap Sheet link under a users post
- *
- *
- */
-SALR.prototype.displayRapSheetLink = function() {
-    var that = this;
-    
-    var getUserID = function(element) {
-        var queryString = jQuery('li:first > a', element).attr('href');
-
-        // Holy hardcore string manipulation, Batman!
-        return (queryString.split('&')[1]).split('=')[1];
-    };
-
-    jQuery('ul.profilelinks').each(function() {
-        jQuery(this).append('<li><a href="http://forums.somethingawful.com/banlist.php?userid=' + getUserID(jQuery(this)) + '">Rap Sheet</a></li>');
-    });
-}
 
 SALR.prototype.detectFancySA = function() {
     var fancyId = 'ohlohgldhcaajjhadleledokhlpgamjm';
@@ -2182,4 +2166,16 @@ SALR.prototype.hidePostButtonInThread = function() {
     jQuery('ul.postbuttons li a[href^="newthread.php"]').hide();
 }
 
+/**
+ * Add a link to the user's SOAP page to view previous avatars
+ *
+ *
+ */
+SALR.prototype.addSOAPLink = function() {
+    var that = this;
 
+    jQuery('table.post').each(function() {
+        var username = jQuery(this).find('dt.author').html();
+        jQuery(this).find('ul.profilelinks').append('<li><a href="http://esarahpalinonline.com/soap?username='+username+'">SOAP</a></li>');
+    });
+}

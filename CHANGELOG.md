@@ -30,7 +30,8 @@ Changelog List
 * Made pageCount util.js routine a bit more robust for parts of the forum that don't always show pages (ie. Privage Messages)
 + Added ability to change between going up a forum layer or going to UCP on mouse gesture "Up" button
 + Added Accidental Quote, Not Edit warning to the Quick Relpy box enabled by the existing option at bottom of settings.html 
-+ Added ability to select several star colors to not open on the "Open all unread messages" option. 
++ Added ability to select several star colors to not open on the "Open all unread messages" option.
++ Added option to show a link to a user's SOAP underneath their post next to the button for Rap Sheet
 
 ### v1.5.16 (6/12/2013)
 

@@ -111,6 +111,7 @@ jQuery(document).ready(function() {
     defaultSettings['enableThreadNotes']            = 'false';
     defaultSettings['fixCancer']                    = 'true';
     //defaultSettings['adjustAfterLoad']              = 'true';
+    defaultSettings['enableSOAPLink']               = 'true';
     defaultSettings['hidePostButtonInThread']       = 'false';
     defaultSettings['collapseTldrQuotes']           = 'false';
     defaultSettings['showLastThreePages']           = 'false';
