@@ -29,7 +29,11 @@
  * Initialize event callbacks for the page
  *
  */
+
+var port = chrome.extension.connect({"name":"settings"});
+
 jQuery(document).ready(function() {
+
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
         localStorage.setItem('salrInitialized', 'true');
@@ -460,6 +464,20 @@ function highlightExamples() {
     }).mouseout(function() {
         jQuery(this).parent().children(".help-box").hide(100);
     });
+
+    // disable setting
+    port.onMessage.addListener(function(data) {
+        if (data == 'true') {
+            jQuery('#displayOmnibarIcon').attr('disabled', true);
+            jQuery('#displayOmnibarIcon').parent().parent().addClass('disabled-options');
+            jQuery('#displayOmnibarHelp2').remove();
+        }
+        else {
+            jQuery('#displayOmnibarHelp1').remove();
+        }
+    });
+
+    port.postMessage({'message':'GetSALRRStatus'});
 }
 
 /**

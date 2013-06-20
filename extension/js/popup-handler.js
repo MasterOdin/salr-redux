@@ -1,18 +1,17 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013 Matthew Peveler  
+// Copyright (c) 2009, Scott Ferguson
+// Copyright (c) 2013, Matthew Peveler
 // All rights reserved.
-
+// 
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-
-// - Redistributions of source code must retain the above copyright
-//   notice, this list of conditions and the following disclaimer.
-// - Redistributions in binary form must reproduce the above copyright
-//   notice, this list of conditions and the following disclaimer in the
-//   documentation and/or other materials provided with the distribution.
-// - Neither the name of the software nor the
-//   names of its contributors may be used to endorse or promote products
-//   derived from this software without specific prior written permission.
+//     * Redistributions of source code must retain the above copyright
+//       notice, this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright
+//       notice, this list of conditions and the following disclaimer in the
+//       documentation and/or other materials provided with the distribution.
+//     * Neither the name of the software nor the
+//       names of its contributors may be used to endorse or promote products
+//       derived from this software without specific prior written permission.
 // 
 // THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -23,33 +22,25 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // Fetch extension settings
 var settings = {};
-var port = chrome.extension.connect();
-
-port.onMessage.addListener(function(data) {
-    settings = data;
-    
-    populateMenu();    
-});
-
-port.postMessage({
-    'message': 'GetPageSettings'
-});
+var port = chrome.extension.connect({"name":"popup"});
 
 /**
  * Opens a link in a tab. 
  */
 function openTab(tabUrl) {
     var button = event.button;
-    if(button > 1)
+    if (button > 1)
         return;
-    var selected = true;
-    if(button == 1 || event.ctrlKey) // Middle Button or Ctrl click
-        selected = false;
-    chrome.tabs.create({ url: tabUrl, selected: selected });
+    if (button == 0 && !event.ctrlKey) { // Left click
+        chrome.tabs.getSelected(null, function (tab) {
+            chrome.tabs.update(tab.id, {url: tabUrl});
+            window.close();
+        });
+    }
 }
 
 /**
@@ -73,7 +64,7 @@ function toggleSticky(forumID) {
             });
         }
         settings.forumsList = JSON.stringify(forums);
-        port.postMessage({ 'message': 'ChangeSetting',
+        port.postMessage({ 'message': 'ChangeSALRSetting',
                            'option' : 'forumsList',
                            'value'  : JSON.stringify(forums) });
         return;
@@ -108,7 +99,7 @@ function populateMenu() {
             newHTML += '<hr/>';
         } else if (indent == 0) {
             newHTML += '<div class="header-link">';
-            newHTML += '<a onclick="javascript:openTab(\'http://forums.somethingawful.com/forumdisplay.php?forumid=' + this.id + '\')" href="javascript:" class="link link'+ indent +'">' + title + '</a><br/>';
+            newHTML += '<a href="http://forums.somethingawful.com/forumdisplay.php?forumid=' + this.id + '" class="link link'+ indent +'">' + title + '</a><br/>';
             newHTML += '</div>';
         
         } else {
@@ -135,14 +126,32 @@ function populateMenuHelper(forum, color, stuck) {
 
     // Add sticky controls to popup window
     if (forum.sticky == true)
-        subHTML += '<div style="float:left;cursor:pointer;overflow-x: hidden;"><img src="../images/sticky_on.gif" onClick="javascript:toggleSticky('+forum.id+')" id="sticky-'+forum.id+'" /></div>';
+        subHTML += '<div style="float:left;cursor:pointer;overflow-x: hidden;"><img src="../images/sticky_on.gif" class="' + forum.id + '" id="sticky-'+forum.id + '" /></div>';
     else
-        subHTML += '<div style="float:left;cursor:pointer;overflow-x: hidden;"><img src="../images/sticky_off.gif" onClick="javascript:toggleSticky('+forum.id+')" id="sticky-'+forum.id+'" /></div>';
+        subHTML += '<div style="float:left;cursor:pointer;overflow-x: hidden;"><img src="../images/sticky_off.gif" class="' + forum.id + '" id="sticky-'+forum.id + '" /></div>';
 
     // Dynamically set the 10's digit for padding here, since we can have any number
     // of indentations
     subHTML += '<div class="forum-link" style="padding-left: ' + indent + '0px; background: ' + color + ';">';
-    subHTML += '<a onclick="javascript:openTab(\'http://forums.somethingawful.com/forumdisplay.php?forumid=' + forum.id + '\')" href="javascript:">' + title + '</a><br/>';
+    subHTML += '<a href="http://forums.somethingawful.com/forumdisplay.php?forumid=' + forum.id + '">' + title + '</a><br/>';
     subHTML += '</div>';
     return subHTML;
 }
+
+port.onMessage.addListener(function(data) {
+    settings = data;    
+    populateMenu();
+
+    jQuery('a').on("click",function(event) {
+        openTab(event.currentTarget.href);
+    });
+    jQuery('img').on("click", function(event) {
+        toggleSticky(event.currentTarget.id.match(/[0-9].*/)[0]);
+    });
+
+
+});
+
+port.postMessage({
+    'message': 'GetForumsJumpList'
+});    

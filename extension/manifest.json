@@ -53,10 +53,12 @@
       "run_at": "document_end"
     }
   ], 
-  "permissions": [
+  "permissions": 
+    [
         "tabs",
+        "management",
         "https://api.imgur.com/*"
-  ],
+    ],
   "page_action":
     {
         "default_icon": "images/logo16.png",
@@ -128,6 +130,6 @@
     "images/sticky_on.gif",
     "images/unvisit.png",
     "imgur-upload.html",
-	"images/emoticons/*"
+    "images/emoticons/*"
   ]
 }

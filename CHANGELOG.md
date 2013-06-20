@@ -32,6 +32,8 @@ Changelog List
 + Added Accidental Quote, Not Edit warning to the Quick Relpy box enabled by the existing option at bottom of settings.html 
 + Added ability to select several star colors to not open on the "Open all unread messages" option.
 + Added option to show a link to a user's SOAP underneath their post next to the button for Rap Sheet
+* Fixed Omnibar icon for quick forum jumping.
++ Added ability for extension to know if SALR Redux Browser Button is installed, and disable Omnibar icon (and setting) is it is.
 
 ### v1.5.16 (6/12/2013)
 

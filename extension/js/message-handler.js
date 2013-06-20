@@ -31,6 +31,7 @@
  */
 chrome.extension.onConnectExternal.addListener(function(port) {
     port.onMessage.addListener(function(data) {
+        console.log("aaa?");
         switch (data.message) {
             case 'GetForumsJumpList':
             case 'GetSALRSettings':
@@ -63,7 +64,13 @@ chrome.extension.onConnect.addListener(function(port) {
                 reloadTab();
                 break;
             case 'ShowPageAction':
-                chrome.pageAction.show(port.tab.id);
+                // efobaopfidfllhfnndjecciobldchcaf
+                // dodkgjokbnmiickhikhikpggfohagmfb - id of Redux Browser Button
+                chrome.management.get("efobaopfidfllhfnndjecciobldchcaf",function(result) {
+                    if (result == undefined || result.enabled == false) {
+                        chrome.pageAction.show(port.sender.tab.id);
+                    }
+                });
                 break;
             case 'GetPageSettings':
             case 'GetSALRSettings':
@@ -72,6 +79,8 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'ChangeSALRSetting':
                 localStorage.setItem(data.option, data.value);
+                //port.postMessage({"message":"setting changed"});
+                break;
             case 'AppendUploadedImage':
                 console.log('Got request!');
                 chrome.tabs.getSelected(null, function(tab) {
@@ -80,6 +89,16 @@ chrome.extension.onConnect.addListener(function(port) {
                     });
                 });
                 break;
+            case 'GetSALRRStatus':
+                chrome.management.get("efobaopfidfllhfnndjecciobldchcaf",function(result) {
+                    if (result == undefined || result.enabled == false) {
+                        port.postMessage('false');
+                    }
+                    else {
+                        port.postMessage('true');
+                    }
+                });
+                break;                
             case 'log':
             default:
                 console.log(data);
@@ -89,116 +108,116 @@ chrome.extension.onConnect.addListener(function(port) {
 
 // New assoc array for storing default settings.
 var defaultSettings = [];
-    defaultSettings['hightlightThread']             = 'false';
-    defaultSettings['darkRead']                     = '#6699cc';
-    defaultSettings['lightRead']                    = '#99ccff';
-    defaultSettings['darkNewReplies']               = '#99cc99';
-    defaultSettings['lightNewReplies']              = '#ccffcc';
-    defaultSettings['displayCustomButtons']         = 'true';
-    defaultSettings['inlinePostCounts']             = 'false';
+defaultSettings['hightlightThread']             = 'false';
+defaultSettings['darkRead']                     = '#6699cc';
+defaultSettings['lightRead']                    = '#99ccff';
+defaultSettings['darkNewReplies']               = '#99cc99';
+defaultSettings['lightNewReplies']              = '#ccffcc';
+defaultSettings['displayCustomButtons']         = 'true';
+defaultSettings['inlinePostCounts']             = 'false';
 
-    // Post Highlighting
-    defaultSettings['highlightOP']                  = 'false';
-    defaultSettings['highlightOPColor']             = '#fff2aa';
-    defaultSettings['highlightSelf']                = 'false';
-    defaultSettings['highlightSelfColor']           = '#f2babb';
-    defaultSettings['highlightOwnQuotes']           = 'false';
-    defaultSettings['userQuote']                    = '#a2cd5a';
-    defaultSettings['highlightOwnUsername']         = 'false';
-    defaultSettings['usernameHighlight']            = '#9933ff';
-    defaultSettings['highlightFriends']             = 'false';
-    defaultSettings['highlightFriendsColor']        = '#f2babb';
-    defaultSettings['highlightModAdmin']            = 'false';
-    defaultSettings['highlightModAdminUsername']    = 'false';
-    defaultSettings['highlightModeratorColor']      = '#b4eeb4';
-    defaultSettings['highlightAdminColor']          = '#ff7256';
+// Post Highlighting
+defaultSettings['highlightOP']                  = 'false';
+defaultSettings['highlightOPColor']             = '#fff2aa';
+defaultSettings['highlightSelf']                = 'false';
+defaultSettings['highlightSelfColor']           = '#f2babb';
+defaultSettings['highlightOwnQuotes']           = 'false';
+defaultSettings['userQuote']                    = '#a2cd5a';
+defaultSettings['highlightOwnUsername']         = 'false';
+defaultSettings['usernameHighlight']            = '#9933ff';
+defaultSettings['highlightFriends']             = 'false';
+defaultSettings['highlightFriendsColor']        = '#f2babb';
+defaultSettings['highlightModAdmin']            = 'false';
+defaultSettings['highlightModAdminUsername']    = 'false';
+defaultSettings['highlightModeratorColor']      = '#b4eeb4';
+defaultSettings['highlightAdminColor']          = '#ff7256';
 
-    // Forum Display Options
-    defaultSettings['displayNewPostsFirst']         = 'false';
-    defaultSettings['hideAdvertisements']           = 'false';
+// Forum Display Options
+defaultSettings['displayNewPostsFirst']         = 'false';
+defaultSettings['hideAdvertisements']           = 'false';
 
-    // Header Link Display Options
-    //defaultSettings['hideHeaderLinks']              = 'true';
-    defaultSettings['showPurchases']                = 'true';
-    defaultSettings['topPurchaseAcc']               = 'true';
-    defaultSettings['topPurchasePlat']              = 'true';
-    defaultSettings['topPurchaseAva']               = 'true';
-    defaultSettings['topPurchaseArchives']          = 'true';
-    defaultSettings['topPurchaseNoAds']             = 'true';
-    defaultSettings['topPurchaseUsername']          = 'true';
-    defaultSettings['topPurchaseBannerAd']          = 'true';
-    defaultSettings['topPurchaseEmoticon']          = 'true';
-    defaultSettings['topPurchaseSticky']            = 'true';
-    defaultSettings['topPurchaseGiftCert']          = 'true';
-    defaultSettings['showNavigation']               = 'true';       
-    defaultSettings['topNavBar']                    = 'true';
-    defaultSettings['bottomNavBar']                 = 'true';
-    defaultSettings['topSAForums']                  = 'true';
-    defaultSettings['topSALink']                    = 'true';
-    defaultSettings['topSearch']                    = 'true';
-    defaultSettings['displayConfigureSalr']         = 'true';    
-    defaultSettings['topUserCP']                    = 'true';
-    defaultSettings['topPrivMsgs']                  = 'true';
-    defaultSettings['topForumRules']                = 'true';
-    defaultSettings['topSaclopedia']                = 'true';
-    defaultSettings['topGloryhole']                 = 'true';
-    defaultSettings['topLepersColony']              = 'true';
-    defaultSettings['topSupport']                   = 'true';
-    defaultSettings['topLogout']                    = 'true';
+// Header Link Display Options
+//defaultSettings['hideHeaderLinks']              = 'true';
+defaultSettings['showPurchases']                = 'true';
+defaultSettings['topPurchaseAcc']               = 'true';
+defaultSettings['topPurchasePlat']              = 'true';
+defaultSettings['topPurchaseAva']               = 'true';
+defaultSettings['topPurchaseArchives']          = 'true';
+defaultSettings['topPurchaseNoAds']             = 'true';
+defaultSettings['topPurchaseUsername']          = 'true';
+defaultSettings['topPurchaseBannerAd']          = 'true';
+defaultSettings['topPurchaseEmoticon']          = 'true';
+defaultSettings['topPurchaseSticky']            = 'true';
+defaultSettings['topPurchaseGiftCert']          = 'true';
+defaultSettings['showNavigation']               = 'true';       
+defaultSettings['topNavBar']                    = 'true';
+defaultSettings['bottomNavBar']                 = 'true';
+defaultSettings['topSAForums']                  = 'true';
+defaultSettings['topSALink']                    = 'true';
+defaultSettings['topSearch']                    = 'true';
+defaultSettings['displayConfigureSalr']         = 'true';    
+defaultSettings['topUserCP']                    = 'true';
+defaultSettings['topPrivMsgs']                  = 'true';
+defaultSettings['topForumRules']                = 'true';
+defaultSettings['topSaclopedia']                = 'true';
+defaultSettings['topGloryhole']                 = 'true';
+defaultSettings['topLepersColony']              = 'true';
+defaultSettings['topSupport']                   = 'true';
+defaultSettings['topLogout']                    = 'true';
 
-    // Thread Options
-    defaultSettings['showUserAvatarImage']          = 'true';
-    defaultSettings['showUserAvatar']               = 'true';
-    defaultSettings['inlineVideo']                  = 'false';             
-    defaultSettings['youtubeHighlight']             = '#ff00ff';
-    defaultSettings['threadCaching']                = 'false';
-    defaultSettings['boxQuotes']                    = 'false';
-    defaultSettings['salrLogoHide']                 = 'false';
-    defaultSettings['whoPostedHide']                = 'false';
-    defaultSettings['searchThreadHide']             = 'false';
-    defaultSettings['enableUserNotes']              = 'false';
-    defaultSettings['enableThreadNotes']            = 'false';
-    defaultSettings['fixCancer']                    = 'true';
-    //defaultSettings['adjustAfterLoad']              = 'true';
-    defaultSettings['enableSOAPLink']               = 'true';
-    defaultSettings['hidePostButtonInThread']       = 'false';
-    defaultSettings['collapseTldrQuotes']           = 'false';
-    defaultSettings['showLastThreePages']           = 'false';
-    defaultSettings['postsPerPage']                 = 'default';
+// Thread Options
+defaultSettings['showUserAvatarImage']          = 'true';
+defaultSettings['showUserAvatar']               = 'true';
+defaultSettings['inlineVideo']                  = 'false';             
+defaultSettings['youtubeHighlight']             = '#ff00ff';
+defaultSettings['threadCaching']                = 'false';
+defaultSettings['boxQuotes']                    = 'false';
+defaultSettings['salrLogoHide']                 = 'false';
+defaultSettings['whoPostedHide']                = 'false';
+defaultSettings['searchThreadHide']             = 'false';
+defaultSettings['enableUserNotes']              = 'false';
+defaultSettings['enableThreadNotes']            = 'false';
+defaultSettings['fixCancer']                    = 'true';
+//defaultSettings['adjustAfterLoad']              = 'true';
+defaultSettings['enableSOAPLink']               = 'true';
+defaultSettings['hidePostButtonInThread']       = 'false';
+defaultSettings['collapseTldrQuotes']           = 'false';
+defaultSettings['showLastThreePages']           = 'false';
+defaultSettings['postsPerPage']                 = 'default';
 
-    // Control Options
-    defaultSettings['displayPageNavigator']         = 'true';
-    defaultSettings['displayOmnibarIcon']           = 'false';
-    defaultSettings['enableKeyboardShortcuts']      = 'false';
-    defaultSettings['enableMouseGestures']          = 'false';
-    defaultSettings['enableMouseMenu']              = 'true';
-    defaultSettings['enableMouseUpUCP']             = 'false';
-    defaultSettings['enableQuickReply']             = 'true';
-    defaultSettings['quickReplyBookmark']           = 'false';
-    defaultSettings['quickReplyFormat']             = 'true';
+// Control Options
+defaultSettings['displayPageNavigator']         = 'true';
+defaultSettings['displayOmnibarIcon']           = 'false';
+defaultSettings['enableKeyboardShortcuts']      = 'false';
+defaultSettings['enableMouseGestures']          = 'false';
+defaultSettings['enableMouseMenu']              = 'true';
+defaultSettings['enableMouseUpUCP']             = 'false';
+defaultSettings['enableQuickReply']             = 'true';
+defaultSettings['quickReplyBookmark']           = 'false';
+defaultSettings['quickReplyFormat']             = 'true';
 
-    // Image Display Options
-    defaultSettings['replaceLinksWithImages']       = 'false';
-    defaultSettings['dontReplaceLinkNWS']           = 'false';
-    defaultSettings['dontReplaceLinkSpoiler']       = 'false';
-    defaultSettings['dontReplaceLinkRead']          = 'false';
-    defaultSettings['dontReplaceLinkImage']         = 'false';
-    defaultSettings['replaceImagesWithLinks']       = 'false';
-    defaultSettings['replaceImagesReadOnly']        = 'false';
-    defaultSettings['replaceImagesLink']            = 'false';
-    defaultSettings['restrictImageSize']            = 'false';
-    //defaultSettings['fixTimg']                      = 'false';
-    //defaultSettings['forceTimg']                    = 'false';
-    defaultSettings['retinaImages']                 = 'false';
+// Image Display Options
+defaultSettings['replaceLinksWithImages']       = 'false';
+defaultSettings['dontReplaceLinkNWS']           = 'false';
+defaultSettings['dontReplaceLinkSpoiler']       = 'false';
+defaultSettings['dontReplaceLinkRead']          = 'false';
+defaultSettings['dontReplaceLinkImage']         = 'false';
+defaultSettings['replaceImagesWithLinks']       = 'false';
+defaultSettings['replaceImagesReadOnly']        = 'false';
+defaultSettings['replaceImagesLink']            = 'false';
+defaultSettings['restrictImageSize']            = 'false';
+//defaultSettings['fixTimg']                      = 'false';
+//defaultSettings['forceTimg']                    = 'false';
+defaultSettings['retinaImages']                 = 'false';
     
-    // Other Options
-    defaultSettings['qneProtection']                = 'false';      
-    defaultSettings['showEditBookmarks']            = 'false';
-    defaultSettings['openAllUnreadLink']            = 'true';
-    //defaultSettings['ignoreBookmarkStar']           = "";
-    defaultSettings['ignoreBookmarkStarGold']       = 'false';
-    defaultSettings['ignoreBookmarkStarRed']        = 'false';
-    defaultSettings['ignoreBookmarkStarYellow']     = 'false';
+// Other Options
+defaultSettings['qneProtection']                = 'false';      
+defaultSettings['showEditBookmarks']            = 'false';
+defaultSettings['openAllUnreadLink']            = 'true';
+//defaultSettings['ignoreBookmarkStar']           = "";
+defaultSettings['ignoreBookmarkStarGold']       = 'false';
+defaultSettings['ignoreBookmarkStarRed']        = 'false';
+defaultSettings['ignoreBookmarkStarYellow']     = 'false';
 
 
 /**

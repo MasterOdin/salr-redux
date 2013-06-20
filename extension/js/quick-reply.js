@@ -284,11 +284,13 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
 };
 
 QuickReplyBox.prototype.updatePreview = function() {
-    var parser = new PreviewParser(jQuery('#post-message').val(), this.emotes);
-    jQuery('#preview-content').html(parser.fetchResult());
+    if(jQuery('#post-message').val().length > 0) {
+        var parser = new PreviewParser(jQuery('#post-message').val(), this.emotes);
+        jQuery('#preview-content').html(parser.fetchResult());
 
-    var content = document.getElementById('topbar-preview');
-    content.scrollTop = content.scrollHeight;
+        var content = document.getElementById('topbar-preview');
+        content.scrollTop = content.scrollHeight;
+    }
 };
 
 QuickReplyBox.prototype.appendText = function(text) {
