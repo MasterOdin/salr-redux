@@ -23,7 +23,7 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * External message event listener
@@ -31,7 +31,6 @@
  */
 chrome.extension.onConnectExternal.addListener(function(port) {
     port.onMessage.addListener(function(data) {
-        console.log("aaa?");
         switch (data.message) {
             case 'GetForumsJumpList':
             case 'GetSALRSettings':
