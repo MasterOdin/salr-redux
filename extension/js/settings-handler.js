@@ -43,6 +43,9 @@ jQuery(document).ready(function() {
     var defaultSettings = [];
     defaultSettings['salrInitialized']              = 'true';
 
+    defaultSettings['username']                     = '';
+    defaultSettings['usernameCase']                 = 'false';
+    
     // Thread Highlighting
     defaultSettings['hightlightThread']             = 'false';
     defaultSettings['darkRead']                     = '#6699cc';

@@ -1844,13 +1844,19 @@ SALR.prototype.highlightOwnUsername = function() {
 
     var selector = 'td.postbody:contains("'+this.settings.username+'")';
     
-    var re = new RegExp(this.settings.username, 'g');
+    if(this.settings.usernameCase == 'true') {
+        var re = new RegExp(this.settings.username, 'gi');
+    }
+    else {
+        var re = new RegExp(this.settings.username, 'g');
+    }
     var styled = '<span class="usernameHighlight" style="font-weight: bold; color: ' + that.settings.usernameHighlight + ';">' + that.settings.username + '</span>';
-    jQuery(selector).each(function() {
+    jQuery(selector).each(function() {;
         getTextNodesIn(this).forEach(function(node) {
-            if(node.wholeText.match(re)) {
+            var matches = node.wholeText.match(re);
+            if(matches != null) {
                 newNode = node.ownerDocument.createElement("span");
-                jQuery(newNode).html(node.wholeText.replace(re, '<span class="usernameHighlight" style="font-weight: bold; color: ' + that.settings.usernameHighlight + ';">' + that.settings.username + '</span>'));
+                jQuery(newNode).html(node.wholeText.replace(re, '<span class="usernameHighlight" style="font-weight: bold; color: ' + that.settings.usernameHighlight + ';">' + matches[0] + '</span>'));
                 node.parentNode.replaceChild(newNode, node);
             }
         });

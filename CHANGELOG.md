@@ -34,6 +34,7 @@ Changelog List
 + Added option to show a link to a user's SOAP underneath their post next to the button for Rap Sheet
 * Fixed Omnibar icon for quick forum jumping.
 + Added ability for extension to know if SALR Redux Browser Button is installed, and disable Omnibar icon (and setting) is it is.
++ Added option to have username be highlighted regardless of case as it's currently always case-sensitive.
 
 ### v1.5.16 (6/12/2013)
 
