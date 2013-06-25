@@ -316,7 +316,7 @@ SALR.prototype.updateStyling = function() {
 	}
     
 	if (this.settings.inlinePostCounts == 'true') {
-        jQuery(".info").css("padding-left","10px");
+        jQuery(".info").css("padding-right","20px");
     }
     jQuery('tr.thread').each(function() {
         var thread = jQuery(this);
