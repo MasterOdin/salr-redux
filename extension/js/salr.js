@@ -453,7 +453,8 @@ SALR.prototype.updateStyling = function() {
         // Send threads without unread posts to the end of the list
         if (!newPosts && that.settings.displayNewPostsFirst == 'true') {
             if ((that.currentPage == 'forumdisplay.php' && that.settings.displayNewPostsFirstForum == 'true') ||
-                (that.currentPage == 'usercp.php' && that.settings.displayNewPostsFirstUCP == 'true')) {
+                ((that.currentPage == 'usercp.php' || that.currentPage == 'bookmarkthreads.php') 
+                    && that.settings.displayNewPostsFirstUCP == 'true')) {
                 thread.parent().append(thread);
             }
         }

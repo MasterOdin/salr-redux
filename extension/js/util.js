@@ -32,7 +32,7 @@
 function findCurrentPage() {
     // Substrings out everything after the domain, then splits on the ?
     // and takes the left-side of the result
-    return (window.location.href).substr(33).split('?')[0];
+    return (window.location.href).substr(33).split('?')[0].replace('#','');
 }
 
 /**
