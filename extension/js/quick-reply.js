@@ -275,7 +275,7 @@ QuickReplyBox.prototype.hide = function() {
         sidebar_visible: false,
         topbar_visible: false,
         wait_for_quote: false
-    };    
+    };
 };
 
 QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
