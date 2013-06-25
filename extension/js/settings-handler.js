@@ -72,8 +72,15 @@ jQuery(document).ready(function() {
     defaultSettings['highlightAdminColor']          = '#ff7256';
 
     // Forum Display Options
+    defaultSettings['hideAdvertisements']           = 'false';    
     defaultSettings['displayNewPostsFirst']         = 'false';
-    defaultSettings['hideAdvertisements']           = 'false';
+    defaultSettings['displayNewPostsFirstForum']    = 'true';
+    defaultSettings['displayNewPostsFirstUCP']      = 'true';
+    defaultSettings['showLastThreePages']           = 'false';
+    defaultSettings['postsPerPage']                 = 'default';    
+    defaultSettings['showLastThreePagesForum']      = 'true';
+    defaultSettings['showLastThreePagesUCP']        = 'true';
+    defaultSettings['showLastThreePagesThread']     = 'true';
 
     // Header Link Display Options
     //defaultSettings['hideHeaderLinks']              = 'true';
@@ -121,8 +128,6 @@ jQuery(document).ready(function() {
     defaultSettings['enableSOAPLink']               = 'true';
     defaultSettings['hidePostButtonInThread']       = 'false';
     defaultSettings['collapseTldrQuotes']           = 'false';
-    defaultSettings['showLastThreePages']           = 'false';
-    defaultSettings['postsPerPage']                 = 'default';
 
     // Control Options
     defaultSettings['displayPageNavigator']         = 'true';

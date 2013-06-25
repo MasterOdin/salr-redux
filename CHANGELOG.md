@@ -35,6 +35,8 @@ Changelog List
 * Fixed Omnibar icon for quick forum jumping.
 + Added ability for extension to know if SALR Redux Browser Button is installed, and disable Omnibar icon (and setting) is it is.
 + Added option to have username be highlighted regardless of case as it's currently always case-sensitive.
+* Moved "Show Last Three Pages" option into the "Forums Display Options" section
++ Added options to only enable the "Display threads with new posts first" and "Show Last Three Pages" options in certain parts of SA
 
 ### v1.5.16 (6/12/2013)
 

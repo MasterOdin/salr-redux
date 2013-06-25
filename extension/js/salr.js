@@ -38,6 +38,8 @@ function SALR(settings, base_image_uri) {
 };
 
 SALR.prototype.pageInit = function() {
+    this.currentPage = findCurrentPage();
+
     // Update the styles now that we have
     // the settings
     this.updateStyling();
@@ -47,7 +49,7 @@ SALR.prototype.pageInit = function() {
         return (obj.textContent || obj.innerText || $(obj).text() || "").toLowerCase() == meta[3].toLowerCase();
     }
 
-    switch (findCurrentPage()) {
+    switch (this.currentPage) {
         case '':
         case 'index.php':
             //this.updateForumsListIndex();
@@ -72,7 +74,7 @@ SALR.prototype.pageInit = function() {
                 this.highlightModAdminPosts();
             }
 
-            if (this.settings.showLastThreePages == 'true') {
+            if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesForum == 'true') {
                 this.showLastThreePages();
             }
                                                 
@@ -141,7 +143,7 @@ SALR.prototype.pageInit = function() {
                 this.tldrQuotes();
             }
 			
-			if (this.settings.showLastThreePages == 'true') {
+			if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesThread == 'true') {
 				this.showLastThreePages();
 			}
 
@@ -239,7 +241,7 @@ SALR.prototype.pageInit = function() {
                 jQuery('#bookmark_edit_attach').click();
             }
 			
-			if (this.settings.showLastThreePages == 'true') {
+			if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesUCP == 'true') {
 				this.showLastThreePages();
 			}
 
@@ -252,7 +254,7 @@ SALR.prototype.pageInit = function() {
             if (this.settings.highlightModAdmin == 'true') {
                 this.highlightModAdminPosts();
             }
-            if (this.settings.showLastThreePages == 'true') {
+            if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesUCP == 'true') {
                 this.showLastThreePages();
             }
 
@@ -450,7 +452,10 @@ SALR.prototype.updateStyling = function() {
 
         // Send threads without unread posts to the end of the list
         if (!newPosts && that.settings.displayNewPostsFirst == 'true') {
-            thread.parent().append(thread);
+            if ((that.currentPage == 'forumdisplay.php' && that.settings.displayNewPostsFirstForum == 'true') ||
+                (that.currentPage == 'usercp.php' && that.settings.displayNewPostsFirstUCP == 'true')) {
+                thread.parent().append(thread);
+            }
         }
     });
 	
@@ -648,7 +653,7 @@ SALR.prototype.modifyImages = function() {
     var that = this;
 
 	// fix timg, because it's broken
-	if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
+	//if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
 
 	// Replace Links with Images
 	if (this.settings.replaceLinksWithImages == 'true') {
