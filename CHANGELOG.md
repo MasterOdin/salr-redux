@@ -37,6 +37,9 @@ Changelog List
 + Added option to have username be highlighted regardless of case as it's currently always case-sensitive.
 * Moved "Show Last Three Pages" option into the "Forums Display Options" section
 + Added options to only enable the "Display threads with new posts first" and "Show Last Three Pages" options in certain parts of SA
+* Update and simplify smiley emotion regex for live preview (taken from scottferg#45)
+* Fix console error when hitting "reply" button in a thread when using quick reply
+* Fix buttons (such as live preview and smiley) for showing top/side bar in quick reply being broken if closing quick reply with them still open
 
 ### v1.5.16 (6/12/2013)
 

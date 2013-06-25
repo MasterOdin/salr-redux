@@ -1903,7 +1903,7 @@ SALR.prototype.bindQuickReply = function() {
     var that = this;
 
     jQuery('a > img[alt="Quote"]').each(function() {
-        jQuery(this).parent().attr('href', 'javascript:;');
+        jQuery(this).parent().attr('href', 'javascript:void(0);');
 
         var parentTable = jQuery(this).parents('table.post');
         var postid = parentTable.attr('id').substr(4);
@@ -1924,7 +1924,7 @@ SALR.prototype.bindQuickReply = function() {
     });
 
     jQuery('a > img[alt="Edit"]').each(function() {
-        jQuery(this).parent().attr('href', 'javascript:;');
+        jQuery(this).parent().attr('href', 'javascript:void(0);');
 
         var parentTable = jQuery(this).parents('table.post');
         var postid = parentTable.attr('id').substr(4);
@@ -1939,7 +1939,7 @@ SALR.prototype.bindQuickReply = function() {
     });
     
     jQuery('a > img[alt="Reply"]').each(function() {
-        jQuery(this).parent().attr('href', 'javascript:void();');
+        jQuery(this).parent().attr('href', 'javascript:void(0);');
 
         jQuery(this).parent().click(function() {
             that.quickReply.show();
