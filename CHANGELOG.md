@@ -40,6 +40,7 @@ Changelog List
 * Update and simplify smiley emotion regex for live preview (taken from scottferg#45)
 * Fix console error when hitting "reply" button in a thread when using quick reply
 * Fix buttons (such as live preview and smiley) for showing top/side bar in quick reply being broken if closing quick reply with them still open
++ Added slight padding to the thread titles when "Display new post counts inline" enabled to prevent thread title from overlaping
 
 ### v1.5.16 (6/12/2013)
 
