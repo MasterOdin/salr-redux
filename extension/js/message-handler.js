@@ -110,7 +110,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'GetSALRStatus':
                 chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
-                    if (result == undefined || result.enabled == false) {
+                    if (result == undefined || result.installed == false) {
                         port.postMessage({'message':'convert','bool':'false'});
                     }
                     else {
@@ -121,7 +121,7 @@ chrome.extension.onConnect.addListener(function(port) {
             case 'log':
             default:
                 console.log(data);
-		}
+        }
     });
 });
 
@@ -245,7 +245,7 @@ defaultSettings['ignoreBookmarkStarYellow']     = 'false';
  * @param element - Toolstrip element
  */
 function onToolbarClick() {
-	chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
+    chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
 }
 
 /**

@@ -42,6 +42,11 @@ Changelog List
 * Fix buttons (such as live preview and smiley) for showing top/side bar in quick reply being broken if closing quick reply with them still open
 + Added slight padding to the thread titles when "Display new post counts inline" enabled to prevent thread title from overlaping
 
+### v1.5.17 (6/26/2013)
+
++ Added ability to port over User Notes from original SALR to Redux.
+
+
 ### v1.5.16 (6/12/2013)
 
 - Fixed custom thread coloring not being removed when "x" is hit on thread

@@ -665,4 +665,5 @@ function configWindow() {
 
 function transitionSettings() {
     port.postMessage({'message':'ConvertSettings'});
+    alert("User Notes gotten from SALR!");
 }
