@@ -29,6 +29,9 @@
  * Initialize event callbacks for the page
  *
  */
+
+var port = chrome.extension.connect({"name":"settings"});
+
 jQuery(document).ready(function() {
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
@@ -232,6 +235,29 @@ jQuery(document).ready(function() {
 	});
 
     highlightExamples();
+
+    jQuery('#config').click(function() {
+        configWindow();
+    });
+
+    jQuery("#logo").click(function() {
+        configWindow();
+    });
+
+    jQuery('#settings').click(function() {
+        transitionSettings();
+    });
+
+    // disable setting
+    port.onMessage.addListener(function(data) {
+        if (data.message == 'convert') {
+            if (data.bool == 'false') {
+                jQuery('#settings').remove();
+            }
+        }
+    });
+    port.postMessage({'message':'GetSALRStatus'});
+
 });
 
 function highlightExamples() {
@@ -437,10 +463,6 @@ function highlightExamples() {
             jQuery(this).css('background-color', '');
         }
     });
-
-    jQuery('button').click(function() {
-        configWindow();
-    });
 }
 
 /**
@@ -604,4 +626,9 @@ function configWindow() {
     }
     win.document.writeln('</table></body></html>');
     win.document.close();
+}
+
+function transitionSettings() {
+    port.postMessage({'message':'ConvertSettings'});
+    alert("User Notes gotten from SALR!");
 }

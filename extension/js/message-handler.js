@@ -23,7 +23,7 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * External message event listener
@@ -63,7 +63,6 @@ chrome.extension.onConnect.addListener(function(port) {
                 reloadTab();
                 break;
             case 'ShowPageAction':
-                chrome.pageAction.show(port.tab.id);
                 break;
             case 'GetPageSettings':
             case 'GetSALRSettings':
@@ -72,6 +71,8 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'ChangeSALRSetting':
                 localStorage.setItem(data.option, data.value);
+                //port.postMessage({"message":"setting changed"});
+                break;
             case 'AppendUploadedImage':
                 console.log('Got request!');
                 chrome.tabs.getSelected(null, function(tab) {
@@ -80,45 +81,92 @@ chrome.extension.onConnect.addListener(function(port) {
                     });
                 });
                 break;
+            case 'GetSALRButtonStatus':
+                chrome.management.get("dodkgjokbnmiickhikhikpggfohagmfb",function(result) {
+                    if (result == undefined || result.enabled == false) {
+                        port.postMessage({'message':'salr-button','bool':'false'});
+                    }
+                    else {
+                        port.postMessage({'message':'salr-button','bool':'true'});
+                    }
+                });
+                break;
+            case 'ConvertSettings':
+                chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
+                    var salr = chrome.extension.connect("nlcklobeoigfjmcigmhbjkepmniladed");
+                    salr.onMessage.addListener(function(data) {
+                        localStorage.setItem('userNotes',data.userNotes);
+                    });                    
+                    salr.postMessage({'message':'GetSALRSettings'});
+                });
+                break;
+            case 'GetSALRStatus':
+                chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
+                    if (result == undefined || result.enabled == false) {
+                        port.postMessage({'message':'convert','bool':'false'});
+                    }
+                    else {
+                        port.postMessage({'message':'convert','bool':'true'});
+                    }
+                });
+                break;
             case 'log':
             default:
                 console.log(data);
-		}
+        }
     });
 });
 
 // New assoc array for storing default settings.
 var defaultSettings = [];
-defaultSettings['userQuote']                    = '#a2cd5a';
+defaultSettings['hightlightThread']             = 'false';
 defaultSettings['darkRead']                     = '#6699cc';
 defaultSettings['lightRead']                    = '#99ccff';
 defaultSettings['darkNewReplies']               = '#99cc99';
 defaultSettings['lightNewReplies']              = '#ccffcc';
-defaultSettings['youtubeHighlight']             = '#ff00ff';
-defaultSettings['displayConfigureSalr']         = 'true';
-defaultSettings['highlightFriendsColor']        = '#f2babb';
-defaultSettings['highlightSelfColor']           = '#f2babb';
-defaultSettings['highlightAdminColor']          = '#ff7256';
-defaultSettings['highlightModeratorColor']      = '#b4eeb4';
-defaultSettings['inlinePostCounts']             = 'false';
 defaultSettings['displayCustomButtons']         = 'true';
+defaultSettings['inlinePostCounts']             = 'false';
+
+// Post Highlighting
+defaultSettings['highlightOP']                  = 'false';
 defaultSettings['highlightOPColor']             = '#fff2aa';
-defaultSettings['displayPageNavigator']         = 'true';
-defaultSettings['userNotesEnabled']             = 'true';
-defaultSettings['salrInitialized']              = 'true';
+defaultSettings['highlightSelf']                = 'false';
+defaultSettings['highlightSelfColor']           = '#f2babb';
+defaultSettings['highlightOwnQuotes']           = 'false';
+defaultSettings['userQuote']                    = '#a2cd5a';
+defaultSettings['highlightOwnUsername']         = 'false';
+defaultSettings['usernameHighlight']            = '#9933ff';
+defaultSettings['highlightFriends']             = 'false';
+defaultSettings['highlightFriendsColor']        = '#f2babb';
+defaultSettings['highlightModAdmin']            = 'false';
+defaultSettings['highlightModAdminUsername']    = 'false';
+defaultSettings['highlightModeratorColor']      = '#b4eeb4';
+defaultSettings['highlightAdminColor']          = '#ff7256';
+
+// Forum Display Options
+defaultSettings['displayNewPostsFirst']         = 'false';
+defaultSettings['hideAdvertisements']           = 'false';
+
+// Header Link Display Options
+//defaultSettings['hideHeaderLinks']              = 'true';
+defaultSettings['showPurchases']                = 'true';
 defaultSettings['topPurchaseAcc']               = 'true';
 defaultSettings['topPurchasePlat']              = 'true';
 defaultSettings['topPurchaseAva']               = 'true';
 defaultSettings['topPurchaseArchives']          = 'true';
 defaultSettings['topPurchaseNoAds']             = 'true';
 defaultSettings['topPurchaseUsername']          = 'true';
-defaultSettings['topPurchaseNonProfAd']         = 'true';
-defaultSettings['topPurchaseForProfAd']         = 'true';
+defaultSettings['topPurchaseBannerAd']          = 'true';
 defaultSettings['topPurchaseEmoticon']          = 'true';
 defaultSettings['topPurchaseSticky']            = 'true';
 defaultSettings['topPurchaseGiftCert']          = 'true';
+defaultSettings['showNavigation']               = 'true';       
+defaultSettings['topNavBar']                    = 'true';
+defaultSettings['bottomNavBar']                 = 'true';
 defaultSettings['topSAForums']                  = 'true';
+defaultSettings['topSALink']                    = 'true';
 defaultSettings['topSearch']                    = 'true';
+defaultSettings['displayConfigureSalr']         = 'true';    
 defaultSettings['topUserCP']                    = 'true';
 defaultSettings['topPrivMsgs']                  = 'true';
 defaultSettings['topForumRules']                = 'true';
@@ -127,12 +175,60 @@ defaultSettings['topGloryhole']                 = 'true';
 defaultSettings['topLepersColony']              = 'true';
 defaultSettings['topSupport']                   = 'true';
 defaultSettings['topLogout']                    = 'true';
-defaultSettings['showPurchases']                = 'true';
-defaultSettings['showNavigation']               = 'true';
+
+// Thread Options
+defaultSettings['showUserAvatarImage']          = 'true';
+defaultSettings['showUserAvatar']               = 'true';
+defaultSettings['inlineVideo']                  = 'false';             
+defaultSettings['youtubeHighlight']             = '#ff00ff';
+defaultSettings['threadCaching']                = 'false';
+defaultSettings['boxQuotes']                    = 'false';
+defaultSettings['salrLogoHide']                 = 'false';
+defaultSettings['whoPostedHide']                = 'false';
+defaultSettings['searchThreadHide']             = 'false';
+defaultSettings['enableUserNotes']              = 'false';
+defaultSettings['enableThreadNotes']            = 'false';
+defaultSettings['fixCancer']                    = 'true';
+//defaultSettings['adjustAfterLoad']              = 'true';
+defaultSettings['enableSOAPLink']               = 'true';
+defaultSettings['hidePostButtonInThread']       = 'false';
+defaultSettings['collapseTldrQuotes']           = 'false';
+defaultSettings['showLastThreePages']           = 'false';
+defaultSettings['postsPerPage']                 = 'default';
+
+// Control Options
+defaultSettings['displayPageNavigator']         = 'true';
+defaultSettings['displayOmnibarIcon']           = 'false';
+defaultSettings['enableKeyboardShortcuts']      = 'false';
+defaultSettings['enableMouseGestures']          = 'false';
+defaultSettings['enableMouseMenu']              = 'true';
+defaultSettings['enableMouseUpUCP']             = 'false';
+defaultSettings['enableQuickReply']             = 'true';
+defaultSettings['quickReplyBookmark']           = 'false';
 defaultSettings['quickReplyFormat']             = 'true';
-//zephmod
-defaultSettings['showUserAvatarImage']			= 'true';
-defaultSettings['showUserAvatar']				= 'true';
+
+// Image Display Options
+defaultSettings['replaceLinksWithImages']       = 'false';
+defaultSettings['dontReplaceLinkNWS']           = 'false';
+defaultSettings['dontReplaceLinkSpoiler']       = 'false';
+defaultSettings['dontReplaceLinkRead']          = 'false';
+defaultSettings['dontReplaceLinkImage']         = 'false';
+defaultSettings['replaceImagesWithLinks']       = 'false';
+defaultSettings['replaceImagesReadOnly']        = 'false';
+defaultSettings['replaceImagesLink']            = 'false';
+defaultSettings['restrictImageSize']            = 'false';
+//defaultSettings['fixTimg']                      = 'false';
+//defaultSettings['forceTimg']                    = 'false';
+defaultSettings['retinaImages']                 = 'false';
+    
+// Other Options
+defaultSettings['qneProtection']                = 'false';      
+defaultSettings['showEditBookmarks']            = 'false';
+defaultSettings['openAllUnreadLink']            = 'true';
+//defaultSettings['ignoreBookmarkStar']           = "";
+defaultSettings['ignoreBookmarkStarGold']       = 'false';
+defaultSettings['ignoreBookmarkStarRed']        = 'false';
+defaultSettings['ignoreBookmarkStarYellow']     = 'false';
 
 
 /**
@@ -141,7 +237,7 @@ defaultSettings['showUserAvatar']				= 'true';
  * @param element - Toolstrip element
  */
 function onToolbarClick() {
-	chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
+    chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
 }
 
 /**

@@ -5,6 +5,10 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 Changelog List
 --------------
+### v1.5.17 (6/26/2013)
+
++ Added ability to port over User Notes from original SALR to Redux. Both must be installed and enabled however.
+
 ### v1.5.16 (6/12/2013)
 
 - Fixed custom thread coloring not being removed when "x" is hit on thread

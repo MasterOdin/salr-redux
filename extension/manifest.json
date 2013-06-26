@@ -1,6 +1,6 @@
 {
   "name": "Something Awful Last Read Redux", 
-  "version": "1.5.16",
+  "version": "1.5.17",
   "manifest_version": 2,
   "description": "Highlights posts which quote the user", 
   "icons": {
@@ -55,6 +55,7 @@
   ], 
   "permissions": [
         "tabs",
+        "management",
         "https://api.imgur.com/*"
   ],
   "page_action":
