@@ -7,7 +7,7 @@ Changelog List
 --------------
 ### v1.5.17 (6/26/2013)
 
-+ Added ability to port over User Notes from original SALR to Redux. Both must be installed and enabled however.
++ Added ability to port over User Notes from original SALR to Redux.
 
 ### v1.5.16 (6/12/2013)
 

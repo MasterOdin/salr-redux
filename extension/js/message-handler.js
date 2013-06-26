@@ -102,7 +102,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'GetSALRStatus':
                 chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
-                    if (result == undefined || result.enabled == false) {
+                    if (result == undefined || result.installed == false) {
                         port.postMessage({'message':'convert','bool':'false'});
                     }
                     else {
