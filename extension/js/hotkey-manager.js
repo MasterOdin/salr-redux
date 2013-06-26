@@ -106,10 +106,12 @@ HotKeyManager.prototype.bindHotKeys = function() {
                     that.anchorThread();
                     break;
                 case 49: /* 1 */
+                case 102:
                     // Jump to first post on the page
                     that.firstPost();
                     break;
                 case 48: /* 0 */
+                case 108:
                     // Jump to last post on the page
                     that.lastPost();
                     break;
@@ -147,12 +149,15 @@ HotKeyManager.prototype.bindHotKeys = function() {
                             event.preventDefault();
                         }
                     } else if (curr_page == 'forumdisplay.php') {
-                        if (that.b_count == 3) {
+                        if (that.b_count == 2) {
                             that.b_count=0;
                             that.openAllBookmarks();
                             event.preventDefault();
                         }
                     }
+                    break;
+                default:
+                    console.log(event.keyCode);
                     break;
             }
         //}

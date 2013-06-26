@@ -856,6 +856,9 @@ SALR.prototype.inlineYoutubes = function() {
  *
  */
 SALR.prototype.displaySinglePostLink = function() {
+    if (this.settings.enableSinglePost != "true") {
+        return;
+    }
     var getPostID = function(element) {
         return jQuery('a[href^=#post]', element).attr('href').split('#post')[1];
     };
@@ -1492,6 +1495,7 @@ SALR.prototype.displayUserNotes = function() {
         jQuery('a', editLink).click(function() {
             jQuery('#salr-usernotes-config').dialog({
                 open: function(event, ui) {
+                    jQuery(document).trigger('disableSALRHotkeys');
                     jQuery('#salr-usernotes-text').val(hasNote ? notes[userid].text : '');
                     jQuery('#salr-usernotes-color').val(hasNote ? notes[userid].color : '#FF0000');
                 },
@@ -1504,6 +1508,7 @@ SALR.prototype.displayUserNotes = function() {
                                            'option' : 'userNotes',
                                            'value'  : JSON.stringify(notes) });
                         jQuery(this).dialog('destroy');
+                        jQuery(document).trigger('enableSALRHotkeys');
                     },
                     "Delete" : function () {
                         delete notes[userid];
@@ -1511,9 +1516,14 @@ SALR.prototype.displayUserNotes = function() {
                         postMessage({ 'message': 'ChangeSetting',
                                            'option' : 'userNotes',
                                            'value'  : JSON.stringify(notes) });
-                        jQuery(this).dialog('destroy');                    
+                        jQuery(this).dialog('destroy');
+                        jQuery(document).trigger('enableSALRHotkeys');
                     },
-                    "Cancel" : function () { jQuery(this).dialog('destroy'); } }
+                    "Cancel" : function () {
+                        jQuery(this).dialog('destroy');
+                        jQuery(document).trigger('enableSALRHotkeys');
+                    }
+                }
             });
         });
         // append a space to create a new text node which fixes spacing problems you'll get otherwise

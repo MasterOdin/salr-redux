@@ -41,6 +41,15 @@ Changelog List
 * Fix console error when hitting "reply" button in a thread when using quick reply
 * Fix buttons (such as live preview and smiley) for showing top/side bar in quick reply being broken if closing quick reply with them still open
 + Added slight padding to the thread titles when "Display new post counts inline" enabled to prevent thread title from overlaping
+* Fix hotkeys being active in the thread while editing user notes
++ Add explanation to what the hotkeys are attached to "Enable keyboard navigation"
++ Add F/L hotkeys that take user to first and last post respectively
+* Move Thread Notes button over ~30px so that the "Top" button doesn't overlap it
++ Add way to not show the link to single post view underneath every post
+
+### v1.5.18 (6/26/2013)
+
++ Add Thread Notes as something to port from original SALR to Redux
 
 ### v1.5.17 (6/26/2013)
 

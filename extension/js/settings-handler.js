@@ -126,6 +126,7 @@ jQuery(document).ready(function() {
     defaultSettings['fixCancer']                    = 'true';
     //defaultSettings['adjustAfterLoad']              = 'true';
     defaultSettings['enableSOAPLink']               = 'true';
+    defaultSettings['enableSinglePost']             = 'true';
     defaultSettings['hidePostButtonInThread']       = 'false';
     defaultSettings['collapseTldrQuotes']           = 'false';
 
@@ -654,6 +655,7 @@ function configWindow() {
             key == 'forumsList'  || 
             key == 'modList'     ||
             key == 'userNotes'   ||
+            key == 'threadNotes' ||
             key == 'forumPostKey' )
             continue;
         win.document.write('<tr><td>'+key+'</td>');

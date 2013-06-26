@@ -104,6 +104,7 @@ chrome.extension.onConnect.addListener(function(port) {
                     var salr = chrome.extension.connect("nlcklobeoigfjmcigmhbjkepmniladed");
                     salr.onMessage.addListener(function(data) {
                         localStorage.setItem('userNotes',data.userNotes);
+                        localStorage.setItem('threadNotes', data.threadNotes);
                     });                    
                     salr.postMessage({'message':'GetSALRSettings'});
                 });
