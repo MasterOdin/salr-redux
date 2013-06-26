@@ -251,6 +251,48 @@ jQuery(document).ready(function() {
 	});
 
     highlightExamples();
+
+    jQuery('#config').click(function() {
+        configWindow();
+    });
+
+    jQuery("#logo").click(function() {
+        configWindow();
+    });
+
+    jQuery('#settings').click(function() {
+        transitionSettings();
+    });
+
+    jQuery('.help').mouseover(function(e) {
+        var helpBox = jQuery(this).parent().children(".help-box");
+        helpBox.show(100);
+        helpBox.offset({left:jQuery(this).position().left+20,top:jQuery(this).position().top-10});
+    }).mouseout(function() {
+        jQuery(this).parent().children(".help-box").hide(100);
+    });
+
+    // disable setting
+    port.onMessage.addListener(function(data) {
+        if (data.message == 'salr-button') {
+            if (data.bool == 'true') {
+                jQuery('#displayOmnibarIcon').attr('disabled', true);
+                jQuery('#displayOmnibarIcon').parent().parent().addClass('disabled-options');
+                jQuery('#displayOmnibarHelp2').remove();
+            }
+            else {
+                jQuery('#displayOmnibarHelp1').remove();
+            }
+        }
+        else if (data.message == 'convert') {
+            if (data.bool == 'false') {
+                jQuery('#settings').remove();
+                console.log("remove");
+            }
+        }
+    });
+    port.postMessage({'message':'GetSALRButtonStatus'});
+    port.postMessage({'message':'GetSALRStatus'});
 });
 
 function highlightExamples() {
@@ -456,36 +498,6 @@ function highlightExamples() {
             jQuery(this).css('background-color', '');
         }
     });
-
-    jQuery('button').click(function() {
-        configWindow();
-    });
-
-    jQuery("#logo").click(function() {
-        configWindow();
-    });
-
-    jQuery('.help').mouseover(function(e) {
-        var helpBox = jQuery(this).parent().children(".help-box");
-        helpBox.show(100);
-        helpBox.offset({left:jQuery(this).position().left+20,top:jQuery(this).position().top-10});
-    }).mouseout(function() {
-        jQuery(this).parent().children(".help-box").hide(100);
-    });
-
-    // disable setting
-    port.onMessage.addListener(function(data) {
-        if (data == 'true') {
-            jQuery('#displayOmnibarIcon').attr('disabled', true);
-            jQuery('#displayOmnibarIcon').parent().parent().addClass('disabled-options');
-            jQuery('#displayOmnibarHelp2').remove();
-        }
-        else {
-            jQuery('#displayOmnibarHelp1').remove();
-        }
-    });
-
-    port.postMessage({'message':'GetSALRRStatus'});
 }
 
 /**
@@ -649,4 +661,8 @@ function configWindow() {
     }
     win.document.writeln('</table></body></html>');
     win.document.close();
+}
+
+function transitionSettings() {
+    port.postMessage({'message':'ConvertSettings'});
 }

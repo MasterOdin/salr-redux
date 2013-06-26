@@ -64,6 +64,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'ShowPageAction':
                 // efobaopfidfllhfnndjecciobldchcaf
+                // mclknakcbbdhhebmdibhehimkoefdjaa
                 // dodkgjokbnmiickhikhikpggfohagmfb - id of Redux Browser Button
                 chrome.management.get("efobaopfidfllhfnndjecciobldchcaf",function(result) {
                     if (result == undefined || result.enabled == false) {
@@ -88,16 +89,35 @@ chrome.extension.onConnect.addListener(function(port) {
                     });
                 });
                 break;
-            case 'GetSALRRStatus':
-                chrome.management.get("efobaopfidfllhfnndjecciobldchcaf",function(result) {
+            case 'GetSALRButtonStatus':
+                chrome.management.get("mclknakcbbdhhebmdibhehimkoefdjaa",function(result) {
                     if (result == undefined || result.enabled == false) {
-                        port.postMessage('false');
+                        port.postMessage({'message':'salr-button','bool':'false'});
                     }
                     else {
-                        port.postMessage('true');
+                        port.postMessage({'message':'salr-button','bool':'true'});
                     }
                 });
-                break;                
+                break;
+            case 'ConvertSettings':
+                chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
+                    var salr = chrome.extension.connect("nlcklobeoigfjmcigmhbjkepmniladed");
+                    salr.onMessage.addListener(function(data) {
+                        localStorage.setItem('userNotes',data.userNotes);
+                    });                    
+                    salr.postMessage({'message':'GetSALRSettings'});
+                });
+                break;
+            case 'GetSALRStatus':
+                chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
+                    if (result == undefined || result.enabled == false) {
+                        port.postMessage({'message':'convert','bool':'false'});
+                    }
+                    else {
+                        port.postMessage({'message':'convert','bool':'true'});
+                    }
+                });
+                break;
             case 'log':
             default:
                 console.log(data);
