@@ -39,6 +39,8 @@ function HotKeyManager(quickReply, settings) {
     this.quickReply = quickReply;
     this.settings = settings;
     this.bindHotKeys();
+    this.pageCount = countPages();
+    this.currentPage = getCurrentPageNumber();
     
     jQuery(document).data("enableSALRHotkeys", true);
     jQuery(document).bind("enableSALRHotkeys", this.enableHotKeys);
@@ -173,19 +175,17 @@ HotKeyManager.prototype.disableHotKeys = function() {
 };
 
 HotKeyManager.prototype.nextPage = function() {
-    this.pageCount = countPages();
-
     switch(findCurrentPage()) {
         case 'forumdisplay.php':
         case 'showthread.php':
+        case 'usercp.php':
         case 'bookmarkthreads.php':
         case 'search.php':
         case 'banlist.php':
-            var currentPage = Number(jQuery('span.curpage').html());
-            if (currentPage <= 0)
-                currentPage = 1;
+            if (this.currentPage <= 0)
+                this.currentPage = 1;
 
-            if (currentPage >= this.pageCount)
+            if (this.currentPage >= this.pageCount)
                 return;
 
             jumpToPage(nextPageUrl());
@@ -195,19 +195,17 @@ HotKeyManager.prototype.nextPage = function() {
 
 
 HotKeyManager.prototype.previousPage = function() {
-    this.pageCount = countPages();
-
     switch(findCurrentPage()) {
         case 'forumdisplay.php':
         case 'showthread.php':
         case 'bookmarkthreads.php':
+        case 'usercp.php':
         case 'search.php':
         case 'banlist.php':
-            var currentPage = Number(jQuery('span.curpage').html());
-            if (currentPage <= 0)
-                currentPage = 1;
+            if (this.currentPage <= 0)
+                this.currentPage = 1;
 
-            if (currentPage <= 1)
+            if (this.currentPage <= 1)
                 return;
 
             jumpToPage(prevPageUrl());

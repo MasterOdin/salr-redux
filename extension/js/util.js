@@ -90,9 +90,23 @@ function findRealForumID() {
 function countPages() {
     var pages = jQuery('div.pages').get(0);
     if (pages == undefined) {
-        pages = 1;
+        return 1;
     }
     return (jQuery('option', pages).length ? jQuery('option', pages).length : 1);
+}
+
+function getCurrentPageNumber() {
+    var pages = jQuery('div.pages').get(0);
+    if (pages == undefined) {
+        return 1;
+    }
+    var num = Number(jQuery('option:selected',pages).text());
+    if (num > 0) {
+        return num;
+    }
+    else {
+        return 1;
+    }
 }
 
 function buildUrl(rootPageType, basePageID, page) {

@@ -43,10 +43,25 @@ SALR.prototype.pageInit = function() {
     // Update the styles now that we have
     // the settings
     this.updateStyling();
-	this.modifyImages();
-	
+    this.modifyImages();
+
     jQuery.expr[":"].econtains = function(obj, index, meta, stack){
         return (obj.textContent || obj.innerText || $(obj).text() || "").toLowerCase() == meta[3].toLowerCase();
+    }
+
+    if (this.settings.enableMouseGestures == 'true') {
+        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings);
+    }
+
+    if (this.settings.enableKeyboardShortcuts == 'true') {
+        this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings);
+    }
+
+    if (this.settings.displayOmnibarIcon == 'true') {
+        // Display the page action
+        postMessage({
+            'message': 'ShowPageAction'
+        });
     }
 
     switch (this.currentPage) {
@@ -142,10 +157,6 @@ SALR.prototype.pageInit = function() {
             if (this.settings.collapseTldrQuotes == 'true') {
                 this.tldrQuotes();
             }
-			
-			if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesThread == 'true') {
-				this.showLastThreePages();
-			}
 
             if (this.settings.enableQuickReply == 'true') {
                 if (this.settings.forumPostKey) {
@@ -158,15 +169,15 @@ SALR.prototype.pageInit = function() {
                 this.threadNotes();
             }
 
-			//zephmod - hide/show avatar image
-			if (this.settings.showUserAvatarImage != 'true') {
-				jQuery("#thread dl.userinfo dd.title img").remove();
-			}
+            //zephmod - hide/show avatar image
+            if (this.settings.showUserAvatarImage != 'true') {
+                jQuery("#thread dl.userinfo dd.title img").remove();
+            }
 
-			//zephmod - hide/show avatar entirely
-			if (this.settings.showUserAvatar != 'true') {
-				jQuery("#thread dl.userinfo dd.title").remove();
-			}
+            //zephmod - hide/show avatar entirely
+            if (this.settings.showUserAvatar != 'true') {
+                jQuery("#thread dl.userinfo dd.title").remove();
+            }
 
             if (this.settings.fixCancer == 'true') {
                 this.fixCancerPosts();
@@ -185,11 +196,11 @@ SALR.prototype.pageInit = function() {
             if (this.settings.searchThreadHide != 'true') {
                 this.addSearchThreadForm();
             }
-			
+
             if (this.settings.retinaImages == 'true') {
                 this.swapRetinaEmotes();
             }
-
+/* DEPRECIATED
             if (this.settings.adjustAfterLoad == 'true') {
                 window.onload = function() {
                     var href = window.location.href;
@@ -200,9 +211,13 @@ SALR.prototype.pageInit = function() {
                     }
                 };
             }
-
+*/
             if (this.settings.hidePostButtonInThread == 'true') {
                 this.hidePostButtonInThread();
+            }
+
+            if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesThread == 'true') {
+                this.showLastThreePages();
             }
 
             break;
@@ -224,28 +239,6 @@ SALR.prototype.pageInit = function() {
         case 'usercp.php#':
             this.updateUsernameFromCP();
             this.updateFriendsList();
-
-            if (this.settings.threadCaching == 'true') {
-                this.queryVisibleThreads();
-            }
-
-            if (this.settings.openAllUnreadLink == 'true') {
-                this.renderOpenUpdatedThreadsButton();
-            }
-
-            if (this.settings.highlightModAdmin == 'true') {
-                this.highlightModAdminPosts();
-            }
-
-            if (this.settings.showEditBookmarks == 'true') {
-                jQuery('#bookmark_edit_attach').click();
-            }
-			
-			if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesUCP == 'true') {
-				this.showLastThreePages();
-			}
-
-            break;
         case 'bookmarkthreads.php':
             if (this.settings.openAllUnreadLink == 'true') {
                 this.renderOpenUpdatedThreadsButton();
@@ -281,21 +274,6 @@ SALR.prototype.pageInit = function() {
     if (this.pageNavigator) {
         this.pageNavigator.display();
     }
-
-    if (this.settings.enableMouseGestures == 'true') {
-        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings);
-    }
-
-    if (this.settings.enableKeyboardShortcuts == 'true') {
-        this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings);
-    }
-
-    if (this.settings.displayOmnibarIcon == 'true') {
-        // Display the page action
-        postMessage({
-            'message': 'ShowPageAction'
-        });
-    }
 };
 
 SALR.prototype.openSettings = function() {
@@ -309,13 +287,13 @@ SALR.prototype.updateStyling = function() {
 
     var that = this;
 
-	// remove TOP button from bottom right
-	if (this.settings.displayPageNavigator == 'true')
-	{
-		jQuery('div.jump_top.right').css("right","-100px");
-	}
+    // remove TOP button from bottom right
+    if (this.settings.displayPageNavigator == 'true')
+    {
+        jQuery('div.jump_top.right').css("right","-100px");
+    }
     
-	if (this.settings.inlinePostCounts == 'true') {
+    if (this.settings.inlinePostCounts == 'true') {
         jQuery(".info").css("padding-right","20px");
     }
     jQuery('tr.thread').each(function() {
@@ -461,16 +439,16 @@ SALR.prototype.updateStyling = function() {
             }
         }
     });
-	
-	if(this.settings.displayConfigureSalr == 'true') {
+
+    if(this.settings.displayConfigureSalr == 'true') {
         jQuery('.navigation li.first').each(function() {
             jQuery(this).next('li').next('li').after(" - <li><a class='salr-configure' href='#'>Configure SALR</a></li>");
         });
-	}
-	
-	jQuery('.salr-configure').click(function() {
-		that.openSettings();
-	});    
+    }
+
+    jQuery('.salr-configure').click(function() {
+        that.openSettings();
+    });
     
     // Hide header/footer links
     if (this.settings.hideHeaderLinks == 'true') {
@@ -479,19 +457,19 @@ SALR.prototype.updateStyling = function() {
             jQuery(this).css('height', '0px');
         });
     }
-	
-	// Hide each top row of links
-	if (this.settings.showPurchases == 'false') {
-		jQuery('#nav_purchase').each(function() {
-			jQuery(this).remove();
-		});
-	}
     
-	if (this.settings.showNavigation == 'false') {
-		jQuery('.navigation').each(function() {
-			jQuery(this).remove();
-		});
-	}
+    // Hide each top row of links
+    if (this.settings.showPurchases == 'false') {
+        jQuery('#nav_purchase').each(function() {
+            jQuery(this).remove();
+        });
+    }
+
+    if (this.settings.showNavigation == 'false') {
+        jQuery('.navigation').each(function() {
+            jQuery(this).remove();
+        });
+    }
 
     if (this.settings.topNavBar == 'false') {
         jQuery('#navigation').each(function() {
@@ -512,73 +490,73 @@ SALR.prototype.updateStyling = function() {
             }
         });
     }
-	
-	// Hide individual top menu items
-	if (this.settings.topPurchaseAcc == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/register.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
 
-	if (this.settings.topPurchasePlat == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/platinum.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
-	
-	if (this.settings.topPurchaseAva == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/titlechange.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    // Hide individual top menu items
+    if (this.settings.topPurchaseAcc == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/register.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topPurchaseArchives == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/archives.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topPurchasePlat == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/platinum.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-		if (this.settings.topPurchaseNoAds == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/noads.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topPurchaseAva == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/titlechange.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topPurchaseUsername == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/namechange.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topPurchaseArchives == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/archives.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topPurchaseBannerAd == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/ad-banner.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+        if (this.settings.topPurchaseNoAds == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/noads.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topPurchaseEmoticon == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/smilie.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topPurchaseUsername == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/namechange.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topPurchaseSticky == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/sticky-thread.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topPurchaseBannerAd == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/ad-banner.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topPurchaseGiftCert == 'false') {
-		jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/gift-certificate.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topPurchaseEmoticon == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/smilie.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topSAForums == 'false') {
-		jQuery(".navigation li:has(a[href='/index.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topPurchaseSticky == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/sticky-thread.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
+
+    if (this.settings.topPurchaseGiftCert == 'false') {
+        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/gift-certificate.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
+
+    if (this.settings.topSAForums == 'false') {
+        jQuery(".navigation li:has(a[href='/index.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
     if (this.settings.topSALink == 'false') {
         jQuery(".navigation li:has(a[href='http://www.somethingawful.com/'])").each(function() {
@@ -586,59 +564,59 @@ SALR.prototype.updateStyling = function() {
         });
     }
 
-	if (this.settings.topSearch == 'false') {
-		jQuery(".navigation li:has(a[href='/f/search'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topSearch == 'false') {
+        jQuery(".navigation li:has(a[href='/f/search'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topUserCP == 'false') {
-		jQuery(".navigation li:has(a[href='/usercp.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topUserCP == 'false') {
+        jQuery(".navigation li:has(a[href='/usercp.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topPrivMsgs == 'false') {
-		jQuery(".navigation li:has(a[href='/private.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topPrivMsgs == 'false') {
+        jQuery(".navigation li:has(a[href='/private.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topForumRules == 'false') {
-		jQuery(".navigation li:has(a[href='http://www.somethingawful.com/d/forum-rules/forum-rules.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topForumRules == 'false') {
+        jQuery(".navigation li:has(a[href='http://www.somethingawful.com/d/forum-rules/forum-rules.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topSaclopedia == 'false') {
-		jQuery(".navigation li:has(a[href='/dictionary.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topSaclopedia == 'false') {
+        jQuery(".navigation li:has(a[href='/dictionary.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topGloryhole == 'false') {
-		jQuery(".navigation li:has(a[href='/stats.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topGloryhole == 'false') {
+        jQuery(".navigation li:has(a[href='/stats.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topLepersColony == 'false') {
-		jQuery(".navigation li:has(a[href='/banlist.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topLepersColony == 'false') {
+        jQuery(".navigation li:has(a[href='/banlist.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topSupport == 'false') {
-		jQuery(".navigation li:has(a[href='/supportmail.php'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topSupport == 'false') {
+        jQuery(".navigation li:has(a[href='/supportmail.php'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
-	if (this.settings.topLogout == 'false') {
-		jQuery(".navigation li:has(a[href*='account.php?action=logout'])").each(function() {
-			jQuery(this).remove();
-		});
-	}
+    if (this.settings.topLogout == 'false') {
+        jQuery(".navigation li:has(a[href*='account.php?action=logout'])").each(function() {
+            jQuery(this).remove();
+        });
+    }
 
     // Hide the advertisements
     if (this.settings.hideAdvertisements == 'true') {
@@ -655,54 +633,54 @@ SALR.prototype.updateStyling = function() {
 SALR.prototype.modifyImages = function() {
     var that = this;
 
-	// fix timg, because it's broken
-	//if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
+    // fix timg, because it's broken
+    //if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
 
-	// Replace Links with Images
-	if (this.settings.replaceLinksWithImages == 'true') {
+    // Replace Links with Images
+    if (this.settings.replaceLinksWithImages == 'true') {
 
-		var subset = jQuery('.postbody a');
+        var subset = jQuery('.postbody a');
 
-		//NWS/NMS links
-		if(this.settings.dontReplaceLinkNWS == 'true')
-		{
-			subset = subset.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
-		}
+        //NWS/NMS links
+        if(this.settings.dontReplaceLinkNWS == 'true')
+        {
+            subset = subset.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
+        }
 
-		// spoiler'd links
-		if(this.settings.dontReplaceLinkSpoiler == 'true') {
-			subset = subset.not('.bbc-spoiler a');	
-		}
+        // spoiler'd links
+        if(this.settings.dontReplaceLinkSpoiler == 'true') {
+            subset = subset.not('.bbc-spoiler a');
+        }
 
-		// seen posts
-		if(this.settings.dontReplaceLinkRead == 'true') {
-			subset = subset.not('.seen1 a').not('.seen2 a');
-		}
+        // seen posts
+        if(this.settings.dontReplaceLinkRead == 'true') {
+            subset = subset.not('.seen1 a').not('.seen2 a');
+        }
 
-		subset.each(function() {
-			var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/);
-			if(match != null && !(that.settings.dontReplaceLinkImage == 'true' && jQuery(this).has('img').length > 0)) {
+        subset.each(function() {
+            var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/);
+            if(match != null && !(that.settings.dontReplaceLinkImage == 'true' && jQuery(this).has('img').length > 0)) {
                 jQuery(this).after("<img src='" + match[0] + "' />");
                 jQuery(this).remove();                
-			}
-		});
-	}
+            }
+        });
+    }
 
-	// Replace inline Images with Links
-	if (this.settings.replaceImagesWithLinks == 'true') {
-		var subset = jQuery('.postbody img');
-		
-		if(this.settings.replaceImagesReadOnly == 'true') {
-			subset = subset.filter('.seen1 img, .seen2 img');
-		}
-		
-		//if(settings.dontReplaceEmoticons) {
-			subset = subset.not('img[src*=http://i.somethingawful.com/forumsystem/emoticons/]');
-			subset = subset.not('img[src*=http://fi.somethingawful.com/images/smilies/]');
-		//}
+    // Replace inline Images with Links
+    if (this.settings.replaceImagesWithLinks == 'true') {
+        var subset = jQuery('.postbody img');
 
-		subset.each(function() {
-			var source = jQuery(this).attr('src');
+        if(this.settings.replaceImagesReadOnly == 'true') {
+            subset = subset.filter('.seen1 img, .seen2 img');
+        }
+
+        //if(settings.dontReplaceEmoticons) {
+            subset = subset.not('img[src*=http://i.somethingawful.com/forumsystem/emoticons/]');
+            subset = subset.not('img[src*=http://fi.somethingawful.com/images/smilies/]');
+        //}
+
+        subset.each(function() {
+            var source = jQuery(this).attr('src');
             var add = "";
             var change = jQuery(this);
             if (jQuery(this).parent().attr('href') != null) {
@@ -712,13 +690,13 @@ SALR.prototype.modifyImages = function() {
                 change = jQuery(this).parent();
             }            
             add = "<a href='" + source + "' target=\"_blank\" rel=\"nofollow\">" + source + "</a>" + add;
-			change.after(add);
-			change.remove();
-		});
-	}
+            change.after(add);
+            change.remove();
+        });
+    }
 
-	if (this.settings.restrictImageSize == 'true') {
-		jQuery('.postbody img').each(function() {
+    if (this.settings.restrictImageSize == 'true') {
+        jQuery('.postbody img').each(function() {
             var width = jQuery(this).width();
             var height = jQuery(this).height();
 
@@ -739,7 +717,7 @@ SALR.prototype.modifyImages = function() {
                 });
             }
         });
-	}
+    }
 };
 
 SALR.prototype.skimModerators = function() {
@@ -824,30 +802,30 @@ SALR.prototype.skimModerators = function() {
 SALR.prototype.inlineYoutubes = function() {
     var that = this;
 
-	//sort out youtube links
-	jQuery('.postbody a[href*="youtube.com"]').each(function() {
-			jQuery(this).css("background-color", that.settings.youtubeHighlight).addClass("salr-video");
-	});
-	
-	jQuery(".salr-video").toggle(function(){ 
-			var match = jQuery(this).attr('href').match(/^http\:\/\/((?:www|[a-z]{2})\.)?youtube\.com\/watch\?v=([-_0-9a-zA-Z]+)/); //get youtube video id
-			var videoId = match[2];
+    //sort out youtube links
+    jQuery('.postbody a[href*="youtube.com"]').each(function() {
+            jQuery(this).css("background-color", that.settings.youtubeHighlight).addClass("salr-video");
+    });
+
+    jQuery(".salr-video").toggle(function(){
+            var match = jQuery(this).attr('href').match(/^http\:\/\/((?:www|[a-z]{2})\.)?youtube\.com\/watch\?v=([-_0-9a-zA-Z]+)/); //get youtube video id
+            var videoId = match[2];
 
             jQuery(this).after('<iframe class="salr-player youtube-player"></iframe>');
-			jQuery(".salr-player").attr("src", "http://www.youtube.com/embed/" + videoId);
-			jQuery(".salr-player").attr("width","640");
-			jQuery(".salr-player").attr("height","385");
-			jQuery(".salr-player").attr("type","text/html");
-			jQuery(".salr-player").attr("frameborder","0");
+            jQuery(".salr-player").attr("src", "http://www.youtube.com/embed/" + videoId);
+            jQuery(".salr-player").attr("width","640");
+            jQuery(".salr-player").attr("height","385");
+            jQuery(".salr-player").attr("type","text/html");
+            jQuery(".salr-player").attr("frameborder","0");
 
-			return false;
-		},
-		function() {
-			// second state of toggle destroys player. should add a check for player existing before 
+            return false;
+        },
+        function() {
+            // second state of toggle destroys player. should add a check for player existing before 
             // destroying it but seing as it's the second state of a toggle i'll leave it for now. 
-			jQuery(this).next().remove();
-		}
-	);
+            jQuery(this).next().remove();
+        }
+    );
 };
 
 /**
@@ -1631,168 +1609,168 @@ SALR.prototype.tldrQuotes = function() {
  * @author Nathan Skillen (nuvan)
  */
 SALR.prototype.showLastThreePages = function() {
-	var that = this;
-	var ppp = (that.settings.postsPerPage == 'default') ? 40 : parseInt(that.settings.postsPerPage);
+    var that = this;
+    var ppp = (that.settings.postsPerPage == 'default') ? 40 : parseInt(that.settings.postsPerPage);
 
-	switch( findCurrentPage() ) {
-	case 'forumdisplay.php':
-	case 'usercp.php':
-	case 'usercp.php#':
-		jQuery('tr.thread').has('div.title_pages').each(function() {
-			// how many posts in the thread
-			var numPosts = parseInt(jQuery('td.replies > a', jQuery(this)).text());
-			// how many pages does that make?
-			var pages = Math.ceil(numPosts / ppp);
-			// get thread id
-			var threadid = this.id.match(/thread(\d+)/);
-			
-			if( pages > 7 ) { // forum default is fine for <= 7 pages
-				jQuery('div.title_pages', jQuery(this)).each(function() {
-					jQuery(this).empty();
-					jQuery(this).append( 'Pages: ' )
-								.append( jQuery('<a>')
-									.attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber=1' })
-									.addClass('pagenumber')
-									.text('1'))
-								.append( jQuery('<a>')
-									.attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber=2' })
-									.addClass('pagenumber')
-									.text('2'))
-								.append( jQuery('<a>')
-									.attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber=3' })
-									.addClass('pagenumber')
-									.text('3'))
-								.append( ' ... ' )
-								.append( jQuery('<a>')
-									.attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber='+(pages - 2) })
-									.addClass('pagenumber')
-									.text(pages - 2))
-								.append( jQuery('<a>')
-									.attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber='+(pages - 1) })
-									.addClass('pagenumber')
-									.text(pages - 1))
-								.append( jQuery('<a>')
-									.attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber='+pages })
-									.addClass('pagenumber')
-									.text(pages));
-				});
-			}
-		});
-		break;
-	case 'showthread.php':
-		jQuery('div.pages').each(function() {
-			// number of pages in thread
-			var pages = parseInt( jQuery(this).text().match(/(\d+) /)[1] );
+    switch( findCurrentPage() ) {
+    case 'forumdisplay.php':
+    case 'usercp.php':
+    case 'usercp.php#':
+        jQuery('tr.thread').has('div.title_pages').each(function() {
+            // how many posts in the thread
+            var numPosts = parseInt(jQuery('td.replies > a', jQuery(this)).text());
+            // how many pages does that make?
+            var pages = Math.ceil(numPosts / ppp);
+            // get thread id
+            var threadid = this.id.match(/thread(\d+)/);
 
-			// current page being viewed
-			var curpage = (window.location.href.indexOf('pagenumber') >= 0) ?
-				parseInt( window.location.href.match(/pagenumber=(\d+)/)[1] ) : 1;
-			
-			// thread ID
-			var threadid = parseInt( window.location.href.match(/threadid=(\d+)/)[1] );
-			
-			// only showing posts of userID
-			var userid = (window.location.href.indexOf('userid') >= 0) ?
-				parseInt( window.location.href.match(/userid=(\d+)/)[1] ) : 0;
-			
-			// showing x posts per page
-			var perpage = (window.location.href.indexOf('perpage') >= 0) ?
-				parseInt( window.location.href.match(/perpage=(\d+)/)[1] ) : ppp;
-			
-			// are we too close to the first or last page for ellipses?
-			var nobeginellipses = curpage < 6;
-			var noendellipses = curpage > pages - 5;
-			
-			// used to find out how many page links we'll be making
-			Object.size = function(obj) {
-				var size = 0, key;
-				for(key in obj) {
-					if(obj.hasOwnProperty(key)) size++;
-				}
-				return size;
-			};
-			
-			// if there's fewer than 5 pages, let the forum handle it
-			if( pages > 5 ) {
-				var links = {};
-				for(var i = 0; i < 3; i++) {
-					switch(i) {
-					case 0: // pages 1,2,3
-						links['1'] = jQuery('<a>')
-							.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber=1' })
-							.addClass('pagenumber')
-							.text('1');
-						links['2'] = jQuery('<a>')
-							.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber=2' })
-							.addClass('pagenumber')
-							.text('2');
-						links['3'] = jQuery('<a>')
-							.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber=3' })
-							.addClass('pagenumber')
-							.text('3');
-						break;
-					case 1: // pages n-2,n-1,n
-						links[(pages - 2)+''] = jQuery('<a>')
-							.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(pages - 2) })
-							.addClass('pagenumber')
-							.text(pages - 2);
-						links[(pages - 1)+''] = jQuery('<a>')
-							.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(pages - 1) })
-							.addClass('pagenumber')
-							.text(pages - 1);
-						links[pages+''] = jQuery('<a>')
-							.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+pages })
-							.addClass('pagenumber')
-							.text(pages);
-						break;
-					case 2: // pages [cur-1,]cur[,cur+1]
-						if( curpage > 1 ) links[(curpage - 1)+''] = jQuery('<a>')
-							.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(curpage - 1) })
-							.addClass('pagenumber')
-							.text(curpage - 1);
-						links[curpage+''] = jQuery('<span>')
-							.addClass('curpage')
-							.text(curpage);
-						if( curpage < pages ) links[(curpage + 1)+''] = jQuery('<a>')
-							.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(curpage + 1) })
-							.addClass('pagenumber')
-							.text(curpage + 1);
-						break;
-					}
-				}
-				var pagelinks = Object.size(links);
-				
-				// rebuild top and bottom page links
-				jQuery(this).empty().append('Pages: ');
-				var b = jQuery('<b>');
-				if( curpage != 1 )
-					b.append( jQuery('<a>')
-						.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(curpage - 1) })
-						.addClass('pagenumber')
-						.text('< Prev ') );
-				
-				var i = 0;
-				for(key in links) {
-					++i;
-					b.append(links[key]);
-					
-					if( i == 3 && !nobeginellipses )
-						b.append(' ... ');
-					else if( i == (pagelinks - 3) && !noendellipses )
-						b.append(' ... ');
-				}
-				
-				if( curpage != pages )
-					b.append( jQuery('<a>')
-						.attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(curpage + 1) })
-						.addClass('pagenumber')
-						.text(' Next >') );
-						
-				jQuery(this).append(b);
-			}
-		});
-		break;
-	}
+            if( pages > 7 ) { // forum default is fine for <= 7 pages
+                jQuery('div.title_pages', jQuery(this)).each(function() {
+                    jQuery(this).empty();
+                    jQuery(this).append( 'Pages: ' )
+                                .append( jQuery('<a>')
+                                    .attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber=1' })
+                                    .addClass('pagenumber')
+                                    .text('1'))
+                                .append( jQuery('<a>')
+                                    .attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber=2' })
+                                    .addClass('pagenumber')
+                                    .text('2'))
+                                .append( jQuery('<a>')
+                                    .attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber=3' })
+                                    .addClass('pagenumber')
+                                    .text('3'))
+                                .append( ' ... ' )
+                                .append( jQuery('<a>')
+                                    .attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber='+(pages - 2) })
+                                    .addClass('pagenumber')
+                                    .text(pages - 2))
+                                .append( jQuery('<a>')
+                                    .attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber='+(pages - 1) })
+                                    .addClass('pagenumber')
+                                    .text(pages - 1))
+                                .append( jQuery('<a>')
+                                    .attr({ href : 'showthread.php?threadid='+threadid[1]+'&pagenumber='+pages })
+                                    .addClass('pagenumber')
+                                    .text(pages));
+                });
+            }
+        });
+        break;
+    case 'showthread.php':
+        jQuery('div.pages').each(function() {
+            // number of pages in thread
+            var pages = parseInt( jQuery(this).text().match(/(\d+) /)[1] );
+
+            // current page being viewed
+            var curpage = (window.location.href.indexOf('pagenumber') >= 0) ?
+                parseInt( window.location.href.match(/pagenumber=(\d+)/)[1] ) : 1;
+
+            // thread ID
+            var threadid = parseInt( window.location.href.match(/threadid=(\d+)/)[1] );
+
+            // only showing posts of userID
+            var userid = (window.location.href.indexOf('userid') >= 0) ?
+                parseInt( window.location.href.match(/userid=(\d+)/)[1] ) : 0;
+
+            // showing x posts per page
+            var perpage = (window.location.href.indexOf('perpage') >= 0) ?
+                parseInt( window.location.href.match(/perpage=(\d+)/)[1] ) : ppp;
+
+            // are we too close to the first or last page for ellipses?
+            var nobeginellipses = curpage < 6;
+            var noendellipses = curpage > pages - 5;
+
+            // used to find out how many page links we'll be making
+            Object.size = function(obj) {
+                var size = 0, key;
+                for(key in obj) {
+                    if(obj.hasOwnProperty(key)) size++;
+                }
+                return size;
+            };
+
+            // if there's fewer than 5 pages, let the forum handle it
+            if( pages > 5 ) {
+                var links = {};
+                for(var i = 0; i < 3; i++) {
+                    switch(i) {
+                    case 0: // pages 1,2,3
+                        links['1'] = jQuery('<a>')
+                            .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber=1' })
+                            .addClass('pagenumber')
+                            .text('1');
+                        links['2'] = jQuery('<a>')
+                            .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber=2' })
+                            .addClass('pagenumber')
+                            .text('2');
+                        links['3'] = jQuery('<a>')
+                            .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber=3' })
+                            .addClass('pagenumber')
+                            .text('3');
+                        break;
+                    case 1: // pages n-2,n-1,n
+                        links[(pages - 2)+''] = jQuery('<a>')
+                            .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(pages - 2) })
+                            .addClass('pagenumber')
+                            .text(pages - 2);
+                        links[(pages - 1)+''] = jQuery('<a>')
+                            .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(pages - 1) })
+                            .addClass('pagenumber')
+                            .text(pages - 1);
+                        links[pages+''] = jQuery('<a>')
+                            .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+pages })
+                            .addClass('pagenumber')
+                            .text(pages);
+                        break;
+                    case 2: // pages [cur-1,]cur[,cur+1]
+                        if( curpage > 1 ) links[(curpage - 1)+''] = jQuery('<a>')
+                            .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(curpage - 1) })
+                            .addClass('pagenumber')
+                            .text(curpage - 1);
+                        links[curpage+''] = jQuery('<span>')
+                            .addClass('curpage')
+                            .text(curpage);
+                        if( curpage < pages ) links[(curpage + 1)+''] = jQuery('<a>')
+                            .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(curpage + 1) })
+                            .addClass('pagenumber')
+                            .text(curpage + 1);
+                        break;
+                    }
+                }
+                var pagelinks = Object.size(links);
+
+                // rebuild top and bottom page links
+                jQuery(this).empty().append('Pages: ');
+                var b = jQuery('<b>');
+                if( curpage != 1 )
+                    b.append( jQuery('<a>')
+                        .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(curpage - 1) })
+                        .addClass('pagenumber')
+                        .text('< Prev ') );
+
+                var i = 0;
+                for(key in links) {
+                    ++i;
+                    b.append(links[key]);
+                    
+                    if( i == 3 && !nobeginellipses )
+                        b.append(' ... ');
+                    else if( i == (pagelinks - 3) && !noendellipses )
+                        b.append(' ... ');
+                }
+
+                if( curpage != pages )
+                    b.append( jQuery('<a>')
+                        .attr({ href : 'showthread.php?threadid='+threadid+'&userid='+userid+'&perpage='+perpage+'&pagenumber='+(curpage + 1) })
+                        .addClass('pagenumber')
+                        .text(' Next >') );
+
+                jQuery(this).append(b);
+            }
+        });
+        break;
+    }
 }
 
 /**
@@ -1801,40 +1779,40 @@ SALR.prototype.showLastThreePages = function() {
  * @author Nathan Skillen (nuvan)
  */
 SALR.prototype.fixTimg = function(forceAll) {
-	jQuery(window).load(function() {
-		// STEP 1: reclass all timg images to timg-fix class, remove any other classes
-		jQuery('.postbody '+(forceAll ? 'img' : 'img.timg'))
-			.removeClass('timg peewee expanded loading complete')
-			.removeAttr('width')
-			.removeAttr('height')
-			.removeAttr('border')
-			.addClass('timg-fix squished');
-		
-		// STEP 2: add a DIV for each squashed image, showing full-size dimensions
-		jQuery('img.timg-fix').each(function() {
-			var that = this;
-			var div = jQuery('<DIV>')
-						.addClass('timg-fix note')
-						.text(this.naturalWidth+'x'+this.naturalHeight)
-						.css('display', 'none')
-						.css('top', jQuery(this).offset().top)
-						.css('left', jQuery(this).offset().left)
-						.attr('title', 'Click to toggle size')
-						.click(function() { jQuery(that).toggleClass('squished expanded'); jQuery(this).toggleClass('expanded'); })
-						.hover(function() { div.css('display', 'block'); }, function() { div.css('display', 'none'); });
-			jQuery(this)
-				.before(div)
-				.hover(function() { div.css('display', 'block'); }, function() { div.css('display', 'none'); });
-		});
-		
-		// STEP 3: add event handler to each squashed image so that it expands to full-size on click
-		//			replacing squashed class with expanded class, and setting an event handler to
-		//			squash on subsequent click
-		jQuery('img.squished').click(function(evt) {
-			jQuery(this).toggleClass('squished expanded');
-			jQuery(this).prev().toggleClass('expanded');
-		});
-	});
+    jQuery(window).load(function() {
+        // STEP 1: reclass all timg images to timg-fix class, remove any other classes
+        jQuery('.postbody '+(forceAll ? 'img' : 'img.timg'))
+            .removeClass('timg peewee expanded loading complete')
+            .removeAttr('width')
+            .removeAttr('height')
+            .removeAttr('border')
+            .addClass('timg-fix squished');
+
+        // STEP 2: add a DIV for each squashed image, showing full-size dimensions
+        jQuery('img.timg-fix').each(function() {
+            var that = this;
+            var div = jQuery('<DIV>')
+                        .addClass('timg-fix note')
+                        .text(this.naturalWidth+'x'+this.naturalHeight)
+                        .css('display', 'none')
+                        .css('top', jQuery(this).offset().top)
+                        .css('left', jQuery(this).offset().left)
+                        .attr('title', 'Click to toggle size')
+                        .click(function() { jQuery(that).toggleClass('squished expanded'); jQuery(this).toggleClass('expanded'); })
+                        .hover(function() { div.css('display', 'block'); }, function() { div.css('display', 'none'); });
+            jQuery(this)
+                .before(div)
+                .hover(function() { div.css('display', 'block'); }, function() { div.css('display', 'none'); });
+        });
+
+        // STEP 3: add event handler to each squashed image so that it expands to full-size on click
+        //            replacing squashed class with expanded class, and setting an event handler to
+        //            squash on subsequent click
+        jQuery('img.squished').click(function(evt) {
+            jQuery(this).toggleClass('squished expanded');
+            jQuery(this).prev().toggleClass('expanded');
+        });
+    });
 }
 
 /**
@@ -1861,7 +1839,7 @@ SALR.prototype.highlightOwnUsername = function() {
     var that = this;
 
     var selector = 'td.postbody:contains("'+this.settings.username+'")';
-    
+
     if(this.settings.usernameCase == 'true') {
         var re = new RegExp(this.settings.username, 'gi');
     }
@@ -2016,27 +1994,27 @@ SALR.prototype.threadNotes = function() {
     //  Only valid on thread pages
     if(findCurrentPage() == 'forumdisplay.php')
         return;
-        
+
     if(jQuery("#container").data('showThreadNotes'))
-    	return true;
+        return true;
     jQuery('#container').data('showThreadNotes', true);
-    
+
     var notes;
     if(this.settings.threadNotes == null)
     {
-       	notes = new Object();
-       	postMessage({
-			'message': 'ChangeSetting',
-			'option': 'threadNotes',
-			'value': JSON.stringify(notes)
-		});
+           notes = new Object();
+           postMessage({
+            'message': 'ChangeSetting',
+            'option': 'threadNotes',
+            'value': JSON.stringify(notes)
+        });
     }
     else {
-    	notes = JSON.parse(this.settings.threadNotes);
+        notes = JSON.parse(this.settings.threadNotes);
     }
     var basePageID = findForumID();
     var hasNote = notes[String(basePageID)] != null;
-    
+
     var notesHTML = '<nav id="threadnotes"> ' +
                     '   <div id="threadnotes-body">' +
                     '       <span><a id="threadnotes-show" style="color: #fff; text-shadow: #222 0px 1px 0px;">Show thread notes</a></span>' +
@@ -2047,44 +2025,44 @@ SALR.prototype.threadNotes = function() {
     jQuery("#threadnotes-show").css({
         'background': 'url("' + chrome.extension.getURL('images/') + 'note.png") no-repeat left center'
     });
-    
+
     jQuery('body').append("<div id='salr-threadnotes-config' title='Thread notes' style='display:none'>"+
-    	"<textarea id='salr-threadnotes-text' rows='5' cols='20' style='width: 274px;'></textarea>"+
+        "<textarea id='salr-threadnotes-text' rows='5' cols='20' style='width: 274px;'></textarea>"+
     "</div>");
-    
+
     jQuery("#threadnotes-show").click(function(){
-    	jQuery('#salr-threadnotes-config').dialog({
-    		open: function(event, ui){
-    		    jQuery(document).trigger('disableSALRHotkeys');
-    			jQuery('#salr-threadnotes-text').val(hasNote ? notes[basePageID] : '');
-    		},
-    		buttons: {
-    			"Save" : function() {
-    				notes[String(basePageID)] = jQuery('#salr-threadnotes-text').val();
-    				postMessage({ 'message': 'ChangeSetting',
+        jQuery('#salr-threadnotes-config').dialog({
+            open: function(event, ui){
+                jQuery(document).trigger('disableSALRHotkeys');
+                jQuery('#salr-threadnotes-text').val(hasNote ? notes[basePageID] : '');
+            },
+            buttons: {
+                "Save" : function() {
+                    notes[String(basePageID)] = jQuery('#salr-threadnotes-text').val();
+                    postMessage({ 'message': 'ChangeSetting',
                                        'option' : 'threadNotes',
                                        'value'  : JSON.stringify(notes) });
-    				
-    				jQuery(this).dialog('destroy');
+
+                    jQuery(this).dialog('destroy');
                     jQuery(document).trigger('enableSALRHotkeys');
-    				hasNote = true;
- 				},
-    			"Delete": function() { 
-    				delete notes[String(basePageID)];
+                    hasNote = true;
+                 },
+                "Delete": function() {
+                    delete notes[String(basePageID)];
                     // TODO: Fix this
-    				postMessage({ 'message': 'ChangeSetting',
+                    postMessage({ 'message': 'ChangeSetting',
                                        'option' : 'threadNotes',
                                        'value'  : JSON.stringify(notes) });
-    				hasNote = false;
+                    hasNote = false;
                     jQuery(document).trigger('enableSALRHotkeys');
-    				jQuery(this).dialog('destroy');
-    			},
-    			"Cancel" : function() { 
-    			    jQuery(this).dialog('destroy');
-    			    jQuery(document).trigger('enableSALRHotkeys');
-    			}
-    		}
-    	});
+                    jQuery(this).dialog('destroy');
+                },
+                "Cancel" : function() {
+                    jQuery(this).dialog('destroy');
+                    jQuery(document).trigger('enableSALRHotkeys');
+                }
+            }
+        });
     });
 };
 
@@ -2144,46 +2122,44 @@ SALR.prototype.tagPostedThreads = function(result, thread_id) {
 
 
 SALR.prototype.swapRetinaEmotes = function() {
-	$(function() {
-		$.getJSON(chrome.extension.getURL('/images/emoticons/emoticons.json'), function(list) {
-			
-			jQuery('.postbody img').each(function() {
-		
-			var item = $(this);
-	  		if (
-				(item.attr('src').indexOf('i.somethingawful.com/forumsystem/emoticons/') > -1 || 
-				item.attr('src').indexOf('http://fi.somethingawful.com/images/smilies/') > -1) && 
-				item.attr('src').indexOf('@2x') == -1 ) {
+    $(function() {
+        $.getJSON(chrome.extension.getURL('/images/emoticons/emoticons.json'), function(list) {
 
-					var f = retinaFilename(item);
-				
-					if (list.indexOf(f) > 0) {
-						//console.log('swapping in' + f);
-						var height = item.height();
-						var width = item.width();
-						item.attr('src',chrome.extension.getURL('/images/emoticons/'+f))
-							.width(width)
-							.height(height);
-					}
-				
-				}
-			}); //each
-		}); //getjson
-	});//$
-	
+            jQuery('.postbody img').each(function() {
+
+            var item = $(this);
+              if (
+                (item.attr('src').indexOf('i.somethingawful.com/forumsystem/emoticons/') > -1 || 
+                item.attr('src').indexOf('http://fi.somethingawful.com/images/smilies/') > -1) && 
+                item.attr('src').indexOf('@2x') == -1 ) {
+
+                    var f = retinaFilename(item);
+
+                    if (list.indexOf(f) > 0) {
+                        //console.log('swapping in' + f);
+                        var height = item.height();
+                        var width = item.width();
+                        item.attr('src',chrome.extension.getURL('/images/emoticons/'+f))
+                            .width(width)
+                            .height(height);
+                    }
+
+                }
+            }); //each
+        }); //getjson
+    });//$
 }
 
 function retinaFilename(img) {
-	//test if file exists
-	var segments = img.attr('src').split('/');
-	var filename = segments[segments.length - 1];
-	
-	var filenameSegments = filename.split('.');
-	filenameSegments[filenameSegments.length - 2] = filenameSegments[filenameSegments.length-2] + '@2x';
-	
-	var f = filenameSegments.join('.')
-	return f;
-	
+    //test if file exists
+    var segments = img.attr('src').split('/');
+    var filename = segments[segments.length - 1];
+
+    var filenameSegments = filename.split('.');
+    filenameSegments[filenameSegments.length - 2] = filenameSegments[filenameSegments.length-2] + '@2x';
+
+    var f = filenameSegments.join('.')
+    return f;
 }
 
 SALR.prototype.hidePostButtonInThread = function() {

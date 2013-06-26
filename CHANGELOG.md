@@ -44,6 +44,7 @@ Changelog List
 * Fix hotkeys being active in the thread while editing user notes
 + Add explanation to what the hotkeys are attached to "Enable keyboard navigation"
 + Add F/L hotkeys that take user to first and last post respectively
+* Fix forward/back a page hotkeys being broken when using the "Show Three Pages" option
 * Move Thread Notes button over ~30px so that the "Top" button doesn't overlap it
 + Add way to not show the link to single post view underneath every post
 
