@@ -273,7 +273,19 @@ jQuery(document).ready(function() {
         jQuery(this).parent().children(".help-box").hide(100);
     });
 
-    // disable setting
+    jQuery('.minus').click(function() {
+        if (jQuery(this).parent().next().css("display") == "none") {
+            jQuery(this).parent().next().show(200);
+            jQuery('img',this).attr('src',"images/minus.png");
+        }
+        else {
+          jQuery(this).parent().next().hide(200);  
+          jQuery('img',this).attr('src',"images/plus.png");
+        }
+    });
+    jQuery('section').hide();
+
+    // get install info from other SALR(R) extensions
     port.onMessage.addListener(function(data) {
         if (data.message == 'salr-button') {
             if (data.bool == 'true') {
@@ -288,7 +300,6 @@ jQuery(document).ready(function() {
         else if (data.message == 'convert') {
             if (data.bool == 'false') {
                 jQuery('#settings').remove();
-                console.log("remove");
             }
         }
     });

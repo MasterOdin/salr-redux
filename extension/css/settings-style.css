@@ -129,3 +129,9 @@ img.help {
     width: 500px;
     color: #000;
 }
+
+.minus {
+    float: right;
+    margin-top: -4px;
+    margin-right: 10px;
+}

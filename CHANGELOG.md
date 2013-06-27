@@ -47,6 +47,7 @@ Changelog List
 * Fix forward/back a page hotkeys being broken when using the "Show Three Pages" option
 * Move Thread Notes button over ~30px so that the "Top" button doesn't overlap it
 + Add way to not show the link to single post view underneath every post
++ Add ability to minimize/maximize setting sections as needed. By default, all sections are minimized.
 
 ### v1.5.18 (6/26/2013)
 
