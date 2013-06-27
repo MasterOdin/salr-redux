@@ -807,25 +807,25 @@ SALR.prototype.inlineYoutubes = function() {
             jQuery(this).css("background-color", that.settings.youtubeHighlight).addClass("salr-video");
     });
 
-    jQuery(".salr-video").toggle(function(){
+    jQuery(".salr-video").click(function() {
+        if (jQuery(this).hasClass('show-player')) {
+            jQuery(this).next().remove();
+            jQuery(this).removeClass('show-player');
+        }
+        else {
             var match = jQuery(this).attr('href').match(/^http\:\/\/((?:www|[a-z]{2})\.)?youtube\.com\/watch\?v=([-_0-9a-zA-Z]+)/); //get youtube video id
             var videoId = match[2];
+            jQuery(this).after('<div><iframe class="salr-player youtube-player"></iframe></div>');
+            jQuery(this).next().children("iframe").attr("src", "http://www.youtube.com/embed/" + videoId);
+            jQuery(this).next().children("iframe").attr("width","640");
+            jQuery(this).next().children("iframe").attr("height","385");
+            jQuery(this).next().children("iframe").attr("type","text/html");
+            jQuery(this).next().children("iframe").attr("frameborder","0");
 
-            jQuery(this).after('<iframe class="salr-player youtube-player"></iframe>');
-            jQuery(".salr-player").attr("src", "http://www.youtube.com/embed/" + videoId);
-            jQuery(".salr-player").attr("width","640");
-            jQuery(".salr-player").attr("height","385");
-            jQuery(".salr-player").attr("type","text/html");
-            jQuery(".salr-player").attr("frameborder","0");
-
-            return false;
-        },
-        function() {
-            // second state of toggle destroys player. should add a check for player existing before 
-            // destroying it but seing as it's the second state of a toggle i'll leave it for now. 
-            jQuery(this).next().remove();
+            jQuery(this).addClass('show-player');
         }
-    );
+        return false;
+    });
 };
 
 /**

@@ -48,6 +48,7 @@ Changelog List
 * Move Thread Notes button over ~30px so that the "Top" button doesn't overlap it
 + Add way to not show the link to single post view underneath every post
 + Add ability to minimize/maximize setting sections as needed. By default, all sections are minimized.
+* Fixed all iFrames showing same youtube video when shown inline
 
 ### v1.5.18 (6/26/2013)
 
