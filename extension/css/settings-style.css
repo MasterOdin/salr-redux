@@ -135,3 +135,11 @@ img.help {
     margin-top: -4px;
     margin-right: 10px;
 }
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    color: #000;
+}

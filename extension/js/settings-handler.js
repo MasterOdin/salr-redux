@@ -272,7 +272,7 @@ jQuery(document).ready(function() {
     }).mouseout(function() {
         jQuery(this).parent().children(".help-box").hide(100);
     });
-
+/*
     jQuery('.minus').click(function() {
         if (jQuery(this).parent().next().css("display") == "none") {
             jQuery(this).parent().next().show(200);
@@ -282,6 +282,18 @@ jQuery(document).ready(function() {
           jQuery(this).parent().next().hide(200);  
           jQuery('img',this).attr('src',"images/plus.png");
         }
+    });
+*/
+    jQuery('a').click(function() {
+        if (jQuery(this).next().css('display') == "none") {
+            jQuery(this).next().show(200);
+            jQuery('img',this).attr('src','images/minus.png');
+        }
+        else {
+            jQuery(this).next().hide(200);
+            jQuery('img',this).attr('src','images/plus.png');
+        }
+        return false;
     });
     jQuery('section').hide();
 
