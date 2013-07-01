@@ -29,6 +29,7 @@ function EmoteParser(observer) {
     this.emote_url = "http://forums.somethingawful.com/misc.php"
     this.observer = observer;
     this.emotes = {};
+    this.emotesArray = [];
 
     this.construct()
 }
@@ -38,7 +39,7 @@ EmoteParser.prototype.construct = function() {
 
      jQuery.get(this.emote_url, { action: 'showsmilies' },
        function(response) {
-           that.parseResponse(response)
+           that.parseResponse(response);
        }
     );
 };
@@ -51,6 +52,8 @@ EmoteParser.prototype.parseResponse = function(response) {
         var emote = jQuery('div.text', this).first().html(),
 			image = jQuery('img', this).first().attr('src'),
 			title;
+
+        //that.sortedEmotes['emote-'+emote] = {'emote': emote, 'image': image};
 
 		//additional entries that, frankly, just make sense.
 		if (emote == ":)")
@@ -71,11 +74,23 @@ EmoteParser.prototype.parseResponse = function(response) {
         that.emotes[title] = {'emote': emote, 'image': image};    
 
         index++;
+
+        that.emotesArray.push([emote,image]);
     });
+
+    this.emotesArray.sort(function(a,b) {
+        return a[0].toLowerCase() > b[0].toLowerCase() ? 1 : -1;
+    });
+
+    this.emotesArray.splice(2,0,this.emotesArray.pop(),this.emotesArray.pop());
 
     this.observer.notify(this.emotes);
 };
 
 EmoteParser.prototype.getEmotes = function() {
     return this.emotes;
+};
+
+EmoteParser.prototype.getSortedEmotes = function() {
+    return this.emotesArray;
 };
