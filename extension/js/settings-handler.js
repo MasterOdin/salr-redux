@@ -1,5 +1,5 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013 Matthew Peveler  
+// Copyright (c) 2009-2013 Scott Ferguson
+// Copyright (c) 2013 Matthew Peveler
 // All rights reserved.
 
 // Redistribution and use in source and binary forms, with or without
@@ -272,18 +272,7 @@ jQuery(document).ready(function() {
     }).mouseout(function() {
         jQuery(this).parent().children(".help-box").hide(100);
     });
-/*
-    jQuery('.minus').click(function() {
-        if (jQuery(this).parent().next().css("display") == "none") {
-            jQuery(this).parent().next().show(200);
-            jQuery('img',this).attr('src',"images/minus.png");
-        }
-        else {
-          jQuery(this).parent().next().hide(200);  
-          jQuery('img',this).attr('src',"images/plus.png");
-        }
-    });
-*/
+
     jQuery('a').click(function() {
         if (jQuery(this).next().css('display') == "none") {
             jQuery(this).next().show(200);
