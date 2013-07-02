@@ -49,6 +49,7 @@ Changelog List
 + Add way to not show the link to single post view underneath every post
 + Add ability to minimize/maximize setting sections as needed. By default, all sections are minimized.
 * Fixed all iFrames showing same youtube video when shown inline
+* Alphabetized smiley list in Quick Reply window
 
 ### v1.5.18 (6/26/2013)
 

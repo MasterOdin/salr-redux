@@ -76,7 +76,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
 
     var that = this;
     // Begin fetching and parsing the emotes as soon as we create the quick-reply
-    var emote_parser = new EmoteParser(this);
+    this.emote_parser = new EmoteParser(this);
 
     // window.open("chrome-extension://lbeflkohppahphcnpjfgffckhcmgelfo/quick-reply.html", "Quick Reply","menubar=no,width=720,height=425,toolbar=no");
     var html = '<div id="side-bar">' +
@@ -518,6 +518,7 @@ QuickReplyBox.prototype.toggleTopbar = function() {
 QuickReplyBox.prototype.notify = function(emotes) {
     var that = this;
     this.emotes = emotes;
+    this.sortedEmotes = this.emote_parser.getSortedEmotes();
 
     jQuery('#post-message').keyup(function() {
         that.updatePreview();
@@ -532,11 +533,11 @@ QuickReplyBox.prototype.notifyReplyReady = function(form_cookie) {
 
 QuickReplyBox.prototype.setEmoteSidebar = function() {
     var html = '';
-
-    for (var emote in this.emotes) { 
+    
+    for (i = 0; i < this.sortedEmotes.length; i++) {
         html += '<div class="sidebar-menu-item emote">' +
-                '   <div><img src="' + this.emotes[emote].image + '" /></div>' +
-                '   <div class="menu-item-code">' + this.emotes[emote].emote + '</div>' +
+                '   <div><img src="' + this.sortedEmotes[i][1] + '" /></div>' +
+                '   <div class="menu-item-code">' + this.sortedEmotes[i][0] + '</div>' +
                 '</div>';
     }
 
