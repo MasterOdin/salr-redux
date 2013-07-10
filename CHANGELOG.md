@@ -11,6 +11,7 @@ Changelog List
 
 * Updated jQuery to v1.10.1.
 * Updated js/settings-handler.js to use .prop() instead of .attr() as appropriate
+* Updated quick-reply.js to use delegated on handler for emote/bbcode insertion instead of live()
 - Renamed a couple options (ex: User Avatar settings) to be clearer on their intent
 - Removed "Hide top menu" setting as it didn't do anything
 - Removed second "Automatically collapse long quotes" setting
