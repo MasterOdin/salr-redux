@@ -48,10 +48,18 @@ function findThreadID() {
     for (var parameter in parameterList) {
         var currentParam = (parameterList[parameter]).split('=');
 
-        if (currentParam[0] == 'threadid') {
+        if (currentParam[0] == 'threadid' && currentParam[1] != undefined) {
             return currentParam[1]; 
         }
     }
+
+    // try to find another threadid
+    jQuery('form :input').each(function() {
+        if (jQuery(this).attr('name') == 'threadid') {
+            var value = parseInt(jQuery(this).attr('value'));
+            return value;
+        }
+    });
 }
 
 /**

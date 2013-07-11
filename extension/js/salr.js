@@ -250,7 +250,9 @@ SALR.prototype.pageInit = function() {
             if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesUCP == 'true') {
                 this.showLastThreePages();
             }
-
+            if (this.settings.threadCaching == 'true') {
+                this.queryVisibleThreads();
+            }
             break;
         case 'misc.php':
             if (window.location.href.indexOf('action=whoposted') >= 0) {
@@ -1953,6 +1955,7 @@ SALR.prototype.findFormKey = function() {
  *
  */
 SALR.prototype.bindThreadCaching = function() {
+    return false;
     if (this.settings.enableQuickReply == 'false') {
         // Yeah that's right. I'm doing this on page loads because I can't think of a better way.
         addThreadToCache(findThreadID());
@@ -2096,6 +2099,7 @@ SALR.prototype.fixCancerPosts = function() {
 
 
 SALR.prototype.queryVisibleThreads = function() {
+    return false;
     var post_history = new PostHistory(this.tagPostedThreads);
 
     jQuery('tr.thread').each(function() {
@@ -2114,7 +2118,7 @@ SALR.prototype.tagPostedThreads = function(result, thread_id) {
     result = (result == true) || false;
 
     if (result == true) {
-        jQuery('tr#thread3208437 > td.replies').each(function() {
+        jQuery('tr#thread' + thread_id + ' > td.replies').each(function() {
             jQuery(this).css('background-color', 'yellow');
         });
     }
@@ -2130,7 +2134,7 @@ SALR.prototype.swapRetinaEmotes = function() {
             var item = $(this);
               if (
                 (item.attr('src').indexOf('i.somethingawful.com/forumsystem/emoticons/') > -1 || 
-                item.attr('src').indexOf('http://fi.somethingawful.com/images/smilies/') > -1) && 
+                item.attr('src').indexOf('http:/fi.somethingawful.com/images/smilies/') > -1) && 
                 item.attr('src').indexOf('@2x') == -1 ) {
 
                     var f = retinaFilename(item);

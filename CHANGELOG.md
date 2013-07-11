@@ -10,6 +10,7 @@ Changelog List
 ### v2.0.0 (6/20/2013)
 
 * Updated jQuery to v1.10.1.
+* Updated jQuery-ui to a custom v1.10.3 version. Adds 'ui-salr' to an instance of ui-icon to ignore forum css
 * Updated js/settings-handler.js to use .prop() instead of .attr() as appropriate
 * Updated quick-reply.js to use delegated on handler for emote/bbcode insertion instead of live()
 - Renamed a couple options (ex: User Avatar settings) to be clearer on their intent
@@ -50,7 +51,9 @@ Changelog List
 + Add way to not show the link to single post view underneath every post
 + Add ability to minimize/maximize setting sections as needed. By default, all sections are minimized.
 * Fixed all iFrames showing same youtube video when shown inline
-* Alphabetized smiley list in Quick Reply window
++ Alphabetized smiley list in Quick Reply window. Added setting to enable this.
+- Removed Imgur sidebar till such a time as it works again
+- Removed broken 'Highlight thread counts in yellow if you've posted there before' till it's fixed
 
 ### v1.5.18 (6/26/2013)
 
