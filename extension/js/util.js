@@ -23,7 +23,7 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Returns the current PHP page the user is on
@@ -32,7 +32,7 @@
 function findCurrentPage() {
     // Substrings out everything after the domain, then splits on the ?
     // and takes the left-side of the result
-    return (window.location.href).substr(33).split('?')[0];
+    return (window.location.href).substr(33).split('?')[0].replace('#','');
 }
 
 /**
@@ -48,10 +48,18 @@ function findThreadID() {
     for (var parameter in parameterList) {
         var currentParam = (parameterList[parameter]).split('=');
 
-        if (currentParam[0] == 'threadid') {
+        if (currentParam[0] == 'threadid' && currentParam[1] != undefined) {
             return currentParam[1]; 
         }
     }
+
+    // try to find another threadid
+    jQuery('form :input').each(function() {
+        if (jQuery(this).attr('name') == 'threadid') {
+            var value = parseInt(jQuery(this).attr('value'));
+            return value;
+        }
+    });
 }
 
 /**
@@ -89,7 +97,24 @@ function findRealForumID() {
  */
 function countPages() {
     var pages = jQuery('div.pages').get(0);
+    if (pages == undefined) {
+        return 1;
+    }
     return (jQuery('option', pages).length ? jQuery('option', pages).length : 1);
+}
+
+function getCurrentPageNumber() {
+    var pages = jQuery('div.pages').get(0);
+    if (pages == undefined) {
+        return 1;
+    }
+    var num = Number(jQuery('option:selected',pages).text());
+    if (num > 0) {
+        return num;
+    }
+    else {
+        return 1;
+    }
 }
 
 function buildUrl(rootPageType, basePageID, page) {
@@ -165,7 +190,7 @@ function findFirstUnreadPost() {
 
     // Check if the user has the "Show an icon next to each post indicating if
     // it has been seen or not" option enabled for the forums
-    var use_setseen = (jQuery('td.postdate > a[href*=action=setseen]').length > 0);
+    var use_setseen = (jQuery('td.postdate > a[href*="action=setseen"]').length > 0);
 
     jQuery('div#thread > table.post').each(function() {
         if (use_setseen) {

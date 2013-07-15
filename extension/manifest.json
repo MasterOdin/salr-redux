@@ -1,6 +1,6 @@
 {
   "name": "Something Awful Last Read Redux", 
-  "version": "1.5.16",
+  "version": "2.0.0",
   "manifest_version": 2,
   "description": "Highlights posts which quote the user", 
   "icons": {
@@ -18,6 +18,14 @@
   "options_page":"settings.html",
   "content_scripts": [
     {
+      "css" : [
+        "css/jquery-ui/jquery-ui.custom.css",
+        "css/mouse-gestures.css",
+        "css/quick-reply.css",
+        "css/threadnotes.css",
+        "css/timg-fix.css",
+        "css/salr.css"
+      ],
       "js": [
         "js/jquery/jquery.js",
         "js/jquery/jquery-ui.js",
@@ -38,25 +46,19 @@
         "js/salr.js",
         "js/jquery/colorpicker.js",
         "js/background.js"
-      ],
-      "css" : [
-        "css/jquery-ui/jquery-ui.custom.css",
-        "css/mouse-gestures.css",
-        "css/quick-reply.css",
-        "css/threadnotes.css",
-        "css/timg-fix.css",
-        "css/salr.css"
-      ],
+      ],      
       "matches": [
         "http://forums.somethingawful.com/*"
       ],
       "run_at": "document_end"
     }
   ], 
-  "permissions": [
+  "permissions": 
+    [
         "tabs",
+        "management",
         "https://api.imgur.com/*"
-  ],
+    ],
   "page_action":
     {
         "default_icon": "images/logo16.png",
@@ -128,6 +130,6 @@
     "images/sticky_on.gif",
     "images/unvisit.png",
     "imgur-upload.html",
-	"images/emoticons/*"
+    "images/emoticons/*"
   ]
 }

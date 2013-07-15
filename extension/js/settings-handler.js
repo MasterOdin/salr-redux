@@ -1,5 +1,5 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013 Matthew Peveler  
+// Copyright (c) 2009-2013 Scott Ferguson
+// Copyright (c) 2013 Matthew Peveler
 // All rights reserved.
 
 // Redistribution and use in source and binary forms, with or without
@@ -23,13 +23,17 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
  * Initialize event callbacks for the page
  *
  */
+
+var port = chrome.extension.connect({"name":"settings"});
+
 jQuery(document).ready(function() {
+
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
         localStorage.setItem('salrInitialized', 'true');
@@ -39,6 +43,9 @@ jQuery(document).ready(function() {
     var defaultSettings = [];
     defaultSettings['salrInitialized']              = 'true';
 
+    defaultSettings['username']                     = '';
+    defaultSettings['usernameCase']                 = 'false';
+    
     // Thread Highlighting
     defaultSettings['hightlightThread']             = 'false';
     defaultSettings['darkRead']                     = '#6699cc';
@@ -65,11 +72,18 @@ jQuery(document).ready(function() {
     defaultSettings['highlightAdminColor']          = '#ff7256';
 
     // Forum Display Options
+    defaultSettings['hideAdvertisements']           = 'false';    
     defaultSettings['displayNewPostsFirst']         = 'false';
-    defaultSettings['hideAdvertisements']           = 'false';
+    defaultSettings['displayNewPostsFirstForum']    = 'true';
+    defaultSettings['displayNewPostsFirstUCP']      = 'true';
+    defaultSettings['showLastThreePages']           = 'false';
+    defaultSettings['postsPerPage']                 = 'default';    
+    defaultSettings['showLastThreePagesForum']      = 'true';
+    defaultSettings['showLastThreePagesUCP']        = 'true';
+    defaultSettings['showLastThreePagesThread']     = 'true';
 
     // Header Link Display Options
-    defaultSettings['hideHeaderLinks']              = 'true';
+    //defaultSettings['hideHeaderLinks']              = 'true';
     defaultSettings['showPurchases']                = 'true';
     defaultSettings['topPurchaseAcc']               = 'true';
     defaultSettings['topPurchasePlat']              = 'true';
@@ -110,11 +124,11 @@ jQuery(document).ready(function() {
     defaultSettings['enableUserNotes']              = 'false';
     defaultSettings['enableThreadNotes']            = 'false';
     defaultSettings['fixCancer']                    = 'true';
-    defaultSettings['adjustAfterLoad']              = 'true';
+    //defaultSettings['adjustAfterLoad']              = 'true';
+    defaultSettings['enableSOAPLink']               = 'true';
+    defaultSettings['enableSinglePost']             = 'true';
     defaultSettings['hidePostButtonInThread']       = 'false';
     defaultSettings['collapseTldrQuotes']           = 'false';
-    defaultSettings['showLastThreePages']           = 'false';
-    defaultSettings['postsPerPage']                 = 'default';
 
     // Control Options
     defaultSettings['displayPageNavigator']         = 'true';
@@ -122,9 +136,11 @@ jQuery(document).ready(function() {
     defaultSettings['enableKeyboardShortcuts']      = 'false';
     defaultSettings['enableMouseGestures']          = 'false';
     defaultSettings['enableMouseMenu']              = 'true';
+    defaultSettings['enableMouseUpUCP']             = 'false';
     defaultSettings['enableQuickReply']             = 'true';
     defaultSettings['quickReplyBookmark']           = 'false';
     defaultSettings['quickReplyFormat']             = 'true';
+    defaultSettings['quickReplyEmotes']             = 'true';
 
     // Image Display Options
     defaultSettings['replaceLinksWithImages']       = 'false';
@@ -136,16 +152,21 @@ jQuery(document).ready(function() {
     defaultSettings['replaceImagesReadOnly']        = 'false';
     defaultSettings['replaceImagesLink']            = 'false';
     defaultSettings['restrictImageSize']            = 'false';
-    defaultSettings['fixTimg']                      = 'false';
-    defaultSettings['forceTimg']                    = 'false';
+    //defaultSettings['fixTimg']                      = 'false';
+    //defaultSettings['forceTimg']                    = 'false';
     defaultSettings['retinaImages']                 = 'false';
     
     // Other Options
-    defaultSettings['qneProtection']                = 'false';
-    defaultSettings['autoTLDR']                     = 'false';      
+    defaultSettings['qneProtection']                = 'false';      
     defaultSettings['showEditBookmarks']            = 'false';
     defaultSettings['openAllUnreadLink']            = 'true';
-    defaultSettings['ignoreBookmarkStar']           = "";    
+    //defaultSettings['ignoreBookmarkStar']           = "";
+    defaultSettings['ignoreBookmarkStarGold']       = 'false';
+    defaultSettings['ignoreBookmarkStarRed']        = 'false';
+    defaultSettings['ignoreBookmarkStarYellow']     = 'false';
+
+    // Misc Options (don't show up on settings.html)
+    defaultSettings['MouseActiveContext']           = 'false';
   
     // Check stored settings, if value not set, set to default value
     for ( var key in defaultSettings ) {
@@ -180,7 +201,7 @@ jQuery(document).ready(function() {
         populateCheckboxes(jQuery(this));
 
         jQuery(this).click(function() {
-            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).attr('checked'));
+            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).prop('checked'));
             highlightExamples();
         });
     });
@@ -232,6 +253,60 @@ jQuery(document).ready(function() {
 	});
 
     highlightExamples();
+
+    jQuery('#config').click(function() {
+        configWindow();
+    });
+
+    jQuery("#logo").click(function() {
+        configWindow();
+    });
+
+    jQuery('#settings').click(function() {
+        transitionSettings();
+    });
+
+    jQuery('.help').mouseover(function(e) {
+        var helpBox = jQuery(this).parent().children(".help-box");
+        helpBox.show(100);
+        helpBox.offset({left:jQuery(this).position().left+20,top:jQuery(this).position().top-10});
+    }).mouseout(function() {
+        jQuery(this).parent().children(".help-box").hide(100);
+    });
+
+    jQuery('a').click(function() {
+        if (jQuery(this).next().css('display') == "none") {
+            jQuery(this).next().show(200);
+            jQuery('img',this).attr('src','images/minus.png');
+        }
+        else {
+            jQuery(this).next().hide(200);
+            jQuery('img',this).attr('src','images/plus.png');
+        }
+        return false;
+    });
+    jQuery('section').hide();
+
+    // get install info from other SALR(R) extensions
+    port.onMessage.addListener(function(data) {
+        if (data.message == 'salr-button') {
+            if (data.bool == 'true') {
+                jQuery('#displayOmnibarIcon').attr('disabled', true);
+                jQuery('#displayOmnibarIcon').parent().parent().addClass('disabled-options');
+                jQuery('#displayOmnibarHelp2').remove();
+            }
+            else {
+                jQuery('#displayOmnibarHelp1').remove();
+            }
+        }
+        else if (data.message == 'convert') {
+            if (data.bool == 'false') {
+                jQuery('#settings').remove();
+            }
+        }
+    });
+    port.postMessage({'message':'GetSALRButtonStatus'});
+    port.postMessage({'message':'GetSALRStatus'});
 });
 
 function highlightExamples() {
@@ -437,10 +512,6 @@ function highlightExamples() {
             jQuery(this).css('background-color', '');
         }
     });
-
-    jQuery('button').click(function() {
-        configWindow();
-    });
 }
 
 /**
@@ -597,6 +668,7 @@ function configWindow() {
             key == 'forumsList'  || 
             key == 'modList'     ||
             key == 'userNotes'   ||
+            key == 'threadNotes' ||
             key == 'forumPostKey' )
             continue;
         win.document.write('<tr><td>'+key+'</td>');
@@ -604,4 +676,9 @@ function configWindow() {
     }
     win.document.writeln('</table></body></html>');
     win.document.close();
+}
+
+function transitionSettings() {
+    port.postMessage({'message':'ConvertSettings'});
+    alert("User Notes gotten from SALR!");
 }

@@ -173,3 +173,22 @@ div.sidebar-menu-item:hover {
     background: #ccc;
     cursor: pointer;
 }
+
+div#post-warning {
+    float: left;
+    margin-top: 5px;
+    background: #de94d6; 
+    color: #333; 
+    border: 1px blue solid;
+    padding: 0px;
+    height: 25px;
+}
+
+div#post-warning h4 {
+    background: url('http://fi.somethingawful.com/images/warning.gif') no-repeat left;
+    padding: 4px;
+    padding-left: 16px;    
+    margin-right: 4px;
+    margin-top: 0px;
+    margin-left: 2px;
+}
