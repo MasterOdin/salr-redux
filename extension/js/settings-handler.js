@@ -140,6 +140,7 @@ jQuery(document).ready(function() {
     defaultSettings['enableQuickReply']             = 'true';
     defaultSettings['quickReplyBookmark']           = 'false';
     defaultSettings['quickReplyFormat']             = 'true';
+    defaultSettings['quickReplyEmotes']             = 'true';
 
     // Image Display Options
     defaultSettings['replaceLinksWithImages']       = 'false';

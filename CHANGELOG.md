@@ -53,7 +53,10 @@ Changelog List
 * Fixed all iFrames showing same youtube video when shown inline
 + Alphabetized smiley list in Quick Reply window. Added setting to enable this.
 - Removed Imgur sidebar till such a time as it works again
-- Removed broken 'Highlight thread counts in yellow if you've posted there before' till it's fixed
+- Removed broken 'Highlight thread counts in yellow if you've posted there before' till it's fixedo
+* Fix quotes in "Live Preview" looking bad (having plaintext post id stuff)
+* Fix smilies with symbols (ex: :?:) being broken in live preview. They should be parsed correctly now.
++ Gave bottom mouse gesture an icon to reflect its new behavior (refresh)
 
 ### v1.5.18 (6/26/2013)
 

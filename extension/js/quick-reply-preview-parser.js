@@ -55,7 +55,9 @@ PreviewParser.prototype.parseSmilies = function() {
             //else { re = new RegExp(title, 'g'); /* this is invalid if :( or :) is entered cause lol */ }
             title = title.replace(")", "\\)");
             title = title.replace("(", "\\(");
-            re = new RegExp(title, 'g');            
+            title = title.replace("*", "\\*");
+            title = title.replace("?", "\\?");
+            re = new RegExp(title, 'g');
             this.post_text = this.post_text.replace(re, '<img src="' + img + '" title="' + title + '" border="0" alt="" />');
         }
     }

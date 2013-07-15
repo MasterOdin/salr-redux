@@ -533,12 +533,22 @@ QuickReplyBox.prototype.notifyReplyReady = function(form_cookie) {
 
 QuickReplyBox.prototype.setEmoteSidebar = function() {
     var html = '';
-    
-    for (i = 0; i < this.sortedEmotes.length; i++) {
-        html += '<div class="sidebar-menu-item emote">' +
-                '   <div><img src="' + this.sortedEmotes[i][1] + '" /></div>' +
-                '   <div class="menu-item-code">' + this.sortedEmotes[i][0] + '</div>' +
-                '</div>';
+
+    if (this.settings.quickReplyEmotes == 'true') {    
+        for (i = 0; i < this.sortedEmotes.length; i++) {
+            html += '<div class="sidebar-menu-item emote">' +
+                    '   <div><img src="' + this.sortedEmotes[i][1] + '" /></div>' +
+                    '   <div class="menu-item-code">' + this.sortedEmotes[i][0] + '</div>' +
+                    '</div>';
+        }
+    }
+    else {
+        for (var emote in this.emotes) {
+            html += '<div class="sidebar-menu-item emote">' +
+                    '   <div><img src="' + this.emotes[emote].image + '" /></div>' +
+                    '   <div class="menu-item-code">' + this.emotes[emote].emote + '</div>' +
+                    '</div>';
+        }
     }
 
     jQuery('#sidebar-list').html(html);
