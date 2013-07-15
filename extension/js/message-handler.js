@@ -66,7 +66,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 // efobaopfidfllhfnndjecciobldchcaf
                 // mclknakcbbdhhebmdibhehimkoefdjaa
                 // dodkgjokbnmiickhikhikpggfohagmfb - id of Redux Browser Button
-                chrome.management.get("efobaopfidfllhfnndjecciobldchcaf",function(result) {
+                chrome.management.get("dodkgjokbnmiickhikhikpggfohagmfb",function(result) {
                     if (result == undefined || result.enabled == false) {
                         chrome.pageAction.show(port.sender.tab.id);
                     }
@@ -90,7 +90,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 });
                 break;
             case 'GetSALRButtonStatus':
-                chrome.management.get("mclknakcbbdhhebmdibhehimkoefdjaa",function(result) {
+                chrome.management.get("dodkgjokbnmiickhikhikpggfohagmfb",function(result) {
                     if (result == undefined || result.enabled == false) {
                         port.postMessage({'message':'salr-button','bool':'false'});
                     }
