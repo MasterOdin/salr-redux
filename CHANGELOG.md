@@ -7,7 +7,7 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
-### v2.0.0 (6/20/2013)
+### v2.0.0 (7/15/2013)
 
 * Updated jQuery to v1.10.1.
 * Updated jQuery-ui to a custom v1.10.3 version. Adds 'ui-salr' to an instance of ui-icon to ignore forum css
@@ -56,7 +56,6 @@ Changelog List
 - Removed broken 'Highlight thread counts in yellow if you've posted there before' till it's fixedo
 * Fix quotes in "Live Preview" looking bad (having plaintext post id stuff)
 * Fix smilies with symbols (ex: :?:) being broken in live preview. They should be parsed correctly now.
-+ Gave bottom mouse gesture an icon to reflect its new behavior (refresh)
 
 ### v1.5.18 (6/26/2013)
 

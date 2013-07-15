@@ -175,7 +175,7 @@ MouseGesturesController.prototype.buildOverlay = function() {
            '        <img id="right-image" src="' + this.base_image_uri + 'gesturenav-right.png">' +
            '    </div>' +
            '    <div id="gesture-bottom">' +
-           '        <img id="bottom-image" src="' + this.base_image_uri + 'gesturenav-bottom-refresh.png">' +
+           '        <img id="bottom-image" src="' + this.base_image_uri + 'gesturenav-bottom.png">' +
            '    </div>' +
            '</div>';
 
