@@ -16,473 +16,564 @@
 </head>
 <body>
     <header id="logo-header">
-        <img onclick="configWindow();" src="images/logo.jpg">
+        <img id="logo" src="images/logo.jpg">
         <span id="title">Something Awful Last Read Redux Settings</span>
     </header>
-    <div class="preference-title">
-        Forums Username
-    </div>
-    <div class='username-field'>
-        <input type='text' size='25' default='Username' class='text-entry user-preference' id='username' style='color: #999999;' /><br />
-    </div>
-    <div style="clear: both;"></div>
-    <br />
 
-    <div class="preference-title">
-        Thread Highlighting
-    </div>
-    <div style="clear: both;"></div>
-    <table id="forum" class="threadlist">
-        <thead>
-            <tr>
-                <th class="star"> </th>
-                <th class="icon">Icon</th>
-                <th class="title">Title (Pages)</th>
-                <th class="author">Author</th>
-                <th class="replies">Re</th>
-                <th class="views">Views</th>
-                <th class="rating">Rating</th>
-                <th class="lastpost"><nobr>Killed By</nobr></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr id="thread-new" class="thread">
-                <td class="star"></td>
-                <td class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yospos-hackersafe.png" /></td>
-                <td class="title"><div class="title_inner"><div class="info"><a style="text-decoration:underline;" class="thread_title">This is a thread you have not yet seen</a></div></div></td>
-                <td class="author"></td>
-                <td class="replies">20</td>
-                <td class="views"></td>
-                <td class="rating"></td>
-                <td class="lastpost"></td>
-            </tr>
-            <tr id="thread-read" class="thread seen">
-                <td id="thread-light" class="star"></td>
-                <td id="thread-dark" class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yp-bsod.gif" /></td>
-                <td id="thread-light" class="title">
-                    <div class="title_inner">
-                        <div id="lastseen-forum" class="lastseen">
-                            <a class="x">X</a>
-                        </div>
-                        <div id="lastseen-custom" class="lastseen">
-                            <a id="lastseen-x" class="x"></a>
-                        </div>
-                        <div class="info"><a style="text-decoration:underline;" class="thread_title">This is a thread you have fully read</a></div>
-                    </div>
-                </td>
-                <td id="thread-dark" class="author"></td>
-                <td id="thread-light" class="replies">20</td>
-                <td id="thread-dark" class="views"></td>
-                <td id="thread-light" class="rating"></td>
-                <td id="thread-dark" class="lastpost"></td>
-            </tr>
-            <tr id="thread-unread" class="thread seen">
-                <td id="thread-light" class="star"></td>
-                <td id="thread-dark" class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yospos-janitor.gif" /></td>
-                <td id="thread-light" class="title">
-                    <div class="title_inner">   
-                    <div class="info"><a style="text-decoration:underline;" class="thread_title">This is a thread with unread posts</a></div>
-                        <div id="lastseen-forum" class="lastseen">
-                            <a class="x">X</a>
-                            <a class="count"><b>41</b></a>
-                        </div>
-                        <div id="lastseen-custom" class="lastseen">
-                            <div id="lastseen-inline" style="font-size: 12px; float: left; margin-top: 4px; padding-right: 4px;">(41)</div>
-                            <a id="lastseen-x" class="x"></a>
-                            <a id="lastseen-count"></a>
-                        </div>
-                    </div>
-                </td>
-                <td id="thread-dark" class="author"></td>
-                <td id="thread-light" class="replies">
-                    20
-                    <div id="lastseen-custom-count"><br /><div style="font-size:12px;">(41)</div></div>
-                </td>
-                <td id="thread-dark" class="views"></td>
-                <td id="thread-light" class="rating"></td>
-                <td id="thread-dark" class="lastpost"></td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="forumbar">&nbsp;</div>
-    <table>
-    <tr>
-        <td colspan="3">
-            <div class='display-preference'>
-            <label><input id='highlightThread' class='user-preference' type='checkbox' /> Use custom thread highlighting</label>
+    <a href="#">
+        <div class="preference-title">
+            Forums Username
+            <div class="minus">
+                <img src="images/plus.png" width="24px" />
             </div>
-        </td>
-    </tr>
-    <tr>
-        <td> <label>Threads I've seen</label> </td>
-        <td>
-            <div class='color-select'>
-                <div id='darkRead-box' class='color-select-box'></div>
-            </div>
-            <input id='darkRead' type='text' size='7' default='#6699cc' class='color-select-text text-entry user-preference' style='color: #999999;' />
-        </td>
-        <td>
-            <div class='color-select'>
-                <div id='lightRead-box' class='color-select-box'></div>
-            </div>
-            <input id='lightRead' type='text' size='7' default='#99ccff' class='color-select-text text-entry user-preference' style='color: #999999;' />
-        </td>
-    </tr>
-    <tr>
-        <td> <label>Threads with unread posts</label> </td>
-        <td>
-            <div class='color-select'>
-                <div id='darkNewReplies-box' class='color-select-box'></div>
-            </div>
-            <input id='darkNewReplies' type='text' size='7' default='#99cc99' class='color-select-text text-entry user-preference' style='color: #999999;' />
-        </td>
-        <td>
-            <div class='color-select'>
-                <div id='lightNewReplies-box' class='color-select-box'></div>
-            </div>
-            <input id='lightNewReplies' type='text' size='7' default='#ccffcc' class='color-select-text text-entry user-preference' style='color: #999999;' />
-        </td>
-    </tr>
-    </table>
-    <div class='display-preference'>
-        <label><input id='displayCustomButtons' class='user-preference' type='checkbox' /> Use SALR jump buttons</label>
-    </div>
-    <div class='sub-options'>
-        <div class='display-preference'>
-            <label><input id='inlinePostCounts' class='user-preference' type='checkbox' /> Display new post counts inline</label>
         </div>
-    </div>
-    <br />
-    <div class="preference-title">
-        Post Highlighting
-    </div>
-    <div class="threadbar top">&nbsp;</div>
-    <div id="thread">
-    <table id="op-post" class="post">
-    <tr class="altcolor2">
-        <td class="userinfo">
-            <dl class="userinfo"><dt id="op-name" class="author">Original Poster</dt></dl>
-        </td>
-        <td class="postbody">
-        I started this thread so I am the Original Poster (OP).
-        <br /> <br /> <br /> <br />
-        </td>
-    </tr>
-    <tr class="altcolor2">
-        <td></td>
-        <td>
-            <table>
-            <tr>
-                <td>
-                    <div class='display-preference'>
-                    <label><input id='highlightOP' class='user-preference' type='checkbox' /> Enable OP post highlighting</label>
-                    </div>
-                </td>
-                <td>
-                    <div class='color-select'>
-                        <div id='highlightOPColor-box' class='color-select-box'></div>
-                    </div>
-                    <input id='highlightOPColor' type='text' size='7' default='#fff2aa' class='color-select-text text-entry user-preference' style='color: #999999;' />
-                </td>
-            </tr>
-            </table>
-        </td>
-    </tr>
-    </table>
-    <table id="own-post" class="post">
-    <tr class="altcolor1">
-        <td class="userinfo">
-            <dl class="userinfo"><dt id="own-name" class="author">YOUR NAME HERE</dt></dl>
-        </td>
-        <td class="postbody">
-            Hello my name is <span id="your-name">YOUR NAME HERE</span>!!!
-            <br /> <br /> <br /> <br />
-        </td>
-    </tr>
-    <tr class="altcolor1">
-        <td></td>
-        <td>
-            <table>
-            <tr>
-                <td>
-                    <div class='display-preference'>
-                    <label><input id='highlightSelf' class='user-preference' type='checkbox' /> Enable own post highlighting</label>
-                    </div>
-                </td>
-                <td>
-                    <div class='color-select'>
-                        <div id='highlightSelfColor-box' class='color-select-box'></div>
-                    </div>
-                    <input id='highlightSelfColor' type='text' size='7' default='#f2babb' class='color-select-text text-entry user-preference' style='color: #999999;' />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class='display-preference'>
-                    <label><input id='highlightOwnQuotes' class='user-preference' type='checkbox' /> Enable highlighting quotes of you</label>
-                    </div>
-                </td>
-                <td>
-                    <div class='color-select'>
-                        <div id='userQuote-box' class='color-select-box'></div>
-                    </div>
-                    <input id='userQuote' type='text' size='7' default='#a2cd5a' value='' class='color-select-text text-entry user-preference' style='color: #999999;' />
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class='display-preference'>
-                    <label><input id='highlightOwnUsername' class='user-preference' type='checkbox' /> Enable highlighting of your username</label>
-                    </div>
-                </td>
-                <td>
-                    <div class='color-select'>
-                        <div id='usernameHighlight-box' class='color-select-box'></div>
-                    </div>
-                    <input id='usernameHighlight' type='text' size='7' default='#9933ff' value='' class='color-select-text text-entry user-preference' style='color: #999999;' />
-                </td>
-            </tr>
-            </table>
-        </td>
-    </tr>
-    </table>
-    <table id="friend-post" class="post">
-    <tr class="altcolor2">
-        <td class="userinfo">
-            <dl class="userinfo"><dt id="friend-name" class="author">Friend</dt></dl>
-        </td>
-        <td class="postbody">
-        <div id="your-quote" class="bbc-block">
-            <h4><span id="your-name-quote">YOUR NAME HERE</span> posted:</h4>
-            <blockquote>
-                Hello my name is <span id="your-name-quote">YOUR NAME HERE</span>!!!
-                <br />
-            </blockquote>
-        </div>
-        <br />
-        I am your friend and we are best buds (on the internet).
-        <br /> <br />
-        </td>
-    </tr>
-    <tr class="altcolor2">
-        <td></td>
-        <td>
-            <table>
-            <tr>
-                <td>
-                    <div class='display-preference'>
-                    <label><input id='highlightFriends' class='user-preference' type='checkbox' /> Enable friend post highlighting</label>
-                    </div>
-                </td>
-                <td>
-                    <div class='color-select'>
-                        <div id='highlightFriendsColor-box' class='color-select-box'></div>
-                    </div>
-                    <input id='highlightFriendsColor' type='text' size='7' default='#f2babb' class='color-select-text text-entry user-preference' style='color: #999999;' />
-                </td>
-            </tr>
-            </table>
-        </td>
-    </tr>
-    </table>
-    <table id="mod-post" class="post">
-    <tr class="altcolor1">
-        <td class="userinfo">
-            <dl class="userinfo"><dt id="mod-name" class="author">
-                <img src="http://fi.somethingawful.com/star_moderator.gif">&nbsp;Moderator</dt>
-            </dl>
-        </td>
-        <td class="postbody">
-        I am a moderator and I think <span id="your-name">You</span> is a great poster.
-        <br /> <br /> <br /> <br />
-        </td>
-    </tr>
-    <tr class="altcolor1">
-        <td></td>
-        <td>
-            <table>
-            <tr>
-                <td colspan="2">
-                    <div class='display-preference'>
-                    <label><input id='highlightModAdmin' class='user-preference' type='checkbox' /> Enable moderator/administrator post highlighting</label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <div class='display-preference'>
-                    <label><input id='highlightModAdminUsername' class='user-preference' type='checkbox' /> Highlight usernames instead of posts</label>
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div class='display-preference'>
-                    <label>Moderator color</label>
-                    </div>
-                </td>
-                <td>
-                    <div class='color-select'>
-                        <div id='highlightModeratorColor-box' class='color-select-box'></div>
-                    </div>
-                    <input id='highlightModeratorColor' type='text' size='7' default='#b4eeb4' class='color-select-text text-entry user-preference' style='color: #999999;' />
-                </td>
-            </tr>
-            </table>
-        </td>
-    </tr>
-    </table>
-    <table id="admin-post" class="post">
-    <tr class="altcolor2">
-        <td class="userinfo">
-            <dl class="userinfo"><dt id="admin-name" class="author">
-                <img src="http://fi.somethingawful.com/star_admin.gif">&nbsp;Admin</dt>
-            </dl>
-        </td>
-        <td class="postbody">
-        I tried doubling my USBs and removing my USBs entirely. No solution could be found, is it my USBs??
-        <br /><br /> <br /> <br />
-        </td>
-    </tr>
-    <tr class="altcolor2">
-        <td></td>
-        <td>
-            <table>
-            <tr>
-                <td>
-                    <div class='display-preference'>
-                    <label>Administrator color</label>
-                    </div>
-                </td>
-                <td>
-                    <div class='color-select'>
-                        <div id='highlightAdminColor-box' class='color-select-box'></div>
-                    </div>
-                    <input id='highlightAdminColor' type='text' size='7' default='#ff7256' class='color-select-text text-entry user-preference' style='color: #999999;' />
-                </td>
-            </tr>
-            </table>
-        </td>
-    </tr>
-    </table>
-    <div class="threadbar bottom">&nbsp;</div>
-    </div>
-    <div style="clear: both;"></div>
-    <br />
-
-    <div class="preference-title">
-        Forums Display Options 
-    </div>
+    </a>
+    
     <section class="settings-panel">
+        <div class='username-field'>
+            <input type='text' size='25' default='Username' class='text-entry user-preference' id='username' style='color: #999999;' />
+                <div class='display-preference'>
+                    <label><input id='usernameCase' class='user-preference' type='checkbox' /> Enable case-insentivity on username settings</label>
+                </div> 
+        </div>
+        <div style="clear: both;"></div>
+        <br />
+    </section>
+
+    <a href="#">
+        <div class="preference-title">
+            Thread Highlighting
+                <div class="minus">
+                <img src="images/plus.png" width="24px" />
+            </div>
+        </div>
+    </a>
+
+    <section class="settings-panel">
+        <table id="forum" class="threadlist">
+            <thead>
+                <tr>
+                    <th class="star"> </th>
+                    <th class="icon">Icon</th>
+                    <th class="title">Title (Pages)</th>
+                    <th class="author">Author</th>
+                    <th class="replies">Re</th>
+                    <th class="views">Views</th>
+                    <th class="rating">Rating</th>
+                    <th class="lastpost"><nobr>Killed By</nobr></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="thread-new" class="thread">
+                    <td class="star"></td>
+                    <td class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yospos-hackersafe.png" /></td>
+                    <td class="title"><div class="title_inner"><div class="info"><a style="text-decoration:underline;" class="thread_title">This is a thread you have not yet seen</a></div></div></td>
+                    <td class="author"></td>
+                    <td class="replies">20</td>
+                    <td class="views"></td>
+                    <td class="rating"></td>
+                    <td class="lastpost"></td>
+                </tr>
+                <tr id="thread-read" class="thread seen">
+                    <td id="thread-light" class="star"></td>
+                    <td id="thread-dark" class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yp-bsod.gif" /></td>
+                    <td id="thread-light" class="title">
+                        <div class="title_inner">
+                            <div id="lastseen-forum" class="lastseen">
+                                <a class="x">X</a>
+                            </div>
+                            <div id="lastseen-custom" class="lastseen">
+                                <a id="lastseen-x" class="x"></a>
+                            </div>
+                            <div class="info"><a style="text-decoration:underline;" class="thread_title">This is a thread you have fully read</a></div>
+                        </div>
+                    </td>
+                    <td id="thread-dark" class="author"></td>
+                    <td id="thread-light" class="replies">20</td>
+                    <td id="thread-dark" class="views"></td>
+                    <td id="thread-light" class="rating"></td>
+                    <td id="thread-dark" class="lastpost"></td>
+                </tr>
+                <tr id="thread-unread" class="thread seen">
+                    <td id="thread-light" class="star"></td>
+                    <td id="thread-dark" class="icon"><img src="http://fi.somethingawful.com/forums/posticons/yospos-janitor.gif" /></td>
+                    <td id="thread-light" class="title">
+                        <div class="title_inner">   
+                        <div class="info"><a style="text-decoration:underline;" class="thread_title">This is a thread with unread posts</a></div>
+                            <div id="lastseen-forum" class="lastseen">
+                                <a class="x">X</a>
+                                <a class="count"><b>41</b></a>
+                            </div>
+                            <div id="lastseen-custom" class="lastseen">
+                                <div id="lastseen-inline" style="font-size: 12px; float: left; margin-top: 4px; padding-right: 4px;">(41)</div>
+                                <a id="lastseen-x" class="x"></a>
+                                <a id="lastseen-count"></a>
+                            </div>
+                        </div>
+                    </td>
+                    <td id="thread-dark" class="author"></td>
+                    <td id="thread-light" class="replies">
+                        20
+                        <div id="lastseen-custom-count"><br /><div style="font-size:12px;">(41)</div></div>
+                    </td>
+                    <td id="thread-dark" class="views"></td>
+                    <td id="thread-light" class="rating"></td>
+                    <td id="thread-dark" class="lastpost"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="forumbar">&nbsp;</div>
+        <table>
+        <tr>
+            <td colspan="3">
+                <div class='display-preference'>
+                    <label><input id='highlightThread' class='user-preference' type='checkbox' /> Use custom thread highlighting</label> 
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">This setting will show up on the forum list and the UCP thread list</div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td> <label>Threads I've seen</label> </td>
+            <td>
+                <div class='color-select'>
+                    <div id='darkRead-box' class='color-select-box'></div>
+                </div>
+                <input id='darkRead' type='text' size='7' default='#6699cc' class='color-select-text text-entry user-preference' style='color: #999999;' />
+            </td>
+            <td>
+                <div class='color-select'>
+                    <div id='lightRead-box' class='color-select-box'></div>
+                </div>
+                <input id='lightRead' type='text' size='7' default='#99ccff' class='color-select-text text-entry user-preference' style='color: #999999;' />
+            </td>
+        </tr>
+        <tr>
+            <td> <label>Threads with unread posts</label> </td>
+            <td>
+                <div class='color-select'>
+                    <div id='darkNewReplies-box' class='color-select-box'></div>
+                </div>
+                <input id='darkNewReplies' type='text' size='7' default='#99cc99' class='color-select-text text-entry user-preference' style='color: #999999;' />
+            </td>
+            <td>
+                <div class='color-select'>
+                    <div id='lightNewReplies-box' class='color-select-box'></div>
+                </div>
+                <input id='lightNewReplies' type='text' size='7' default='#ccffcc' class='color-select-text text-entry user-preference' style='color: #999999;' />
+            </td>
+        </tr>
+        </table>
+        <div class='display-preference'>
+            <label><input id='displayCustomButtons' class='user-preference' type='checkbox' /> Use SALR jump buttons</label>
+        </div>
+        <div class='sub-options'>
+            <div class='display-preference'>
+                <label><input id='inlinePostCounts' class='user-preference' type='checkbox' /> Display new post counts inline</label>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+        <br />
+    </section>
+    
+    <a href="#">
+        <div class="preference-title">
+            Post Highlighting
+            <div class="minus">
+                <img src="images/plus.png" width="24px" />
+            </div>
+        </div>
+    </a>
+    
+    <section class="settings-panel">   
+        <div class="threadbar top">&nbsp;</div>
+        <div id="thread">
+        <table id="op-post" class="post">
+        <tr class="altcolor2">
+            <td class="userinfo">
+                <dl class="userinfo"><dt id="op-name" class="author">Original Poster</dt></dl>
+            </td>
+            <td class="postbody">
+            I started this thread so I am the Original Poster (OP).
+            <br /> <br /> <br /> <br />
+            </td>
+        </tr>
+        <tr class="altcolor2">
+            <td></td>
+            <td>
+                <table>
+                <tr>
+                    <td>
+                        <div class='display-preference'>
+                            <label><input id='highlightOP' class='user-preference' type='checkbox' /> Enable OP post highlighting</label>
+                            <img class="help" src="images/settings_question.png" />
+                            <div class="help-box">This setting requires that you turn on the 'Highlight the username of the "original poster" in thread posts' option in "Edit Options" in the User Control Panel.</div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class='color-select'>
+                            <div id='highlightOPColor-box' class='color-select-box'></div>
+                        </div>
+                        <input id='highlightOPColor' type='text' size='7' default='#fff2aa' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        </table>
+        <table id="own-post" class="post">
+        <tr class="altcolor1">
+            <td class="userinfo">
+                <dl class="userinfo"><dt id="own-name" class="author">YOUR NAME HERE</dt></dl>
+            </td>
+            <td class="postbody">
+                Hello my name is <span id="your-name">YOUR NAME HERE</span>!!!
+                <br /> <br /> <br /> <br />
+            </td>
+        </tr>
+        <tr class="altcolor1">
+            <td></td>
+            <td>
+                <table>
+                <tr>
+                    <td>
+                        <div class='display-preference'>
+                        <label><input id='highlightSelf' class='user-preference' type='checkbox' /> Enable own post highlighting</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class='color-select'>
+                            <div id='highlightSelfColor-box' class='color-select-box'></div>
+                        </div>
+                        <input id='highlightSelfColor' type='text' size='7' default='#f2babb' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class='display-preference'>
+                        <label><input id='highlightOwnQuotes' class='user-preference' type='checkbox' /> Enable highlighting quotes of you</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class='color-select'>
+                            <div id='userQuote-box' class='color-select-box'></div>
+                        </div>
+                        <input id='userQuote' type='text' size='7' default='#a2cd5a' value='' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class='display-preference'>
+                        <label><input id='highlightOwnUsername' class='user-preference' type='checkbox' /> Enable highlighting of your username</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class='color-select'>
+                            <div id='usernameHighlight-box' class='color-select-box'></div>
+                        </div>
+                        <input id='usernameHighlight' type='text' size='7' default='#9933ff' value='' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        </table>
+        <table id="friend-post" class="post">
+        <tr class="altcolor2">
+            <td class="userinfo">
+                <dl class="userinfo"><dt id="friend-name" class="author">Friend</dt></dl>
+            </td>
+            <td class="postbody">
+            <div id="your-quote" class="bbc-block">
+                <h4><span id="your-name-quote">YOUR NAME HERE</span> posted:</h4>
+                <blockquote>
+                    Hello my name is <span id="your-name-quote">YOUR NAME HERE</span>!!!
+                    <br />
+                </blockquote>
+            </div>
+            <br />
+            I am your friend and we are best buds (on the internet).
+            <br /> <br />
+            </td>
+        </tr>
+        <tr class="altcolor2">
+            <td></td>
+            <td>
+                <table>
+                <tr>
+                    <td>
+                        <div class='display-preference'>
+                            <label><input id='highlightFriends' class='user-preference' type='checkbox' /> Enable friend post highlighting</label>
+                            <img class="help" src="images/settings_question.png" />
+                            <div class="help-box">You must visit your User Control Panel once after activating this option for highlighting to work.</div>                        
+                        </div>
+                    </td>
+                    <td>
+                        <div class='color-select'>
+                            <div id='highlightFriendsColor-box' class='color-select-box'></div>
+                        </div>
+                        <input id='highlightFriendsColor' type='text' size='7' default='#f2babb' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        </table>
+        <table id="mod-post" class="post">
+        <tr class="altcolor1">
+            <td class="userinfo">
+                <dl class="userinfo"><dt id="mod-name" class="author">
+                    <img src="http://fi.somethingawful.com/star_moderator_user.png">&nbsp;Moderator</dt>
+                </dl>
+            </td>
+            <td class="postbody">
+            I am a moderator and I think <span id="your-name">You</span> is a great poster.
+            <br /> <br /> <br /> <br />
+            </td>
+        </tr>
+        <tr class="altcolor1">
+            <td></td>
+            <td>
+                <table>
+                <tr>
+                    <td colspan="2">
+                        <div class='display-preference'>
+                        <label><input id='highlightModAdmin' class='user-preference' type='checkbox' /> Enable moderator/administrator post highlighting</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class='display-preference'>
+                        <label><input id='highlightModAdminUsername' class='user-preference' type='checkbox' /> Highlight usernames instead of posts</label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class='display-preference'>
+                        <label>Moderator color</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class='color-select'>
+                            <div id='highlightModeratorColor-box' class='color-select-box'></div>
+                        </div>
+                        <input id='highlightModeratorColor' type='text' size='7' default='#b4eeb4' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        </table>
+        <table id="admin-post" class="post">
+        <tr class="altcolor2">
+            <td class="userinfo">
+                <dl class="userinfo"><dt id="admin-name" class="author">
+                    <img src="http://fi.somethingawful.com/star-admin.png">&nbsp;Admin</dt>
+                </dl>
+            </td>
+            <td class="postbody">
+            I tried doubling my USBs and removing my USBs entirely. No solution could be found, is it my USBs??
+            <br /><br /> <br /> <br />
+            </td>
+        </tr>
+        <tr class="altcolor2">
+            <td></td>
+            <td>
+                <table>
+                <tr>
+                    <td>
+                        <div class='display-preference'>
+                        <label>Administrator color</label>
+                        </div>
+                    </td>
+                    <td>
+                        <div class='color-select'>
+                            <div id='highlightAdminColor-box' class='color-select-box'></div>
+                        </div>
+                        <input id='highlightAdminColor' type='text' size='7' default='#ff7256' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                    </td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+        </table>
+        <div class="threadbar bottom">&nbsp;</div>
+        </div>
+        <div style="clear: both;"></div>
+        <br />
+    </section>
+
+    <a href="#">
+        <div class="preference-title">
+            Forums Display Options 
+            <div class="minus">
+                <img src="images/plus.png" width="24px" />
+            </div>
+        </div>
+    </a>
+
+    <section class="settings-panel">
+        <div class='display-preference'>
+            <label><input id='hideAdvertisements' class='user-preference' type='checkbox' /> Hide header/footer ads</label>
+        </div>        
         <div class='display-preference'>
             <label><input id='displayNewPostsFirst' class='user-preference' type='checkbox' /> Display threads with new posts first</label>
         </div>
-        <div class='display-preference'>
-            <label><input id='hideAdvertisements' class='user-preference' type='checkbox' /> Hide header/footer ads</label>
+        <div class="sub-options">
+            <div class='display-preference'> 
+                <label><input id='displayNewPostsFirstForum' class='user-preference' type='checkbox' /> Enable option in the forum display</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='displayNewPostsFirstUCP' class='user-preference' type='checkbox' /> Enable option in the User Control Panel</label>
+            </div>
         </div>
+        <div class='display-preference'>
+          <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread</label>
+            <img class="help" src="images/settings_question.png" />
+            <div class="help-box">Set the "Posts per Page" to the same as the "Default Posts per Thread:" option in the UCP.</div>
+        </div>
+        <div class='sub-options'>
+            <div class='display-preference'>
+                <label>Posts per Page: <select id='postsPerPage' class='user-preference'>
+                    <option selected value='default'>Forum Default</option>
+                    <option value='5'>5</option>
+                    <option value='10'>10</option>
+                    <option value='20'>20</option>
+                    <option value='30'>30</option>
+                    <option value='40'>40</option></select></label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='showLastThreePagesForum' class='user-preference' type='checkbox' /> Enable option in the forum display</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='showLastThreePagesUCP' class='user-preference' type='checkbox' /> Enable option in the User Control Panel</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='showLastThreePagesThread' class='user-preference' type='checkbox' /> Enable option in the thread display</label>
+            </div>       
+        </div>
+        <div style="clear: both;"></div>
+        <br />        
+    </section>
+
+    <a href="#">
         <div class="preference-title">
             Header/Footer Link Display Options
+            <div class="minus">
+                <img src="images/plus.png" width="24px" />
+            </div>
         </div>
-        <section class="settings-panel">
-            <div class='display-preference'>
-                <label><input id='hideHeaderLinks' class='user-preference' type='checkbox' /> Hide top menu</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='showPurchases' class='user-preference' type='checkbox' /> Display Purchase menu links</label>
-            </div>
-            <div class="sub-options">
-                <div class='display-preference'>
-                    <label><input id='topPurchaseAcc' class='user-preference' type='checkbox' /> Account</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPurchasePlat' class='user-preference' type='checkbox' /> Platinum</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPurchaseAva' class='user-preference' type='checkbox' /> Avatar</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPurchaseArchives' class='user-preference' type='checkbox' /> Archives</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPurchaseNoAds' class='user-preference' type='checkbox' /> No-Ads</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPurchaseUsername' class='user-preference' type='checkbox' /> New Username</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPurchaseBannerAd' class='user-preference' type='checkbox' /> Banner Advertisment</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPurchaseEmoticon' class='user-preference' type='checkbox' /> Emoticon</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPurchaseSticky' class='user-preference' type='checkbox' /> Stick Thread</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPurchaseGiftCert' class='user-preference' type='checkbox' /> Gift Certificate</label>
-                </div>
-            </div>
-            <div class='display-preference'>
-                <label><input id='showNavigation' class='user-preference' type='checkbox' /> Display Navigation menu links</label>
-            </div>
-            <div class="sub-options">
-                <div class='display-preference'>
-                    <label><input id="topNavBar" class='user-preference' type='checkbox' /> Display Top Navigation Bar</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='bottomNavBar' class='user-preference' type='checkbox' /> Display Bottom Navigation Bar</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topSAForums' class='user-preference' type='checkbox' /> SA Forums</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topSALink' class='user-preference' type='checkbox' /> Something Awful</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topSearch' class='user-preference' type='checkbox' /> Search the Forums</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='displayConfigureSalr' class='user-preference' type='checkbox' /> Configure SALR</label>
-                </div>                
-                <div class='display-preference'>
-                    <label><input id='topUserCP' class='user-preference' type='checkbox' /> User Control Panel</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topPrivMsgs' class='user-preference' type='checkbox' /> Private Message</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topForumRules' class='user-preference' type='checkbox' /> Forum Rules</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topSaclopedia' class='user-preference' type='checkbox' /> SAclopedia</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topGloryhole' class='user-preference' type='checkbox' /> Posting Gloryhole</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topLepersColony' class='user-preference' type='checkbox' /> Leper's Colony</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topSupport' class='user-preference' type='checkbox' /> Support</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='topLogout' class='user-preference' type='checkbox' /> Logout</label>
-                </div>
-            </div>
-        </section>
-    </section>
-    <div style="clear: both;"></div>
+    </a>
 
-    <div class="preference-title">
-        Thread Options
-    </div>
     <section class="settings-panel">
+        <!--
+        <div class='display-preference'>
+            <label><input id='hideHeaderLinks' class='user-preference' type='checkbox' /> Hide top menu</label>
+        </div>-->
+        <div class='display-preference'>
+            <label><input id='showPurchases' class='user-preference' type='checkbox' /> Display Purchase menu links</label>
+        </div>
+        <div class="sub-options">
+            <div class='display-preference'>
+                <label><input id='topPurchaseAcc' class='user-preference' type='checkbox' /> Account</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPurchasePlat' class='user-preference' type='checkbox' /> Platinum</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPurchaseAva' class='user-preference' type='checkbox' /> Avatar</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPurchaseArchives' class='user-preference' type='checkbox' /> Archives</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPurchaseNoAds' class='user-preference' type='checkbox' /> No-Ads</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPurchaseUsername' class='user-preference' type='checkbox' /> New Username</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPurchaseBannerAd' class='user-preference' type='checkbox' /> Banner Advertisment</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPurchaseEmoticon' class='user-preference' type='checkbox' /> Emoticon</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPurchaseSticky' class='user-preference' type='checkbox' /> Stick Thread</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPurchaseGiftCert' class='user-preference' type='checkbox' /> Gift Certificate</label>
+            </div>
+        </div>
+        <div class='display-preference'>
+            <label><input id='showNavigation' class='user-preference' type='checkbox' /> Display Navigation menu links</label>
+        </div>
+        <div class="sub-options">
+            <div class='display-preference'>
+                <label><input id="topNavBar" class='user-preference' type='checkbox' /> Display Top Navigation Bar</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='bottomNavBar' class='user-preference' type='checkbox' /> Display Bottom Navigation Bar</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topSAForums' class='user-preference' type='checkbox' /> SA Forums</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topSALink' class='user-preference' type='checkbox' /> Something Awful</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topSearch' class='user-preference' type='checkbox' /> Search the Forums</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='displayConfigureSalr' class='user-preference' type='checkbox' /> Configure SALR</label>
+            </div>                
+            <div class='display-preference'>
+                <label><input id='topUserCP' class='user-preference' type='checkbox' /> User Control Panel</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topPrivMsgs' class='user-preference' type='checkbox' /> Private Message</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topForumRules' class='user-preference' type='checkbox' /> Forum Rules</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topSaclopedia' class='user-preference' type='checkbox' /> SAclopedia</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topGloryhole' class='user-preference' type='checkbox' /> Posting Gloryhole</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topLepersColony' class='user-preference' type='checkbox' /> Leper's Colony</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topSupport' class='user-preference' type='checkbox' /> Support</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='topLogout' class='user-preference' type='checkbox' /> Logout</label>
+            </div>
+        </div>
+        <div style="clear: both;"></div>
+        <br />        
+    </section>
+
+    <a href="#">
+        <div class="preference-title">
+            Thread Options
+            <div class="minus">
+                <img src="images/plus.png" width="24px" />
+            </div>
+        </div>
+    </a>
+
+    <section class="settings-panel">  
         <!-- zephmod -->
         <div class='display-preference'>
-            <label><input id='showUserAvatarImage' class='user-preference' type='checkbox' /> Show User Avatar Images</label>
-        </div>
+            <label><input id='showUserAvatar' class='user-preference' type='checkbox' /> Show User Avatar/Title</label>
+        </div>        
         <div class='display-preference'>
-            <label><input id='showUserAvatar' class='user-preference' type='checkbox' /> Show User Avatars</label>
+            <label><input id='showUserAvatarImage' class='user-preference' type='checkbox' /> Show User Avatar's Image</label>
         </div>
         <!-- /zephmod -->
 
@@ -493,7 +584,7 @@
             <div class='color-select-input'>
                 <input id='youtubeHighlight' type='text' size='7' default='#ff00ff' class='color-select-text text-entry user-preference' style='color: #999999;' />
             </div>
-            <div class='color-select'>
+            <div class='color-select' style="margin-left: -270px">
                 <div id='youtubeHighlight-box' class='color-select-box'></div>
             </div>
             <div class='color-picker-box'></div>
@@ -501,12 +592,14 @@
         <div style="clear: both;"></div>
         <div class='display-preference'>
             <label><input id='threadCaching' class='user-preference' type='checkbox' /> Highlight thread counts in yellow if you've posted there before</label>
+            <img class="help" src="images/settings_question.png" />
+            <div class="help-box">This will only highlight thread counts of threads you posted in after installing SALR and turning on this option.</div>              
         </div>
         <div class='display-preference'>
-            <label><input id='boxQuotes' class='user-preference' type='checkbox' /> Display quotes in boxes</label>
+            <label><input id='boxQuotes' class='user-preference' type='checkbox' /> Display quotes in simpler style</label>
         </div>
         <div class='display-preference'>
-            <label><input id='salrLogoHide' clsas='user-preference' type='checkbox' /> Hide SALR Logo</label>
+            <label><input id='salrLogoHide' clsas='user-preference' type='checkbox' /> Hide SALR Logo in top thread bar</label>
         </div>
         <div class='display-preference'>
             <label><input id='whoPostedHide' class='user-preference' type='checkbox' /> Hide Who Posted link</label>
@@ -523,8 +616,18 @@
         <div class='display-preference'>
             <label><input id='fixCancer' class='user-preference' type='checkbox' /> Fix forums cancer posts</label>
         </div>
+        <!--
         <div class='display-preference'>
           <label><input id='adjustAfterLoad' class='user-preference' type='checkbox' /> Adjust window position after threads load</label>
+        </div>
+        -->
+        <div class='display-preference'>
+            <label><input id='enableSOAPLink' class='user-preference' type='checkbox' /> Show a link to SOAP under a user's post</label>
+            <img class="help" src="images/settings_question.png" />
+            <div class="help-box">SOAP is a site that will display all the avatars a member has used while on SomethingAwful. It won't display their user text however.</div>
+        </div>
+        <div class='display-preference'>
+            <label><input id='enableSinglePost' class='user-preference' type='checkbox' /> Enable single post view button</label>
         </div>
         <div class='display-preference'>
             <label><input id='hidePostButtonInThread' class='user-preference' type='checkbox' /> Hide the "Post" button in threads</label>
@@ -532,34 +635,46 @@
         <div class='display-preference'>
           <label><input id='collapseTldrQuotes' class='user-preference' type='checkbox' /> Automatically collapse long quotes (double click to view them)</label>
         </div>
-        <div class='display-preference'>
-          <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread</label>
-        </div>
-        <div class='sub-options'>
-            <div class='display-preference'>
-                <label>Posts per Page: <select id='postsPerPage' class='user-preference'>
-                    <option selected value='default'>Forum Default</option>
-                    <option value='5'>5</option>
-                    <option value='10'>10</option>
-                    <option value='20'>20</option>
-                    <option value='30'>30</option>
-                    <option value='40'>40</option></select></label>
-            </div>
-        </div>
     </section>
 
-    <div class="preference-title">
-        Control Options 
-    </div>
-    <section class="settings-panel">
+    <a href="#">
+        <div class="preference-title">
+            Control Options 
+            <div class="minus">
+                <img src="images/plus.png" width="24px" />
+            </div>
+        </div>
+    </a>
+
+    <section class="settings-panel">  
         <div class='display-preference'>
             <label><input id='displayPageNavigator' class='user-preference' type='checkbox' /> Display page navigator</label>
         </div>
         <div class='display-preference'>
             <label><input id='displayOmnibarIcon' class='user-preference' type='checkbox' /> Display jump list icon in omnibar</label>
+            <img class="help" src="images/settings_question.png" />
+            <div id="displayOmnibarHelp1" class="help-box">This setting is disabled as you have installed "Something Awful Last Read Redux Button" extension.</div>
+            <div id="displayOmnibarHelp2" class="help-box">If you'd prefer that the jump list icon is in your browser extension bar, search the Chrome Web Store for "Something Awful Last Read Redux Button".</div>                              
         </div>
         <div class='display-preference'>
             <label><input id='enableKeyboardShortcuts' class='user-preference' type='checkbox' /> Enable keyboard navigation</label>
+            <img class="help" src="images/settings_question.png" />
+            <div class="help-box">Keyboard navigation is as follows:<br />
+                <ul>
+                    <li>N   - Next Post</li>
+                    <li>P/M - Previous Post</li>
+                    <li>J - Next Page</li>
+                    <li>K/H - Previous page</li>
+                    <li>1/F - Jump to first post on page</li>
+                    <li>0/L - Jump to last post on page</li>
+                    <li>O - Reanchor thread</li>
+                    <li>Q - Quick Quote current post</li>
+                    <li>E - Quick Edit current post</li>
+                    <li>R - Quick Reply current thread</li>
+                    <li>ESC - Close Quick Reply/Edit box</li>
+                    <li>B - (When in UCP/Showing Forum/Bookmarked Threads) Hit twice to open all bookmarked threads
+                </ul>
+            </div>
         </div>
         <div class='display-preference'>
             <label><input id='enableMouseGestures' class='user-preference' type='checkbox' /> Enable mouse gestures to navigate forums</label>
@@ -567,6 +682,9 @@
         <div class="sub-options">
             <div class='display-preference'>
                 <label><input id="enableMouseMenu" class='user-preference' type='checkbox' /> Allow Alt key to switch between mouse gestures and context menu</label>
+            </div>
+            <div class='display-preference'>
+                <label><input id='enableMouseUpUCP' class='user-preference' type='checkbox' /> Enable up arrow to go to UCP instead of up a forum layer</label>
             </div>
         </div>
         <div class='display-preference'>
@@ -579,13 +697,24 @@
             <div class='display-preference'>
                 <label><input id='quickReplyFormat' class='user-preference' type='checkbox' /> Enable quick format keys</label>
             </div>
+            <div class='display-preference'>
+                <label><input id='quickReplyEmotes' class='user-preference' type='checkbox' /> Alphabetize sidebar smiley list</label>
+            </div>
         </div>
+        <div style="clear: both;"></div>
+        <br />
     </section>
-    <div style="clear: both;"></div>
-    <div class="preference-title">
-        Image Display Options 
-    </div>
-    <section class="settings-panel">
+    
+    <a href="#">
+        <div class="preference-title">
+            Image Display Options 
+            <div class="minus">
+                <img src="images/plus.png" width="24px" />
+            </div>
+        </div>
+    </a>
+
+    <section class="settings-panel"> 
         <span class='settings-group-title'>Links-to-Images</span>
         <div class='settings-group'>
             <div class='display-preference'>
@@ -626,6 +755,7 @@
                 <label><input id='restrictImageSize' class='user-preference' type='checkbox' /> Restrict Size of Images</label>
             </div>
         </div>
+        <!--
         <span class='settings-group-title'>Fix thumbnailed images</span>
         <div class='settings-group'>
             <div class='display-preference'>
@@ -635,24 +765,30 @@
                 <label><input id='forceTimg' class='user-preference' type='checkbox' /> Force thumbnailing on ALL images</label>
             </div>
         </div>
+        -->
         <span class='settings-group-title'>Use retina images</span>
         <div class='settings-group'>
             <div class='display-preference'>
                 <label><input id='retinaImages' class='user-preference' type='checkbox' /> Enable retina images</label>
             </div>
         </div>
+        <div style="clear: both;"></div>
+        <br />
     </section>
-    <div style="clear: both;"></div>
-    <div class="preference-title">
-         Other Options 
-    </div>
-    <section class="settings-panel">
+    
+    <a href="#">
+        <div class="preference-title">
+             Other Options 
+            <div class="minus">
+                <img src="images/plus.png" width="24px" />
+            </div>
+        </div>
+    </a>
+
+    <section class="settings-panel"> 
        <div class='display-preference'>
           <label><input id='qneProtection' class='user-preference' type='checkbox' /> Protect against accidental quotes instead of edits</label>
        </div>        
-       <div class='display-preference'>
-           <label><input id='autoTLDR' class='user-preference' type='checkbox' /> Automatically collapse large quotes</label>
-        </div>
        <div class='display-preference'>
           <label><input id='showEditBookmarks' class='user-preference' type='checkbox' /> Always display "Edit Bookmarks" column in User CP</label>
        </div>
@@ -661,7 +797,9 @@
        </div>
        <div class='sub-options'>
           <div class='display-preference'>
-              <label>Ignore bookmarks with a 
+            Ignore bookmarks with a<br />
+<!--    
+              <label>Ignore bookmarks with a<br /> 
                   <select id='ignoreBookmarkStar' class='user-preference'>
                       <option value="">Disabled</option>
                       <option value="bm0">Gold Star</option>
@@ -669,11 +807,17 @@
                       <option value="bm2">Yellow Star</option>
                   </select>
               </label>
+-->
+                <label><input id="ignoreBookmarkStarGold" class='user-preference' type='checkbox' /> Gold Star</label>
+                <label><input id="ignoreBookmarkStarRed" class='user-preference' type='checkbox' /> Red Star</label>
+                <label><input id="ignoreBookmarkStarYellow" class='user-preference' type='checkbox' /> Yellow Star</label>
           </div>
        </div>
+        <div style="clear: both;"></div>
+        <br />
     </section>
-    <div style="clear: both;"></div>
-    <br /> <br />
-    <button>Dump Settings</button><br /> <br />
+    
+    <br />
+    <button id="config">Dump Settings</button>&nbsp;&nbsp;<button id="settings">Get User Notes from SALR</button><br /> <br />
 </body>
 </html>

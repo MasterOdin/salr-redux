@@ -23,7 +23,7 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 function PreviewParser(post_text, emote_list) {
     this.post_text = post_text;
@@ -45,14 +45,19 @@ PreviewParser.prototype.parseSmilies = function() {
     for (var index in this.emote_list) {
         var title = this.emote_list[index].emote;
         var img = this.emote_list[index].image;
-		var re;
+        var re;
 
         if (this.post_text.indexOf(title) != -1)
-		{
-			//faces have noses. come on.
-			if (title == ":)" || title == ":-)") { re = (title == ":-)") ? ":-)" : ":)"; }
-			else if (title == ":(" || title == ":-(") { re = (title == ":-(") ? ":-(" : ":("; }
-			else { re = new RegExp(title, 'g'); /* this is invalid if :( or :) is entered cause lol */ }
+        {
+            //faces have noses. come on.
+            //if (title == ":)" || title == ":-)") { re = (title == ":-)") ? ":-)" : ":)"; }
+            //else if (title == ":(" || title == ":-(") { re = (title == ":-(") ? ":-(" : ":("; }
+            //else { re = new RegExp(title, 'g'); /* this is invalid if :( or :) is entered cause lol */ }
+            title = title.replace(")", "\\)");
+            title = title.replace("(", "\\(");
+            title = title.replace("*", "\\*");
+            title = title.replace("?", "\\?");
+            re = new RegExp(title, 'g');
             this.post_text = this.post_text.replace(re, '<img src="' + img + '" title="' + title + '" border="0" alt="" />');
         }
     }
@@ -63,8 +68,8 @@ PreviewParser.prototype.parseBBCodes = function() {
 };
 
 PreviewParser.prototype.parseQuotes = function() {
-    var quote_re = /\[quote\="?(.*?)"?\](.*?)\[\/quote\]/g;
-    var quote_format = '<div style="margin: 0px 6px;" class="bbc-block"><h4>$1 posted:</h4><blockquote>$2</blockquote></div>'
+    var quote_re = /\[quote\="?(.*?)"(.*?)"?\](.*?)\[\/quote\]/g;
+    var quote_format = '<div style="margin: 0px 6px;" class="bbc-block"><h4>$1 posted:</h4><blockquote>$3</blockquote></div>'
 
     this.post_text = this.post_text.replace(quote_re, quote_format);
 };

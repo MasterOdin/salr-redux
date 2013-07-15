@@ -23,20 +23,25 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 function PageNavigator(base_image_uri) {
     this.base_image_uri = base_image_uri;
 
     this.pageCount = countPages();
+
     // Determines if we are on a forum or a thread
     this.rootPageType = (findCurrentPage() == 'forumdisplay.php') ? 'forumid' : 'threadid';
     // Either forum ID or thread ID, depending on which we are
     // currently viewing
     this.basePageID = findForumID();
     // Current page
-    this.currentPage = Number(jQuery('option[selected="selected"]').val());
-
+    this.currentPage = jQuery('option[selected="selected"]').val();
+    if (this.currentPage == null) {
+        this.currentPage = 1;
+    } else {
+        this.currentPage = Number(this.currentPage);
+    }
     this.writeNavigatorHtml();
     this.selectPage(this.currentPage);
     this.bindButtonEvents();

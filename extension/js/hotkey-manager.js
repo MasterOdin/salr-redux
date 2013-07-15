@@ -23,7 +23,7 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 function HotKeyManager(quickReply, settings) {
     /*****************
@@ -39,6 +39,8 @@ function HotKeyManager(quickReply, settings) {
     this.quickReply = quickReply;
     this.settings = settings;
     this.bindHotKeys();
+    this.pageCount = countPages();
+    this.currentPage = getCurrentPageNumber();
     
     jQuery(document).data("enableSALRHotkeys", true);
     jQuery(document).bind("enableSALRHotkeys", this.enableHotKeys);
@@ -106,10 +108,12 @@ HotKeyManager.prototype.bindHotKeys = function() {
                     that.anchorThread();
                     break;
                 case 49: /* 1 */
+                case 102:
                     // Jump to first post on the page
                     that.firstPost();
                     break;
                 case 48: /* 0 */
+                case 108:
                     // Jump to last post on the page
                     that.lastPost();
                     break;
@@ -147,12 +151,15 @@ HotKeyManager.prototype.bindHotKeys = function() {
                             event.preventDefault();
                         }
                     } else if (curr_page == 'forumdisplay.php') {
-                        if (that.b_count == 3) {
+                        if (that.b_count == 2) {
                             that.b_count=0;
                             that.openAllBookmarks();
                             event.preventDefault();
                         }
                     }
+                    break;
+                default:
+                    console.log(event.keyCode);
                     break;
             }
         //}
@@ -168,19 +175,17 @@ HotKeyManager.prototype.disableHotKeys = function() {
 };
 
 HotKeyManager.prototype.nextPage = function() {
-    this.pageCount = countPages();
-
     switch(findCurrentPage()) {
         case 'forumdisplay.php':
         case 'showthread.php':
+        case 'usercp.php':
         case 'bookmarkthreads.php':
         case 'search.php':
         case 'banlist.php':
-            var currentPage = Number(jQuery('span.curpage').html());
-            if (currentPage <= 0)
-                currentPage = 1;
+            if (this.currentPage <= 0)
+                this.currentPage = 1;
 
-            if (currentPage >= this.pageCount)
+            if (this.currentPage >= this.pageCount)
                 return;
 
             jumpToPage(nextPageUrl());
@@ -190,19 +195,17 @@ HotKeyManager.prototype.nextPage = function() {
 
 
 HotKeyManager.prototype.previousPage = function() {
-    this.pageCount = countPages();
-
     switch(findCurrentPage()) {
         case 'forumdisplay.php':
         case 'showthread.php':
         case 'bookmarkthreads.php':
+        case 'usercp.php':
         case 'search.php':
         case 'banlist.php':
-            var currentPage = Number(jQuery('span.curpage').html());
-            if (currentPage <= 0)
-                currentPage = 1;
+            if (this.currentPage <= 0)
+                this.currentPage = 1;
 
-            if (currentPage <= 1)
+            if (this.currentPage <= 1)
                 return;
 
             jumpToPage(prevPageUrl());

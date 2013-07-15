@@ -7,9 +7,10 @@ body {
 
 label {
     display: block;
-    padding-left: 15px;
+    padding-left: 20px;
     text-indent: -15px;
 }
+
 input[type="checkbox"] {
     width: 13px;
     height: 13px;
@@ -49,6 +50,7 @@ div.settings-group {
 
 span.settings-group-title {
     font-weight: bold;
+    padding-left: 10px;
 }
 
 div.display-preference {
@@ -109,4 +111,39 @@ input#submit {
 
 #thread table.post td {
     border:1px solid #c1c1c1;
+}
+
+img.help {
+    float: right;
+    margin-top: -15px;
+    height: 12px;
+}
+
+.help-box {
+    display:none;
+    border:1px solid #3b3b3d;
+    padding:10px;
+    position: absolute;
+    background-color: #fff;
+    z-index: 100;
+    width: 500px;
+    color: #000;
+}
+
+.minus {
+    float: right;
+    margin-top: -4px;
+    margin-right: 10px;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
+
+a:link,
+a:visited,
+a:hover,
+a:active {
+    color: #000;
 }

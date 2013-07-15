@@ -23,7 +23,7 @@
 // LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
 // ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-// OFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // Tracks the visibility state of the box
 
@@ -76,7 +76,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
 
     var that = this;
     // Begin fetching and parsing the emotes as soon as we create the quick-reply
-    var emote_parser = new EmoteParser(this);
+    this.emote_parser = new EmoteParser(this);
 
     // window.open("chrome-extension://lbeflkohppahphcnpjfgffckhcmgelfo/quick-reply.html", "Quick Reply","menubar=no,width=720,height=425,toolbar=no");
     var html = '<div id="side-bar">' +
@@ -109,12 +109,12 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 '       <div id="tag-menu" class="sidebar-menu">' +
                 '           <img src="' + this.base_image_uri + "quick-reply-tags.gif" + '" />' +
                 '       </div>' +
-                '       <div id="imgur-images-menu" class="sidebar-menu">' +
-                '           <img src="' + this.base_image_uri + "quick-reply-imgur.png" + '" />' +
-                '       </div>' +
+                //'       <div id="imgur-images-menu" class="sidebar-menu">' +
+                //'           <img src="' + this.base_image_uri + "quick-reply-imgur.png" + '" />' +
+                //'       </div>' +
                 '       <div id="post-input-field">' +
-                '<textarea name="message" rows="18" size="10" id="post-message" tabindex="1">' +
-                '</textarea>' +
+                '           <textarea name="message" rows="18" size="10" id="post-message" tabindex="1">' +
+                '           </textarea>' +
                 '       </div>' +
                 '       <div id="post-options">' +
                 '           <label>' +
@@ -162,7 +162,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
     }
 
     if (this.settings.quickReplyBookmark == 'true') {
-        jQuery('input#quickReplyBookmark').attr('checked', true);
+        jQuery('input#quickReplyBookmark').prop('checked', true);
     }
 
     jQuery('#dismiss-quick-reply').click(function() {
@@ -203,7 +203,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
         that.toggleTopbar();
     });
 
-    jQuery('div.sidebar-menu-item').live('click', function() {
+    jQuery('div#sidebar-list').on('click', 'div.sidebar-menu-item', function() {
         var selected_item = jQuery('div.menu-item-code', this).first().html();
 
         if (jQuery(this).is('.bbcode')) {
@@ -230,6 +230,9 @@ QuickReplyBox.prototype.create = function(username, quote) {
     this.fetchFormCookie(findThreadID());
     jQuery('#side-bar').hide();
     jQuery('#quick-reply').hide();
+
+    // this takes care of a weird case where hitting "reply" inserted a tab on first use
+    jQuery('#post-message').val('');
 };
 
 QuickReplyBox.prototype.show = function() {
@@ -241,15 +244,23 @@ QuickReplyBox.prototype.show = function() {
 };
 
 QuickReplyBox.prototype.hide = function() {
-    jQuery('#side-bar').first().hide();
+    // close side/top bars if they're open, then hide them. better that way.
+    if (this.quickReplyState.topbar_visible != false) {
+        this.toggleTopbar();
+    }
     jQuery('#top-bar').first().hide();
-    jQuery('#live-preview').attr('checked', '');
+    jQuery('#live-preview').prop('checked', '');
+    if (this.quickReplyState.sidebar_visible != false) {
+        this.toggleSidebar(jQuery("<input id='" + this.quickReplyState.sidebar_visible + "' type='hidden' />"));
+    }
+    jQuery('#side-bar').first().hide();
     if (salr_client.pageNavigator) {
         salr_client.pageNavigator.display();
     }
     jQuery(document).trigger('enableSALRHotkeys');
     jQuery('#quick-reply').hide("slow");
     jQuery('#post-message').val('');
+    jQuery('#post-warning').remove();
 
     // Return to quick reply mode
     jQuery('div#title-bar').text('Quick Reply');
@@ -258,8 +269,13 @@ QuickReplyBox.prototype.hide = function() {
     jQuery('input#quick-reply-postid').val('');
     jQuery('input[name="submit"]').attr('value', 'Submit Reply');
 
-    this.quickReplyState.expanded = false;
-    this.quickReplyState.visible = false;
+    this.quickReplyState = {
+        expanded: false,
+        visible: false,
+        sidebar_visible: false,
+        topbar_visible: false,
+        wait_for_quote: false
+    };
 };
 
 QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
@@ -280,11 +296,13 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
 };
 
 QuickReplyBox.prototype.updatePreview = function() {
-    var parser = new PreviewParser(jQuery('#post-message').val(), this.emotes);
-    jQuery('#preview-content').html(parser.fetchResult());
+    if(jQuery('#post-message').val().length > 0) {
+        var parser = new PreviewParser(jQuery('#post-message').val(), this.emotes);
+        jQuery('#preview-content').html(parser.fetchResult());
 
-    var content = document.getElementById('topbar-preview');
-    content.scrollTop = content.scrollHeight;
+        var content = document.getElementById('topbar-preview');
+        content.scrollTop = content.scrollHeight;
+    }
 };
 
 QuickReplyBox.prototype.appendText = function(text) {
@@ -322,8 +340,10 @@ QuickReplyBox.prototype.appendQuote = function(postid) {
                     if (textarea.length)
                         quote = textarea.val();
 
+                    // this is the first thing in the Quick Reply
                     if (that.quickReplyState.wait_for_quote) {
                         that.prependText(quote);
+                        that.showWarning();
                         that.quickReplyState.wait_for_quote=false;
                     } else {
                         that.appendText(quote);
@@ -355,14 +375,14 @@ QuickReplyBox.prototype.editPost = function(postid, subscribe) {
                 },
                 function(response) {
                     // Pull quoted text from reply box
-                    var textarea = jQuery(response).find('textarea[name=message]')
+                    var textarea = jQuery(response).find('textarea[name=message]');
                     var edit = '';
                     if (textarea.length)
                         edit = textarea.val();
                     jQuery('#post-message').val(edit);
                     that.updatePreview();
                 });
-
+    jQuery('#post-warning').remove();
     jQuery('div#title-bar').text('Quick Edit');
     jQuery('form#quick-reply-form').attr('action', 'editpost.php');
     jQuery('input#quick-reply-action').val('updatepost');
@@ -370,7 +390,7 @@ QuickReplyBox.prototype.editPost = function(postid, subscribe) {
     jQuery('input[name="submit"]').attr('value', 'Edit Post');
 
     if (subscribe) {
-        jQuery('input#quickReplyBookmark').attr('checked', true);
+        jQuery('input#quickReplyBookmark').prop('checked', true);
     }
 
 };
@@ -387,7 +407,7 @@ QuickReplyBox.prototype.toggleView = function() {
         var hideBox = function() {
             jQuery('#side-bar').first().hide();
             jQuery('#top-bar').first().hide();
-            jQuery('#live-preview').attr('checked', '');
+            jQuery('#live-preview').prop('checked', '');
             quick_reply_box.animate( { height: min } );
             (imgId).attr("src", that.base_image_uri + "quick-reply-rollup.gif");
             that.quickReplyState.expanded = false;
@@ -498,6 +518,7 @@ QuickReplyBox.prototype.toggleTopbar = function() {
 QuickReplyBox.prototype.notify = function(emotes) {
     var that = this;
     this.emotes = emotes;
+    this.sortedEmotes = this.emote_parser.getSortedEmotes();
 
     jQuery('#post-message').keyup(function() {
         that.updatePreview();
@@ -513,11 +534,21 @@ QuickReplyBox.prototype.notifyReplyReady = function(form_cookie) {
 QuickReplyBox.prototype.setEmoteSidebar = function() {
     var html = '';
 
-    for (var emote in this.emotes) { 
-        html += '<div class="sidebar-menu-item emote">' +
-                '   <div><img src="' + this.emotes[emote].image + '" /></div>' +
-                '   <div class="menu-item-code">' + this.emotes[emote].emote + '</div>' +
-                '</div>';
+    if (this.settings.quickReplyEmotes == 'true') {    
+        for (i = 0; i < this.sortedEmotes.length; i++) {
+            html += '<div class="sidebar-menu-item emote">' +
+                    '   <div><img src="' + this.sortedEmotes[i][1] + '" /></div>' +
+                    '   <div class="menu-item-code">' + this.sortedEmotes[i][0] + '</div>' +
+                    '</div>';
+        }
+    }
+    else {
+        for (var emote in this.emotes) {
+            html += '<div class="sidebar-menu-item emote">' +
+                    '   <div><img src="' + this.emotes[emote].image + '" /></div>' +
+                    '   <div class="menu-item-code">' + this.emotes[emote].emote + '</div>' +
+                    '</div>';
+        }
     }
 
     jQuery('#sidebar-list').html(html);
@@ -618,5 +649,17 @@ QuickReplyBox.prototype.formatText = function() {
         sel = sel.replace(/\n/g, "\n[*]");
         src.value = pre+'[*]'+sel+post;
         event.preventDefault();
+    }
+};
+
+QuickReplyBox.prototype.showWarning = function() {
+    if (this.settings.qneProtection == 'true') {
+        if (this.settings.username) {
+            var regex = "quote=\"" + this.settings.username + "\"";
+            match = jQuery("#post-message").val().match(new RegExp(regex,"gi"));
+            if (match != null) {
+                jQuery("#post-options").after("<div id='post-warning'><h4>Warning! Possible Quote/Edit mixup.</h4></div>");
+            }
+        }
     }
 };
