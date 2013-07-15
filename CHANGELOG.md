@@ -7,6 +7,11 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
+### v2.0.1 (7/15/2013)
+
+- Actually remove the thread yellow count highlight option
+* Fix jQuery error on not parsing smilies when using ImageToLink option
+
 ### v2.0.0 (7/15/2013)
 
 * Updated jQuery to v1.10.1.

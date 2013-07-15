@@ -677,8 +677,8 @@ SALR.prototype.modifyImages = function() {
         }
 
         //if(settings.dontReplaceEmoticons) {
-            subset = subset.not('img[src*=http://i.somethingawful.com/forumsystem/emoticons/]');
-            subset = subset.not('img[src*=http://fi.somethingawful.com/images/smilies/]');
+            subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');
+            subset = subset.not('img[src*="http://fi.somethingawful.com/images/smilies/"]');
         //}
 
         subset.each(function() {
