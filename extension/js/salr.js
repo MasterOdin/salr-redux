@@ -1484,7 +1484,7 @@ SALR.prototype.displayUserNotes = function() {
                         notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(), 
                                          'color' : jQuery('#salr-usernotes-color').val()};
                         // TODO: Fix this
-                        postMessage({ 'message': 'ChangeSetting',
+                        postMessage({ 'message': 'ChangeCloudSetting',
                                            'option' : 'userNotes',
                                            'value'  : JSON.stringify(notes) });
                         jQuery(this).dialog('destroy');
@@ -1493,7 +1493,7 @@ SALR.prototype.displayUserNotes = function() {
                     "Delete" : function () {
                         delete notes[userid];
                         // TODO: Fix this
-                        postMessage({ 'message': 'ChangeSetting',
+                        postMessage({ 'message': 'ChangeCloudSetting',
                                            'option' : 'userNotes',
                                            'value'  : JSON.stringify(notes) });
                         jQuery(this).dialog('destroy');

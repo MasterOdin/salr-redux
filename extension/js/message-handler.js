@@ -56,6 +56,10 @@ chrome.extension.onConnect.addListener(function(port) {
             case 'ChangeSetting':
                 localStorage.setItem(data.option, data.value);
                 break;
+            case 'ChangeCloudSetting':
+                chrome.storage.sync.set({'userNotes' : data.value});
+                localStorage.setItem('userNotes', data.value);
+                break;
             case 'OpenTab':
                 openNewTab(data.url);
                 break;
@@ -326,4 +330,8 @@ function fixSettings() {
         localStorage.setItem('fixCancer', localStorage.getItem('highlightCancer'));
         localStorage.removeItem('highlightCancer');
     }
+
+    chrome.storage.sync.get('userNotes', function(r) {
+        localStorage.setItem('userNotes',r['userNotes']);
+    });
 }
