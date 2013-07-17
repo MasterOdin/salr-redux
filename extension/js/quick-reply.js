@@ -42,7 +42,8 @@ function QuickReplyBox(forum_post_key, base_image_uri, settings) {
         visible: false,
         sidebar_visible: false,
         topbar_visible: false,
-        wait_for_quote: false
+        wait_for_quote: false,
+        height: null
     };
 
     // TODO: Pull these from the extension, cache them there
@@ -233,6 +234,12 @@ QuickReplyBox.prototype.create = function(username, quote) {
 
     // this takes care of a weird case where hitting "reply" inserted a tab on first use
     jQuery('#post-message').val('');
+    if (this.quickReplyState.height == null) {
+        this.quickReplyState.height = jQuery('.modal').first().height();
+        jQuery('#top-bar').css('height',(parseInt(jQuery('#top-bar').css('height'))-(390-this.quickReplyState.height)) + 'px');
+        jQuery('#topbar-preview').css('height',(parseInt(jQuery('#topbar-preview').css('height'))-(390-this.quickReplyState.height)) + 'px');
+        jQuery('#side-bar').css('bottom',(parseInt(jQuery('#side-bar').css('bottom'))-(390-this.quickReplyState.height)) + 'px');
+    }
 };
 
 QuickReplyBox.prototype.show = function() {
@@ -400,7 +407,7 @@ QuickReplyBox.prototype.toggleView = function() {
     var that = this;
     var quick_reply_box = jQuery(".modal").first();
     var min = '18px';
-    var max = '390px';
+    var max = this.quickReplyState.height;
     var imgId = jQuery("img#quick-reply-rollbutton").first();
 
     if(this.quickReplyState.expanded) {
@@ -424,7 +431,7 @@ QuickReplyBox.prototype.toggleView = function() {
                 that.toggleView();
             });
         } else if (this.quickReplyState.topbar_visible) {
-            jQuery('#top-bar').animate( { bottom: '-=320px' }, 500, function() {
+            jQuery('#top-bar').animate( { bottom: '-=' + (320-(390-this.quickReplyState.height)) + 'px' }, 500, function() {
                 that.quickReplyState.topbar_visible = false;
                 that.toggleView();
             });
@@ -504,13 +511,13 @@ QuickReplyBox.prototype.toggleTopbar = function() {
     }
     
     if (this.quickReplyState.topbar_visible) {
-        top_bar.animate( { bottom: '-=320px' } );
+        top_bar.animate( { bottom: '-=' + (320-(390-this.quickReplyState.height)) + 'px' } );
         if (salr_client.pageNavigator) {
             salr_client.pageNavigator.display();
         }
         this.quickReplyState.topbar_visible = false;
     } else {
-        top_bar.animate( { bottom: '+=320px' } );
+        top_bar.animate( { bottom: '+=' + (320-(390-this.quickReplyState.height)) + 'px' } );
         this.quickReplyState.topbar_visible = true;
     }
 };

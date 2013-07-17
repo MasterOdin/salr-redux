@@ -1438,7 +1438,7 @@ SALR.prototype.updateUsernameFromCP = function() {
 SALR.prototype.displayUserNotes = function() {
     var notes;
 
-    if (this.settings.userNotes == null) {
+    if (this.settings.userNotes == null || this.settings.userNotes == 'undefined') {
         notes = { "50339" : {'text' : 'SALR Developer', 'color' : '#9933FF'},   // Sebbe
                   "3882420" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Onoj
                   "143511" : {'text' : 'SALR Developer', 'color' : '#9933FF'},  // Sneaking Mission

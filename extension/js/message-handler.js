@@ -332,6 +332,11 @@ function fixSettings() {
     }
 
     chrome.storage.sync.get('userNotes', function(r) {
-        localStorage.setItem('userNotes',r['userNotes']);
+        if (r['userNotes'] == 'undefined') {
+            chrome.storage.sync.set('userNotes', localStorage.get('userNotes'));
+        }
+        else {
+            localStorage.setItem('userNotes',r['userNotes']);
+        }
     });
 }
