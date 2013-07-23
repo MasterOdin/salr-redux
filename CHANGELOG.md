@@ -7,6 +7,12 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
+### v2.0.2 (7/24/2013)
+
+* Update Quick Reply size logic to work better on various monitor resolutions
+* Fix Mouse Gestures bottom button location. Should prevent random page refreshes from occuring (esp. on two-finger scroll on Macs)
+
+
 ### v2.0.1 (7/15/2013)
 
 - Actually remove the thread yellow count highlight option
