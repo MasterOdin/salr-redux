@@ -18,8 +18,9 @@ div#gesture-top {
 }
 
 div#gesture-bottom {
-    top: 0px;
-    left: 0%;
+    position: absolute;
+    top: 157px;
+    margin-left: -39px;
 }
 
 div#gesture-right {

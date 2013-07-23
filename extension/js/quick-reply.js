@@ -243,7 +243,9 @@ QuickReplyBox.prototype.create = function(username, quote) {
 };
 
 QuickReplyBox.prototype.show = function() {
-    this.quickReplyState.expanded = true;
+    if (!this.quickReplyState.expanded) {
+        this.toggleView();
+    }
     this.quickReplyState.visible = true;
     jQuery(document).trigger('disableSALRHotkeys');
     jQuery('#quick-reply').show("slow");
@@ -277,11 +279,12 @@ QuickReplyBox.prototype.hide = function() {
     jQuery('input[name="submit"]').attr('value', 'Submit Reply');
 
     this.quickReplyState = {
-        expanded: false,
+        expanded: this.quickReplyState.expanded,
         visible: false,
         sidebar_visible: false,
         topbar_visible: false,
-        wait_for_quote: false
+        wait_for_quote: false,
+        height: this.quickReplyState.height
     };
 };
 
@@ -423,7 +426,7 @@ QuickReplyBox.prototype.toggleView = function() {
         // Keep trying to close the sidebar until we're ready
         if(this.quickReplyState.sidebar_visible) {
             jQuery('#side-bar').animate( { left: '-=200px' }, 500, function() {
-                that.quickReplyState.sidebar_visible = null;
+                that.quickReplyState.sidebar_visible = false;
                 if (salr_client.pageNavigator) {
                     salr_client.pageNavigator.display();
                 }
@@ -441,7 +444,7 @@ QuickReplyBox.prototype.toggleView = function() {
     } else {
         quick_reply_box.animate( { height: max }, 500, function() {
                 // Only display the sidebar after the box is shown
-                jQuery('#side-bar').first().show();
+                //jQuery('#side-bar').first().show();
         });
         (imgId).attr("src", this.base_image_uri + "quick-reply-rolldown.gif");
         jQuery('#post-message').focus().putCursorAtEnd();
@@ -512,9 +515,9 @@ QuickReplyBox.prototype.toggleTopbar = function() {
     
     if (this.quickReplyState.topbar_visible) {
         top_bar.animate( { bottom: '-=' + (320-(390-this.quickReplyState.height)) + 'px' } );
-        if (salr_client.pageNavigator) {
-            salr_client.pageNavigator.display();
-        }
+        //if (salr_client.pageNavigator) {
+        //    salr_client.pageNavigator.display();
+        //}
         this.quickReplyState.topbar_visible = false;
     } else {
         top_bar.animate( { bottom: '+=' + (320-(390-this.quickReplyState.height)) + 'px' } );

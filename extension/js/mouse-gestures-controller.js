@@ -290,8 +290,8 @@ MouseGesturesController.prototype.determineLocation = function(x_coord, y_coord)
         if (y_coord > right_button.offset().top && y_coord < right_button.offset().top + 77) {
             return 'right';
         }
-    } else if (y_coord > bottom_button.offset().top+77 && y_coord < bottom_button.offset().top + 154) {
-        if (x_coord > bottom_button.offset().left+77 && x_coord < bottom_button.offset().left + 231) {       
+    } else if (y_coord > bottom_button.offset().top && y_coord < bottom_button.offset().top + 77) {
+        if (x_coord > bottom_button.offset().left && x_coord < bottom_button.offset().left + 77) {
             return 'bottom';
         }
     }
@@ -303,7 +303,6 @@ MouseGesturesController.prototype.is_enabled = function(a_function) {
             return false;
         }
     }
-
     return true;
 };
 
@@ -349,7 +348,9 @@ MouseGesturesController.prototype.leftAction = function() {
 };
 
 MouseGesturesController.prototype.bottomAction = function() {
-    postMessage({'message': 'ReloadTab'});
+    if (this.is_enabled(this.bottomAction)) {
+        postMessage({'message': 'ReloadTab'}); 
+    }
 }
 
 MouseGesturesController.prototype.disableGesture = function(gesture) {

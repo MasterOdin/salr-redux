@@ -65,7 +65,7 @@ div.modal.show {
 div#side-bar {
     width: 250px;
     height: 250px;
-    display: block;
+    display: none;
     float: right;
     position: fixed;
     bottom: 80px;
