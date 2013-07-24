@@ -49,14 +49,6 @@ SALR.prototype.pageInit = function() {
         return (obj.textContent || obj.innerText || $(obj).text() || "").toLowerCase() == meta[3].toLowerCase();
     }
 
-    if (this.settings.enableMouseGestures == 'true') {
-        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings);
-    }
-
-    if (this.settings.enableKeyboardShortcuts == 'true') {
-        this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings);
-    }
-
     if (this.settings.displayOmnibarIcon == 'true') {
         // Display the page action
         postMessage({
@@ -276,6 +268,14 @@ SALR.prototype.pageInit = function() {
     if (this.pageNavigator) {
         this.pageNavigator.display();
     }
+
+    if (this.settings.enableMouseGestures == 'true') {
+        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings);
+    }
+
+    if (this.settings.enableKeyboardShortcuts == 'true') {
+        this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings);
+    }    
 };
 
 SALR.prototype.openSettings = function() {
