@@ -57,7 +57,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 localStorage.setItem(data.option, data.value);
                 break;
             case 'ChangeCloudSetting':
-                chrome.storage.sync.set({'userNotes' : data.value});
+                //chrome.storage.sync.set({'userNotes' : data.value});
                 localStorage.setItem('userNotes', data.value);
                 break;
             case 'OpenTab':
@@ -331,12 +331,12 @@ function fixSettings() {
         localStorage.removeItem('highlightCancer');
     }
 
-    chrome.storage.sync.get('userNotes', function(r) {
+    /*chrome.storage.sync.get('userNotes', function(r) {
         if (r['userNotes'] == 'undefined') {
             chrome.storage.sync.set('userNotes', localStorage.get('userNotes'));
         }
         else {
             localStorage.setItem('userNotes',r['userNotes']);
         }
-    });
+    });*/
 }

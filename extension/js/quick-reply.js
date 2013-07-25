@@ -119,7 +119,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 '       </div>' +
                 '       <div id="post-options">' +
                 '           <label>' +
-                '           <input type="checkbox" name="parseurl" value="yes" checked>' +
+                '           <input type="checkbox" id="parseurl" name="parseurl" value="yes">' +
                 '              <span class="post-options">Parse URLs</span>' +
                 '           </input>' + 
                 '           </label>' + 
@@ -129,12 +129,12 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 '           </input>' + 
                 '           </label>' + 
                 '           <label>' +
-                '           <input type="checkbox" name="disablesmilies" value="yes">' + 
+                '           <input type="checkbox" id="disablesmilies" name="disablesmilies" value="yes">' + 
                 '               <span class="post-options">Disable smilies</span>' +
                 '           </input>' + 
                 '           </label>' + 
                 '           <label>' +
-                '           <input type="checkbox" name="signature" value="yes">' + 
+                '           <input type="checkbox" id="signature" name="signature" value="yes">' + 
                 '               <span class="post-options">Show signature</span>' +
                 '          </input>' + 
                 '           </label>' + 
@@ -160,10 +160,6 @@ QuickReplyBox.prototype.create = function(username, quote) {
         jQuery('textarea[name=message]').keydown(function(event) {
             that.formatText(event);
         });
-    }
-
-    if (this.settings.quickReplyBookmark == 'true') {
-        jQuery('input#quickReplyBookmark').prop('checked', true);
     }
 
     jQuery('#dismiss-quick-reply').click(function() {
@@ -243,13 +239,35 @@ QuickReplyBox.prototype.create = function(username, quote) {
 };
 
 QuickReplyBox.prototype.show = function() {
+    var that = this;
+
     if (!this.quickReplyState.expanded) {
         this.toggleView();
     }
-    this.quickReplyState.visible = true;
     jQuery(document).trigger('disableSALRHotkeys');
-    jQuery('#quick-reply').show("slow");
-	jQuery('#post-message').focus().putCursorAtEnd();
+    jQuery('#quick-reply').show("slow",function() {
+        if (!that.quickReplyState.visible) {
+            // change default checkbox values
+            if (that.settings.quickReplyParseUrls == 'true') {
+                jQuery('input#parseurl').trigger('click');
+            }
+            if (that.settings.quickReplyBookmark == 'true') {
+                jQuery('input#quickReplyBookmark').trigger('click');
+            }
+            if (that.settings.quickReplyDisableSmilies == 'true') {
+                jQuery('input#disablesmilies').trigger('click');
+            }
+            if (that.settings.quickReplySignature == 'true') {
+                jQuery('input#signature').trigger('click');
+            }
+            if (that.settings.quickReplyLivePreview == 'true') {
+                jQuery('input#live-preview').trigger('click');  
+            }
+        }
+        that.quickReplyState.visible = true;
+        jQuery('#post-message').focus().putCursorAtEnd(); 
+    });
+	   
 };
 
 QuickReplyBox.prototype.hide = function() {
@@ -286,6 +304,13 @@ QuickReplyBox.prototype.hide = function() {
         wait_for_quote: false,
         height: this.quickReplyState.height
     };
+
+    jQuery('input#parseurl').prop('checked', '');
+    jQuery('input#quickReplyBookmark').prop('checked', '');
+    jQuery('input#disablesmilies').prop('checked', '');
+    jQuery('input#signature').prop('checked', '');
+
+
 };
 
 QuickReplyBox.prototype.fetchFormCookie = function(threadid) {

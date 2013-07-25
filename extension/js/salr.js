@@ -39,6 +39,8 @@ function SALR(settings, base_image_uri) {
 
 SALR.prototype.pageInit = function() {
     this.currentPage = findCurrentPage();
+    this.pageCount = countPages();
+    this.getCurrentPage = getCurrentPageNumber();
 
     // Update the styles now that we have
     // the settings
@@ -54,7 +56,7 @@ SALR.prototype.pageInit = function() {
         postMessage({
             'message': 'ShowPageAction'
         });
-    }
+    } 
 
     switch (this.currentPage) {
         case '':
@@ -270,11 +272,10 @@ SALR.prototype.pageInit = function() {
     }
 
     if (this.settings.enableMouseGestures == 'true') {
-        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings);
+        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings, this.getCurrentPage, this.pageCount);
     }
-
     if (this.settings.enableKeyboardShortcuts == 'true') {
-        this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings);
+        this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings, this.getCurrentPage, this.pageCount);
     }    
 };
 

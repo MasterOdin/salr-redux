@@ -25,7 +25,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-function HotKeyManager(quickReply, settings) {
+function HotKeyManager(quickReply, settings, currentPage, countPages) {
     /*****************
      N - Next Post
      P/M - Previous Post
@@ -39,8 +39,8 @@ function HotKeyManager(quickReply, settings) {
     this.quickReply = quickReply;
     this.settings = settings;
     this.bindHotKeys();
-    this.pageCount = countPages();
-    this.currentPage = getCurrentPageNumber();
+    this.pageCount = countPages;
+    this.currentPage = currentPage;
     
     jQuery(document).data("enableSALRHotkeys", true);
     jQuery(document).bind("enableSALRHotkeys", this.enableHotKeys);
