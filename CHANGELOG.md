@@ -14,6 +14,7 @@ Changelog List
 + Add ability to by default check any/all checkboxes in quick reply window
 + Setting sections now minimize automatically if selecting a different area
 * Fixed mouse gestures breaking when display first and last three pages option was selected
+* Fixed some smilies being converted to links when ImageToLink was selected
 
 ### v2.0.1 (7/15/2013)
 
