@@ -7,6 +7,15 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
+### v2.0.2 (7/25/2013)
+
+* Update Quick Reply size logic to work better on various monitor resolutions
+* Fix Mouse Gestures bottom button location. Should prevent random page refreshes from occuring (esp. on two-finger scroll on Macs)
++ Add ability to by default check any/all checkboxes in quick reply window
++ Setting sections now minimize automatically if selecting a different area
+* Fixed mouse gestures breaking when display first and last three pages option was selected
+* Fixed some smilies being converted to links when ImageToLink was selected
+
 ### v2.0.1 (7/15/2013)
 
 - Actually remove the thread yellow count highlight option

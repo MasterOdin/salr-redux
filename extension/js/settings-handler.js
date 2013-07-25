@@ -138,7 +138,11 @@ jQuery(document).ready(function() {
     defaultSettings['enableMouseMenu']              = 'true';
     defaultSettings['enableMouseUpUCP']             = 'false';
     defaultSettings['enableQuickReply']             = 'true';
+    defaultSettings['quickReplyParseUrls']          = 'true';
     defaultSettings['quickReplyBookmark']           = 'false';
+    defaultSettings['quickReplyDisableSmilies']     = 'false';
+    defaultSettings['quickReplySignature']          = 'false';
+    defaultSettings['quickReplyLivePreview']        = 'false';
     defaultSettings['quickReplyFormat']             = 'true';
     defaultSettings['quickReplyEmotes']             = 'true';
 
@@ -276,10 +280,16 @@ jQuery(document).ready(function() {
 
     jQuery('a').click(function() {
         if (jQuery(this).next().css('display') == "none") {
+            jQuery('.show').next().hide(200);
+            jQuery('.show').find('img').attr('src','images/plus.png');
+            jQuery('.show').removeClass('show');
+
+            jQuery(this).addClass('show');
             jQuery(this).next().show(200);
             jQuery('img',this).attr('src','images/minus.png');
         }
         else {
+            jQuery(this).removeClass('show');
             jQuery(this).next().hide(200);
             jQuery('img',this).attr('src','images/plus.png');
         }
