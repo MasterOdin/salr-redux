@@ -25,7 +25,7 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-function MouseGesturesController(base_image_uri, settings) {
+function MouseGesturesController(base_image_uri, settings, currentPage, countPages) {
     var that = this;
 
     this.settings = settings;
@@ -34,7 +34,8 @@ function MouseGesturesController(base_image_uri, settings) {
     this.gesture_overlay_html = this.buildOverlay();
     this.disabled_gestures = new Array();
 
-    this.pageCount = countPages();
+    this.pageCount = countPages;
+    this.currentPage = currentPage;
 
     this.rootPageType = null;
     this.basePageID = null;
@@ -53,15 +54,6 @@ function MouseGesturesController(base_image_uri, settings) {
             break;
         default:
             break;
-    }
-    // Current page
-    if (jQuery('option[selected="selected"]').length > 0) {
-        this.currentPage = Number(jQuery('option[selected="selected"]').val());
-        if (this.currentPage <= 0)
-            this.currentPage = 1;
-    }
-    else {
-        this.currentPage = 1;
     }
 
     var activeContext = (localStorage.getItem("MouseActiveContext") == 'false') ? false : true;
@@ -290,8 +282,8 @@ MouseGesturesController.prototype.determineLocation = function(x_coord, y_coord)
         if (y_coord > right_button.offset().top && y_coord < right_button.offset().top + 77) {
             return 'right';
         }
-    } else if (y_coord > bottom_button.offset().top+77 && y_coord < bottom_button.offset().top + 154) {
-        if (x_coord > bottom_button.offset().left+77 && x_coord < bottom_button.offset().left + 231) {       
+    } else if (y_coord > bottom_button.offset().top && y_coord < bottom_button.offset().top + 77) {
+        if (x_coord > bottom_button.offset().left && x_coord < bottom_button.offset().left + 77) {
             return 'bottom';
         }
     }
@@ -303,7 +295,6 @@ MouseGesturesController.prototype.is_enabled = function(a_function) {
             return false;
         }
     }
-
     return true;
 };
 
@@ -349,7 +340,9 @@ MouseGesturesController.prototype.leftAction = function() {
 };
 
 MouseGesturesController.prototype.bottomAction = function() {
-    postMessage({'message': 'ReloadTab'});
+    if (this.is_enabled(this.bottomAction)) {
+        postMessage({'message': 'ReloadTab'}); 
+    }
 }
 
 MouseGesturesController.prototype.disableGesture = function(gesture) {

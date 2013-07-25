@@ -39,6 +39,8 @@ function SALR(settings, base_image_uri) {
 
 SALR.prototype.pageInit = function() {
     this.currentPage = findCurrentPage();
+    this.pageCount = countPages();
+    this.getCurrentPage = getCurrentPageNumber();
 
     // Update the styles now that we have
     // the settings
@@ -49,20 +51,12 @@ SALR.prototype.pageInit = function() {
         return (obj.textContent || obj.innerText || $(obj).text() || "").toLowerCase() == meta[3].toLowerCase();
     }
 
-    if (this.settings.enableMouseGestures == 'true') {
-        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings);
-    }
-
-    if (this.settings.enableKeyboardShortcuts == 'true') {
-        this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings);
-    }
-
     if (this.settings.displayOmnibarIcon == 'true') {
         // Display the page action
         postMessage({
             'message': 'ShowPageAction'
         });
-    }
+    } 
 
     switch (this.currentPage) {
         case '':
@@ -276,6 +270,13 @@ SALR.prototype.pageInit = function() {
     if (this.pageNavigator) {
         this.pageNavigator.display();
     }
+
+    if (this.settings.enableMouseGestures == 'true') {
+        this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings, this.getCurrentPage, this.pageCount);
+    }
+    if (this.settings.enableKeyboardShortcuts == 'true') {
+        this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings, this.getCurrentPage, this.pageCount);
+    }    
 };
 
 SALR.prototype.openSettings = function() {
@@ -679,6 +680,7 @@ SALR.prototype.modifyImages = function() {
         //if(settings.dontReplaceEmoticons) {
             subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');
             subset = subset.not('img[src*="http://fi.somethingawful.com/images/smilies/"]');
+            subset = subset.not('img[src*="http://fi.somethingawful.com/safs/smilies/"]');
         //}
 
         subset.each(function() {
@@ -1438,7 +1440,7 @@ SALR.prototype.updateUsernameFromCP = function() {
 SALR.prototype.displayUserNotes = function() {
     var notes;
 
-    if (this.settings.userNotes == null) {
+    if (this.settings.userNotes == null || this.settings.userNotes == 'undefined') {
         notes = { "50339" : {'text' : 'SALR Developer', 'color' : '#9933FF'},   // Sebbe
                   "3882420" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Onoj
                   "143511" : {'text' : 'SALR Developer', 'color' : '#9933FF'},  // Sneaking Mission
@@ -1484,7 +1486,7 @@ SALR.prototype.displayUserNotes = function() {
                         notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(), 
                                          'color' : jQuery('#salr-usernotes-color').val()};
                         // TODO: Fix this
-                        postMessage({ 'message': 'ChangeSetting',
+                        postMessage({ 'message': 'ChangeCloudSetting',
                                            'option' : 'userNotes',
                                            'value'  : JSON.stringify(notes) });
                         jQuery(this).dialog('destroy');
@@ -1493,7 +1495,7 @@ SALR.prototype.displayUserNotes = function() {
                     "Delete" : function () {
                         delete notes[userid];
                         // TODO: Fix this
-                        postMessage({ 'message': 'ChangeSetting',
+                        postMessage({ 'message': 'ChangeCloudSetting',
                                            'option' : 'userNotes',
                                            'value'  : JSON.stringify(notes) });
                         jQuery(this).dialog('destroy');

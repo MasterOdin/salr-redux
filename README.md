@@ -15,6 +15,11 @@ Bug Reporting
 
 If you run into any issues using this extension, please report them in the appropriate [SA Thread](http://forums.somethingawful.com/showthread.php?threadid=3208437 "SA Thread").
 
+Development  
+-----------  
+
+All work on SALR Redux happens in this repository. The master branch will contain the base code for the latest release on the chrome web store. Branches will be created for each new version with the naming convention of using the supposed version number for the branch.
+
 License
 -------
 
