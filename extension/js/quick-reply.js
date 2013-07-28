@@ -251,7 +251,7 @@ QuickReplyBox.prototype.show = function() {
             if (that.settings.quickReplyParseUrls == 'true') {
                 jQuery('input#parseurl').trigger('click');
             }
-            if (that.settings.quickReplyBookmark == 'true') {
+            if (that.settings.quickReplyBookmark == 'true' && jQuery('input#quickReplyBookmark').prop('checked') != true) {
                 jQuery('input#quickReplyBookmark').trigger('click');
             }
             if (that.settings.quickReplyDisableSmilies == 'true') {

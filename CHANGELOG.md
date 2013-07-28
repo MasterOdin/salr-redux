@@ -7,6 +7,10 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
+### v2.0.3 (7/27/2013)
+
+* Fixed checkbox on Bookmark Threads being unchecked if editing a post and having the option being enabled.
+
 ### v2.0.2 (7/25/2013)
 
 * Update Quick Reply size logic to work better on various monitor resolutions

@@ -1,8 +1,8 @@
 {
   "name": "Something Awful Last Read Redux", 
-  "version": "2.0.2",
+  "version": "2.0.3",
   "manifest_version": 2,
-  "description": "Highlights posts which quote the user", 
+  "description": "Enhances the Something Awful forums with a host of new and exciting features", 
   "icons": {
         "16": "images/logo16.png",
         "32": "images/logo32.png",
