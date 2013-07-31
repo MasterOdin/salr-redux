@@ -681,6 +681,7 @@ SALR.prototype.modifyImages = function() {
             subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');
             subset = subset.not('img[src*="http://fi.somethingawful.com/images/smilies/"]');
             subset = subset.not('img[src*="http://fi.somethingawful.com/safs/smilies/"]');
+            subset = subset.not('img[src*="http://i.somethingawful.com/images/"]');
         //}
 
         subset.each(function() {
