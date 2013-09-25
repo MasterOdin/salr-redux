@@ -1857,7 +1857,7 @@ SALR.prototype.highlightOwnUsername = function() {
             var matches = node.wholeText.match(re);
             if(matches != null) {
                 newNode = node.ownerDocument.createElement("span");
-                jQuery(newNode).html(node.wholeText.replace(re, '<span class="usernameHighlight" style="font-weight: bold; color: ' + that.settings.usernameHighlight + ';">' + matches[0] + '</span>'));
+                jQuery(newNode).html(node.wholeText.replace(re, styled));
                 node.parentNode.replaceChild(newNode, node);
             }
         });
@@ -1918,7 +1918,7 @@ SALR.prototype.bindQuickReply = function() {
         });
     });
 
-    jQuery('a > img[alt="Edit"]').each(function() {
+    jQuery('a[href*="editpost.php"] > img[alt="Edit"]').each(function() {
         jQuery(this).parent().attr('href', 'javascript:void(0);');
 
         var parentTable = jQuery(this).parents('table.post');

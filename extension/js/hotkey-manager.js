@@ -159,7 +159,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
                     }
                     break;
                 default:
-                    console.log(event.keyCode);
+                    //console.log(event.keyCode);
                     break;
             }
         //}

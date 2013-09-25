@@ -7,6 +7,11 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
+### v2.0.5 (9/24/2013)
+
+* (Mod) Fixed topic edit button not working
+* Fixed hotkey-manager from printing out any non-hotkey keycode when it's active
+
 ### v2.0.4 (7/31/2013)
 
 * Fixed some smilies being converted to links when ImageToLink was selected. All four smiley URLs should be parsed properly.
