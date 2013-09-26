@@ -243,6 +243,8 @@ defaultSettings['ignoreBookmarkStarGold']       = 'false';
 defaultSettings['ignoreBookmarkStarRed']        = 'false';
 defaultSettings['ignoreBookmarkStarYellow']     = 'false';
 
+defaultSettings['MouseActiveContext']           = 'false';
+
 
 /**
  * Event handler for clicking on the toolstrip logo

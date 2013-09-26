@@ -56,10 +56,8 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
             break;
     }
 
-    var activeContext = (localStorage.getItem("MouseActiveContext") == 'false') ? false : true;
-
     jQuery(document).bind("contextmenu", function(e) {
-        if (activeContext == false) {
+        if (localStorage.getItem("MouseActiveContext") == 'false') {
             return false;
         }
     });
@@ -67,8 +65,9 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
     jQuery(document).keydown(function(event) {
         if (event.keyCode == 18) {
             if (that.settings.enableMouseMenu == "true") {
-                activeContext = !activeContext;
-                localStorage.setItem("MouseActiveContext", activeContext);
+                not_context = localStorage.getItem("MouseActiveContext") == 'false' ? 'true' : 'false';
+                localStorage.setItem("MouseActiveContext", not_context);
+                console.log(localStorage.getItem("MouseActiveContext"));
             }
         }
     });
@@ -130,7 +129,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
         }          
 
         jQuery(this).rightMouseDown(function(event) {
-            if (activeContext == false) {
+            if (localStorage.getItem("MouseActiveContext") == 'false') {
                 jQuery('body').append(that.gesture_overlay_html);
                 jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
                                      'top': event.pageY - 115});
@@ -146,7 +145,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
         });
 
         jQuery(this).rightMouseUp(function(event) {
-            if (activeContext == false) {
+            if (localStorage.getItem("MouseActiveContext") == 'false') {
                 removeOverlay(event.pageX, event.pageY);
             }
         });
