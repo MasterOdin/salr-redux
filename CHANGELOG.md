@@ -7,6 +7,10 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
+### v2.0.6 (9/29/2013)
+
+* User Note Sync added (User Notes are now synced between computers using chrome sync)
+
 ### v2.0.5 (9/25/2013)
 
 * (Mod) Fixed topic edit button not working

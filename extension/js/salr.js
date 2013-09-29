@@ -1441,76 +1441,123 @@ SALR.prototype.updateUsernameFromCP = function() {
 SALR.prototype.displayUserNotes = function() {
     var notes;
 
-    if (this.settings.userNotes == null || this.settings.userNotes == 'undefined') {
-        notes = { "50339" : {'text' : 'SALR Developer', 'color' : '#9933FF'},   // Sebbe
-                  "3882420" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Onoj
-                  "143511" : {'text' : 'SALR Developer', 'color' : '#9933FF'},  // Sneaking Mission
-                  "156041" : {'text' : 'SALR Developer', 'color' : '#9933FF'},  // wmbest2
-                  "115838" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Ferg
-                  "101547" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Rohaq
-                  "163390" : {'text' : 'SALR Developer', 'color' : '#9933FF'}  // Master_Odin
-                }; 
-        postMessage({ 'message': 'ChangeSetting',
-                           'option' : 'userNotes',
-                           'value'  : JSON.stringify(notes) });
-    } else {
-        notes = JSON.parse(this.settings.userNotes);
-    }
+    var that = this;
+    chrome.storage.sync.get(function(settings) {
+        if (that.settings.userNotes != "undefined" && that.settings.userNotes != undefined) {
+            console.log("right?");
+            if (settings['userNotes'] == undefined) {
+                settings['userNotes'] = that.settings.userNotes;
+                postMessage({'message' : 'ChangeCloudSetting',
+                             'option'  : 'userNotes',
+                             'value'   : that.settings.userNotes
+                });
 
-    jQuery('body').append("<div id='salr-usernotes-config' title='Set note' style='display: none'>"+
-        "<fieldset>"+
-            "<p><label for='salr-usernotes-text'><strong>Note:</strong></label><br/><input type='text' id='salr-usernotes-text'/></p>"+
-            "<p><label for='salr-usernotes-color'><strong>Color:</strong></label><br/><input type='text' id='salr-usernotes-color'/></p>"+
-        "</fieldset>"+
-    "</div>");
-    
-    jQuery('table.post').each(function () {
-        var userid = jQuery(this).find('a[href*=userid]')[0].href.match(/userid=(\d+)/)[1];
-        var hasNote = notes[userid] != null;
-        
-        if (hasNote) {
-            jQuery('dl.userinfo > dt.author', this).after(
-                '<dd style="font-weight: bold; color: ' + notes[userid].color + '">' + notes[userid].text + '</dd>'
-            );
-        }
+            }
+            else {
+                var sync = JSON.parse(settings['userNotes']);
+                var old = JSON.parse(that.settings.userNotes);
 
-        var editLink = jQuery('<li><a href="javascript:;">Edit Note</a></li>');
-        jQuery('a', editLink).click(function() {
-            jQuery('#salr-usernotes-config').dialog({
-                open: function(event, ui) {
-                    jQuery(document).trigger('disableSALRHotkeys');
-                    jQuery('#salr-usernotes-text').val(hasNote ? notes[userid].text : '');
-                    jQuery('#salr-usernotes-color').val(hasNote ? notes[userid].color : '#FF0000');
-                },
-                buttons: {
-                    "OK" : function () {
-                        notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(), 
-                                         'color' : jQuery('#salr-usernotes-color').val()};
-                        // TODO: Fix this
-                        postMessage({ 'message': 'ChangeCloudSetting',
-                                           'option' : 'userNotes',
-                                           'value'  : JSON.stringify(notes) });
-                        jQuery(this).dialog('destroy');
-                        jQuery(document).trigger('enableSALRHotkeys');
-                    },
-                    "Delete" : function () {
-                        delete notes[userid];
-                        // TODO: Fix this
-                        postMessage({ 'message': 'ChangeCloudSetting',
-                                           'option' : 'userNotes',
-                                           'value'  : JSON.stringify(notes) });
-                        jQuery(this).dialog('destroy');
-                        jQuery(document).trigger('enableSALRHotkeys');
-                    },
-                    "Cancel" : function () {
-                        jQuery(this).dialog('destroy');
-                        jQuery(document).trigger('enableSALRHotkeys');
+                for (x in old) {
+                    if (old[x] != null && sync[x] != null) {
+                        if (old[x]['text'] != sync[x]['text']) {
+                            sync[x]['text'] = sync[x]['text'] + " / " + old[x]['text'];
+                        }
+                    }
+                    else if (old[x] != null) {
+                        sync[x] = old[x]
+                    }
+                    else {
+                        // sync has something, but old doesn't so do nothing       
                     }
                 }
+
+                settings['userNotes'] = JSON.stringify(sync);
+                postMessage({   'message' : 'ChangeSetting',
+                                'option'  : 'userNotes',
+                                'value'   : undefined
+                });
+                postMessage({   'message' : 'ChangeSyncSetting',
+                                'option'  : 'userNotes',
+                                'value'   : settings['userNotes']
+                });
+
+            }
+        }
+
+
+        that.settings.userNotes = settings['userNotes'];
+        if (that.settings.userNotes == null || that.settings.userNotes == 'undefined' || that.settings.userNotes == undefined) {
+            notes = { "50339"   : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Sebbe
+                      "3882420" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Onoj
+                      "143511"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Sneaking Mission
+                      "156041"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // wmbest2
+                      "115838"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Ferg
+                      "101547"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Rohaq
+                      "163390"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}  // Master_Odin
+                    }; 
+            postMessage({ 'message': 'ChangeSyncSetting',
+                               'option' : 'userNotes',
+                               'value'  : JSON.stringify(notes) 
             });
+        } else {
+            notes = JSON.parse(that.settings.userNotes);
+        }
+
+        jQuery('body').append("<div id='salr-usernotes-config' title='Set note' style='display: none'>"+
+            "<fieldset>"+
+                "<p><label for='salr-usernotes-text'><strong>Note:</strong></label><br/><input type='text' id='salr-usernotes-text'/></p>"+
+                "<p><label for='salr-usernotes-color'><strong>Color:</strong></label><br/><input type='text' id='salr-usernotes-color'/> <a href='http://www.colorpicker.com/' target='_blank'>Hex Codes</a></p>"+
+            "</fieldset>"+
+        "</div>");
+        
+        jQuery('table.post').each(function () {
+            var userid = jQuery(this).find('a[href*=userid]')[0].href.match(/userid=(\d+)/)[1];
+            var hasNote = notes[userid] != null;
+            
+            if (hasNote) {
+                jQuery('dl.userinfo > dt.author', this).after(
+                    '<dd style="font-weight: bold; color: ' + notes[userid].color + '">' + notes[userid].text + '</dd>'
+                );
+            }
+
+            var editLink = jQuery('<li><a href="javascript:;">Edit Note</a></li>');
+            jQuery('a', editLink).click(function() {
+                jQuery('#salr-usernotes-config').dialog({
+                    open: function(event, ui) {
+                        jQuery(document).trigger('disableSALRHotkeys');
+                        jQuery('#salr-usernotes-text').val(hasNote ? notes[userid].text : '');
+                        jQuery('#salr-usernotes-color').val(hasNote ? notes[userid].color : '#FF0000');
+                    },
+                    buttons: {
+                        "OK" : function () {
+                            notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(), 
+                                             'color' : jQuery('#salr-usernotes-color').val()};
+                            // TODO: Fix this
+                            postMessage({ 'message': 'ChangeSyncSetting',
+                                               'option' : 'userNotes',
+                                               'value'  : JSON.stringify(notes) });
+                            jQuery(this).dialog('destroy');
+                            jQuery(document).trigger('enableSALRHotkeys');
+                        },
+                        "Delete" : function () {
+                            delete notes[userid];
+                            // TODO: Fix this
+                            postMessage({ 'message': 'ChangeSyncSetting',
+                                               'option' : 'userNotes',
+                                               'value'  : JSON.stringify(notes) });
+                            jQuery(this).dialog('destroy');
+                            jQuery(document).trigger('enableSALRHotkeys');
+                        },
+                        "Cancel" : function () {
+                            jQuery(this).dialog('destroy');
+                            jQuery(document).trigger('enableSALRHotkeys');
+                        }
+                    }
+                });
+            });
+            // append a space to create a new text node which fixes spacing problems you'll get otherwise
+            jQuery('ul.profilelinks', this).append(' ').append(editLink).append(' '); 
         });
-        // append a space to create a new text node which fixes spacing problems you'll get otherwise
-        jQuery('ul.profilelinks', this).append(' ').append(editLink).append(' '); 
     });
 };
 
