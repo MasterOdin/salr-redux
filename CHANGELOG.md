@@ -10,6 +10,7 @@ Changelog List
 ### v2.0.6 (9/29/2013)
 
 * User Note Sync added (User Notes are now synced between computers using chrome sync)
+* Increased speed of friend highlighting 
 
 ### v2.0.5 (9/25/2013)
 

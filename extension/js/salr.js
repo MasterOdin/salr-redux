@@ -1053,12 +1053,12 @@ SALR.prototype.highlightFriendPosts = function() {
         if (selector != '') {
             selector += ', ';
         }
-        selector += "dt.author:econtains('" +  this + "')";
+        selector += "dt.author:contains('" +  this + "')";
     });
 
-    jQuery('table.post:has('+selector+') td').each(function () {
+    jQuery('table.post:has('+selector+') td').each(function() {
         jQuery(this).css({
-            'border-collapse' : 'collapse',
+            'border-collapse'  : 'collapse',
             'background-color' : that.settings.highlightFriendsColor
         });
     });
@@ -1080,7 +1080,7 @@ SALR.prototype.highlightOPPosts = function() {
         jQuery(this).after(
             '<dd style="color: #07A; font-weight: bold; ">Thread Poster</dd>'
         );
-    });
+    });  
 };
 
 /**
@@ -1444,7 +1444,6 @@ SALR.prototype.displayUserNotes = function() {
     var that = this;
     chrome.storage.sync.get(function(settings) {
         if (that.settings.userNotes != "undefined" && that.settings.userNotes != undefined) {
-            console.log("right?");
             if (settings['userNotes'] == undefined) {
                 settings['userNotes'] = that.settings.userNotes;
                 postMessage({'message' : 'ChangeCloudSetting',
@@ -2222,8 +2221,6 @@ SALR.prototype.hidePostButtonInThread = function() {
 
 /**
  * Add a link to the user's SOAP page to view previous avatars
- *
- *
  */
 SALR.prototype.addSOAPLink = function() {
     var that = this;
