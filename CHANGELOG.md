@@ -10,7 +10,8 @@ Changelog List
 ### v2.0.6 (9/29/2013)
 
 * User Note Sync added (User Notes are now synced between computers using chrome sync)
-* Increased speed of friend highlighting 
+* Increased speed of friend highlighting
+* Modified how Case Insensitive handles usernames.
 
 ### v2.0.5 (9/25/2013)
 

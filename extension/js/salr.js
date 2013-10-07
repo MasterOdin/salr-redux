@@ -1428,7 +1428,7 @@ SALR.prototype.updateForumsList = function() {
 SALR.prototype.updateUsernameFromCP = function() {
     var titleText = jQuery('title').text();
     var username = titleText.match(/- User Control Panel For (.+)/)[1];
-    if (this.settings.username != username) {
+    if (this.settings.username != username && 1 == 2) {
         postMessage({ 'message' : 'ChangeSetting',
                            'option'  : 'username',
                            'value'   : username });
@@ -1889,25 +1889,30 @@ SALR.prototype.highlightOwnUsername = function() {
 
     var that = this;
 
-    var selector = 'td.postbody:contains("'+this.settings.username+'")';
-
+    var selector = "";
     if(this.settings.usernameCase == 'true') {
-        var re = new RegExp(this.settings.username, 'gi');
+        var re = new RegExp(this.settings.username, 'gi'); 
+        selector = 'td.postbody';
     }
     else {
         var re = new RegExp(this.settings.username, 'g');
+        selector = 'td.postbody:contains("'+this.settings.username+'")';
     }
+    console.time("test");
+
     var styled = '<span class="usernameHighlight" style="font-weight: bold; color: ' + that.settings.usernameHighlight + ';">' + that.settings.username + '</span>';
-    jQuery(selector).each(function() {;
+    jQuery(selector).each(function() {
         getTextNodesIn(this).forEach(function(node) {
             var matches = node.wholeText.match(re);
             if(matches != null) {
+                console.log(matches);
                 newNode = node.ownerDocument.createElement("span");
                 jQuery(newNode).html(node.wholeText.replace(re, styled));
                 node.parentNode.replaceChild(newNode, node);
             }
         });
     });
+    console.timeEnd("test");
 };
 
 /**
