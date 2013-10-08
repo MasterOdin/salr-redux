@@ -1475,8 +1475,9 @@ SALR.prototype.displayUserNotes = function() {
                                 'option'  : 'userNotes',
                                 'value'   : undefined
                 });
+                // in case everything blows up and everyone is angry, I can just restore these
                 postMessage({   'message' : 'ChangeSyncSetting',
-                                'option'  : 'userNotes',
+                                'option'  : 'userNotesOld',
                                 'value'   : settings['userNotes']
                 });
 
@@ -1898,21 +1899,17 @@ SALR.prototype.highlightOwnUsername = function() {
         var re = new RegExp(this.settings.username, 'g');
         selector = 'td.postbody:contains("'+this.settings.username+'")';
     }
-    console.time("test");
-
     var styled = '<span class="usernameHighlight" style="font-weight: bold; color: ' + that.settings.usernameHighlight + ';">' + that.settings.username + '</span>';
     jQuery(selector).each(function() {
         getTextNodesIn(this).forEach(function(node) {
             var matches = node.wholeText.match(re);
             if(matches != null) {
-                console.log(matches);
                 newNode = node.ownerDocument.createElement("span");
                 jQuery(newNode).html(node.wholeText.replace(re, styled));
                 node.parentNode.replaceChild(newNode, node);
             }
         });
     });
-    console.timeEnd("test");
 };
 
 /**
