@@ -1428,7 +1428,7 @@ SALR.prototype.updateForumsList = function() {
 SALR.prototype.updateUsernameFromCP = function() {
     var titleText = jQuery('title').text();
     var username = titleText.match(/- User Control Panel For (.+)/)[1];
-    if (this.settings.username != username && 1 == 2) {
+    if (this.settings.username != username) {
         postMessage({ 'message' : 'ChangeSetting',
                            'option'  : 'username',
                            'value'   : username });
@@ -1511,7 +1511,7 @@ SALR.prototype.displayUserNotes = function() {
         "</div>");
         
         jQuery('table.post').each(function () {
-            var userid = jQuery(this).find('a[href*=userid]')[0].href.match(/userid=(\d+)/)[1];
+            var userid = jQuery(this).find('ul.profilelinks a[href*=userid]')[0].href.match(/userid=(\d+)/)[1];
             var hasNote = notes[userid] != null;
             
             if (hasNote) {

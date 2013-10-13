@@ -7,7 +7,11 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
-### v2.0.6 (9/29/2013)
+### v2.0.7 ()
+
+* Fixed user note selector being confused if there was a "userid=###" link in a post
+
+### v2.0.6 (10/7/2013)
 
 * User Note Sync added (User Notes are now synced between computers using chrome sync)
 * Increased speed of friend highlighting
