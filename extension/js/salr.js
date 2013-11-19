@@ -578,6 +578,11 @@ SALR.prototype.updateStyling = function() {
             jQuery(this).remove();
         });
     }
+    else {
+        jQuery(".navigation a[href='/usercp.php']").each(function() {
+            jQuery(this).attr("href","/usercp.php?"+jQuery.now());
+        });
+    }
 
     if (this.settings.topPrivMsgs == 'false') {
         jQuery(".navigation li:has(a[href='/private.php'])").each(function() {
@@ -1446,7 +1451,7 @@ SALR.prototype.displayUserNotes = function() {
         if (that.settings.userNotes != "undefined" && that.settings.userNotes != undefined) {
             if (settings['userNotes'] == undefined) {
                 settings['userNotes'] = that.settings.userNotes;
-                postMessage({'message' : 'ChangeCloudSetting',
+                postMessage({'message' : 'ChangeSyncSetting',
                              'option'  : 'userNotes',
                              'value'   : that.settings.userNotes
                 });
@@ -1476,7 +1481,7 @@ SALR.prototype.displayUserNotes = function() {
                                 'value'   : undefined
                 });
                 // in case everything blows up and everyone is angry, I can just restore these
-                postMessage({   'message' : 'ChangeSyncSetting',
+                postMessage({   'message' : 'ChangeSetting',
                                 'option'  : 'userNotesOld',
                                 'value'   : settings['userNotes']
                 });
