@@ -72,12 +72,12 @@ jQuery(document).ready(function() {
     defaultSettings['highlightAdminColor']          = '#ff7256';
 
     // Forum Display Options
-    defaultSettings['hideAdvertisements']           = 'false';    
+    defaultSettings['hideAdvertisements']           = 'false';
     defaultSettings['displayNewPostsFirst']         = 'false';
     defaultSettings['displayNewPostsFirstForum']    = 'true';
     defaultSettings['displayNewPostsFirstUCP']      = 'true';
     defaultSettings['showLastThreePages']           = 'false';
-    defaultSettings['postsPerPage']                 = 'default';    
+    defaultSettings['postsPerPage']                 = 'default';
     defaultSettings['showLastThreePagesForum']      = 'true';
     defaultSettings['showLastThreePagesUCP']        = 'true';
     defaultSettings['showLastThreePagesThread']     = 'true';
@@ -95,13 +95,13 @@ jQuery(document).ready(function() {
     defaultSettings['topPurchaseEmoticon']          = 'true';
     defaultSettings['topPurchaseSticky']            = 'true';
     defaultSettings['topPurchaseGiftCert']          = 'true';
-    defaultSettings['showNavigation']               = 'true';       
+    defaultSettings['showNavigation']               = 'true';
     defaultSettings['topNavBar']                    = 'true';
     defaultSettings['bottomNavBar']                 = 'true';
     defaultSettings['topSAForums']                  = 'true';
     defaultSettings['topSALink']                    = 'true';
     defaultSettings['topSearch']                    = 'true';
-    defaultSettings['displayConfigureSalr']         = 'true';    
+    defaultSettings['displayConfigureSalr']         = 'true';
     defaultSettings['topUserCP']                    = 'true';
     defaultSettings['topPrivMsgs']                  = 'true';
     defaultSettings['topForumRules']                = 'true';
@@ -114,7 +114,8 @@ jQuery(document).ready(function() {
     // Thread Options
     defaultSettings['showUserAvatarImage']          = 'true';
     defaultSettings['showUserAvatar']               = 'true';
-    defaultSettings['inlineVideo']                  = 'false';             
+    defaultSettings['inlineVideo']                  = 'false';
+    defaultSettings['embedVideo']                   = 'false';
     defaultSettings['youtubeHighlight']             = '#ff00ff';
     defaultSettings['threadCaching']                = 'false';
     defaultSettings['boxQuotes']                    = 'false';
@@ -161,7 +162,7 @@ jQuery(document).ready(function() {
     defaultSettings['retinaImages']                 = 'false';
     
     // Other Options
-    defaultSettings['qneProtection']                = 'false';      
+    defaultSettings['qneProtection']                = 'false';
     defaultSettings['showEditBookmarks']            = 'false';
     defaultSettings['openAllUnreadLink']            = 'true';
     //defaultSettings['ignoreBookmarkStar']           = "";

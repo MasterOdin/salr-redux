@@ -193,7 +193,8 @@ defaultSettings['topLogout']                    = 'true';
 // Thread Options
 defaultSettings['showUserAvatarImage']          = 'true';
 defaultSettings['showUserAvatar']               = 'true';
-defaultSettings['inlineVideo']                  = 'false';             
+defaultSettings['inlineVideo']                  = 'false';
+defaultSettings['embedVideo']                   = 'false';
 defaultSettings['youtubeHighlight']             = '#ff00ff';
 defaultSettings['threadCaching']                = 'false';
 defaultSettings['boxQuotes']                    = 'false';

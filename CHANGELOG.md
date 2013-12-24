@@ -7,6 +7,10 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
+### v2.0.8 (12/24/2013)
+
++ Added option to change youtube videos from iframe to embeded to fix weird artifact issue
+
 ### v2.0.7 (11/19/2013)
 
 * Fixed user note selector being confused if there was a "userid=###" link in a post
