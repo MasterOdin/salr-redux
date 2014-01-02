@@ -27,6 +27,7 @@ nav#page-nav {
     border-top-right-radius: 6px 6px;
     -webkit-box-shadow: #000000 0px 0px 12px;
     -webkit-transition: -webkit-transform 0.25s ease-out;
+    -webkit-transform: translateZ(0);
 }
 
 div#nav-body {

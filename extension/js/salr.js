@@ -74,6 +74,10 @@ SALR.prototype.pageInit = function() {
             }
             if (this.settings.displayPageNavigator == 'true') {
                 this.pageNavigator = new PageNavigator(this.base_image_uri);
+                if (this.settings.displayPageNavigator == 'true')
+                {
+                    jQuery('div.jump_top.right').css("right","-100px");
+                }
             }
 
             this.updateForumsList();
@@ -109,6 +113,10 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.displayPageNavigator == 'true') {
                 this.pageNavigator = new PageNavigator(this.base_image_uri);
+                if (this.settings.displayPageNavigator == 'true')
+                {
+                    jQuery('div.jump_top.right').css("right","-100px");
+                }
             }
 
             this.updateForumsList();
@@ -294,12 +302,6 @@ SALR.prototype.openSettings = function() {
 SALR.prototype.updateStyling = function() {
 
     var that = this;
-
-    // remove TOP button from bottom right
-    if (this.settings.displayPageNavigator == 'true')
-    {
-        jQuery('div.jump_top.right').css("right","-100px");
-    }
     
     if (this.settings.inlinePostCounts == 'true') {
         jQuery(".info").css("padding-right","20px");
@@ -456,6 +458,7 @@ SALR.prototype.updateStyling = function() {
 
     jQuery('.salr-configure').click(function() {
         that.openSettings();
+        return false;
     });
     
     // Hide header/footer links
@@ -822,18 +825,30 @@ SALR.prototype.inlineYoutubes = function() {
             jQuery(this).css("background-color", that.settings.youtubeHighlight).addClass("salr-video");
     });
 
+    jQuery('.postbody a[href*="youtu.be"]').each(function() {
+            jQuery(this).css("background-color", that.settings.youtubeHighlight).addClass("salr-video");
+    });
+
     jQuery(".salr-video").click(function() {
         if (jQuery(this).hasClass('show-player')) {
             jQuery(this).next().remove();
             jQuery(this).removeClass('show-player');
         }
         else {
-            var match = jQuery(this).attr('href').match(/^http\:\/\/((?:www|[a-z]{2})\.)?youtube\.com\/watch\?v=([-_0-9a-zA-Z]+)/); //get youtube video id
-            var videoId = match[2];
+            var match = jQuery(this).attr('href').match(/^http[s]*\:\/\/((?:www|[a-z]{2})\.)?(youtube\.com\/watch\?v=|youtu.be\/)([-_0-9a-zA-Z]+)/); //get youtube video id
+            var videoId = match[3];
+
+            var list = jQuery(this).attr('href').match(/^http[s]*\:\/\/((?:www|[a-z]{2})\.)?(youtube\.com\/watch\?v=|youtu.be\/)([-_0-9a-zA-Z]+)&list=([-_0-9a-zA-Z]+)/);
 
             if (that.settings.embedVideo == "true") {
                 jQuery(this).after('<div><embed class="salr_youtube_swf youtube-player"></embed></div>');
-                jQuery(this).next().children("embed").attr("src", "http://www.youtube.com/v/"+videoId+"?fs=1&theme=dark");
+                if (list != null) {
+                    jQuery(this).next().children("embed").attr("src","http://www.youtube.com/v/"+videoId+"?fs=1&theme=dark&list="+list[4]);
+                }
+                else {
+                    jQuery(this).next().children("embed").attr("src", "http://www.youtube.com/v/"+videoId+"?fs=1&theme=dark");
+                }
+                
                 jQuery(this).next().children("embed").attr("width","640");
                 jQuery(this).next().children("embed").attr("height","360");
                 jQuery(this).next().children("embed").attr("type","application/x-shockwave-flash");
@@ -1907,6 +1922,9 @@ SALR.prototype.fixTimg = function(forceAll) {
  * Highlight the user's username in posts
  */
 SALR.prototype.highlightOwnUsername = function() {
+    if (this.settings.username == "") {
+        return;
+    }
     function getTextNodesIn(node) {
         var textNodes = [];
 
@@ -1935,7 +1953,7 @@ SALR.prototype.highlightOwnUsername = function() {
         var re = new RegExp(this.settings.username, 'g');
         selector = 'td.postbody:contains("'+this.settings.username+'")';
     }
-    var styled = '<span class="usernameHighlight" style="font-weight: bold; color: ' + that.settings.usernameHighlight + ';">' + that.settings.username + '</span>';
+    var styled = '<span class="usernameHighlight" style="font-weight: bold; color: ' + that.settings.usernameHighlight + ';">' + this.settings.username + '</span>';
     jQuery(selector).each(function() {
         getTextNodesIn(this).forEach(function(node) {
             var matches = node.wholeText.match(re);

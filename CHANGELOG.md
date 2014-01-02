@@ -7,6 +7,18 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
+### v2.0.10 (12/25/2013)
+
+* Change settings dump to be easier to paste into javascript code
++ Added function to use for settings dump in settings-handler.js
+* Fixed clicking on "Configure SALR" at the bottom of a page taking you to the top
+* Fixed shortened youtube links (youtu.be) and https lead links not behaving correctly
++ Added support for youtube playlist links in inline player
+
+### v2.0.9 (12/24/2013)
+
+* Made username highlighting more robust to prevent empty username inputs
+
 ### v2.0.8 (12/24/2013)
 
 + Added option to change youtube videos from iframe to embeded to fix weird artifact issue
@@ -19,7 +31,7 @@ Changelog List
 
 * User Note Sync added (User Notes are now synced between computers using chrome sync)
 * Increased speed of friend highlighting
-* Modified how Case Insensitive handles usernames.
+* Modified how Case Insensitive handles usernames
 
 ### v2.0.5 (9/25/2013)
 

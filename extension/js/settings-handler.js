@@ -34,6 +34,8 @@ var port = chrome.extension.connect({"name":"settings"});
 
 jQuery(document).ready(function() {
 
+    var debug = "false";
+    
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
         localStorage.setItem('salrInitialized', 'true');
@@ -180,6 +182,12 @@ jQuery(document).ready(function() {
         }
     }
 
+    if (debug == "true") {
+        loadNewSettings();
+    }
+
+    jQuery('#d_username').text(localStorage.getItem('username'));
+
     // Initialize text entry fields
     jQuery('input.text-entry').each(function() {
         // Pre-populate settings field
@@ -196,6 +204,12 @@ jQuery(document).ready(function() {
         });
 
         jQuery(this).change(function() {
+            if (jQuery(this).attr('id') == 'username') {
+                if (jQuery(this).val() == "") {
+                    jQuery(this).val(localStorage.getItem('username'));
+                }
+                jQuery("#d_username").text(jQuery(this).val());
+            }            
             localStorage.setItem(jQuery(this).attr('id'), jQuery(this).val());
             highlightExamples();
         });
@@ -674,6 +688,7 @@ function configWindow() {
     win.document.writeln('<html><body><h1>SALR Configuration</h1>');
     win.document.writeln('<table border="1">');
     win.document.writeln('<tr><th>Key</th><th>Value</th></tr>');
+    win.document.writeln('</table>');
     for (var key in localStorage) {
         if (key == 'friendsList' ||
             key == 'forumsList'  || 
@@ -682,8 +697,9 @@ function configWindow() {
             key == 'threadNotes' ||
             key == 'forumPostKey' )
             continue;
-        win.document.write('<tr><td>'+key+'</td>');
-        win.document.writeln('<td>'+localStorage[key]+'</td></tr>');
+        //win.document.write('<tr><td>'+key+'</td>');
+        //win.document.writeln('<td>'+localStorage[key]+'</td></tr>');
+        win.document.writeln('setting[\''+key+'\']    =    "'+localStorage[key]+'"<br />');
     }
     win.document.writeln('</table></body></html>');
     win.document.close();
@@ -692,4 +708,120 @@ function configWindow() {
 function transitionSettings() {
     port.postMessage({'message':'ConvertSettings'});
     alert("User Notes gotten from SALR!");
+}
+
+
+
+function loadNewSettings() {
+    var setting = [];
+setting['MouseActiveContext']="false";
+setting['bottomNavBar']="true";
+setting['boxQuotes']="false";
+setting['collapseTldrQuotes']="false";
+setting['darkNewReplies']="#99cc99";
+setting['darkRead']="#6699cc";
+setting['displayConfigureSalr']="true";
+setting['displayCustomButtons']="true";
+setting['displayNewPostsFirst']="false";
+setting['displayNewPostsFirstForum']="true";
+setting['displayNewPostsFirstUCP']="true";
+setting['displayOmnibarIcon']="false";
+setting['displayPageNavigator']="false";
+setting['dontReplaceLinkImage']="false";
+setting['dontReplaceLinkNWS']="false";
+setting['dontReplaceLinkRead']="false";
+setting['dontReplaceLinkSpoiler']="false";
+setting['embedVideo']="false";
+setting['enableKeyboardShortcuts']="false";
+setting['enableMouseGestures']="false";
+setting['enableMouseMenu']="true";
+setting['enableMouseUpUCP']="false";
+setting['enableQuickReply']="true";
+setting['enableSOAPLink']="true";
+setting['enableSinglePost']="true";
+setting['enableThreadNotes']="false";
+setting['enableUserNotes']="false";
+setting['fixCancer']="true";
+setting['hideAdvertisements']="false";
+setting['hidePostButtonInThread']="false";
+setting['highlightAdminColor']="#ff7256";
+setting['highlightFriends']="false";
+setting['highlightFriendsColor']="#f2babb";
+setting['highlightModAdmin']="false";
+setting['highlightModAdminUsername']="false";
+setting['highlightModeratorColor']="#b4eeb4";
+setting['highlightOP']="false";
+setting['highlightOPColor']="#fff2aa";
+setting['highlightOwnQuotes']="false";
+setting['highlightOwnUsername']="false";
+setting['highlightSelf']="false";
+setting['highlightSelfColor']="#f2babb";
+setting['hightlightThread']="false";
+setting['ignoreBookmarkStarGold']="false";
+setting['ignoreBookmarkStarRed']="false";
+setting['ignoreBookmarkStarYellow']="false";
+setting['inlinePostCounts']="false";
+setting['inlineVideo']="false";
+setting['lightNewReplies']="#ccffcc";
+setting['lightRead']="#99ccff";
+setting['openAllUnreadLink']="true";
+setting['postsPerPage']="default";
+setting['qneProtection']="false";
+setting['quickReplyBookmark']="false";
+setting['quickReplyDisableSmilies']="false";
+setting['quickReplyEmotes']="true";
+setting['quickReplyFormat']="true";
+setting['quickReplyLivePreview']="false";
+setting['quickReplyParseUrls']="true";
+setting['quickReplySignature']="false";
+setting['replaceImagesLink']="false";
+setting['replaceImagesReadOnly']="false";
+setting['replaceImagesWithLinks']="false";
+setting['replaceLinksWithImages']="false";
+setting['restrictImageSize']="false";
+setting['retinaImages']="false";
+setting['salrInitialized']="true";
+setting['salrLogoHide']="false";
+setting['searchThreadHide']="false";
+setting['showEditBookmarks']="false";
+setting['showLastThreePages']="false";
+setting['showLastThreePagesForum']="true";
+setting['showLastThreePagesThread']="true";
+setting['showLastThreePagesUCP']="true";
+setting['showNavigation']="true";
+setting['showPurchases']="true";
+setting['showUserAvatar']="true";
+setting['showUserAvatarImage']="true";
+setting['threadCaching']="false";
+setting['topForumRules']="true";
+setting['topGloryhole']="true";
+setting['topLepersColony']="true";
+setting['topLogout']="true";
+setting['topNavBar']="true";
+setting['topPrivMsgs']="true";
+setting['topPurchaseAcc']="true";
+setting['topPurchaseArchives']="true";
+setting['topPurchaseAva']="true";
+setting['topPurchaseBannerAd']="true";
+setting['topPurchaseEmoticon']="true";
+setting['topPurchaseGiftCert']="true";
+setting['topPurchaseNoAds']="true";
+setting['topPurchasePlat']="true";
+setting['topPurchaseSticky']="true";
+setting['topPurchaseUsername']="true";
+setting['topSAForums']="true";
+setting['topSALink']="true";
+setting['topSaclopedia']="true";
+setting['topSearch']="true";
+setting['topSupport']="true";
+setting['topUserCP']="true";
+setting['userQuote']="#a2cd5a";
+setting['usernameCase']="false";
+setting['usernameHighlight']="#9933ff";
+setting['whoPostedHide']="false";
+setting['youtubeHighlight']="#ff00ff";
+    localStorage.clear();
+    for ( var key in setting ) {
+        localStorage.setItem(key, setting[key]);
+    }
 }

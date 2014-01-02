@@ -30,6 +30,14 @@ span#title {
     top: -43px;
 }
 
+span#version {
+    margin-left: 125px;
+    position: relative;
+    top: -43px;
+    color: #9c9c9c;
+    font-style: italic;
+}
+
 div.preference-title {
     border-top: 1px solid #b5c7de;
     background: #ebeff9;
