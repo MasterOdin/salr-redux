@@ -133,6 +133,7 @@
     "images/sticky_on.gif",
     "images/unvisit.png",
     "imgur-upload.html",
-    "images/emoticons/*"
+    "images/emoticons/*",
+    "js/jquery/jquery.min.map"
   ]
 }
