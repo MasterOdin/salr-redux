@@ -692,17 +692,13 @@ SALR.prototype.modifyImages = function() {
             change.remove();
         });
     }
-    /*
-     * Image fits in width, but exceeds height -> limit by height
-     * Image fits in height, but exceeds width -> limit by width
-     * Image exceeds both, decrease to the smaller of the two bounds ratio?
-     */
 
+    // technically, a 500px image wouldn't exceed max-height/width (if set to 800), so
+    // even if max is set to 800, image won't be distorted, so it's pointless to do anything
+    // but always set the max and let the image do whatever it wants
     if (this.settings.restrictImageSize == 'true') {
         var restrictImagePxW = parseInt(that.settings.restrictImagePxW);
         var restrictImagePxH = parseInt(that.settings.restrictImagePxH);
-        console.log(restrictImagePxW);
-        console.log(restrictImagePxH);
         jQuery('.postbody img').each(function() {
             if (jQuery(this)[0]['naturalWidth'] > jQuery(this).width()) {
                 var width = jQuery(this)[0]['naturalWidth'];
@@ -717,48 +713,15 @@ SALR.prototype.modifyImages = function() {
                 var height = jQuery(this).height();
             }
             jQuery(this).click(function() {
-                if ((width < restrictImagePxW && restrictImagePxW > 0) && (height < restrictImagePxH && restrictImagePxH > 0)) {
-                    jQuery(this).css({
-                        'max-width': width + 'px',
-                        'max-height': height + 'px'
-                    });
-                }
-                else if (restrictImagePxW == 0 && height < restrictImagePxH) {
-                    jQuery(this).css({
-                        'max-height': height + 'px'
-                    });
-                }
-                else if (restrictImagePxH == 0 && width < restrictImagePxW) {
-                    jQuery(this).css({
-                        'max-width': width + 'px'
-                    });
-                }
-                else if (restrictImagePxH > 0 && height > restrictImagePxH && (restrictImagePxW == 0 || width < restrictImagePxW)) {
-                    jQuery(this).css({
-                        'max-height': restrictImagePxH + 'px'
-                    });
-                }
-                else if (restrictImagePxW > 0 && width > restrictImagePxW && (restrictImagePxH == 0 || height < restrictImagePxH)) {
-                    jQuery(this).css({
-                        'max-width': restrictImagePxW + 'px'
-                    });
-                } else {
-                    jQuery(this).css({
-                        'max-height': restrictImagePxH + 'px',
-                        'max-width': restrictImagePxW + 'px'
-                    });
-                }
-            });
-
-            if (width > restrictImagePxW && restrictImagePxW > 0) {
-                jQuery(this).css({
-                    'max-width': restrictImagePxW+'px',
-                    'border': '1px dashed gray'
-                });
-            }
-            else if (height > restrictImagePxH && restrictImagePxH > 0) {
                 jQuery(this).css({
                     'max-height': restrictImagePxH + 'px',
+                    'max-width': restrictImagePxW + 'px'
+                })
+            });
+            if ((width > restrictImagePxW && restrictImagePxW > 0) || (height > restrictImagePxH && restrictImagePxH > 0)) {
+                jQuery(this).css({
+                    'max-width': restrictImagePxW + 'px',
+                    'max-height': restrictImagePxH + 'px'
                     'border': '1px dashed gray'
                 });
             }
