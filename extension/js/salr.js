@@ -721,7 +721,7 @@ SALR.prototype.modifyImages = function() {
             if ((width > restrictImagePxW && restrictImagePxW > 0) || (height > restrictImagePxH && restrictImagePxH > 0)) {
                 jQuery(this).css({
                     'max-width': restrictImagePxW + 'px',
-                    'max-height': restrictImagePxH + 'px'
+                    'max-height': restrictImagePxH + 'px',
                     'border': '1px dashed gray'
                 });
             }
