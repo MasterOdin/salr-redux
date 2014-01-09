@@ -7,6 +7,12 @@ General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is
 
 Changelog List
 --------------
+### v2.1.0 (1/4/2013)
+
+''+ Reintroduced broken indicator for threads posted in (in-progress)''
++ Allowed users to specify maximum dimensions when restricting image size
+* Fixed right "Top" button not being on any page, not just when page navigator was visible.
+
 ### v2.0.10 (12/25/2013)
 
 * Change settings dump to be easier to paste into javascript code
@@ -14,6 +20,8 @@ Changelog List
 * Fixed clicking on "Configure SALR" at the bottom of a page taking you to the top
 * Fixed shortened youtube links (youtu.be) and https lead links not behaving correctly
 + Added support for youtube playlist links in inline player
+* Added css element to page navigator to prevent it blinking while scrolling for some users
+* Make removing the "top" button only truly disappear when the page navigator will be used on that page
 
 ### v2.0.9 (12/24/2013)
 

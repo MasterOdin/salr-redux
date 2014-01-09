@@ -18,7 +18,7 @@
     <header id="logo-header">
         <img id="logo" src="images/logo.jpg">
         <span id="title">Something Awful Last Read Redux Settings</span><br />
-        <span id="version">Version: 2.0.10</span>
+        <span id="version">Version: 2.1.0</span>
     </header>
 
     <a href="#">
@@ -595,13 +595,11 @@
             <div class='color-picker-box'></div>
         </div>
         <div style="clear: both;"></div>
-        <!--
         <div class='display-preference'>
             <label><input id='threadCaching' class='user-preference' type='checkbox' /> Highlight thread counts in yellow if you've posted there before</label>
             <img class="help" src="images/settings_question.png" />
             <div class="help-box">This will only highlight thread counts of threads you posted in after installing SALR and turning on this option.</div>              
         </div>
-    -->
         <div class='display-preference'>
             <label><input id='boxQuotes' class='user-preference' type='checkbox' /> Display quotes in simpler style</label>
         </div>
@@ -773,7 +771,17 @@
         <span class='settings-group-title'>Image Resizing</span>
         <div class='settings-group'>
             <div class='display-preference'>
-                <label><input id='restrictImageSize' class='user-preference' type='checkbox' /> Restrict Size of Images</label>
+                <label><input id='restrictImageSize' class='user-preference' type='checkbox' /> Restrict Size of Images to</label>
+                <img class="help" src="images/settings_question.png" />
+                <div class="help-box">Limit the size of images posted on the forums. Putting 0 in the below boxes will disable limiting in that particular dimension.</div>
+            </div>
+            <div class='sub-options'>
+                <div class='display-preference'>
+                    <label>Width: <input id='restrictImagePxW' class='text-entry user-preference' type='input' style='color: #999999;' /> px</label>
+                </div>
+                <div class='display-preference'>
+                    <label>Height: <input id='restrictImagePxH' class='text-entry user-preference' type='input' style='color: #999999;' /> px</label>
+                </div>
             </div>
         </div>
         <!--

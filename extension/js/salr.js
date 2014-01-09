@@ -74,10 +74,6 @@ SALR.prototype.pageInit = function() {
             }
             if (this.settings.displayPageNavigator == 'true') {
                 this.pageNavigator = new PageNavigator(this.base_image_uri);
-                if (this.settings.displayPageNavigator == 'true')
-                {
-                    jQuery('div.jump_top.right').css("right","-100px");
-                }
             }
 
             this.updateForumsList();
@@ -113,10 +109,6 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.displayPageNavigator == 'true') {
                 this.pageNavigator = new PageNavigator(this.base_image_uri);
-                if (this.settings.displayPageNavigator == 'true')
-                {
-                    jQuery('div.jump_top.right').css("right","-100px");
-                }
             }
 
             this.updateForumsList();
@@ -206,18 +198,6 @@ SALR.prototype.pageInit = function() {
             if (this.settings.retinaImages == 'true') {
                 this.swapRetinaEmotes();
             }
-/* DEPRECIATED
-            if (this.settings.adjustAfterLoad == 'true') {
-                window.onload = function() {
-                    var href = window.location.href;
-                    if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
-                        var first = findFirstUnreadPost();
-                        var post = jQuery('div#thread > table.post').eq(first);
-                        jQuery(window).scrollTop(post.offset().top);
-                    }
-                };
-            }
-*/
             if (this.settings.hidePostButtonInThread == 'true') {
                 this.hidePostButtonInThread();
             }
@@ -712,25 +692,73 @@ SALR.prototype.modifyImages = function() {
             change.remove();
         });
     }
+    /*
+     * Image fits in width, but exceeds height -> limit by height
+     * Image fits in height, but exceeds width -> limit by width
+     * Image exceeds both, decrease to the smaller of the two bounds ratio?
+     */
 
     if (this.settings.restrictImageSize == 'true') {
+        var restrictImagePxW = parseInt(that.settings.restrictImagePxW);
+        var restrictImagePxH = parseInt(that.settings.restrictImagePxH);
+        console.log(restrictImagePxW);
+        console.log(restrictImagePxH);
         jQuery('.postbody img').each(function() {
-            var width = jQuery(this).width();
-            var height = jQuery(this).height();
-
+            if (jQuery(this)[0]['naturalWidth'] > jQuery(this).width()) {
+                var width = jQuery(this)[0]['naturalWidth'];
+            }
+            else {
+                var width = jQuery(this).width();
+            }
+            if (jQuery(this)[0]['naturalHeight'] > jQuery(this).height()) {
+                var height = jQuery(this)[0]['naturalHeight'];
+            }
+            else {
+                var height = jQuery(this).height();
+            }
             jQuery(this).click(function() {
-                if (jQuery(this).width() == '800') {
+                if ((width < restrictImagePxW && restrictImagePxW > 0) && (height < restrictImagePxH && restrictImagePxH > 0)) {
                     jQuery(this).css({
                         'max-width': width + 'px',
+                        'max-height': height + 'px'
+                    });
+                }
+                else if (restrictImagePxW == 0 && height < restrictImagePxH) {
+                    jQuery(this).css({
+                        'max-height': height + 'px'
+                    });
+                }
+                else if (restrictImagePxH == 0 && width < restrictImagePxW) {
+                    jQuery(this).css({
+                        'max-width': width + 'px'
+                    });
+                }
+                else if (restrictImagePxH > 0 && height > restrictImagePxH && (restrictImagePxW == 0 || width < restrictImagePxW)) {
+                    jQuery(this).css({
+                        'max-height': restrictImagePxH + 'px'
+                    });
+                }
+                else if (restrictImagePxW > 0 && width > restrictImagePxW && (restrictImagePxH == 0 || height < restrictImagePxH)) {
+                    jQuery(this).css({
+                        'max-width': restrictImagePxW + 'px'
                     });
                 } else {
-                    jQuery(this).css({'max-width': '800px'});
+                    jQuery(this).css({
+                        'max-height': restrictImagePxH + 'px',
+                        'max-width': restrictImagePxW + 'px'
+                    });
                 }
             });
 
-            if (jQuery(this).width() > '800') {
+            if (width > restrictImagePxW && restrictImagePxW > 0) {
                 jQuery(this).css({
-                    'max-width': '800px',
+                    'max-width': restrictImagePxW+'px',
+                    'border': '1px dashed gray'
+                });
+            }
+            else if (height > restrictImagePxH && restrictImagePxH > 0) {
+                jQuery(this).css({
+                    'max-height': restrictImagePxH + 'px',
                     'border': '1px dashed gray'
                 });
             }
@@ -2055,16 +2083,17 @@ SALR.prototype.findFormKey = function() {
 };
 
 /**
- * Binds thread ID caching callback to the post button if user isn't
- * using Quick Reply
+ * On the post or edit pages (where you see the textbox for your post),
+ * we bind some custom code to when you hit that "Submit" button. 
  *
  */
 SALR.prototype.bindThreadCaching = function() {
-    return false;
-    if (this.settings.enableQuickReply == 'false') {
-        // Yeah that's right. I'm doing this on page loads because I can't think of a better way.
-        addThreadToCache(findThreadID());
-    }
+    /*if (this.settings.enableQuickReply == 'false') {
+        if $('[name="ElementNameHere"]') {
+            //addThreadToCache(findThreadID());
+            console.log(findThreadID());
+        }
+    }*/
 };
 
 /**
@@ -2202,9 +2231,11 @@ SALR.prototype.fixCancerPosts = function() {
     });
 }
 
-
+/**
+ * SET TO BE REMOVED
+ *
 SALR.prototype.queryVisibleThreads = function() {
-    return false;
+    //return false;
     var post_history = new PostHistory(this.tagPostedThreads);
 
     jQuery('tr.thread').each(function() {
@@ -2213,6 +2244,7 @@ SALR.prototype.queryVisibleThreads = function() {
         post_history.getThreadStatus(thread_id);
     });
 };
+*/
 
 /**
  * Asynchronous callback that updates thread postcount highlighting if the user

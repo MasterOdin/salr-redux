@@ -79,7 +79,6 @@ QuickReplyBox.prototype.create = function(username, quote) {
     // Begin fetching and parsing the emotes as soon as we create the quick-reply
     this.emote_parser = new EmoteParser(this);
 
-    // window.open("chrome-extension://lbeflkohppahphcnpjfgffckhcmgelfo/quick-reply.html", "Quick Reply","menubar=no,width=720,height=425,toolbar=no");
     var html = '<div id="side-bar">' +
                 '   <div id="sidebar-list">' +
                 '   </div>' +

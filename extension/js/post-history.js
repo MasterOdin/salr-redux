@@ -26,7 +26,7 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 function PostHistory(callback) {
-    this.database = window.openDatabase("post_history_db", "0.1", "SALR Post History", 1024 * 1024);
+    this.database = window.openDatabase("salr_post_history_db", "1.0", "SALR Post History", 1024 * 1024);
     this.callback = callback || false;
 
     if (!this.database) {
@@ -47,6 +47,7 @@ PostHistory.prototype.addThread = function(thread_id) {
     this.database.transaction(function(query) {
         query.executeSql('INSERT INTO threads(thread_id) VALUES(?)', [thread_id]);
     });
+    console.log(thread_id);
 };
 
 PostHistory.prototype.getThreadStatus = function(thread_id) {
