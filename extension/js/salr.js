@@ -121,7 +121,7 @@ SALR.prototype.pageInit = function() {
                 this.highlightOPPosts();    
             }
 
-            if (this.settings.highlightSelf == 'true') {
+            if (this.settings.highlightSelf == 'true' || this.settings.removeOwnReport == 'true') {
                 this.highlightOwnPosts();
             }
 
@@ -734,6 +734,9 @@ SALR.prototype.modifyImages = function() {
                     link = jQuery(this).parent().attr('href').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)/);
                     format = false;
                 }
+                if (link == null) {
+                    return;
+                }
                 o_link = link[0];
                 c_link = link[2];
                 var image = jQuery(this).attr('src').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)\.(.*)/)[2];
@@ -1155,10 +1158,15 @@ SALR.prototype.highlightOwnPosts = function() {
     var that = this;
 
     jQuery("table.post:has(dt.author:econtains('"+that.settings.username+"')) td").each(function () {
-        jQuery(this).css({
-            'border-collapse' : 'collapse',
-            'background-color' : that.settings.highlightSelfColor
-        });
+        if (that.settings.highlightSelf == 'true') {
+            jQuery(this).css({
+                'border-collapse' : 'collapse',
+                'background-color' : that.settings.highlightSelfColor
+            });
+        }
+        if (that.settings.removeOwnReport == 'true') {
+            jQuery(this).children('ul.postbuttons').children('li.alertbutton').remove();
+        }
     });
 };
 

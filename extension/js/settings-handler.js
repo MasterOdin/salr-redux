@@ -131,6 +131,7 @@ jQuery(document).ready(function() {
     defaultSettings['enableSOAPLink']               = 'true';
     defaultSettings['enableSinglePost']             = 'true';
     defaultSettings['hidePostButtonInThread']       = 'false';
+    defaultSettings['removeOwnReport']              = 'true';
     defaultSettings['collapseTldrQuotes']           = 'false';
 
     // Control Options
