@@ -727,7 +727,6 @@ SALR.prototype.modifyImages = function() {
             }
         }
         if (that.settings.fixImgurLinks == 'true') {
-            console.log(jQuery(this).attr('src'));
             if (jQuery(this).parent().is("a")) {
                 var format = true;
                 var link =  jQuery(this).parent().attr('href').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)\.(.*)/);
@@ -738,8 +737,15 @@ SALR.prototype.modifyImages = function() {
                 o_link = link[0];
                 c_link = link[2];
                 var image = jQuery(this).attr('src').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)\.(.*)/)[2];
-                if (image != c_link && image.substr(0,(image.length-1)) == c_link) {
-                    jQuery(this).parent().attr('href',o_link.replace(c_link,image));
+
+
+                if (image.substr(0,(image.length-1)) == c_link && jQuery.inArray(c_link.substr(c_link.length-1,c_link.length),['s','m','l']) == -1) {
+                    var i = new Image();
+                    i.src = o_link;
+                    var im = this;
+                    jQuery(i).error(function() {
+                        jQuery(im).parent().attr('href',o_link.replace(c_link,image));
+                    });
                 }
             }
         }
