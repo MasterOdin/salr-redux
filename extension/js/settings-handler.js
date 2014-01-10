@@ -159,8 +159,9 @@ jQuery(document).ready(function() {
     defaultSettings['replaceImagesReadOnly']        = 'false';
     defaultSettings['replaceImagesLink']            = 'false';
     defaultSettings['restrictImageSize']            = 'false';
-    defaultSettings['restrictImagePxW']              = '800';
-    defaultSettings['restrictImagePxH']              = '800';
+    defaultSettings['restrictImagePxW']             = '800';
+    defaultSettings['restrictImagePxH']             = '800';
+    defaultSettings['fixImgurLinks']                = 'true';
     //defaultSettings['fixTimg']                      = 'false';
     //defaultSettings['forceTimg']                    = 'false';
     defaultSettings['retinaImages']                 = 'false';

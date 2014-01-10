@@ -12,6 +12,7 @@ Changelog List
 ''+ Reintroduced broken indicator for threads posted in (in-progress)''
 + Allowed users to specify maximum dimensions when restricting image size
 * Fixed right "Top" button not being on any page, not just when page navigator was visible.
+* Fix imgur links to larger sizes of imgur images posted on the forums being broken
 
 ### v2.0.10 (12/25/2013)
 

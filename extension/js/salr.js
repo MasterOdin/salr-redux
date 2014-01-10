@@ -696,10 +696,10 @@ SALR.prototype.modifyImages = function() {
     // technically, a 500px image wouldn't exceed max-height/width (if set to 800), so
     // even if max is set to 800, image won't be distorted, so it's pointless to do anything
     // but always set the max and let the image do whatever it wants
-    if (this.settings.restrictImageSize == 'true') {
-        var restrictImagePxW = parseInt(that.settings.restrictImagePxW);
-        var restrictImagePxH = parseInt(that.settings.restrictImagePxH);
-        jQuery('.postbody img').each(function() {
+    var restrictImagePxW = parseInt(that.settings.restrictImagePxW);
+    var restrictImagePxH = parseInt(that.settings.restrictImagePxH);
+    jQuery('.postbody img').each(function() {
+        if (that.settings.restrictImageSize == 'true') {
             if (jQuery(this)[0]['naturalWidth'] > jQuery(this).width()) {
                 var width = jQuery(this)[0]['naturalWidth'];
             }
@@ -725,8 +725,25 @@ SALR.prototype.modifyImages = function() {
                     'border': '1px dashed gray'
                 });
             }
-        });
-    }
+        }
+        if (that.settings.fixImgurLinks == 'true') {
+            console.log(jQuery(this).attr('src'));
+            if (jQuery(this).parent().is("a")) {
+                var format = true;
+                var link =  jQuery(this).parent().attr('href').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)\.(.*)/);
+                if (link == null) {
+                    link = jQuery(this).parent().attr('href').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)/);
+                    format = false;
+                }
+                o_link = link[0];
+                c_link = link[2];
+                var image = jQuery(this).attr('src').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)\.(.*)/)[2];
+                if (image != c_link && image.substr(0,(image.length-1)) == c_link) {
+                    jQuery(this).parent().attr('href',o_link.replace(c_link,image));
+                }
+            }
+        }
+    });
 };
 
 SALR.prototype.skimModerators = function() {
