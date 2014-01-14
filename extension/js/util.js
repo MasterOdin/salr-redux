@@ -40,6 +40,11 @@ function findCurrentPage() {
  *
  */
 function findThreadID() {
+    if (findCurrentPage() == 'editpost.php') {
+        var value = jQuery('span.mainbodytextlarge').children().children();
+        value = jQuery(value[value.length-1]).attr('href').split('=');
+        return value[1];
+    }
     // Substrings out everything after the domain, then splits on the ?,
     // defaults to the argument list (right), splits on the &, looks at the first
     // parameter in the list, and splits on the = to get the result

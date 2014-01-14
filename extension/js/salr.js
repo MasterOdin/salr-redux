@@ -220,7 +220,6 @@ SALR.prototype.pageInit = function() {
             if (this.settings.threadCaching == 'true') {
                 this.bindThreadCaching();
             }
-
             break;
         case 'usercp.php':
         case 'usercp.php#':
@@ -2082,12 +2081,20 @@ SALR.prototype.findFormKey = function() {
  *
  */
 SALR.prototype.bindThreadCaching = function() {
-    /*if (this.settings.enableQuickReply == 'false') {
-        if $('[name="ElementNameHere"]') {
-            //addThreadToCache(findThreadID());
-            console.log(findThreadID());
+    if (this.settings.enableQuickReply == 'false') {
+        var button = jQuery('input[name="submit"]');
+        if  (button.length > 0) {
+            button.click(function() {
+                var history = new PostHistory(function(result,id) {
+                    if (result == false) {
+                        history.addThread(id);
+                    }
+                });
+                history.getThreadStatus(findThreadID());
+            });
+            
         }
-    }*/
+    }
 };
 
 /**
@@ -2225,20 +2232,15 @@ SALR.prototype.fixCancerPosts = function() {
     });
 }
 
-/**
- * SET TO BE REMOVED
- *
 SALR.prototype.queryVisibleThreads = function() {
     //return false;
     var post_history = new PostHistory(this.tagPostedThreads);
 
     jQuery('tr.thread').each(function() {
         var thread_id = jQuery(this).attr('id').substr(6);
-
         post_history.getThreadStatus(thread_id);
     });
 };
-*/
 
 /**
  * Asynchronous callback that updates thread postcount highlighting if the user

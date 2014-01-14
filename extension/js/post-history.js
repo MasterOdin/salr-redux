@@ -47,7 +47,6 @@ PostHistory.prototype.addThread = function(thread_id) {
     this.database.transaction(function(query) {
         query.executeSql('INSERT INTO threads(thread_id) VALUES(?)', [thread_id]);
     });
-    console.log(thread_id);
 };
 
 PostHistory.prototype.getThreadStatus = function(thread_id) {
