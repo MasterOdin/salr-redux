@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013 Matthew Peveler  
+// Copyright (c) 2013-2014 Matthew Peveler  
 // All rights reserved.
 
 // Redistribution and use in source and binary forms, with or without

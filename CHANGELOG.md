@@ -3,20 +3,23 @@ SALR Redux Changelog
 
 Listed below are the various bugfixes and enhancements that go into a given version. No idea what got changed/fixed between v0.8 and v1.5.5 so don't ask.
 
-General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is addition. After 2.0.0 is that * is a change, - is a removal and + is an addition. This doesn't show up in the .md view, only in the "code" view, but who really looks and cares about this stuff but developers?
+General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is addition.   
+After 2.0.0 is that * is a change, - is a removal and + is an addition.  
+  
+Developer only seen features (such as internal functions) may or may not be recorded in the changelog.
 
 Changelog List
 --------------
-### v2.1.0 (1/4/2013)
-
+### v2.1.0 (1/14/2013)
+```
 + Reintroduced broken indicator for threads posted in
 + Allowed users to specify maximum dimensions when restricting image size
 * Fixed right "Top" button not being on any page, not just when page navigator was visible.
 * Fix imgur links to larger sizes of imgur images posted on the forums being broken
 + Add setting to remove report button on own posts
-
+```
 ### v2.0.10 (12/25/2013)
-
+```
 * Change settings dump to be easier to paste into javascript code
 + Added function to use for settings dump in settings-handler.js
 * Fixed clicking on "Configure SALR" at the bottom of a page taking you to the top
@@ -24,55 +27,55 @@ Changelog List
 + Added support for youtube playlist links in inline player
 * Added css element to page navigator to prevent it blinking while scrolling for some users
 * Make removing the "top" button only truly disappear when the page navigator will be used on that page
-
+```
 ### v2.0.9 (12/24/2013)
-
+```
 * Made username highlighting more robust to prevent empty username inputs
-
+```
 ### v2.0.8 (12/24/2013)
-
+```
 + Added option to change youtube videos from iframe to embeded to fix weird artifact issue
-
+```
 ### v2.0.7 (11/19/2013)
-
+```
 * Fixed user note selector being confused if there was a "userid=###" link in a post
-
+```
 ### v2.0.6 (10/7/2013)
-
+```
 * User Note Sync added (User Notes are now synced between computers using chrome sync)
 * Increased speed of friend highlighting
 * Modified how Case Insensitive handles usernames
-
+```
 ### v2.0.5 (9/25/2013)
-
+```
 * (Mod) Fixed topic edit button not working
 * Fixed hotkey-manager from printing out any non-hotkey keycode when it's active.
 * Improved remembering the status of the "alt" key for mouse gestures better. It should remember the state properly across tabs.
-
+```
 ### v2.0.4 (7/31/2013)
-
+```
 * Fixed some smilies being converted to links when ImageToLink was selected. All four smiley URLs should be parsed properly.
-
+```
 ### v2.0.3 (7/27/2013)
-
+```
 * Fixed checkbox on Bookmark Threads being unchecked if editing a post and having the option being enabled.
-
+```
 ### v2.0.2 (7/25/2013)
-
+```
 * Update Quick Reply size logic to work better on various monitor resolutions
 * Fix Mouse Gestures bottom button location. Should prevent random page refreshes from occuring (esp. on two-finger scroll on Macs)
 + Add ability to by default check any/all checkboxes in quick reply window
 + Setting sections now minimize automatically if selecting a different area
 * Fixed mouse gestures breaking when display first and last three pages option was selected
 * Fixed some smilies being converted to links when ImageToLink was selected
-
+```
 ### v2.0.1 (7/15/2013)
-
+```
 - Actually remove the thread yellow count highlight option
 * Fix jQuery error on not parsing smilies when using ImageToLink option
-
+```
 ### v2.0.0 (7/15/2013)
-
+```
 * Updated jQuery to v1.10.1.
 * Updated jQuery-ui to a custom v1.10.3 version. Adds 'ui-salr' to an instance of ui-icon to ignore forum css
 * Updated js/settings-handler.js to use .prop() instead of .attr() as appropriate
@@ -120,71 +123,70 @@ Changelog List
 - Removed broken 'Highlight thread counts in yellow if you've posted there before' till it's fixedo
 * Fix quotes in "Live Preview" looking bad (having plaintext post id stuff)
 * Fix smilies with symbols (ex: :?:) being broken in live preview. They should be parsed correctly now.
-
+```
 ### v1.5.18 (6/26/2013)
-
+```
 + Add Thread Notes as something to port from original SALR to Redux
-
+```
 ### v1.5.17 (6/26/2013)
-
+```
 + Added ability to port over User Notes from original SALR to Redux.
-
-
+```
 ### v1.5.16 (6/12/2013)
-
+```
 - Fixed custom thread coloring not being removed when "x" is hit on thread
 - Removed friendList from settings dump page
 + Added new setting "Don't convert links containing images" for "Convert links into inline images"
 + Added new setting "If image was linked, put link after image link" for "Images-to-Links"
-
+```
 ### v1.5.15 (6/11/2013)
-
+```
 - Changed "Convert links into inline images" to ignore when the link is of a picture (eg. [url=test.jpg][img]test.jpg[/img][/url])
 - Removed ForumPostKey from settings dump page
 - Fixed regression in "Use custom thread highlighting" checkbox toggle for thread examples above not leaving custom highlighting
-
+```
 ### v1.5.14 (5/18/2013)
-
+```
 - Fixed "Convert links into inline images" to properly deal with links that have ".(jp?eg|png|gif|bmp).html" in them (they made broken images)
-
+```
 ### v1.5.13 (5/2/2013)
-
+```
 + Added defaults for all settings
 - Fixed style being for old forum layout on settings.html (most noticable in the quote box)
 - Fixed coloring on settings.html for thread highlighting
 - Fixed star column not being colored appropriately when using thread highlighting
-
+```
 ### v1.5.12 (5/1/2013)
-
+```
 - Fixed friend highlighting only working for first two friends in UserCP.php
 - Fixed Post thread button disappearing on all pages if a missing setting got set in the past
 - Separated out function calls between forumdisplay.php and showthread.php so aforementioned setting doesn't affect forum post button 
-
+```
 ### v1.5.11 (4/22/2013) - "I really hate mouse gestures"
-
+```
 - Replaced right click option with alt key option
 + Alt key can be used to switch between mouse gestures or default 
 context menu
 + Button button in Mouse Gestures now refreshes current page
 - Mouse Gesture disables left/right on single page thread/forums properly
 - Mouse Gesture overlay appears above images on forum
-
+```
 ### v1.5.10 (4/15/2013)
-
+```
 - Fixed "Open Updated Threads" opening tabs twice
 - Fixed right click menu being enabled even when the box wasn't ticked on initial installion of 1.5.9
 - Moved "Pages per thread" to be a sub-setting of First/Last Three Pages
 - Added ability to dump settings into a table of values for easy copy/paste.
-
+```
 ### v1.5.9 (4/14/2013)
-
+```
 - Fixed Preview Reply pane being underneath images
 + Added option to allow default right click menu to appear when mouse gestures enabled
 - Fixed Ignore Star option in settings pane (as well as prevent script breaking when it was set) 
 - Fixed being able to change children settings when parent setting was disabled
-
+```
 ### v1.5.8 (4/11/2013)
-
+```
 - Fixed Show First/Last three pages feature being broken (from forum update)
 - Fixed friend post highlighting not working
 + Added setting to hide SALR Logo in thread view
@@ -192,18 +194,18 @@ context menu
 - Moved "Configure SALR" setting to Navigation Bar setting group
 + Added setting to show top/bottom navigation bar independently of the other bar
 - Fixed "User CP" not disappearing in navigation bar if setting was false
-
+```
 ### v1.5.7 (4/8/2013)
-
+```
 - Regression fixes (settings page and custom icons broke on change-over)
 - Fix keyboard shortcut 'b' for Opening Updated Threads in Bookmark thread
-
+```
 ### v1.5.6 - "Redux"
-
+```
 - Initial launch of Redux version, where MasterOdin takes over
 - Pull Request [#50](https://github.com/scottferg/salr-chrome/issues/50 "#50"): Retina Image added
 - Pull Request [#47](https://github.com/scottferg/salr-chrome/issues/47 "#47"): Single Page Blank for page-navigator fix
-
+```
 ### v0.8.0 - "Home stretch"
 
 - Add mouse gestures (Scott Ferguson)
