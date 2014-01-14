@@ -63,3 +63,9 @@ PostHistory.prototype.getThreadStatus = function(thread_id) {
             });
     });
 };
+
+PostHistory.prototype.deleteThread = function(thread_id) {
+    this.database.transaction(function(query) {
+        query.executeSql('DELETE FROM threads WHERE thread_id=?', [thread_id]);
+    });
+}

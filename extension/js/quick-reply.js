@@ -235,6 +235,21 @@ QuickReplyBox.prototype.create = function(username, quote) {
         jQuery('#topbar-preview').css('height',(parseInt(jQuery('#topbar-preview').css('height'))-(390-this.quickReplyState.height)) + 'px');
         jQuery('#side-bar').css('bottom',(parseInt(jQuery('#side-bar').css('bottom'))-(390-this.quickReplyState.height)) + 'px');
     }
+
+    if (this.settings.threadCaching == 'true') {
+        var button = jQuery('input[name="submit"]');
+        if  (button.length > 0) {
+            button.click(function() {
+                var history = new PostHistory(function(result,id) {
+                    if (result == false) {
+                        history.addThread(id);
+                    }
+                });
+                history.getThreadStatus(findThreadID());
+            });
+            
+        }
+    }
 };
 
 QuickReplyBox.prototype.show = function() {
