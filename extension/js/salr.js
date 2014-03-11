@@ -198,6 +198,11 @@ SALR.prototype.pageInit = function() {
             if (this.settings.retinaImages == 'true') {
                 this.swapRetinaEmotes();
             }
+
+            if (this.settings.setImageTooltip == 'true') {
+                this.setImageTooltips();
+            }
+
             if (this.settings.hidePostButtonInThread == 'true') {
                 this.hidePostButtonInThread();
             }
@@ -2297,6 +2302,46 @@ function retinaFilename(img) {
 
     var f = filenameSegments.join('.')
     return f;
+}
+
+SALR.prototype.setImageTooltips = function() {
+    var salr = this;
+    
+    jQuery('td.postbody img').filter(function(index) {
+        if(salr.settings.setImageTooltipBlankOnly === 'true') {
+            if(jQuery(this).attr('title') !== undefined && jQuery(this).attr('title').length > 0) { return false; }
+        } 
+
+        if(salr.settings.setImageTooltipSkipEmoticons === 'true') {
+            var emoticon_paths = [
+                '//fi.somethingawful.com/customtitles',
+                '//fi.somethingawful.com/images/smilies',
+                '//fi.somethingawful.com/safs/smilies',
+                '//fi.somethingawful.com/smilies',
+                '//i.somethingawful.com/forumsystem/emoticons',
+                '//i.somethingawful.com/images',
+                '//i.somethingawful.com/mjolnir/images',
+                '//i.somethingawful.com/u/garbageday'
+            ];
+
+            var img_path = jQuery(this).attr('src');
+            img_path = img_path.substr(img_path.indexOf('//'));
+            
+            for(var idx = 0; idx < emoticon_paths.length; ++idx) {
+                var path = emoticon_paths[idx];
+                if(path.toLowerCase() == img_path.substr(0,path.length).toLowerCase()) { return false; }
+            }
+        }
+
+        return true;
+    }).each(function(index,element) {
+        var filename = jQuery(this).attr('src');
+        filename = filename.substr(filename.lastIndexOf('/')+1);
+        if(salr.settings.setImageTooltipHideExtension) {
+            filename = filename.substring(0, filename.lastIndexOf('.'));
+        }
+        jQuery(this).attr('title',filename);
+    });
 }
 
 SALR.prototype.hidePostButtonInThread = function() {
