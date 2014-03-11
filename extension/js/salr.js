@@ -671,10 +671,14 @@ SALR.prototype.modifyImages = function() {
         var subset = jQuery('.postbody img');
 
         //if(settings.dontReplaceEmoticons) {
-        subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');
         subset = subset.not('img[src*="http://fi.somethingawful.com/images/smilies/"]');
         subset = subset.not('img[src*="http://fi.somethingawful.com/safs/smilies/"]');
+        subset = subset.not('img[src*="http://fi.somethingawful.com/customtitles/"]');
+        subset = subset.not('img[src*="http://fi.somethingawful.com/smilies/"]');
+        subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');        
         subset = subset.not('img[src*="http://i.somethingawful.com/images/"]');
+        subset = subset.not('img[src*="http://i.somethingawful.com/mjolnir/images/"]');
+        subset = subset.not('img[src*="http://i.somethingawful.com/u/garbageday/"]');
         //}
 
         // Replace inline Images with Links
