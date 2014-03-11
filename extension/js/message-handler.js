@@ -58,7 +58,12 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'ChangeSyncSetting':
                 if (data.option == 'userNotes') {
-                    chrome.storage.sync.set({'userNotes' : data.value});
+                    if (localStorage.getItem('enableUserNotesSync')) {
+                        localStorage.setItem('userNotesLocal',data.value);
+                    }
+                    else {
+                        chrome.storage.sync.set({'userNotes' : data.value});
+                    }
                 }
                 break;
             case 'OpenTab':
@@ -202,6 +207,7 @@ defaultSettings['salrLogoHide']                 = 'false';
 defaultSettings['whoPostedHide']                = 'false';
 defaultSettings['searchThreadHide']             = 'false';
 defaultSettings['enableUserNotes']              = 'false';
+defaultSettings['enableUserNotesSync']          = 'true';
 defaultSettings['enableThreadNotes']            = 'false';
 defaultSettings['fixCancer']                    = 'true';
 //defaultSettings['adjustAfterLoad']              = 'true';
@@ -341,5 +347,9 @@ function fixSettings() {
     if (localStorage.getItem('highlightCancer')) {
         localStorage.setItem('fixCancer', localStorage.getItem('highlightCancer'));
         localStorage.removeItem('highlightCancer');
+    }
+    if (localStorage.getItem('saveUserNotes') != 'true') {
+        localStorage.setItem('userNotesLocal',localStorage.getItem('userNotesOld'));
+        localStorage.setItem('saveUserNotes','true');
     }
 }

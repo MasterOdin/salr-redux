@@ -5,6 +5,10 @@ body {
     margin: 0px;
 }
 
+a:hover {
+    text-decoration: underline;
+}
+
 label {
     display: block;
     padding-left: 20px;

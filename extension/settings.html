@@ -18,7 +18,7 @@
     <header id="logo-header">
         <img id="logo" src="images/logo.jpg">
         <span id="title">Something Awful Last Read Redux Settings</span><br />
-        <span id="version">Version: 2.1.0</span>
+        <span id="version">Version: 2.1.0 - Support: <a target='_blank' href='http://forums.somethingawful.com/showthread.php?threadid=3208437'>SA Thread</a></span>
     </header>
 
     <a href="#">
@@ -615,6 +615,13 @@
         <div class='display-preference'>
             <label><input id='enableUserNotes' class='user-preference' type='checkbox' /> Enable user notes</label>
         </div>
+        <div class="sub-options">
+             <div class='display-preference'>
+                <label><input id="enableUserNotesSync" class='user-preference' type='checkbox' /> Use Chrome Sync for User Notes</label>
+                <img class="help" src="images/settings_question.png" />
+                <div class="help-box">By default, user notes will sync to your Google account and be pulled from it. If you have issues, try disabling this option.</div>
+            </div>
+        </div>
         <div class="display-preference">
             <label><input id='enableThreadNotes' class='user-preference' type='checkbox' /> Enable thread notes</label>
         </div>
@@ -874,6 +881,7 @@
     </section>
     
     <br />
-    <button id="config">Dump Settings</button>&nbsp;&nbsp;<button id="settings">Get User Notes from SALR</button><br /> <br />
+    <button id="config">Dump Settings</button>&nbsp;&nbsp;<button id="settings">Get User Notes from SALR</button>&nbsp;&nbsp;
+    <button id="user-notes-local">Backup User Notes locally</button>&nbsp;&nbsp;<button id="user-notes-sync">Store User Notes in Sync</button><br /> <br />
 </body>
 </html>

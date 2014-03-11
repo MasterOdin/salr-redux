@@ -126,7 +126,7 @@ SALR.prototype.pageInit = function() {
             }
 
             if (this.settings.enableUserNotes == 'true') {
-                this.displayUserNotes();
+                this.displayUserNotesHandler();
             }
 
             if (this.settings.highlightModAdmin == 'true') {
@@ -631,131 +631,141 @@ SALR.prototype.updateStyling = function() {
 };
 
 SALR.prototype.modifyImages = function() {
+    // make sure we've loaded all images before executing this code
     var that = this;
+    $(window).load(function() {
 
-    // fix timg, because it's broken
-    //if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
+        // fix timg, because it's broken
+        //if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
 
-    // Replace Links with Images
-    if (this.settings.replaceLinksWithImages == 'true') {
+        // Replace Links with Images
+        if (that.settings.replaceLinksWithImages == 'true') {
 
-        var subset = jQuery('.postbody a');
+            var subset = jQuery('.postbody a');
 
-        //NWS/NMS links
-        if(this.settings.dontReplaceLinkNWS == 'true')
-        {
-            subset = subset.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
-        }
-
-        // spoiler'd links
-        if(this.settings.dontReplaceLinkSpoiler == 'true') {
-            subset = subset.not('.bbc-spoiler a');
-        }
-
-        // seen posts
-        if(this.settings.dontReplaceLinkRead == 'true') {
-            subset = subset.not('.seen1 a').not('.seen2 a');
-        }
-
-        subset.each(function() {
-            var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/);
-            if(match != null && !(that.settings.dontReplaceLinkImage == 'true' && jQuery(this).has('img').length > 0)) {
-                jQuery(this).after("<img src='" + match[0] + "' />");
-                jQuery(this).remove();                
+            //NWS/NMS links
+            if(that.settings.dontReplaceLinkNWS == 'true')
+            {
+                subset = subset.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
             }
-        });
-    }
 
-    // Replace inline Images with Links
-    if (this.settings.replaceImagesWithLinks == 'true') {
+            // spoiler'd links
+            if(that.settings.dontReplaceLinkSpoiler == 'true') {
+                subset = subset.not('.bbc-spoiler a');
+            }
+
+            // seen posts
+            if(that.settings.dontReplaceLinkRead == 'true') {
+                subset = subset.not('.seen1 a').not('.seen2 a');
+            }
+
+            subset.each(function() {
+                var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/);
+                if(match != null && !(that.settings.dontReplaceLinkImage == 'true' && jQuery(this).has('img').length > 0)) {
+                    jQuery(this).after("<img src='" + match[0] + "' />");
+                    jQuery(this).remove();                
+                }
+            });
+        }
+
         var subset = jQuery('.postbody img');
 
-        if(this.settings.replaceImagesReadOnly == 'true') {
-            subset = subset.filter('.seen1 img, .seen2 img');
-        }
-
         //if(settings.dontReplaceEmoticons) {
-            subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');
-            subset = subset.not('img[src*="http://fi.somethingawful.com/images/smilies/"]');
-            subset = subset.not('img[src*="http://fi.somethingawful.com/safs/smilies/"]');
-            subset = subset.not('img[src*="http://i.somethingawful.com/images/"]');
+        subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');
+        subset = subset.not('img[src*="http://fi.somethingawful.com/images/smilies/"]');
+        subset = subset.not('img[src*="http://fi.somethingawful.com/safs/smilies/"]');
+        subset = subset.not('img[src*="http://i.somethingawful.com/images/"]');
         //}
 
-        subset.each(function() {
-            var source = jQuery(this).attr('src');
-            var add = "";
-            var change = jQuery(this);
-            if (jQuery(this).parent().attr('href') != null) {
-                if (that.settings.replaceImagesLink == 'true') {
-                    add = " (<a href='"+jQuery(this).parent().attr('href')+"' target=\"_blank\" rel=\"nofollow\">Original Link</a>)";
-                }
-                change = jQuery(this).parent();
-            }            
-            add = "<a href='" + source + "' target=\"_blank\" rel=\"nofollow\">" + source + "</a>" + add;
-            change.after(add);
-            change.remove();
-        });
-    }
+        // Replace inline Images with Links
+        if (that.settings.replaceImagesWithLinks == 'true') {
+            
+            if(that.settings.replaceImagesReadOnly == 'true') {
+                subset_filtered = subset.filter('.seen1 img, .seen2 img');
+            }
+            else {
+                subset_filtered = subset;
+            }
 
-    // technically, a 500px image wouldn't exceed max-height/width (if set to 800), so
-    // even if max is set to 800, image won't be distorted, so it's pointless to do anything
-    // but always set the max and let the image do whatever it wants
-    var restrictImagePxW = parseInt(that.settings.restrictImagePxW);
-    var restrictImagePxH = parseInt(that.settings.restrictImagePxH);
-    jQuery('.postbody img').each(function() {
-        if (that.settings.restrictImageSize == 'true') {
-            if (jQuery(this)[0]['naturalWidth'] > jQuery(this).width()) {
-                var width = jQuery(this)[0]['naturalWidth'];
-            }
-            else {
-                var width = jQuery(this).width();
-            }
-            if (jQuery(this)[0]['naturalHeight'] > jQuery(this).height()) {
-                var height = jQuery(this)[0]['naturalHeight'];
-            }
-            else {
-                var height = jQuery(this).height();
-            }
-            jQuery(this).click(function() {
-                jQuery(this).css({
-                    'max-height': restrictImagePxH + 'px',
-                    'max-width': restrictImagePxW + 'px'
-                })
+            subset_filtered.each(function() {
+                var source = jQuery(this).attr('src');
+                var add = "";
+                var change = jQuery(this);
+                if (jQuery(this).parent().attr('href') != null) {
+                    if (that.settings.replaceImagesLink == 'true') {
+                        add = " (<a href='"+jQuery(this).parent().attr('href')+"' target=\"_blank\" rel=\"nofollow\">Original Link</a>)";
+                    }
+                    change = jQuery(this).parent();
+                }            
+                add = "<a href='" + source + "' target=\"_blank\" rel=\"nofollow\">" + source + "</a>" + add;
+                change.after(add);
+                change.remove();
             });
-            if ((width > restrictImagePxW && restrictImagePxW > 0) || (height > restrictImagePxH && restrictImagePxH > 0)) {
-                jQuery(this).css({
-                    'max-width': restrictImagePxW + 'px',
-                    'max-height': restrictImagePxH + 'px',
-                    'border': '1px dashed gray'
-                });
-            }
         }
-        if (that.settings.fixImgurLinks == 'true') {
-            if (jQuery(this).parent().is("a")) {
-                var format = true;
-                var link =  jQuery(this).parent().attr('href').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)\.(.*)/);
-                if (link == null) {
-                    link = jQuery(this).parent().attr('href').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)/);
-                    format = false;
-                }
-                if (link == null) {
-                    return;
-                }
-                o_link = link[0];
-                c_link = link[2];
-                var image = jQuery(this).attr('src').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)\.(.*)/)[2];
 
+        // better if we don't just run through all images if we don't have to
+        if (that.settings.restrictImageSize == 'false' && that.settings.fixImgurLinks == 'false') {
+            return;
+        }
 
-                if (image.substr(0,(image.length-1)) == c_link && jQuery.inArray(c_link.substr(c_link.length-1,c_link.length),['s','m','l']) == -1) {
-                    var i = new Image();
-                    i.src = o_link;
-                    var im = this;
-                    jQuery(i).error(function() {
-                        jQuery(im).parent().attr('href',o_link.replace(c_link,image));
+        var restrictImagePxW = parseInt(that.settings.restrictImagePxW);
+        var restrictImagePxH = parseInt(that.settings.restrictImagePxH);     
+        subset.each(function() {
+            if (that.settings.restrictImageSize == 'true' && (restrictImagePxH > 0 || restrictImagePxW > 0)) {
+                var img = jQuery(this)[0];
+                width = img.naturalWidth;
+                height = img.naturalHeight;
+
+                var factor_width = restrictImagePxW/width;
+                var factor_height = restrictImagePxH/height;
+
+                var max_height = height;
+                var max_width = width;
+
+                if ((factor_width <= factor_height && factor_width < 1) || restrictImagePxH == 0) {
+                    max_width = restrictImagePxW;
+                    max_height = height*factor_width;
+                }
+                else if ((factor_height < factor_width && factor_height < 1) || restrictImagePxW == 0) {
+                    max_height = restrictImagePxH;
+                    max_width = width*factor_height;
+                }
+
+                if (width != max_width || height != max_height) {
+                    jQuery(this).css({
+                        'max-width': max_width + 'px',
+                        'max-height': max_height + 'px',
+                        'border': '1px dashed gray'
                     });
                 }
             }
-        }
+            if (that.settings.fixImgurLinks == 'true') {
+                if (jQuery(this).parent().is("a")) {
+                    var format = true;
+                    var link =  jQuery(this).parent().attr('href').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)\.(.*)/);
+                    if (link == null) {
+                        link = jQuery(this).parent().attr('href').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)/);
+                        format = false;
+                    }
+                    if (link == null) {
+                        return;
+                    }
+                    o_link = link[0];
+                    c_link = link[2];
+                    var image = jQuery(this).attr('src').match(/[http|https]*:\/\/(.*)imgur\.com\/(.*)\.(.*)/)[2];
+
+
+                    if (image.substr(0,(image.length-1)) == c_link && jQuery.inArray(c_link.substr(c_link.length-1,c_link.length),['s','m','l']) == -1) {
+                        var i = new Image();
+                        i.src = o_link;
+                        var im = this;
+                        jQuery(i).error(function() {
+                            jQuery(im).parent().attr('href',o_link.replace(c_link,image));
+                        });
+                    }
+                }
+            }
+        });
     });
 };
 
@@ -1513,14 +1523,21 @@ SALR.prototype.updateUsernameFromCP = function() {
 };
 
 /**
- * Displays notes under usernames.
+ * Determine method of opening displayUserNotes
  */
-SALR.prototype.displayUserNotes = function() {
-    var notes;
+SALR.prototype.displayUserNotesHandler = function() {
+    if (this.settings.enableUserNotesSync == 'true') {
+        this.displayUserNotesSync();
+    }
+    else {
+        this.displayUserNotesLocal();
+    }
+};
 
+SALR.prototype.displayUserNotesSync = function() {
     var that = this;
     chrome.storage.sync.get(function(settings) {
-        if (that.settings.userNotes != "undefined" && that.settings.userNotes != undefined) {
+       if (that.settings.userNotes != "undefined" && that.settings.userNotes != undefined) {
             if (settings['userNotes'] == undefined) {
                 settings['userNotes'] = that.settings.userNotes;
                 postMessage({'message' : 'ChangeSyncSetting',
@@ -1557,85 +1574,99 @@ SALR.prototype.displayUserNotes = function() {
                                 'option'  : 'userNotesOld',
                                 'value'   : settings['userNotes']
                 });
-
             }
         }
 
+        that.displayUserNotes(settings['userNotes'],that);
 
-        that.settings.userNotes = settings['userNotes'];
-        if (that.settings.userNotes == null || that.settings.userNotes == 'undefined' || that.settings.userNotes == undefined) {
-            notes = { "50339"   : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Sebbe
-                      "3882420" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Onoj
-                      "143511"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Sneaking Mission
-                      "156041"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // wmbest2
-                      "115838"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Ferg
-                      "101547"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Rohaq
-                      "163390"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}  // Master_Odin
-                    }; 
-            postMessage({ 'message': 'ChangeSyncSetting',
-                               'option' : 'userNotes',
-                               'value'  : JSON.stringify(notes) 
-            });
-        } else {
-            notes = JSON.parse(that.settings.userNotes);
-        }
-
-        jQuery('body').append("<div id='salr-usernotes-config' title='Set note' style='display: none'>"+
-            "<fieldset>"+
-                "<p><label for='salr-usernotes-text'><strong>Note:</strong></label><br/><input type='text' id='salr-usernotes-text'/></p>"+
-                "<p><label for='salr-usernotes-color'><strong>Color:</strong></label><br/><input type='text' id='salr-usernotes-color'/> <a href='http://www.colorpicker.com/' target='_blank'>Hex Codes</a></p>"+
-            "</fieldset>"+
-        "</div>");
-        
-        jQuery('table.post').each(function () {
-            var userid = jQuery(this).find('ul.profilelinks a[href*=userid]')[0].href.match(/userid=(\d+)/)[1];
-            var hasNote = notes[userid] != null;
-            
-            if (hasNote) {
-                jQuery('dl.userinfo > dt.author', this).after(
-                    '<dd style="font-weight: bold; color: ' + notes[userid].color + '">' + notes[userid].text + '</dd>'
-                );
-            }
-
-            var editLink = jQuery('<li><a href="javascript:;">Edit Note</a></li>');
-            jQuery('a', editLink).click(function() {
-                jQuery('#salr-usernotes-config').dialog({
-                    open: function(event, ui) {
-                        jQuery(document).trigger('disableSALRHotkeys');
-                        jQuery('#salr-usernotes-text').val(hasNote ? notes[userid].text : '');
-                        jQuery('#salr-usernotes-color').val(hasNote ? notes[userid].color : '#FF0000');
-                    },
-                    buttons: {
-                        "OK" : function () {
-                            notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(), 
-                                             'color' : jQuery('#salr-usernotes-color').val()};
-                            // TODO: Fix this
-                            postMessage({ 'message': 'ChangeSyncSetting',
-                                               'option' : 'userNotes',
-                                               'value'  : JSON.stringify(notes) });
-                            jQuery(this).dialog('destroy');
-                            jQuery(document).trigger('enableSALRHotkeys');
-                        },
-                        "Delete" : function () {
-                            delete notes[userid];
-                            // TODO: Fix this
-                            postMessage({ 'message': 'ChangeSyncSetting',
-                                               'option' : 'userNotes',
-                                               'value'  : JSON.stringify(notes) });
-                            jQuery(this).dialog('destroy');
-                            jQuery(document).trigger('enableSALRHotkeys');
-                        },
-                        "Cancel" : function () {
-                            jQuery(this).dialog('destroy');
-                            jQuery(document).trigger('enableSALRHotkeys');
-                        }
-                    }
-                });
-            });
-            // append a space to create a new text node which fixes spacing problems you'll get otherwise
-            jQuery('ul.profilelinks', this).append(' ').append(editLink).append(' '); 
-        });
     });
+};
+
+SALR.prototype.displayUserNotesLocal = function() {
+    this.displayUserNotes(this.settings.userNotesLocal,this);
+};
+
+/**
+ * Displays notes under usernames.
+ */
+SALR.prototype.displayUserNotes = function(userNotes,that) {
+    var notes;
+    var settings = {};
+    settings['userNotes'] = userNotes;
+
+    that.settings.userNotes = settings['userNotes'];
+    if (that.settings.userNotes == null || that.settings.userNotes == 'undefined' || that.settings.userNotes == undefined) {
+        notes = { "50339"   : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Sebbe
+                  "3882420" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Onoj
+                  "143511"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Sneaking Mission
+                  "156041"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // wmbest2
+                  "115838"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Ferg
+                  "101547"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Rohaq
+                  "163390"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}  // Master_Odin
+                }; 
+        postMessage({ 'message': 'ChangeSyncSetting',
+                           'option' : 'userNotes',
+                           'value'  : JSON.stringify(notes) 
+        });
+    } else {
+        notes = JSON.parse(that.settings.userNotes);
+    }
+    jQuery('body').append("<div id='salr-usernotes-config' title='Set note' style='display: none'>"+
+        "<fieldset>"+
+            "<p><label for='salr-usernotes-text'><strong>Note:</strong></label><br/><input type='text' id='salr-usernotes-text'/></p>"+
+            "<p><label for='salr-usernotes-color'><strong>Color:</strong></label><br/><input type='text' id='salr-usernotes-color'/> <a href='http://www.colorpicker.com/' target='_blank'>Hex Codes</a></p>"+
+        "</fieldset>"+
+    "</div>");
+    
+    jQuery('table.post').each(function () {
+        var userid = jQuery(this).find('ul.profilelinks a[href*=userid]')[0].href.match(/userid=(\d+)/)[1];
+        var hasNote = notes[userid] != null;
+        
+        if (hasNote) {
+            jQuery('dl.userinfo > dt.author', this).after(
+                '<dd style="font-weight: bold; color: ' + notes[userid].color + '">' + notes[userid].text + '</dd>'
+            );
+        }
+
+        var editLink = jQuery('<li><a href="javascript:;">Edit Note</a></li>');
+        jQuery('a', editLink).click(function() {
+            jQuery('#salr-usernotes-config').dialog({
+                open: function(event, ui) {
+                    jQuery(document).trigger('disableSALRHotkeys');
+                    jQuery('#salr-usernotes-text').val(hasNote ? notes[userid].text : '');
+                    jQuery('#salr-usernotes-color').val(hasNote ? notes[userid].color : '#FF0000');
+                },
+                buttons: {
+                    "OK" : function () {
+                        notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(), 
+                                         'color' : jQuery('#salr-usernotes-color').val()};
+                        // TODO: Fix this
+                        postMessage({ 'message': 'ChangeSyncSetting',
+                                            'option' : 'userNotes',
+                                            'value'  : JSON.stringify(notes) });
+                        jQuery(this).dialog('destroy');
+                        jQuery(document).trigger('enableSALRHotkeys');
+                    },
+                    "Delete" : function () {
+                        delete notes[userid];
+                        // TODO: Fix this
+                        postMessage({ 'message': 'ChangeSyncSetting',
+                                            'option' : 'userNotes',
+                                            'value'  : JSON.stringify(notes) });
+                        jQuery(this).dialog('destroy');
+                        jQuery(document).trigger('enableSALRHotkeys');
+                    },
+                    "Cancel" : function () {
+                        jQuery(this).dialog('destroy');
+                        jQuery(document).trigger('enableSALRHotkeys');
+                    }
+                }
+            });
+        });
+        // append a space to create a new text node which fixes spacing problems you'll get otherwise
+        jQuery('ul.profilelinks', this).append(' ').append(editLink).append(' '); 
+    });
+
 };
 
 /**
