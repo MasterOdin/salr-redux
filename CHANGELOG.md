@@ -10,7 +10,7 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
-### v2.1.0 (1/14/2013)
+### v2.1.0 (3/11/2014)
 ```
 + Allow for use of localStorage (instead of Chrome.storage.sync) for User Notes
 + Reintroduced indicator for threads posted in
