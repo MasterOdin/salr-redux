@@ -249,6 +249,7 @@ defaultSettings['setImageTooltip']              = 'false';
 defaultSettings['setImageTooltipBlankOnly']     = 'true';
 defaultSettings['setImageTooltipHideExtension'] = 'true';
 defaultSettings['setImageTooltipSkipEmoticons'] = 'true';
+defaultSettings['setImageTooltipHideSourceUrl'] = 'true';
     
 // Other Options
 defaultSettings['qneProtection']                = 'false';      

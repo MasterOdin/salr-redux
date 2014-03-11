@@ -13,9 +13,10 @@ Changelog List
 ### v2.1.0 (1/14/2013)
 ```
 + Allow for use of localStorage (instead of Chrome.storage.sync) for User Notes
-+ Reintroduced broken indicator for threads posted in
++ Reintroduced indicator for threads posted in
 + Allowed users to specify maximum dimensions when restricting image size
 + Add setting to remove report button on own posts
++ Add image tooltip popup for filename (credit to nskillen)
 * Fixed right "Top" button not being on any page, not just when page navigator was visible.
 * Fix imgur links to larger sizes of imgur images posted on the forums being broken
 * Force image settings to only start acting once entire window is loaded, instead of potentially only some of the window

@@ -167,6 +167,11 @@ jQuery(document).ready(function() {
     //defaultSettings['fixTimg']                      = 'false';
     //defaultSettings['forceTimg']                    = 'false';
     defaultSettings['retinaImages']                 = 'false';
+    defaultSettings['setImageTooltip']              = 'false';
+    defaultSettings['setImageTooltipBlankOnly']     = 'true';
+    defaultSettings['setImageTooltipHideExtension'] = 'true';
+    defaultSettings['setImageTooltipSkipEmoticons'] = 'true';
+    defaultSettings['setImageTooltipHideSourceUrl'] = 'true';
     
     // Other Options
     defaultSettings['qneProtection']                = 'false';

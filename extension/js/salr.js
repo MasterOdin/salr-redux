@@ -210,8 +210,6 @@ SALR.prototype.pageInit = function() {
             if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesThread == 'true') {
                 this.showLastThreePages();
             }
-
-
             break;
         case 'newreply.php':
             if (!this.settings.forumPostKey) {
@@ -2339,6 +2337,10 @@ function retinaFilename(img) {
     return f;
 }
 
+/*
+ * shows tooltip when hovering over images that gives their filename
+ * Author: nskillen
+ */
 SALR.prototype.setImageTooltips = function() {
     var salr = this;
     
@@ -2371,8 +2373,10 @@ SALR.prototype.setImageTooltips = function() {
         return true;
     }).each(function(index,element) {
         var filename = jQuery(this).attr('src');
-        filename = filename.substr(filename.lastIndexOf('/')+1);
-        if(salr.settings.setImageTooltipHideExtension) {
+        if (salr.settings.setImageTooltipHideSourceUrl == 'true') {
+            filename = filename.substr(filename.lastIndexOf('/')+1);
+        }
+        if(salr.settings.setImageTooltipHideExtension == 'true') {
             filename = filename.substring(0, filename.lastIndexOf('.'));
         }
         jQuery(this).attr('title',filename);
