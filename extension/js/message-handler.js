@@ -239,6 +239,10 @@ defaultSettings['fixImgurLinks']                = 'true';
 //defaultSettings['fixTimg']                      = 'false';
 //defaultSettings['forceTimg']                    = 'false';
 defaultSettings['retinaImages']                 = 'false';
+defaultSettings['setImageTooltip']              = 'false';
+defaultSettings['setImageTooltipBlankOnly']     = 'true';
+defaultSettings['setImageTooltipHideExtension'] = 'true';
+defaultSettings['setImageTooltipSkipEmoticons'] = 'true';
     
 // Other Options
 defaultSettings['qneProtection']                = 'false';      
