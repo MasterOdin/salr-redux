@@ -1592,12 +1592,9 @@ SALR.prototype.displayUserNotesLocal = function() {
  * Displays notes under usernames.
  */
 SALR.prototype.displayUserNotes = function(userNotes,that) {
-    var notes;
-    var settings = {};
-    settings['userNotes'] = userNotes;
+    var notes = userNotes;
 
-    that.settings.userNotes = settings['userNotes'];
-    if (that.settings.userNotes == null || that.settings.userNotes == 'undefined' || that.settings.userNotes == undefined) {
+    if (notes == null || notes == "undefined" || notes == undefined || notes == "null") {
         notes = { "50339"   : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Sebbe
                   "3882420" : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Onoj
                   "143511"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Sneaking Mission
@@ -1611,7 +1608,7 @@ SALR.prototype.displayUserNotes = function(userNotes,that) {
                            'value'  : JSON.stringify(notes) 
         });
     } else {
-        notes = JSON.parse(that.settings.userNotes);
+        notes = JSON.parse(notes);
     }
     jQuery('body').append("<div id='salr-usernotes-config' title='Set note' style='display: none'>"+
         "<fieldset>"+
@@ -1621,7 +1618,10 @@ SALR.prototype.displayUserNotes = function(userNotes,that) {
     "</div>");
     
     jQuery('table.post').each(function () {
-        var userid = jQuery(this).find('ul.profilelinks a[href*=userid]')[0].href.match(/userid=(\d+)/)[1];
+        var profile = jQuery(this).find('ul.profilelinks a[href*=userid]')[0];
+        if (profile == undefined) 
+            return;
+        var userid = profile.href.match(/userid=(\d+)/)[1];
         var hasNote = notes[userid] != null;
         
         if (hasNote) {

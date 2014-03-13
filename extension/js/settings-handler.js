@@ -712,7 +712,7 @@ function configWindow() {
             if (key == 'friendsList'    ||
                 key == 'forumsList'     || 
                 key == 'modList'        ||
-                key == 'saveUserNotes'  ||
+                //key == 'saveUserNotes'  ||
                 key == 'userNotes'      ||
                 key == 'userNotesOld'   ||
                 key == 'userNotesLocal' ||
