@@ -146,7 +146,9 @@ SALR.prototype.pageInit = function() {
                 this.highlightOwnQuotes();
             }
 
-            this.displaySinglePostLink();
+            if (this.settings.enableSinglePost != "true") {
+                this.displaySinglePostLink();
+            }
 
             if (this.settings.enableSOAPLink == 'true') {
                 this.addSOAPLink();
@@ -768,6 +770,16 @@ SALR.prototype.modifyImages = function() {
                 }
             }
         });
+        if (that.settings.restrictImageSize == "true") {
+            subset.promise().done(function() {
+                var href = window.location.href;
+                if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
+                    var first = findFirstUnreadPost();
+                    var post = jQuery('div#thread > table.post').eq(first);
+                    jQuery(window).scrollTop(post.offset().top);
+                }
+            });
+        }
     });
 };
 
@@ -923,9 +935,6 @@ SALR.prototype.embedYoutubes = function() {
  *
  */
 SALR.prototype.displaySinglePostLink = function() {
-    if (this.settings.enableSinglePost != "true") {
-        return;
-    }
     var getPostID = function(element) {
         return jQuery('a[href^=#post]', element).attr('href').split('#post')[1];
     };

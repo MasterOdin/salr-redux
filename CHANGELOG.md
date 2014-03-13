@@ -10,6 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### v2.1.1 (3/13/2014)
+```
+* Fix for user notes breaking SALR when you ignore a user
+* Re-anchor window when adjusting image sizes
+```
 ### v2.1.0 (3/11/2014)
 ```
 + Allow for use of localStorage (instead of Chrome.storage.sync) for User Notes
