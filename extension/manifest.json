@@ -1,6 +1,6 @@
 {
   "name": "Something Awful Last Read Redux", 
-  "version": "2.1.0.3",
+  "version": "2.1.0.4",
   "manifest_version": 2,
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/ODZliWIb6YDyaHICQGfRDOiDmNOqCVPDNro6/Kwi1KpSFL7jI0Sn+HpvPt60Yb5tKPPMUIseTCSdDAjpr/d3aHU93r4g9ziq+wLKtTjuOryW/6izrGSf548A3QeyqIsWM+ONdbvOdU5bnXeAgIqa1CymocuJOASbvnz+ztaZXQIDAQAB",
   "description": "Enhances the Something Awful forums with a host of new and exciting features", 

@@ -146,7 +146,7 @@ SALR.prototype.pageInit = function() {
                 this.highlightOwnQuotes();
             }
 
-            if (this.settings.enableSinglePost != "true") {
+            if (this.settings.enableSinglePost == "true") {
                 this.displaySinglePostLink();
             }
 
