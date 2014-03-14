@@ -721,7 +721,7 @@ function configWindow() {
                 continue;
             //win.document.write('<tr><td>'+key+'</td>');
             //win.document.writeln('<td>'+localStorage[key]+'</td></tr>');
-            win.document.writeln('setting[\''+key+'\']    =    "'+localStorage[key]+';"<br />');
+            win.document.writeln('setting[\''+key+'\']    =    "'+localStorage[key]+'";<br />');
         }
         win.document.writeln('<br /><br />User Note values, number is user id: (don\'t post this in thread!)<br />');
         win.document.writeln('userNotesLocal: '+localStorage['userNotesLocal']+"<br />");

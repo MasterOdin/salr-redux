@@ -13,7 +13,7 @@ Changelog List
 ### v2.1.1 (3/13/2014)
 ```
 * Fix for user notes breaking SALR when you ignore a user
-* Re-anchor window when adjusting image sizes
+* Re-anchor window when adjusting anything that changes window size (quotes, images, etc.)
 * Fix bug with single post button setting
 ```
 ### v2.1.0 (3/11/2014)

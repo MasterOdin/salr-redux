@@ -45,7 +45,15 @@ SALR.prototype.pageInit = function() {
     // Update the styles now that we have
     // the settings
     this.updateStyling();
-    this.modifyImages();
+
+    // we need to set this on any function call that would change the height of the page
+    var anchorPage = false;
+
+    if (this.settings.replaceLinksWithImages == 'true' || this.settings.replaceImagesWithLinks == 'true' ||
+        this.settings.restrictImageSize == 'true' || this.settings.fixImgurLinks == 'true') {
+        this.modifyImages();
+        anchorPage = true;
+    }
 
     jQuery.expr[":"].econtains = function(obj, index, meta, stack){
         return (obj.textContent || obj.innerText || $(obj).text() || "").toLowerCase() == meta[3].toLowerCase();
@@ -56,13 +64,12 @@ SALR.prototype.pageInit = function() {
         postMessage({
             'message': 'ShowPageAction'
         });
-    } 
+    }
 
     switch (this.currentPage) {
         case '':
         case 'index.php':
             //this.updateForumsListIndex();
-
             if (this.settings.highlightModAdmin == 'true') {
                 this.skimModerators();
             }
@@ -72,6 +79,7 @@ SALR.prototype.pageInit = function() {
             if (this.settings.threadCaching == 'true') {
                 this.queryVisibleThreads();
             }
+
             if (this.settings.displayPageNavigator == 'true') {
                 this.pageNavigator = new PageNavigator(this.base_image_uri);
             }
@@ -155,6 +163,7 @@ SALR.prototype.pageInit = function() {
             }
 
             if (this.settings.collapseTldrQuotes == 'true') {
+                anchorPage = true;
                 this.tldrQuotes();
             }
 
@@ -271,9 +280,23 @@ SALR.prototype.pageInit = function() {
     if (this.settings.enableMouseGestures == 'true') {
         this.mouseGesturesController = new MouseGesturesController(this.base_image_uri, this.settings, this.getCurrentPage, this.pageCount);
     }
+
     if (this.settings.enableKeyboardShortcuts == 'true') {
         this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings, this.getCurrentPage, this.pageCount);
-    }    
+    }
+ 
+    if (anchorPage == true) {
+        window.onload = function() {
+            var href = window.location.href;
+            if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
+                var first = findFirstUnreadPost();
+                var post = jQuery('div#thread > table.post').eq(first);
+                console.log("aa: "+post.offset().top);
+                console.log(anchorPage);
+                jQuery(window).scrollTop(post.offset().top);
+            }
+        };
+    }
 };
 
 SALR.prototype.openSettings = function() {
@@ -637,29 +660,28 @@ SALR.prototype.modifyImages = function() {
 
         // fix timg, because it's broken
         //if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
+        var subset1 = jQuery('.postbody a');
 
         // Replace Links with Images
         if (that.settings.replaceLinksWithImages == 'true') {
 
-            var subset = jQuery('.postbody a');
-
             //NWS/NMS links
             if(that.settings.dontReplaceLinkNWS == 'true')
             {
-                subset = subset.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
+                subset1 = subset1.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
             }
 
             // spoiler'd links
             if(that.settings.dontReplaceLinkSpoiler == 'true') {
-                subset = subset.not('.bbc-spoiler a');
+                subset1 = subset1.not('.bbc-spoiler a');
             }
 
             // seen posts
             if(that.settings.dontReplaceLinkRead == 'true') {
-                subset = subset.not('.seen1 a').not('.seen2 a');
+                subset1 = subset1.not('.seen1 a').not('.seen2 a');
             }
 
-            subset.each(function() {
+            subset1.each(function() {
                 var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/);
                 if(match != null && !(that.settings.dontReplaceLinkImage == 'true' && jQuery(this).has('img').length > 0)) {
                     jQuery(this).after("<img src='" + match[0] + "' />");
@@ -681,16 +703,15 @@ SALR.prototype.modifyImages = function() {
         subset = subset.not('img[src*="http://i.somethingawful.com/u/garbageday/"]');
         //}
 
+        if(that.settings.replaceImagesReadOnly == 'true') {
+            subset_filtered = subset.filter('.seen1 img, .seen2 img');
+        }
+        else {
+            subset_filtered = subset;
+        }
+
         // Replace inline Images with Links
         if (that.settings.replaceImagesWithLinks == 'true') {
-            
-            if(that.settings.replaceImagesReadOnly == 'true') {
-                subset_filtered = subset.filter('.seen1 img, .seen2 img');
-            }
-            else {
-                subset_filtered = subset;
-            }
-
             subset_filtered.each(function() {
                 var source = jQuery(this).attr('src');
                 var add = "";
@@ -770,16 +791,17 @@ SALR.prototype.modifyImages = function() {
                 }
             }
         });
-        if (that.settings.restrictImageSize == "true") {
-            subset.promise().done(function() {
-                var href = window.location.href;
-                if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
-                    var first = findFirstUnreadPost();
-                    var post = jQuery('div#thread > table.post').eq(first);
-                    jQuery(window).scrollTop(post.offset().top);
-                }
-            });
-        }
+/*    
+        jQuery.when(subset,subset1,subset_filtered).promise().done(function() {
+            var href = window.location.href;
+            if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
+                var first = findFirstUnreadPost();
+                var post = jQuery('div#thread > table.post').eq(first);
+                console.log(post.offset().top);
+                jQuery(window).scrollTop(post.offset().top);
+            }
+        });
+*/
     });
 };
 
