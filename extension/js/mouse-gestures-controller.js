@@ -43,8 +43,6 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
 
     // Page navigation functions are provided globally
     // in page-navigator.js
-    //
-    // TODO: Catch this on user control panel as well
     switch(this.currentPageName) {
         case 'forumdisplay.php':
         case 'showthread.php':
@@ -67,7 +65,6 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
             if (that.settings.enableMouseMenu == "true") {
                 not_context = localStorage.getItem("MouseActiveContext") == 'false' ? 'true' : 'false';
                 localStorage.setItem("MouseActiveContext", not_context);
-                console.log(localStorage.getItem("MouseActiveContext"));
             }
         }
     });
@@ -198,8 +195,8 @@ MouseGesturesController.prototype.setPageSpecificCSS = function() {
 
     if (this.currentPageName == 'usercp.php'
             || this.currentPageName == 'bookmarkthreads.php') {
-        this.disableGesture('left');
-        this.disableGesture('right');
+        //this.disableGesture('left');
+        //this.disableGesture('right');
         if (this.settings.enableMouseUpUCP == 'true') {
             this.disableGesture('up');
         }

@@ -127,7 +127,7 @@ function buildUrl(rootPageType, basePageID, page) {
 }
 
 function nextPageUrl() {
-    var url = window.location.href.replace(/#.*$/,'');
+    var url = window.location.href.replace(/#.*$/,'').replace('usercp.php','bookmarkthreads.php');
     var m = url.match(/pagenumber=(\d+)/);
     if (m) {
         var page = parseInt(m[1])+1;
@@ -150,7 +150,7 @@ function prevPageUrl() {
     return url;
 }
 function getPageUrl(pagenumber) {
-    var url = window.location.href.replace(/#.*$/,'');
+    var url = window.location.href.replace(/#.*$/,'').replace('usercp.php','bookmarkthreads.php');
     var m = url.match(/pagenumber=(\d+)/);
     if (m) {
         url = url.replace(/pagenumber=(\d+)/, 'pagenumber='+pagenumber);

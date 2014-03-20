@@ -12,6 +12,8 @@ Changelog List
 --------------
 ### v2.1.1 (3/13/2014)
 ```
++ Add page navigator to usercp/bookmarkthreads.php if more than two pages of bookmarks (will only show if more than one page)
++ Add mouse gestures for usercp/bookmarkthreads if more than one page
 * Fix for user notes breaking SALR when you ignore a user
 * Re-anchor window when adjusting anything that changes window size (quotes, images, etc.)
 * Fix bug with single post button setting

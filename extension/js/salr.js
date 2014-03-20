@@ -253,6 +253,9 @@ SALR.prototype.pageInit = function() {
             if (this.settings.threadCaching == 'true') {
                 this.queryVisibleThreads();
             }
+            if (this.settings.displayPageNavigator == 'true' && this.pageCount > 1) {
+                this.pageNavigator = new PageNavigator(this.base_image_uri);
+            }
             break;
         case 'misc.php':
             if (window.location.href.indexOf('action=whoposted') >= 0) {
