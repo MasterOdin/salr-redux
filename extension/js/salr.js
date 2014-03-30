@@ -1143,14 +1143,19 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
  */
 SALR.prototype.updateFriendsList = function() {
     var friends = new Array();
+    var friends_id = {};
 
     jQuery('div#buddylist dd>a.user').each( function() {
+        friends_id[this.href.match(/[0-9]+/gi)] = 1;
         friends.push(this.title);
     });
 
     postMessage({ 'message': 'ChangeSetting',
                   'option' : 'friendsList',
                   'value'  : JSON.stringify(friends) });
+    postMessage({ 'message': 'ChangeSetting',
+                  'option' : 'friendsListId',
+                  'value'  : JSON.stringify(friends_id) });
 };
 
 /**
@@ -1167,6 +1172,20 @@ SALR.prototype.highlightFriendPosts = function() {
         return;
     }
 
+    var friends_id = JSON.parse(this.settings.friendsListId);
+    jQuery('table.post').each(function() {
+        
+        var id = jQuery(this).find('.profilelinks').children(0).html().match(/[0-9]+/gi);
+        if (friends_id[parseInt(id)] == 1) {
+            jQuery(this).find('td').each(function() {
+                jQuery(this).css({
+                'border-collapse' : 'collapse',
+                'background-color': that.settings.highlightFriendsColor
+                });
+            });
+        }
+    });
+/*
     jQuery(friends).each(function() {
         if (selector != '') {
             selector += ', ';
@@ -1180,6 +1199,7 @@ SALR.prototype.highlightFriendPosts = function() {
             'background-color' : that.settings.highlightFriendsColor
         });
     });
+*/
 };
 
 /**
