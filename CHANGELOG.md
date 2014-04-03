@@ -10,13 +10,14 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
-### v2.1.1 (3/13/2014)
+### v2.1.1 (4/3/2014)
 ```
 + Add page navigator to usercp/bookmarkthreads.php if more than two pages of bookmarks (will only show if more than one page)
 + Add mouse gestures for usercp/bookmarkthreads if more than one page
 * Fix for user notes breaking SALR when you ignore a user
 * Re-anchor window when adjusting anything that changes window size (quotes, images, etc.)
 * Fix bug with single post button setting
+* Fix horrible slowdown associated with friends highlighting
 ```
 ### v2.1.0 (3/11/2014)
 ```
