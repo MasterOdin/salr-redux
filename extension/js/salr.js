@@ -1172,19 +1172,23 @@ SALR.prototype.highlightFriendPosts = function() {
         return;
     }
 
-    var friends_id = JSON.parse(this.settings.friendsListId);
-    jQuery('table.post').each(function() {
-        
-        var id = jQuery(this).find('.profilelinks').children(0).html().match(/[0-9]+/gi);
-        if (friends_id[parseInt(id)] == 1) {
-            jQuery(this).find('td').each(function() {
-                jQuery(this).css({
-                'border-collapse' : 'collapse',
-                'background-color': that.settings.highlightFriendsColor
-                });
-            });
-        }
-    });
+    var friends_id = this.settings.friendsListId;
+    if (friends_id != undefined && friends_id != null && friends_id != "undefined") {
+        friends_id = JSON.parse(friends_id);
+        jQuery('table.post').each(function() {    
+            var id = jQuery(this).find('.profilelinks').children(0).html().match(/[0-9]+/gi);
+            if (friends_id[parseInt(id)] != null) {
+                if (friends_id[parseInt(id)] == 1) {
+                    jQuery(this).find('td').each(function() {
+                        jQuery(this).css({
+                        'border-collapse' : 'collapse',
+                        'background-color': that.settings.highlightFriendsColor
+                        });
+                    });
+                }
+            }
+        });
+    }
 /*
     jQuery(friends).each(function() {
         if (selector != '') {
