@@ -10,6 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### v2.1.2 (4/14/2014)
+```
+* Fix SALR crash when using Post Cout Highlighting on forum page with global announcement
+* Fix logic on image resizing
+```
 ### v2.1.1 (4/3/2014)
 ```
 + Add page navigator to usercp/bookmarkthreads.php if more than two pages of bookmarks (will only show if more than one page)

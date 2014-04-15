@@ -294,8 +294,7 @@ SALR.prototype.pageInit = function() {
             if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
                 var first = findFirstUnreadPost();
                 var post = jQuery('div#thread > table.post').eq(first);
-                console.log("aa: "+post.offset().top);
-                console.log(anchorPage);
+                console.log("re-anchor at: "+post.offset().top);
                 jQuery(window).scrollTop(post.offset().top);
             }
         };
@@ -750,11 +749,11 @@ SALR.prototype.modifyImages = function() {
                 var max_height = height;
                 var max_width = width;
 
-                if ((factor_width <= factor_height && factor_width < 1) || restrictImagePxH == 0) {
+                if ((factor_width <= factor_height || restrictImagePxH == 0) && (factor_width > 0 && factor_width < 1)) {
                     max_width = restrictImagePxW;
                     max_height = height*factor_width;
                 }
-                else if ((factor_height < factor_width && factor_height < 1) || restrictImagePxW == 0) {
+                else if ((factor_height <= factor_width || restrictImagePxW == 0) && (factor_height > 0 && factor_height < 1)) {
                     max_height = restrictImagePxH;
                     max_width = width*factor_height;
                 }
@@ -2333,6 +2332,7 @@ SALR.prototype.queryVisibleThreads = function() {
     var post_history = new PostHistory(this.tagPostedThreads);
 
     jQuery('tr.thread').each(function() {
+        if (jQuery(this).attr('id') == undefined) return;
         var thread_id = jQuery(this).attr('id').substr(6);
         post_history.getThreadStatus(thread_id);
     });
