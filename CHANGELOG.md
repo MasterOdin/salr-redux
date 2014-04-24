@@ -10,6 +10,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### v2.2.0 (4/21/2014)
+```
+* Fix "Jump to another forum" appearing in Omnibar (and Chrome Button extension) jump list
+* Improve first usage of "Quick Reply" if user had just installed SALR and hadn't visited "newreply.php" yet
+*
+```
 ### v2.1.2 (4/14/2014)
 ```
 * Fix SALR crash when using Post Cout Highlighting on forum page with global announcement
