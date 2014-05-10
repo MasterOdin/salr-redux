@@ -59,7 +59,8 @@
         "tabs",
         "storage",
         "management",
-        "https://api.imgur.com/*"
+        "https://api.imgur.com/*",
+        "https://api.twitter.com/*"
     ],
   "page_action":
     {
