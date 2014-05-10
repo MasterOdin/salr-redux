@@ -10,6 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### v2.1.3 (5/12/2014)
+```
+* Fix embed youtube videos not having fullscreen button
+* Have all inline videos from links use HTML5 player (no more flash)
+```
 ### v2.1.2 (4/14/2014)
 ```
 * Fix SALR crash when using Post Cout Highlighting on forum page with global announcement

@@ -111,9 +111,7 @@ SALR.prototype.pageInit = function() {
                 this.inlineYoutubes();
             }
 
-            if (this.settings.embedVideo == 'true') {
-                this.embedYoutubes();
-            }
+            this.fullscreenYoutubeFix();
 
             if (this.settings.displayPageNavigator == 'true') {
                 this.pageNavigator = new PageNavigator(this.base_image_uri);
@@ -909,47 +907,23 @@ SALR.prototype.inlineYoutubes = function() {
 
             var list = jQuery(this).attr('href').match(/^http[s]*\:\/\/((?:www|[a-z]{2})\.)?(youtube\.com\/watch\?v=|youtu.be\/)([-_0-9a-zA-Z]+)&list=([-_0-9a-zA-Z]+)/);
 
-            if (that.settings.embedVideo == "true") {
-                jQuery(this).after('<div><embed class="salr_youtube_swf youtube-player"></embed></div>');
-                if (list != null) {
-                    jQuery(this).next().children("embed").attr("src","http://www.youtube.com/v/"+videoId+"?fs=1&theme=dark&list="+list[4]);
-                }
-                else {
-                    jQuery(this).next().children("embed").attr("src", "http://www.youtube.com/v/"+videoId+"?fs=1&theme=dark");
-                }
-                
-                jQuery(this).next().children("embed").attr("width","640");
-                jQuery(this).next().children("embed").attr("height","360");
-                jQuery(this).next().children("embed").attr("type","application/x-shockwave-flash");
-                jQuery(this).next().children("embed").attr("wmode","opaque");
-                jQuery(this).next().children("embed").attr("salign","t1");
-                jQuery(this).next().children("embed").attr("allowscriptaccess","never");
-                jQuery(this).next().children("embed").attr("allowfullscreen","true");
-                jQuery(this).next().children("embed").attr("scale","scale");
-                jQuery(this).next().children("embed").attr("quality","high");
-                jQuery(this).next().children("embed").attr("bgcolor","#FFFFFF");
-                jQuery(this).next().children("embed").attr("name","salr_youtube_swf");
-                jQuery(this).next().children("embed").attr("id","salr_youtube_swf");
-                jQuery(this).next().children("embed").attr("style","display: block;");
-            }
-            else {
-                jQuery(this).after('<div><iframe class="salr-player youtube-player"></iframe></div>');
-                jQuery(this).next().children("iframe").attr("src", "http://www.youtube.com/embed/" + videoId);
-                jQuery(this).next().children("iframe").attr("width","640");
-                jQuery(this).next().children("iframe").attr("height","385");
-                jQuery(this).next().children("iframe").attr("type","text/html");
-                jQuery(this).next().children("iframe").attr("frameborder","0");
-            }
+            jQuery(this).after('<div><iframe class="salr-player youtube-player"></iframe></div>');
+            jQuery(this).next().children("iframe").attr("src", "http://www.youtube.com/embed/" + videoId);
+            jQuery(this).next().children("iframe").attr("width","640");
+            jQuery(this).next().children("iframe").attr("height","385");
+            jQuery(this).next().children("iframe").attr("type","text/html");
+            jQuery(this).next().children("iframe").attr("frameborder","0");
+            jQuery(this).next().children("iframe").attr("allowfullscreen","true");
+
             jQuery(this).addClass('show-player');
         }
         return false;
     });
 };
 
-SALR.prototype.embedYoutubes = function() {
+SALR.prototype.fullscreenYoutubeFix = function() {
     jQuery('.postbody iframe[class*="youtube-player"]').each(function() {
-        videoLink = jQuery(this).attr('src').match(/\/[-_a-zA-Z0-9]+?\?/)[0].replace("?","").replace("/","");
-        jQuery(this).replaceWith('<embed height="360" width="640" wmode="opaque" salign="tl" allowscriptaccess="never" allowfullscreen="true" scale="scale" quality="high" bgcolor="#FFFFFF" name="salr_youtube_swf youtube-player" id="salr_youtube_swf" style="display: block;" src="http://www.youtube.com/v/'+videoLink+'?fs=1&theme=dark" type="application/x-shockwave-flash">');
+        jQuery(this).attr('allowfullscreen','true');
     });
 };
 
