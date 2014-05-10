@@ -113,6 +113,10 @@ SALR.prototype.pageInit = function() {
 
             this.fullscreenYoutubeFix();
 
+            if (this.settings.inlineTweet == 'true') {
+                this.inlineTweets();
+            }
+
             if (this.settings.displayPageNavigator == 'true') {
                 this.pageNavigator = new PageNavigator(this.base_image_uri);
             }
@@ -924,6 +928,17 @@ SALR.prototype.inlineYoutubes = function() {
 SALR.prototype.fullscreenYoutubeFix = function() {
     jQuery('.postbody iframe[class*="youtube-player"]').each(function() {
         jQuery(this).attr('allowfullscreen','true');
+    });
+};
+
+SALR.prototype.inlineTweets = function() {
+    var that = this;
+    jQuery('.postbody a[href*="twitter.com"]').each(function() {
+        var tweetId = jQuery(this).attr('href').match(/https:\/\/twitter.com\/[0-9a-zA-Z_]+\/(status|statuses)\/([0-9]+)/)[2];
+        console.log(tweetId);
+        //"https://api.twitter.com/1/statuses/oembed.json?id="+tweetId
+    /*<blockquote class="twitter-tweet" lang="en"><p><a href="https://twitter.com/facialimped">@facialimped</a> a goon is generally only ten bucks short of a redditor</p>&mdash; Goons_TXT (@Goons_TXT) <a href="https://twitter.com/Goons_TXT/statuses/464077512164016130">May 7, 2014</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>*/
     });
 };
 

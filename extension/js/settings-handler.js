@@ -117,8 +117,9 @@ jQuery(document).ready(function() {
     defaultSettings['showUserAvatarImage']          = 'true';
     defaultSettings['showUserAvatar']               = 'true';
     defaultSettings['inlineVideo']                  = 'false';
-    defaultSettings['embedVideo']                   = 'false';
+    //defaultSettings['embedVideo']                   = 'false';
     defaultSettings['youtubeHighlight']             = '#ff00ff';
+    defaultSettings['inlineTweet']                  = 'false';
     defaultSettings['threadCaching']                = 'false';
     defaultSettings['boxQuotes']                    = 'false';
     defaultSettings['salrLogoHide']                 = 'false';
