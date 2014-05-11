@@ -334,14 +334,23 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
         return jQuery('input[name="form_cookie"]', html).val();
     };
 
+    var parseFormKey = function(html) {
+        return jQuery('input[name="formkey"]', html).val();
+    };
+
     jQuery.get(this.reply_url,
-               {
-                   action: 'newreply',
-                   threadid: threadid
-               },
-               function(response) {
-                   that.notifyReplyReady(parseFormCookie(response));
-               });
+        {
+            action: 'newreply',
+            threadid: threadid
+        },
+        function(response) {
+            if(that.forum_post_key == -1)
+            {
+                that.notifyFormKey(parseFormKey(response));
+            }
+            that.notifyReplyReady(parseFormCookie(response));
+        }
+    );
 };
 
 QuickReplyBox.prototype.updatePreview = function() {
@@ -578,6 +587,14 @@ QuickReplyBox.prototype.notify = function(emotes) {
 
 QuickReplyBox.prototype.notifyReplyReady = function(form_cookie) {
     jQuery('input[name="form_cookie"]').attr('value', form_cookie);
+};
+
+QuickReplyBox.prototype.notifyFormKey = function(form_key) {
+    jQuery('input[name="formkey"').attr('value', form_key);
+    postMessage({   'message': 'ChangeSetting',
+                    'option' : 'forumPostKey',
+                    'value'  : form_key 
+    });    
 };
 
 QuickReplyBox.prototype.setEmoteSidebar = function() {

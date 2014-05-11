@@ -10,13 +10,15 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
-### v2.1.3 (5/12/2014)
+### v2.1.3 (5/11/2014)
 ```
 + Allow tweet links to show up inline
 + Allow vine links to show up inline
 + Allow webm (gfycat) links to show up inline
 * Fix embed youtube videos not having fullscreen button
 * Have all inline videos from links use HTML5 player (no more flash)
+* Fix "Jump to another forum" appearing in Omnibar (and Chrome Button extension) jump list
+* Improve first usage of "Quick Reply" if user had just installed SALR and hadn't visited "newreply.php" yet
 ```
 ### v2.1.2 (4/14/2014)
 ```

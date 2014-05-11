@@ -181,10 +181,11 @@ SALR.prototype.pageInit = function() {
             }
 
             if (this.settings.enableQuickReply == 'true') {
-                if (this.settings.forumPostKey) {
-                    this.quickReply = new QuickReplyBox(this.settings.forumPostKey, this.base_image_uri, this.settings);
-                    this.bindQuickReply();
+                if (!this.settings.forumPostKey) {
+                    this.settings.forumPostKey = -1;
                 }
+                this.quickReply = new QuickReplyBox(this.settings.forumPostKey, this.base_image_uri, this.settings);
+                this.bindQuickReply();
             }             
 
             if (this.settings.enableThreadNotes == 'true') {
@@ -1556,7 +1557,7 @@ SALR.prototype.updateForumsList = function() {
 
     var numSeps = 0;
     jQuery('select[name="forumid"]>option').each(function() {
-        if (this.text == "Please select one:")
+        if (this.text == "Please select one:" || this.text == "Jump to another forum:")
             return;
 
         var splitUp = this.text.match(/^(-*)(.*)/);
