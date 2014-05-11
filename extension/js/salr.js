@@ -115,14 +115,17 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.inlineTweet == 'true') {
                 this.inlineTweets();
+                anchorPage = true;
             }
 
             if (this.settings.inlineWebm == 'true') {
                 this.inlineWebm();
+                anchorPage = true;
             }
 
             if (this.settings.inlineVine == 'true') {
                 this.inlineVines();
+                anchorPage = true;
             }
 
             if (this.settings.displayPageNavigator == 'true') {
