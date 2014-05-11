@@ -120,6 +120,8 @@ jQuery(document).ready(function() {
     //defaultSettings['embedVideo']                   = 'false';
     defaultSettings['youtubeHighlight']             = '#ff00ff';
     defaultSettings['inlineTweet']                  = 'false';
+    defaultSettings['inlineVine']                   = 'false';
+    defaultSettings['inlineWebm']                   = 'false';    
     defaultSettings['threadCaching']                = 'false';
     defaultSettings['boxQuotes']                    = 'false';
     defaultSettings['salrLogoHide']                 = 'false';

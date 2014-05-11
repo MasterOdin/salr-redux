@@ -12,6 +12,9 @@ Changelog List
 --------------
 ### v2.1.3 (5/12/2014)
 ```
++ Allow tweet links to show up inline
++ Allow vine links to show up inline
++ Allow webm (gfycat) links to show up inline
 * Fix embed youtube videos not having fullscreen button
 * Have all inline videos from links use HTML5 player (no more flash)
 ```

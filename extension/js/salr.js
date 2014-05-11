@@ -117,6 +117,14 @@ SALR.prototype.pageInit = function() {
                 this.inlineTweets();
             }
 
+            if (this.settings.inlineWebm == 'true') {
+                this.inlineWebm();
+            }
+
+            if (this.settings.inlineVine == 'true') {
+                this.inlineVines();
+            }
+
             if (this.settings.displayPageNavigator == 'true') {
                 this.pageNavigator = new PageNavigator(this.base_image_uri);
             }
@@ -938,9 +946,24 @@ SALR.prototype.inlineTweets = function() {
         var link = this;
         jQuery.ajax({url:"https://api.twitter.com/1/statuses/oembed.json?id="+tweetId,
             success: function(data) {
+                link = jQuery(link).wrap("<div class='tweet'>").parent();
                 jQuery(link).html(data.html);
             }
         });
+    });
+};
+
+SALR.prototype.inlineVines = function() {
+    var that = this;
+    jQuery('.postbody a[href*="vine.co"]').each(function() {
+        jQuery(this).html('<iframe class="vine-embed" src="'+jQuery(this).attr('href')+'/embed/simple" width="600" height="600" frameborder="0"></iframe>'+
+                          '<script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>');
+    });
+};
+
+SALR.prototype.inlineWebm = function() {
+    jQuery('.postbody a[href$="webm"]').each(function() {
+        jQuery(this).html('<video autoplay loop width="450" muted="true" controls> <source src="'+jQuery(this).attr('href')+'" type="video/webm"> </video>');
     });
 };
 
