@@ -159,3 +159,7 @@ a:hover,
 a:active {
     color: #000;
 }
+
+div.misc {
+    width: 100%;
+}

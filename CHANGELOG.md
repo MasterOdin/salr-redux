@@ -15,6 +15,7 @@ Changelog List
 + Allow tweet links to show up inline
 + Allow vine links to show up inline
 + Allow webm (gfycat) links to show up inline
++ Allow ability to clear user notes
 * Fix embed youtube videos not having fullscreen button
 * Have all inline videos from links use HTML5 player (no more flash)
 * Fix "Jump to another forum" appearing in Omnibar (and Chrome Button extension) jump list

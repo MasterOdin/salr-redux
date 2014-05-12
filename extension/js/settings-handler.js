@@ -33,7 +33,6 @@
 var port = chrome.extension.connect({"name":"settings"});
 
 jQuery(document).ready(function() {
-
     var debug = "false";
     
     // Don't wipe the settings made by previous versions
@@ -305,6 +304,14 @@ jQuery(document).ready(function() {
     jQuery('#user-notes-sync').click(function() {
         userNotesSync();
     })
+
+    jQuery('#user-notes-delete-sync').click(function() {
+        userNotesClear(true);
+    });
+
+    jQuery('#user-notes-delete-local').click(function() {
+        userNotesClear(false);
+    });
 
     jQuery('.help').mouseover(function(e) {
         var helpBox = jQuery(this).parent().children(".help-box");
@@ -713,6 +720,7 @@ function configWindow() {
         win.document.writeln('</table>');
         for (var key in localStorage) {
             if (key == 'friendsList'    ||
+                key == 'friendsListId'  ||
                 key == 'forumsList'     || 
                 key == 'modList'        ||
                 //key == 'saveUserNotes'  ||
@@ -727,11 +735,18 @@ function configWindow() {
             win.document.writeln('setting[\''+key+'\']    =    "'+localStorage[key]+'";<br />');
         }
         win.document.writeln('<br /><br />User Note values, number is user id: (don\'t post this in thread!)<br />');
-        win.document.writeln('userNotesLocal: '+localStorage['userNotesLocal']+"<br />");
-    
-        sync = settings['userNotes'];
-        console.log(sync);
-        win.document.writeln('userNotesSync: ' + sync);
+        win.document.writeln("userNotesLocal:<br />");
+        var local = JSON.parse(localStorage['userNotesLocal']);
+        for (var i in local) {
+            win.document.writeln(i+":<br />&nbsp;&nbsp;&nbsp;&nbsp;Text: "+local[i]['text']+"<br />"+
+                "&nbsp;&nbsp;&nbsp;&nbsp;Color: "+local[i]['color']+"<br />");
+        }
+        sync = JSON.parse(settings['userNotes']);
+        win.document.writeln('<br /><br />userNotesSync:<br />');
+        for (var i in sync) {
+            win.document.writeln(i+":<br />&nbsp;&nbsp;&nbsp;&nbsp;Text: "+sync[i]['text']+"<br />"+
+                "&nbsp;&nbsp;&nbsp;&nbsp;Color: "+sync[i]['color']+"<br />");
+        }        
         win.document.writeln('</body></html>');
         win.document.close();
     });
@@ -806,6 +821,34 @@ function userNotesSync() {
             chrome.storage.sync.set({'userNotes' : JSON.stringify(local)});
         }       
     });
+}
+
+function userNotesClear(sync) {
+    sync = typeof sync !== 'undefined' ? sync : false;
+    if (sync == true) {
+        chrome.storage.sync.get(function(settings) {
+            var sync = JSON.parse(settings['userNotes']);
+            var cnt = 0;
+            for (var i in sync) {
+                cnt++;
+            }
+            var r = confirm("Clear all "+cnt+" synced user notes?");
+            if (r == true) {
+                chrome.storage.sync.set({'userNotes' : ''});
+            }
+        })
+    }
+    else {
+        var local = JSON.parse(localStorage.getItem('userNotesLocal'));
+        var cnt = 0;
+        for (var i in local) {
+            cnt++;
+        }
+        var r = confirm("Clear all "+cnt+" local user notes?");
+        if (r == true) {
+            localStorage.setItem('userNotesLocal','');
+        }
+    }
 }
 
 function loadNewSettings() {

@@ -628,7 +628,8 @@
              <div class='display-preference'>
                 <label><input id="enableUserNotesSync" class='user-preference' type='checkbox' /> Use Chrome Sync for User Notes</label>
                 <img class="help" src="images/settings_question.png" />
-                <div class="help-box">By default, user notes will sync to your Google account and be pulled from it. If you have issues, try disabling this option.</div>
+                <div class="help-box">By default, user notes will sync to your Google account and be pulled from it. This allows user notes to be synced across computers. 
+                If you have issues, try disabling this option.</div>
             </div>
         </div>
         <div class="display-preference">
@@ -894,8 +895,33 @@
         <br />
     </section>
     
-    <br />
-    <button id="config">Dump Settings</button>&nbsp;&nbsp;<button id="settings">Get User Notes from SALR</button>&nbsp;&nbsp;
-    <button id="user-notes-local">Backup User Notes locally</button>&nbsp;&nbsp;<button id="user-notes-sync">Store User Notes in Sync</button><br /> <br />
+    <a href="#">
+        <div class="preference-title">
+            Miscellaneous Commands
+            <div class="minus">
+                <img src="images/plus.png" width="24px" />
+            </div>
+        </div>
+    </a>
+    <section class="settings-panel">
+        <div class='display-preference'>
+            <button id="config">Dump Settings</button>
+        </div>
+        <div class='display-preference misc'>
+            <button id="settings">Get User Notes from SALR (Original)</button> (This will store the notes either locally/sync depending on above setting)
+        </div>
+        <div class='display-preference'>
+            <button id="user-notes-local">Backup Synced User Notes locally</button>
+        </div>
+        <div class='display-preference'>
+            <button id='user-notes-delete-sync'>Clear Synced User Notes</button>
+        </div>
+        <div class='display-preference'>
+            <button id="user-notes-sync">Store Local User Notes in Sync</button>
+        </div>
+        <div class='display-preference'>
+            <button id='user-notes-delete-local'>Clear Local User Notes</button>
+        </div>
+    </section>
 </body>
 </html>
