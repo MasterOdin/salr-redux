@@ -228,12 +228,27 @@ jQuery(document).ready(function() {
     });
 
     // Initialize checkbox fields
+    var obj = {'inlineTweet':'https://api.twitter.com/*','enableQuickReply':'https://api.imgur.com/*'};
     jQuery('div.display-preference input[type=checkbox]').each(function() {
         populateCheckboxes(jQuery(this));
-
+        onParentOptionSelect(jQuery(this));
         jQuery(this).click(function() {
+            var id = jQuery(this).attr('id');
+            if (id == 'inlineTweet' || id == 'enableQuickReply') {
+                if (jQuery(this).prop('checked') == true) {
+                    chrome.permissions.request({origins: [obj[id]]}, function(granted) {
+                        if (!granted) {
+                            jQuery(this).prop('checked',false);
+                        }
+                    });
+                }
+                else {
+                    chrome.permissions.remove({ origins: [obj[id]] });
+                }
+            }
             localStorage.setItem(jQuery(this).attr('id'), jQuery(this).prop('checked'));
             highlightExamples();
+            onParentOptionSelect(jQuery(this));
         });
     });
 
@@ -277,11 +292,7 @@ jQuery(document).ready(function() {
 
 	// once to initialize and once to bind click
 
-	jQuery('div.display-preference input[type=checkbox]').each(function() {
-		onParentOptionSelect(jQuery(this));
-	}).click(function() {
-		onParentOptionSelect(jQuery(this));
-	});
+
 
     highlightExamples();
 

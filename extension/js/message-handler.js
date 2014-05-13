@@ -359,4 +359,14 @@ function fixSettings() {
         localStorage.setItem('userNotesLocal',localStorage.getItem('userNotesOld'));
         localStorage.setItem('saveUserNotes','true');
     }
+
+    if (localStorage.getItem('embedVideo')) {
+        if (localStorage.getItem('enableQuickReply') != 'true') {
+            chrome.permissions.remove({ origins: ['https://api.imgur.com/*'] });
+        }
+        if (localStorage.getItem('inlineTweet') != 'true') {
+            chrome.permissions.remove({ origins: ['https://api.twitter.com/*'] });
+        }
+        localStorage.removeItem('embedVideo');
+    }
 }
