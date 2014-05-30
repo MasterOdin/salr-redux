@@ -207,6 +207,7 @@ defaultSettings['youtubeHighlight']             = '#ff00ff';
 defaultSettings['inlineTweet']                  = 'false';
 defaultSettings['inlineVine']                   = 'false';
 defaultSettings['inlineWebm']                   = 'false';
+defaultSettings['inlineWemAutoplay']            = 'true';
 defaultSettings['threadCaching']                = 'false';
 defaultSettings['boxQuotes']                    = 'false';
 defaultSettings['salrLogoHide']                 = 'false';

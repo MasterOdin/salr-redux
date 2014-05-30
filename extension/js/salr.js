@@ -97,6 +97,7 @@ SALR.prototype.pageInit = function() {
                                                 
             break;
         case 'showthread.php':
+
             if (window.location.href.indexOf('postid=') >= 0) {
                 // Single post view doesn't work for archived threads
                 // Switch to a goto post link
@@ -308,7 +309,7 @@ SALR.prototype.pageInit = function() {
             if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
                 var first = findFirstUnreadPost();
                 var post = jQuery('div#thread > table.post').eq(first);
-                console.log("re-anchor at: "+post.offset().top);
+                //console.log("re-anchor at: "+post.offset().top);
                 jQuery(window).scrollTop(post.offset().top);
             }
         };
@@ -944,9 +945,14 @@ SALR.prototype.fullscreenYoutubeFix = function() {
 };
 
 SALR.prototype.inlineTweets = function() {
+
     var that = this;
     jQuery('.postbody a[href*="twitter.com"]').each(function() {
-        var tweetId = jQuery(this).attr('href').match(/https:\/\/twitter.com\/[0-9a-zA-Z_]+\/(status|statuses)\/([0-9]+)/)[2];
+        var match = jQuery(this).attr('href').match(/(https|http):\/\/twitter.com\/[0-9a-zA-Z_]+\/(status|statuses)\/([0-9]+)/);
+        if (match == null) {
+            return;
+        }
+        var tweetId = match[3];
         var link = this;
         jQuery.ajax({url:"https://api.twitter.com/1/statuses/oembed.json?id="+tweetId,
             success: function(data) {
@@ -966,8 +972,10 @@ SALR.prototype.inlineVines = function() {
 };
 
 SALR.prototype.inlineWebm = function() {
+    var that = this;
     jQuery('.postbody a[href$="webm"]').each(function() {
-        jQuery(this).html('<video autoplay loop width="450" muted="true" controls> <source src="'+jQuery(this).attr('href')+'" type="video/webm"> </video>');
+        var autoplay = (that.settings.inlineWemAutoplay == "true") ? "autoplay" : "";
+        jQuery(this).html('<video '+autoplay+' loop width="450" muted="true" controls> <source src="'+jQuery(this).attr('href')+'" type="video/webm"> </video>');
     });
 };
 

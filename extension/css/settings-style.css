@@ -82,7 +82,7 @@ div.username-field, div.color-preference {
     
 div.color-select-input {
     float: left;
-    width: 350px;
+    width: 400px;
 	margin-top: 2px;
 }
     
@@ -92,6 +92,10 @@ div.color-select {
     float: left;
     top: -4px;
     padding-right: 10px;
+}
+
+div.color-select-text {
+    width: 300px;
 }
 
 div.color-select-box {

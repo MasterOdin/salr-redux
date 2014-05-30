@@ -10,6 +10,13 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### v2.1.4 (5/30/2014)
+```
++ Allow imgur/twitter api permissions be optional (active only when related setting is on)
++ Add setting for autoplaying webm/gifycat links
+* Fix SALR crashing if someone linked the twitter blog and embed tweets option is enabled
+* Improved catching more types of twitter links (http in addition to https)
+```
 ### v2.1.3 (5/11/2014)
 ```
 + Allow tweet links to show up inline
