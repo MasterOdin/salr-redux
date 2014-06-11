@@ -155,11 +155,76 @@ QuickReplyBox.prototype.create = function(username, quote) {
         jQuery('body').append(html);
     }
 
-    if (this.settings.quickReplyFormat == 'true') {
-        jQuery('textarea[name=message]').keydown(function(event) {
-            that.formatText(event);
-        });
-    }
+    jQuery('textarea[name=message]').keydown(function(event) {
+        that.formatText(event);
+    });
+
+    jQuery("textarea[name=message]").on('paste', function(event) {
+        var elem = jQuery(this);
+        var orig = elem.val();
+        //var orig = elem[0].val();
+        var start = elem[0].selectionStart;
+        var end = elem[0].selectionEnd;
+        
+        elem.val('');
+        elem.focus();
+
+        setTimeout(function() {
+            var paste = elem.val();
+            if (/^https?:\/\//.test(paste) && -1 == paste.indexOf("\n") && -1 == paste.indexOf("\r")) {
+                var h = /([^:]+):\/\/([^\/]+)(\/.*)?/.exec(decodeURI(paste));
+                var f = {
+                        scheme: h[1],
+                        domain: h[2],
+                        path: h[3] || "",
+                        filename: "",
+                        query: {},
+                        fragment: ""
+                };
+                h = f.path.lastIndexOf("#");
+                if (h != -1) {
+                    f.fragment = f.path.substr(h + 1);
+                    f.path = f.path.substr(0,h);
+                }
+
+                h = f.path.lastIndexOf("?");
+                if (h != -1) {
+                    var a = f.path.substr(h + 1);
+                    a = a.split("&");
+                    var b = {};
+                    var d, c;
+                    for (c in a) {
+                        d = a[c].indexOf("=");
+                        if (-1 != d) {
+                            b[a[c].substr(0, d)] = a[c].substr(d + 1);
+                        }
+                        else {
+                            b[a[c]] = !0;
+                        }
+                    }
+                    f.query = b;
+                    //f.path = f.path.substr(0, h);
+                }
+
+                h = f.path.lastIndexOf("/"); 
+                if (h != -1) {
+                    f.filename = f.path.substr(h + 1);
+                }
+
+                console.log(f);
+            }
+        }, 5);
+    });
+
+    /*
+    $(document).ready(function(){
+      $('input').bind('paste', function (e) {
+          var va = $(this).val();
+          $(this).val('').val(e.target.value);    
+          setTimeout(function(){alert(va)},5);         
+      });
+});
+*/
 
     jQuery('#dismiss-quick-reply').click(function() {
         that.hide();
@@ -594,7 +659,7 @@ QuickReplyBox.prototype.notifyFormKey = function(form_key) {
     postMessage({   'message': 'ChangeSetting',
                     'option' : 'forumPostKey',
                     'value'  : form_key 
-    });    
+    });
 };
 
 QuickReplyBox.prototype.setEmoteSidebar = function() {
@@ -666,55 +731,63 @@ QuickReplyBox.prototype.formatText = function() {
     var sel = text.substring(selStart, selEnd);
     var post = text.substring(selEnd);
 
-    if (key == 'B') {
-        // Bold
-        src.value = pre+'[b]'+sel+'[/b]'+post;
-        event.preventDefault();
-        src.selectionStart = selStart+3;
-        src.selectionEnd = selEnd+3;
-    } else if (key == 'I') {
-        // Italics
-        src.value = pre+'[i]'+sel+'[/i]'+post;
-        event.preventDefault();
-        src.selectionStart = selStart+3;
-        src.selectionEnd = selEnd+3;
-    } else if (key == 'U') {
-        // Underline
-        src.value = pre+'[u]'+sel+'[/u]'+post;
-        event.preventDefault();
-        src.selectionStart = selStart+3;
-        src.selectionEnd = selEnd+3;
-    } else if (key == 'S') {
-        // Strikeout
-        src.value = pre+'[s]'+sel+'[/s]'+post;
-        event.preventDefault();
-        src.selectionStart = selStart+3;
-        src.selectionEnd = selEnd+3;
-    } else if (key == 'F') {
-        // Fixed
-        src.value = pre+'[fixed]'+sel+'[/fixed]'+post;
-        event.preventDefault();
-        src.selectionStart = selStart+7;
-        src.selectionEnd = selEnd+7;
-    } else if (key == 'P') {
-        // Spoiler
-        src.value = pre+'[spoiler]'+sel+'[/spoiler]'+post;
-        event.preventDefault();
-        src.selectionStart = selStart+9;
-        src.selectionEnd = selEnd+9;
-    } else if (key == '8') {
-        // List Item
 
-        // Check if we need to add a list tag
-        var list = text.indexOf('[list]');
-        if (list == -1 || list > src.selectionStart) {
-            pre = pre+"[list]\n";
-            post = "\n[/list]"+post;
+    //jQuery(document).on('paste', function(e){ alert('pasting!') });
+
+    if (key == 'V') {
+        //jQuery(document).on('paste', function(e){ alert('pasting!') });
+    }
+    else if (this.settings.quickReplyFormat == 'true') {
+        if (key == 'B') {
+            // Bold
+            src.value = pre+'[b]'+sel+'[/b]'+post;
+            event.preventDefault();
+            src.selectionStart = selStart+3;
+            src.selectionEnd = selEnd+3;
+        } else if (key == 'I') {
+            // Italics
+            src.value = pre+'[i]'+sel+'[/i]'+post;
+            event.preventDefault();
+            src.selectionStart = selStart+3;
+            src.selectionEnd = selEnd+3;
+        } else if (key == 'U') {
+            // Underline
+            src.value = pre+'[u]'+sel+'[/u]'+post;
+            event.preventDefault();
+            src.selectionStart = selStart+3;
+            src.selectionEnd = selEnd+3;
+        } else if (key == 'S') {
+            // Strikeout
+            src.value = pre+'[s]'+sel+'[/s]'+post;
+            event.preventDefault();
+            src.selectionStart = selStart+3;
+            src.selectionEnd = selEnd+3;
+        } else if (key == 'F') {
+            // Fixed
+            src.value = pre+'[fixed]'+sel+'[/fixed]'+post;
+            event.preventDefault();
+            src.selectionStart = selStart+7;
+            src.selectionEnd = selEnd+7;
+        } else if (key == 'P') {
+            // Spoiler
+            src.value = pre+'[spoiler]'+sel+'[/spoiler]'+post;
+            event.preventDefault();
+            src.selectionStart = selStart+9;
+            src.selectionEnd = selEnd+9;
+        } else if (key == '8') {
+            // List Item
+
+            // Check if we need to add a list tag
+            var list = text.indexOf('[list]');
+            if (list == -1 || list > src.selectionStart) {
+                pre = pre+"[list]\n";
+                post = "\n[/list]"+post;
+            }
+            // Put a [*] on at the start of each line
+            sel = sel.replace(/\n/g, "\n[*]");
+            src.value = pre+'[*]'+sel+post;
+            event.preventDefault();
         }
-        // Put a [*] on at the start of each line
-        sel = sel.replace(/\n/g, "\n[*]");
-        src.value = pre+'[*]'+sel+post;
-        event.preventDefault();
     }
 };
 

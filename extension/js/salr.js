@@ -180,7 +180,6 @@ SALR.prototype.pageInit = function() {
                 anchorPage = true;
                 this.tldrQuotes();
             }
-
             if (this.settings.enableQuickReply == 'true') {
                 if (!this.settings.forumPostKey) {
                     this.settings.forumPostKey = -1;
@@ -238,9 +237,9 @@ SALR.prototype.pageInit = function() {
             }
             break;
         case 'newreply.php':
-            if (!this.settings.forumPostKey) {
-                this.findFormKey();
-            }
+            //if (!this.settings.forumPostKey) {
+            this.findFormKey();
+            //}
             
             if (this.settings.qneProtection == 'true') {
                 this.quoteNotEditProtection();
