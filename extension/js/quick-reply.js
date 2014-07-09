@@ -751,6 +751,7 @@ QuickReplyBox.prototype.pasteText = function() {
     // TODO: make this more readable and stuff
     setTimeout(function() {
         var paste = elem.val();
+        var c = paste;
         if (/^https?:\/\//.test(paste) && -1 == paste.indexOf("\n") && -1 == paste.indexOf("\r")) {
             var h = /([^:]+):\/\/([^\/]+)(\/.*)?/.exec(decodeURI(paste));
             if (h) {
@@ -773,14 +774,14 @@ QuickReplyBox.prototype.pasteText = function() {
                     var a = f.path.substr(h + 1);
                     a = a.split("&");
                     var b = {};
-                    var d, c;
-                    for (c in a) {
-                        d = a[c].indexOf("=");
+                    var d, j;
+                    for (j in a) {
+                        d = a[j].indexOf("=");
                         if (-1 != d) {
-                            b[a[c].substr(0, d)] = a[c].substr(d + 1);
+                            b[a[j].substr(0, d)] = a[j].substr(d + 1);
                         }
                         else {
-                            b[a[c]] = !0;
+                            b[a[j]] = !0;
                         }
                     }
                     f.query = b;
@@ -815,14 +816,14 @@ QuickReplyBox.prototype.pasteText = function() {
                         a = e.fragment;
                         var a = a.split("&"),
                             b = {},
-                            d, c;
-                        for (c in a) {
-                            d = a[c].indexOf("=");
+                            d, j;
+                        for (j in a) {
+                            d = a[j].indexOf("=");
                             if (-1 != d){
-                                b[a[c].substr(0, d)] = a[c].substr(d + 1);
+                                b[a[j].substr(0, d)] = a[j].substr(d + 1);
                             }
                             else {
-                                b[a[c]] = !0
+                                b[a[j]] = !0
                             }
                         }
                         g = b                        
@@ -847,9 +848,8 @@ QuickReplyBox.prototype.pasteText = function() {
                 }
                 
             }
-            
-            elem.val(orig.substr(0,start)+c+orig.substr(end));
         }
+        elem.val(orig.substr(0,start)+c+orig.substr(end));
     }, 5);
 };
 
