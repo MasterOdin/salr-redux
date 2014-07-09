@@ -160,60 +160,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
     });
 
     jQuery("textarea[name=message]").on('paste', function(event) {
-        var elem = jQuery(this);
-        var orig = elem.val();
-        //var orig = elem[0].val();
-        var start = elem[0].selectionStart;
-        var end = elem[0].selectionEnd;
-        
-        elem.val('');
-        elem.focus();
-
-        setTimeout(function() {
-            var paste = elem.val();
-            if (/^https?:\/\//.test(paste) && -1 == paste.indexOf("\n") && -1 == paste.indexOf("\r")) {
-                var h = /([^:]+):\/\/([^\/]+)(\/.*)?/.exec(decodeURI(paste));
-                var f = {
-                        scheme: h[1],
-                        domain: h[2],
-                        path: h[3] || "",
-                        filename: "",
-                        query: {},
-                        fragment: ""
-                };
-                h = f.path.lastIndexOf("#");
-                if (h != -1) {
-                    f.fragment = f.path.substr(h + 1);
-                    f.path = f.path.substr(0,h);
-                }
-
-                h = f.path.lastIndexOf("?");
-                if (h != -1) {
-                    var a = f.path.substr(h + 1);
-                    a = a.split("&");
-                    var b = {};
-                    var d, c;
-                    for (c in a) {
-                        d = a[c].indexOf("=");
-                        if (-1 != d) {
-                            b[a[c].substr(0, d)] = a[c].substr(d + 1);
-                        }
-                        else {
-                            b[a[c]] = !0;
-                        }
-                    }
-                    f.query = b;
-                    //f.path = f.path.substr(0, h);
-                }
-
-                h = f.path.lastIndexOf("/"); 
-                if (h != -1) {
-                    f.filename = f.path.substr(h + 1);
-                }
-
-                console.log(f);
-            }
-        }, 5);
+        that.pasteText(event);
     });
 
     /*
@@ -789,6 +736,121 @@ QuickReplyBox.prototype.formatText = function() {
             event.preventDefault();
         }
     }
+};
+
+QuickReplyBox.prototype.pasteText = function() {
+    var elem = jQuery(event.srcElement);
+    var orig = elem.val();
+    //var orig = elem[0].val();
+    var start = elem[0].selectionStart;
+    var end = elem[0].selectionEnd;
+    
+    elem.val('');
+    elem.focus();
+
+    // TODO: make this more readable and stuff
+    setTimeout(function() {
+        var paste = elem.val();
+        if (/^https?:\/\//.test(paste) && -1 == paste.indexOf("\n") && -1 == paste.indexOf("\r")) {
+            var h = /([^:]+):\/\/([^\/]+)(\/.*)?/.exec(decodeURI(paste));
+            if (h) {
+                var f = {
+                        scheme: h[1],
+                        domain: h[2],
+                        path: h[3] || "",
+                        filename: "",
+                        query: {},
+                        fragment: ""
+                };
+                h = f.path.lastIndexOf("#");
+                if (h != -1) {
+                    f.fragment = f.path.substr(h + 1);
+                    f.path = f.path.substr(0,h);
+                }
+
+                h = f.path.lastIndexOf("?");
+                if (h != -1) {
+                    var a = f.path.substr(h + 1);
+                    a = a.split("&");
+                    var b = {};
+                    var d, c;
+                    for (c in a) {
+                        d = a[c].indexOf("=");
+                        if (-1 != d) {
+                            b[a[c].substr(0, d)] = a[c].substr(d + 1);
+                        }
+                        else {
+                            b[a[c]] = !0;
+                        }
+                    }
+                    f.query = b;
+                    f.path = f.path.substr(0, h);
+                }
+
+                h = f.path.lastIndexOf("/"); 
+                if (h != -1) {
+                    f.filename = f.path.substr(h + 1);
+                }
+                e = f;
+            }
+            else {
+                e = null;
+            }
+            f = "";
+            h = "";
+            g = false;
+            i = e.filename.lastIndexOf(".");
+            if (i != -1) {
+                h = e.filename.substr(i+1);
+                f = e.filename.substr(0,i);
+            }
+            
+            if ((i = /^([^\.]+\.)?youtu\.be$/.test(e.domain)) || /^([^\.]+\.)?youtube(-nocookie)?\.com$/.test(e.domain)) {
+                if (e.query.v) {
+                    c = '[video type="youtube"';
+                    if (e.query.hd) {
+                        c += ' res="hd"';
+                    }
+                    if (e.fragment) {
+                        a = e.fragment;
+                        var a = a.split("&"),
+                            b = {},
+                            d, c;
+                        for (c in a) {
+                            d = a[c].indexOf("=");
+                            if (-1 != d){
+                                b[a[c].substr(0, d)] = a[c].substr(d + 1);
+                            }
+                            else {
+                                b[a[c]] = !0
+                            }
+                        }
+                        g = b                        
+                    }
+                    if (g.t) {
+                            c += ' start="' + parseInt(g.t, 10) + '"';
+                    }
+                    c += ']' + e.query.v +'[/video]';
+                    g = true;
+                }
+                
+                else if (i || /^\/embed/.test(e.path)) {
+                    c = '[video type="youtube"';
+                    if (e.query.hd) {
+                        c += ' res="hd"';
+                    }
+                    if (e.query.start) {
+                        c += ' start="' + parseInt(e.query.start, 10) + '"';
+                    } 
+                    c += "]" + e.path.substr(e.path.lastIndexOf("/") + 1) + "[/video]";
+                    g = true;
+                }
+                
+            }
+            
+            elem.val(orig.substr(0,start)+c+orig.substr(end));
+        }
+    }, 5);
 };
 
 QuickReplyBox.prototype.showWarning = function() {

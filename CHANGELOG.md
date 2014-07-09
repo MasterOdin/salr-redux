@@ -10,6 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### v2.1.5 (7/8/2014)
+```
++ Pasting of youtube links into Quick Reply auto-formats them into [video] tags
+* Fix Quick Reply sometimes not working due to incorrect post key
+```
 ### v2.1.4 (5/30/2014)
 ```
 + Allow imgur/twitter api permissions be optional (active only when related setting is on)
