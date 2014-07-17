@@ -10,9 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
-### v2.1.5 (7/8/2014)
+### v2.1.5 (7/16/2014)
 ```
 + Pasting of youtube links into Quick Reply auto-formats them into [video] tags
++ Bring back AdjustLoad setting with allowing for user scroll disable of it
+* Add delay to AdjustLoad to better avoid user-scrolling
 * Fix Quick Reply sometimes not working due to incorrect post key
 ```
 ### v2.1.4 (5/30/2014)

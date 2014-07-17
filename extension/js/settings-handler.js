@@ -131,7 +131,8 @@ jQuery(document).ready(function() {
     defaultSettings['enableUserNotesSync']          = 'true';
     defaultSettings['enableThreadNotes']            = 'false';
     defaultSettings['fixCancer']                    = 'true';
-    //defaultSettings['adjustAfterLoad']              = 'true';
+    defaultSettings['adjustAfterLoad']              = 'true';
+    defaultSettings['preventAdjust']                = 'false';
     defaultSettings['enableSOAPLink']               = 'true';
     defaultSettings['enableSinglePost']             = 'true';
     defaultSettings['hidePostButtonInThread']       = 'false';

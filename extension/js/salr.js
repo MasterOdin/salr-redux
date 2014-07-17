@@ -38,6 +38,7 @@ function SALR(settings, base_image_uri) {
 };
 
 SALR.prototype.pageInit = function() {
+    var that = this;
     this.currentPage = findCurrentPage();
     this.pageCount = countPages();
     this.getCurrentPage = getCurrentPageNumber();
@@ -116,17 +117,14 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.inlineTweet == 'true') {
                 this.inlineTweets();
-                anchorPage = true;
             }
 
             if (this.settings.inlineWebm == 'true') {
                 this.inlineWebm();
-                anchorPage = true;
             }
 
             if (this.settings.inlineVine == 'true') {
                 this.inlineVines();
-                anchorPage = true;
             }
 
             if (this.settings.displayPageNavigator == 'true') {
@@ -177,7 +175,6 @@ SALR.prototype.pageInit = function() {
             }
 
             if (this.settings.collapseTldrQuotes == 'true') {
-                anchorPage = true;
                 this.tldrQuotes();
             }
             if (this.settings.enableQuickReply == 'true') {
@@ -301,15 +298,27 @@ SALR.prototype.pageInit = function() {
     if (this.settings.enableKeyboardShortcuts == 'true') {
         this.hotKeyManager = new HotKeyManager(this.quickReply, this.settings, this.getCurrentPage, this.pageCount);
     }
+
+    var preventAdjust = false;
+    $("body,html").bind("scroll mousedown DOMMouseScroll mousewheel keyup", function(e){
+        if (!preventAdjust && (e.which > 0 || e.type === "mousedown" || e.type === "mousewheel")) {
+             preventAdjust = true;
+        }
+    });
  
-    if (anchorPage == true) {
+    if (this.settings.adjustAfterLoad) {
         window.onload = function() {
-            var href = window.location.href;
-            if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
-                var first = findFirstUnreadPost();
-                var post = jQuery('div#thread > table.post').eq(first);
-                //console.log("re-anchor at: "+post.offset().top);
-                jQuery(window).scrollTop(post.offset().top);
+            if (!(that.settings.preventAdjust == "true" && preventAdjust)) {
+                var href = window.location.href;
+                if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
+                    var first = findFirstUnreadPost();
+                    var post = jQuery('div#thread > table.post').eq(first);
+                    // wait a tiny bit just to really make sure DOM is done
+                    setTimeout(function() {
+                        jQuery(window).scrollTop(post.offset().top); 
+                    }, 50);
+                    //console.log("Readjust to " + post.offset().top);
+                }
             }
         };
     }
