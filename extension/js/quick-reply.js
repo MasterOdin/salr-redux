@@ -29,9 +29,9 @@
 
 // http://forums.somethingawful.com/newreply.php?action=newreply&postid=379818033
 // http://forums.somethingawful.com/newreply.php?s=&action=newreply&threadid=3208437
-
-function QuickReplyBox(forum_post_key, base_image_uri, settings) {
-    this.forum_post_key = forum_post_key;
+// function QuickReplyBox(forum_post_key, base_image_uri, settings) {
+function QuickReplyBox(base_image_uri, settings) {
+    //this.forum_post_key = forum_post_key;
     this.base_image_uri = base_image_uri;
     this.settings = settings;
     this.reply_url = 'http://forums.somethingawful.com/newreply.php';
@@ -94,7 +94,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 '       <input id="quick-reply-action" type="hidden" name="action" value="postreply">' + 
                 '       <input type="hidden" name="threadid" value="' + findThreadID() + '">' + 
                 '       <input id="quick-reply-postid" type="hidden" name="postid" value="">' + 
-                '       <input type="hidden" name="formkey" value="' + this.forum_post_key + '">' + 
+                '       <input type="hidden" name="formkey" value="formkey">' + 
                 '       <input type="hidden" name="form_cookie" value="formcookie">' + 
                 '       <div id="title-bar">' + 
                 '           Quick Reply' + 
@@ -159,19 +159,11 @@ QuickReplyBox.prototype.create = function(username, quote) {
         that.formatText(event);
     });
 
-    jQuery("textarea[name=message]").on('paste', function(event) {
-        that.pasteText(event);
-    });
-
-    /*
-    $(document).ready(function(){
-      $('input').bind('paste', function (e) {
-          var va = $(this).val();
-          $(this).val('').val(e.target.value);    
-          setTimeout(function(){alert(va)},5);         
-      });
-});
-*/
+    if (this.settings.quickReplyYoutube == "true") {
+        jQuery("textarea[name=message]").on('paste', function(event) {
+            that.pasteText(event);
+        });
+    }
 
     jQuery('#dismiss-quick-reply').click(function() {
         that.hide();
@@ -275,19 +267,20 @@ QuickReplyBox.prototype.show = function() {
         if (!that.quickReplyState.visible) {
             // change default checkbox values
             if (that.settings.quickReplyParseUrls == 'true') {
-                jQuery('input#parseurl').trigger('click');
+                jQuery('input#parseurl').prop('checked',true);
+                console.log("what");
             }
             if (that.settings.quickReplyBookmark == 'true' && jQuery('input#quickReplyBookmark').prop('checked') != true) {
                 jQuery('input#quickReplyBookmark').trigger('click');
             }
             if (that.settings.quickReplyDisableSmilies == 'true') {
-                jQuery('input#disablesmilies').trigger('click');
+                jQuery('input#disablesmilies').prop('checked',true);
             }
             if (that.settings.quickReplySignature == 'true') {
-                jQuery('input#signature').trigger('click');
+                jQuery('input#signature').prop('checked',true);
             }
             if (that.settings.quickReplyLivePreview == 'true') {
-                jQuery('input#live-preview').trigger('click');  
+                jQuery('input#live-preview').prop('checked',true);
             }
         }
         that.quickReplyState.visible = true;
@@ -356,10 +349,10 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
             threadid: threadid
         },
         function(response) {
-            if(that.forum_post_key == -1)
-            {
-                that.notifyFormKey(parseFormKey(response));
-            }
+            //if(that.forum_post_key == -1)
+            //{
+            that.notifyFormKey(parseFormKey(response));
+            //}
             that.notifyReplyReady(parseFormCookie(response));
         }
     );
@@ -603,10 +596,10 @@ QuickReplyBox.prototype.notifyReplyReady = function(form_cookie) {
 
 QuickReplyBox.prototype.notifyFormKey = function(form_key) {
     jQuery('input[name="formkey"').attr('value', form_key);
-    postMessage({   'message': 'ChangeSetting',
+    /*postMessage({   'message': 'ChangeSetting',
                     'option' : 'forumPostKey',
                     'value'  : form_key 
-    });
+    });*/
 };
 
 QuickReplyBox.prototype.setEmoteSidebar = function() {
@@ -678,13 +671,7 @@ QuickReplyBox.prototype.formatText = function() {
     var sel = text.substring(selStart, selEnd);
     var post = text.substring(selEnd);
 
-
-    //jQuery(document).on('paste', function(e){ alert('pasting!') });
-
-    if (key == 'V') {
-        //jQuery(document).on('paste', function(e){ alert('pasting!') });
-    }
-    else if (this.settings.quickReplyFormat == 'true') {
+    if (this.settings.quickReplyFormat == 'true') {
         if (key == 'B') {
             // Bold
             src.value = pre+'[b]'+sel+'[/b]'+post;
@@ -823,10 +810,10 @@ QuickReplyBox.prototype.pasteText = function() {
                                 b[a[j].substr(0, d)] = a[j].substr(d + 1);
                             }
                             else {
-                                b[a[j]] = !0
+                                b[a[j]] = true;
                             }
                         }
-                        g = b                        
+                        g = b;        
                     }
                     if (g.t) {
                             c += ' start="' + parseInt(g.t, 10) + '"';
@@ -849,7 +836,10 @@ QuickReplyBox.prototype.pasteText = function() {
                 
             }
         }
+        var set = orig.substr(0,start).length + c.length; // don't forget to reset the cursor!
         elem.val(orig.substr(0,start)+c+orig.substr(end));
+        elem[0].selectionStart = set;
+        elem[0].selectionEnd = set;
     }, 5);
 };
 

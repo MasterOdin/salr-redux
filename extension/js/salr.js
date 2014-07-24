@@ -178,10 +178,11 @@ SALR.prototype.pageInit = function() {
                 this.tldrQuotes();
             }
             if (this.settings.enableQuickReply == 'true') {
-                if (!this.settings.forumPostKey) {
-                    this.settings.forumPostKey = -1;
-                }
-                this.quickReply = new QuickReplyBox(this.settings.forumPostKey, this.base_image_uri, this.settings);
+                //if (!this.settings.forumPostKey) {
+                    //this.settings.forumPostKey = -1;
+                //}
+                // new QuickReplyBox(this.settings.forumPostKey,this.base_image_uri,this.settings);
+                this.quickReply = new QuickReplyBox(this.base_image_uri, this.settings);
                 this.bindQuickReply();
             }             
 
@@ -235,7 +236,7 @@ SALR.prototype.pageInit = function() {
             break;
         case 'newreply.php':
             //if (!this.settings.forumPostKey) {
-            this.findFormKey();
+            //this.findFormKey();
             //}
             
             if (this.settings.qneProtection == 'true') {
@@ -315,9 +316,10 @@ SALR.prototype.pageInit = function() {
                     var post = jQuery('div#thread > table.post').eq(first);
                     // wait a tiny bit just to really make sure DOM is done
                     setTimeout(function() {
-                        jQuery(window).scrollTop(post.offset().top); 
-                    }, 50);
-                    //console.log("Readjust to " + post.offset().top);
+                        jQuery(window).scrollTop(post.offset().top);
+                        //console.log("Readjust to " + post.offset().top);
+                    }, 75);
+                    
                 }
             }
         };
