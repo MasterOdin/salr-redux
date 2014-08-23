@@ -250,6 +250,9 @@ SALR.prototype.pageInit = function() {
             if (this.settings.threadCaching == 'true') {
                 this.bindThreadCaching();
             }
+            if (this.settings.hideUserGrenade == 'true') {
+                jQuery("#thread dl.userinfo dt.author").removeClass("platinum");
+            }
             break;
         case 'usercp.php':
         case 'usercp.php#':
@@ -315,7 +318,7 @@ SALR.prototype.pageInit = function() {
         window.onload = function() {
             if (!(that.settings.preventAdjust == "true" && preventAdjust)) {
                 var href = window.location.href;
-                if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
+                if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0 || href.indexOf('#lastpost') >= 0) {
                     var first = findFirstUnreadPost();
                     var post = jQuery('div#thread > table.post').eq(first);
                     // wait a tiny bit just to really make sure DOM is done

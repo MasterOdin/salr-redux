@@ -268,7 +268,6 @@ QuickReplyBox.prototype.show = function() {
             // change default checkbox values
             if (that.settings.quickReplyParseUrls == 'true') {
                 jQuery('input#parseurl').prop('checked',true);
-                console.log("what");
             }
             if (that.settings.quickReplyBookmark == 'true' && jQuery('input#quickReplyBookmark').prop('checked') != true) {
                 jQuery('input#quickReplyBookmark').trigger('click');

@@ -10,6 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### v2.1.6 (8/23/2014)
+```
++ Added in option to hide SA Grenade on Platinum Users (thanks nskillen)
+* AdjustAfterLoad now also works on #lastpost in URL as well as going to specific post
+```
 ### v2.1.5 (7/16/2014)
 ```
 + Pasting of youtube links into Quick Reply auto-formats them into [video] tags
