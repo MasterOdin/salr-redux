@@ -200,6 +200,10 @@ SALR.prototype.pageInit = function() {
                 jQuery("#thread dl.userinfo dd.title").remove();
             }
 
+            if (this.settings.hideUserGrenade == 'true') {
+                jQuery("#thread dl.userinfo dt.author").removeClass("platinum");
+            }
+
             if (this.settings.fixCancer == 'true') {
                 this.fixCancerPosts();
             }

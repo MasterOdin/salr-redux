@@ -201,6 +201,7 @@ defaultSettings['topLogout']                    = 'true';
 // Thread Options
 defaultSettings['showUserAvatarImage']          = 'true';
 defaultSettings['showUserAvatar']               = 'true';
+defaultSettings['hideUserGrenade']              = 'false';
 defaultSettings['inlineVideo']                  = 'false';
 //defaultSettings['embedVideo']                   = 'false';
 defaultSettings['youtubeHighlight']             = '#ff00ff';
