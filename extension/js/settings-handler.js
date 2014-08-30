@@ -186,6 +186,7 @@ jQuery(document).ready(function() {
     defaultSettings['ignoreBookmarkStarGold']       = 'false';
     defaultSettings['ignoreBookmarkStarRed']        = 'false';
     defaultSettings['ignoreBookmarkStarYellow']     = 'false';
+    defaultSettings['fixUserCPFont']                = 'false';
 
     // Misc Options (don't show up on settings.html)
     defaultSettings['MouseActiveContext']           = 'false';
