@@ -258,6 +258,9 @@ SALR.prototype.pageInit = function() {
         case 'usercp.php#':
             this.updateUsernameFromCP();
             this.updateFriendsList();
+            if (this.settings.fixUserCPFont == 'true') {
+                $("a.thread_title").css("font-size","13px");
+            }
         case 'bookmarkthreads.php':
             if (this.settings.openAllUnreadLink == 'true') {
                 this.renderOpenUpdatedThreadsButton();

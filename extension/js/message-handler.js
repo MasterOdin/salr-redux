@@ -268,6 +268,7 @@ defaultSettings['openAllUnreadLink']            = 'true';
 defaultSettings['ignoreBookmarkStarGold']       = 'false';
 defaultSettings['ignoreBookmarkStarRed']        = 'false';
 defaultSettings['ignoreBookmarkStarYellow']     = 'false';
+defaultSettings['fixUserCPFont']                = 'false';
 
 defaultSettings['MouseActiveContext']           = 'false';
 
