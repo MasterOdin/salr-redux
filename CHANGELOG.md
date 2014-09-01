@@ -10,6 +10,14 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### v2.1.6.2 (9/1/2014)
+```
+* Fix regression in User Notes sync
+```
+### v2.1.6.1 (8/29/2014)
+```
++ Add setting to fix UserCP font changes
+```
 ### v2.1.6 (8/23/2014)
 ```
 + Added in option to hide SA Grenade on Platinum Users (thanks nskillen)

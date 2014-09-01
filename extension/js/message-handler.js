@@ -61,12 +61,16 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'ChangeSyncSetting':
                 if (data.option == 'userNotes') {
-                    if (localStorage.getItem('enableUserNotesSync') == 'true') {
+                    console.log(localStorage.getItem('enableUserNotesSync'));
+                    if (localStorage.getItem('enableUserNotesSync') != 'true') {
                         localStorage.setItem('userNotesLocal',data.value);
                     }
                     else {
                         chrome.storage.sync.set({'userNotes' : data.value});
                     }
+                }
+                else {
+                    console.log("can't sync that particular setting");
                 }
                 break;
             case 'OpenTab':
