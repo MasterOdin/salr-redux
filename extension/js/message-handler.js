@@ -61,7 +61,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'ChangeSyncSetting':
                 if (data.option == 'userNotes') {
-                    if (localStorage.getItem('enableUserNotesSync')) {
+                    if (localStorage.getItem('enableUserNotesSync') == 'true') {
                         localStorage.setItem('userNotesLocal',data.value);
                     }
                     else {

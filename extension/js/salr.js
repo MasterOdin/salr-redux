@@ -1682,19 +1682,19 @@ SALR.prototype.displayUserNotesSync = function() {
             }
         }
 
-        that.displayUserNotes(settings['userNotes'],that);
+        that.displayUserNotes(settings['userNotes'],that,'ChangeSyncSetting');
 
     });
 };
 
 SALR.prototype.displayUserNotesLocal = function() {
-    this.displayUserNotes(this.settings.userNotesLocal,this);
+    this.displayUserNotes(this.settings.userNotesLocal,this,'ChangeSetting');
 };
 
 /**
  * Displays notes under usernames.
  */
-SALR.prototype.displayUserNotes = function(userNotes,that) {
+SALR.prototype.displayUserNotes = function(userNotes,that,message) {
     var notes = userNotes;
 
     if (notes == null || notes == "undefined" || notes == undefined || notes == "null") {
@@ -1706,7 +1706,7 @@ SALR.prototype.displayUserNotes = function(userNotes,that) {
                   "101547"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Rohaq
                   "163390"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}  // Master_Odin
                 }; 
-        postMessage({ 'message': 'ChangeSyncSetting',
+        postMessage({ 'message': message,
                            'option' : 'userNotes',
                            'value'  : JSON.stringify(notes) 
         });
@@ -1746,7 +1746,7 @@ SALR.prototype.displayUserNotes = function(userNotes,that) {
                         notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(), 
                                          'color' : jQuery('#salr-usernotes-color').val()};
                         // TODO: Fix this
-                        postMessage({ 'message': 'ChangeSyncSetting',
+                        postMessage({ 'message': message,
                                             'option' : 'userNotes',
                                             'value'  : JSON.stringify(notes) });
                         jQuery(this).dialog('destroy');
@@ -1755,7 +1755,7 @@ SALR.prototype.displayUserNotes = function(userNotes,that) {
                     "Delete" : function () {
                         delete notes[userid];
                         // TODO: Fix this
-                        postMessage({ 'message': 'ChangeSyncSetting',
+                        postMessage({ 'message': message,
                                             'option' : 'userNotes',
                                             'value'  : JSON.stringify(notes) });
                         jQuery(this).dialog('destroy');
