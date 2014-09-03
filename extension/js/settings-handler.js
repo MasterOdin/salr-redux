@@ -190,7 +190,12 @@ jQuery(document).ready(function() {
 
     // Misc Options (don't show up on settings.html)
     defaultSettings['MouseActiveContext']           = 'false';
-  
+
+    // Set the version text on the settings page
+    var version = chrome.runtime.getManifest().version;
+    jQuery('#version-text').text(version);
+    jQuery('#version-text').href(jQuery('#version-text').href+version);
+
     // Check stored settings, if value not set, set to default value
     for ( var key in defaultSettings ) {
         if ( localStorage.getItem(key) == undefined ) {
