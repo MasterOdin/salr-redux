@@ -144,6 +144,10 @@ SALR.prototype.pageInit = function() {
             if (this.settings.highlightSelf == 'true' || this.settings.removeOwnReport == 'true') {
                 this.highlightOwnPosts();
             }
+            
+            if (this.settings.enableSOAPLink == 'true') {
+                this.addSOAPLink();
+            }
 
             if (this.settings.enableUserNotes == 'true') {
                 this.displayUserNotesHandler();
@@ -170,9 +174,7 @@ SALR.prototype.pageInit = function() {
                 this.displaySinglePostLink();
             }
 
-            if (this.settings.enableSOAPLink == 'true') {
-                this.addSOAPLink();
-            }
+
 
             if (this.settings.collapseTldrQuotes == 'true') {
                 this.tldrQuotes();

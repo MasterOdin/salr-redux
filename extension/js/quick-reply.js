@@ -279,7 +279,7 @@ QuickReplyBox.prototype.show = function() {
                 jQuery('input#signature').prop('checked',true);
             }
             if (that.settings.quickReplyLivePreview == 'true') {
-                jQuery('input#live-preview').prop('checked',true);
+                jQuery('input#live-preview').trigger('click');
             }
         }
         that.quickReplyState.visible = true;

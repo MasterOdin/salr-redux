@@ -10,6 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### v2.1.6.3 (9/1/2014)
+```
+* Fix regression in Live Preview checkbox setting for Quick Reply not working properly
+* Make SOAP link always appear before "Edit Note" button, regardless of Sync settings.
+```
 ### v2.1.6.2 (9/1/2014)
 ```
 * Fix regression in User Notes sync
