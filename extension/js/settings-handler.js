@@ -194,7 +194,7 @@ jQuery(document).ready(function() {
     // Set the version text on the settings page
     var version = chrome.runtime.getManifest().version;
     jQuery('#version-text').text(version);
-    jQuery('#version-text').href(jQuery('#version-text').href+version);
+    jQuery('#version-text').attr('href',jQuery('#version-text').attr('href')+version.replace(/\./g,""));
 
     // Check stored settings, if value not set, set to default value
     for ( var key in defaultSettings ) {
