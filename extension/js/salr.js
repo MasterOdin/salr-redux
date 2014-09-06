@@ -1690,7 +1690,7 @@ SALR.prototype.displayUserNotesSync = function() {
 };
 
 SALR.prototype.displayUserNotesLocal = function() {
-    this.displayUserNotes(this.settings.userNotesLocal,this,'ChangeSetting');
+    this.displayUserNotes(this.settings.userNotesLocal,this,'ChangeSyncSetting');
 };
 
 /**

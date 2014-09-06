@@ -14,6 +14,7 @@ Changelog List
 ```
 * Fix regression in Live Preview checkbox setting for Quick Reply not working properly
 * Make SOAP link always appear before "Edit Note" button, regardless of Sync settings.
++ Add a hotkey to go to UserCP (u)
 ```
 ### v2.1.6.2 (9/1/2014)
 ```

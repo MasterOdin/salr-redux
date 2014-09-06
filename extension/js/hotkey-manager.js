@@ -67,6 +67,12 @@ HotKeyManager.prototype.bindHotKeys = function() {
         }
     });
     jQuery(document).keypress(function(event) {
+
+        /*
+        * onKeyPress codes:
+        * To test: http://www.asquare.net/javascript/tests/KeyCode.html
+        */
+
         var quick_reply_block = false;
         
         if(!jQuery(document).data("enableSALRHotkeys"))
@@ -85,56 +91,56 @@ HotKeyManager.prototype.bindHotKeys = function() {
 
         if (!quick_reply_block) {*/
             switch(event.keyCode) {
-                case 110:
+                case 110: /* n */
                     // Next post
                     that.nextPost();
                     break;
-                case 112:
-                case 109:
+                case 112: /* p */
+                case 109: /* m */
                     // Previous post
                     that.previousPost();
                     break;
-                case 106:
+                case 106: /* j */
                     // Next page
                     that.nextPage();
                     break;
-                case 107:
-                case 104:
+                case 107: /* k */
+                case 104: /* h */
                     // Previous page
                     that.previousPage();
                     break;
-                case 111:
+                case 111: /* o */
                     // Re-anchor thread
                     that.anchorThread();
                     break;
                 case 49: /* 1 */
-                case 102:
+                case 102: /* f */
                     // Jump to first post on the page
                     that.firstPost();
                     break;
                 case 48: /* 0 */
-                case 108:
+                case 108: /* l */
                     // Jump to last post on the page
                     that.lastPost();
                     break;
                 case 115: /* s */
                     //that.toggleSignatures();
                     break;
-                case 113:
+                case 113: /* q */
                     // Quick quote current post
                     if (findCurrentPage() == 'showthread.php') {
                         that.quoteCurrentPost();
                         event.preventDefault();
                     }
                     break;
-                case 101:
+                case 101: /* e */
                     // Quick edit current post
                     if (findCurrentPage() == 'showthread.php') {
                         that.editCurrentPost();
                         event.preventDefault();
                     }
                     break;
-                case 114:
+                case 114: /* r */
                     // TODO: Conditionalize on quick reply being enabled
                     if (findCurrentPage() == 'showthread.php') {
                         that.displayQuickReply();
@@ -158,12 +164,30 @@ HotKeyManager.prototype.bindHotKeys = function() {
                         }
                     }
                     break;
+                case 117: /* u */
+                    that.openUCP();
+                    event.preventDefault();
+                    break;
+                //case 99: /* c */
+                //    that.refreshImageCache();
+                //    event.preventDefault();
+                    break;
                 default:
                     //console.log(event.keyCode);
                     break;
             }
         //}
     });
+};
+
+HotKeyManager.prototype.refreshImageCache = function() {
+    postMessage({ 'message': 'OpenCloseTab',
+                  'url'    : 'http://fi.somethingawful.com/images/sa-edit.gif?'+jQuery.now()
+               });
+};
+
+HotKeyManager.prototype.openUCP = function() {
+    jumpToPage("http://forums.somethingawful.com/usercp.php?"+jQuery.now());
 };
 
 HotKeyManager.prototype.enableHotKeys = function() {

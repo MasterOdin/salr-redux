@@ -61,7 +61,6 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'ChangeSyncSetting':
                 if (data.option == 'userNotes') {
-                    console.log(localStorage.getItem('enableUserNotesSync'));
                     if (localStorage.getItem('enableUserNotesSync') != 'true') {
                         localStorage.setItem('userNotesLocal',data.value);
                     }
@@ -76,6 +75,9 @@ chrome.extension.onConnect.addListener(function(port) {
             case 'OpenTab':
                 openNewTab(data.url);
                 break;
+            case 'OpenCloseTab':
+                openCloseNewTab(data.url);
+                break;                
             case 'ReloadTab':
                 reloadTab();
                 break;
@@ -288,17 +290,30 @@ function onToolbarClick() {
 
 /**
  * Opens a new tab with the specified URL
- *
- *
  */
 function openNewTab(aUrl) {
     chrome.tabs.create({url: aUrl});
 }
 
 /**
+ * Opens a new tab with the specified URL, then closes it
+ */
+function openCloseNewTab(aUrl) {
+    tabRemoved = false;
+    chrome.tabs.create({url: aUrl}, function(tab) {
+        while (!tabRemoved) {
+            chrome.tabs.query({url:aUrl,status:'complete'},function(t) {
+                console.log(t);
+                chrome.tabs.remove(t[0].index);
+                tabRemoved = true;
+            });
+            console.log(tabRemoved);
+        }
+    });
+}
+
+/**
  * Reload current tab
- *
- *
  */
 function reloadTab() {
     chrome.tabs.reload();
@@ -306,7 +321,6 @@ function reloadTab() {
 
 /**
  * Sets up default preferences for highlighting and menus only
- *
  */
 function setupDefaultPreferences() {
     // New, more scalable method for setting default prefs.
