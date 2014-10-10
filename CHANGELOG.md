@@ -10,6 +10,14 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### <a name="2165"></a>v2.1.6.5 (10/5/2014)
+```
+* Fix "Adjust window position" setting not affecting anything
+```
+### <a name="2164"></a>v2.1.6.4 (9/9/2014)
+```
+* Limit the pages that u hotkey will work on (so not newreply.php for example)
+```
 ### <a name="2163"></a>v2.1.6.3 (9/3/2014)
 ```
 * Fix regression in Live Preview checkbox setting for Quick Reply not working properly

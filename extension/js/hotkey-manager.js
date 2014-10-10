@@ -166,7 +166,6 @@ HotKeyManager.prototype.bindHotKeys = function() {
                     break;
                 case 117: /* u */
                     that.openUCP();
-                    event.preventDefault();
                     break;
                 //case 99: /* c */
                 //    that.refreshImageCache();
@@ -187,7 +186,15 @@ HotKeyManager.prototype.refreshImageCache = function() {
 };
 
 HotKeyManager.prototype.openUCP = function() {
-    jumpToPage("http://forums.somethingawful.com/usercp.php?"+jQuery.now());
+    switch(findCurrentPage()) {
+        case 'forumdisplay.php':
+        case 'showthread.php':
+        case 'usercp.php':
+        case 'bookmarkthreads.php':
+        case 'search.php':
+        case 'banlist.php':
+            jumpToPage("http://forums.somethingawful.com/usercp.php?"+jQuery.now());
+    }
 };
 
 HotKeyManager.prototype.enableHotKeys = function() {

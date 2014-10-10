@@ -319,7 +319,7 @@ SALR.prototype.pageInit = function() {
         }
     });
  
-    if (this.settings.adjustAfterLoad) {
+    if (this.settings.adjustAfterLoad == "true") {
         window.onload = function() {
             if (!(that.settings.preventAdjust == "true" && preventAdjust)) {
                 var href = window.location.href;
