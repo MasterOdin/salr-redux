@@ -10,6 +10,10 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### <a name="2166"></a>v2.1.6.6 (10/10/2014)
+```
+* Fix impzoneik icon from being messed up when removing platinum icon
+```
 ### <a name="2165"></a>v2.1.6.5 (10/5/2014)
 ```
 * Fix "Adjust window position" setting not affecting anything

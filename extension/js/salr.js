@@ -174,8 +174,6 @@ SALR.prototype.pageInit = function() {
                 this.displaySinglePostLink();
             }
 
-
-
             if (this.settings.collapseTldrQuotes == 'true') {
                 this.tldrQuotes();
             }
@@ -204,6 +202,12 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.hideUserGrenade == 'true') {
                 jQuery("#thread dl.userinfo dt.author").removeClass("platinum");
+                jQuery('.impzoneik').css({
+                                        "padding-left": "20px",
+                                        "line-height": "16px",
+                                        "background-position": "left center",
+                                        "background-repeat": "no-repeat",
+                                        });
             }
 
             if (this.settings.fixCancer == 'true') {
