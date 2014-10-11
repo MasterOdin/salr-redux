@@ -223,6 +223,10 @@ function findFirstUnreadPost() {
     return index;
 }
 
+function findLastPost() {
+    return jQuery('div#thread > table.post').length-1;
+}
+
 function addThreadToCache(thread_id) {
     var post_history = new PostHistory();
 
