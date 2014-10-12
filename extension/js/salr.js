@@ -329,7 +329,6 @@ SALR.prototype.pageInit = function() {
                 var href = window.location.href;
                 if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0 || href.indexOf('#lastpost') >= 0) {
                     var getPost = (href.indexOf('#lastpost') >= 0) ? findLastPost() : findFirstUnreadPost();
-                    console.log(getPost);
                     var post = jQuery('div#thread > table.post').eq(getPost);
                     // wait a tiny bit just to really make sure DOM is done
                     setTimeout(function() {
@@ -1017,7 +1016,8 @@ SALR.prototype.displaySinglePostLink = function() {
     };
 
     jQuery('td.postdate').each( function() {
-        jQuery('a[href^=#post]', this).before('<a href="http://forums.somethingawful.com/showthread.php?action=showpost&postid='+getPostID(jQuery(this))+'">1</a> ');
+        jQuery('a[href^=#post]', this).before('<a title="View as single post" href="http://forums.somethingawful.com/'+
+                'showthread.php?action=showpost&postid='+getPostID(jQuery(this))+'">1</a> ');
     });
 };
 

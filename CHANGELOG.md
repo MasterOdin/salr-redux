@@ -10,6 +10,10 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### <a name="2167"></a>v2.1.6.7 (10/12/2014)
+```
++ Add title to the Single Post Link
+```
 ### <a name="2166"></a>v2.1.6.6 (10/10/2014)
 ```
 * Fix impzoneik icon from being messed up when removing platinum icon
