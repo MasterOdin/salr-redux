@@ -230,6 +230,7 @@ defaultSettings['enableSOAPLink']               = 'true';
 defaultSettings['hidePostButtonInThread']       = 'false';
 defaultSettings['removeOwnReport']              = 'true';
 defaultSettings['collapseTldrQuotes']           = 'false';
+defaultSettings['expandBreadcrumbs']            = 'false';
 defaultSettings['showLastThreePages']           = 'false';
 defaultSettings['postsPerPage']                 = 'default';
 

@@ -243,6 +243,10 @@ SALR.prototype.pageInit = function() {
             if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesThread == 'true') {
                 this.showLastThreePages();
             }
+
+            if (this.settings.expandBreadcrumbs == 'true') {
+                this.expandBreadcrumbs();
+            }
             break;
         case 'newreply.php':
             //if (!this.settings.forumPostKey) {
@@ -2508,4 +2512,21 @@ SALR.prototype.addSOAPLink = function() {
         var username = jQuery(this).find('dt.author').html();
         jQuery(this).find('ul.profilelinks').append('<li><a href="http://esarahpalinonline.com/soap?username='+username+'" target="blank">SOAP</a></li>');
     });
+}
+
+/**
+ * Expand the breadcrumbs to individual links on showthread.php
+ */
+SALR.prototype.expandBreadcrumbs = function() {
+    var that = this;
+
+    jQuery('a.up span').first().children().each(function() {
+        var text = jQuery(this).text();
+        var href = jQuery(this).attr('href');
+        var selector = "<span><a href='" + href + "' class='bclast'>" + text + "</a> &rsaquo; </span>";
+        jQuery(selector).insertBefore('a.up');
+    });
+    jQuery('a.up span').remove();
+
+    jQuery('a.up').addClass('bclast').removeClass('up');
 }

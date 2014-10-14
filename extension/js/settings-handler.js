@@ -139,6 +139,7 @@ jQuery(document).ready(function() {
     defaultSettings['hidePostButtonInThread']       = 'false';
     defaultSettings['removeOwnReport']              = 'true';
     defaultSettings['collapseTldrQuotes']           = 'false';
+    defaultSettings['expandBreadcrumbs']            = 'false';
 
     // Control Options
     defaultSettings['displayPageNavigator']         = 'true';
