@@ -155,6 +155,7 @@ jQuery(document).ready(function() {
     defaultSettings['quickReplyLivePreview']        = 'false';
     defaultSettings['quickReplyFormat']             = 'true';
     defaultSettings['quickReplyEmotes']             = 'true';
+    defaultSettings['quickReplyYoutube']            = 'true';
 
     // Image Display Options
     defaultSettings['replaceLinksWithImages']       = 'false';
