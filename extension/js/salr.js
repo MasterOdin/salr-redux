@@ -95,7 +95,10 @@ SALR.prototype.pageInit = function() {
             if (this.settings.showLastThreePages == 'true' && this.settings.showLastThreePagesForum == 'true') {
                 this.showLastThreePages();
             }
-                                                
+
+            if (this.settings.expandBreadcrumbs == 'true') {
+                this.expandBreadcrumbs();
+            }                                                
             break;
         case 'showthread.php':
 

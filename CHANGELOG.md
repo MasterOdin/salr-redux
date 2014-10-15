@@ -13,7 +13,7 @@ Changelog List
 ### <a name="2167"></a>v2.1.7 ()
 ```
 + Add title to the Single Post Link
-+ Add ability to expand breadcrumbs on showthread
++ Add ability to expand breadcrumbs on showthread and forumdisplay
 ```
 ### <a name="2166"></a>v2.1.6.6 (10/10/2014)
 ```
