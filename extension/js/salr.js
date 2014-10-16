@@ -2523,13 +2523,21 @@ SALR.prototype.addSOAPLink = function() {
 SALR.prototype.expandBreadcrumbs = function() {
     var that = this;
 
+    var count = 0;
+    var children = jQuery('a.up span').first().children().length;
     jQuery('a.up span').first().children().each(function() {
+        count++;
         var text = jQuery(this).text();
         var href = jQuery(this).attr('href');
-        var selector = "<span><a href='" + href + "' class='bclast'>" + text + "</a> &rsaquo; </span>";
+        if (count == children) {
+            var selector = "<span><a href='" + href + "' >" + text + "</a></span>";
+        }
+        else {
+            var selector = "<span><a href='" + href + "' >" + text + "</a> &rsaquo; </span>";
+        }
         jQuery(selector).insertBefore('a.up');
     });
-    jQuery('a.up span').remove();
-
-    jQuery('a.up').addClass('bclast').removeClass('up');
+    //jQuery('a.up span').remove();
+    jQuery('a.up').remove();
+    //jQuery('a.up').addClass('bclast').removeClass('up');
 }
