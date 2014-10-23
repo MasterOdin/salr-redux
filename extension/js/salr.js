@@ -360,6 +360,9 @@ SALR.prototype.updateStyling = function() {
 
     var that = this;
     
+    // make it so highlighting number doesn't change space it takes up in forumdisplay or usercp
+    jQuery('td.title div.title_pages a').css("border","1px solid transparent");
+
     if (this.settings.inlinePostCounts == 'true') {
         jQuery(".info").css("padding-right","20px");
     }
