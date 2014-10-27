@@ -116,7 +116,7 @@ SALR.prototype.pageInit = function() {
                 this.inlineYoutubes();
             }
 
-            this.fullscreenYoutubeFix();
+            //this.fullscreenYoutubeFix();
 
             if (this.settings.inlineTweet == 'true') {
                 this.inlineTweets();
@@ -974,6 +974,9 @@ SALR.prototype.inlineYoutubes = function() {
     });
 };
 
+/*
+    DEPRECIATED BY SA 2.1.22 update
+*/
 SALR.prototype.fullscreenYoutubeFix = function() {
     jQuery('.postbody iframe[class*="youtube-player"]').each(function() {
         jQuery(this).attr('allowfullscreen','true');
