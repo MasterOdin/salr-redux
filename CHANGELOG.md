@@ -14,6 +14,7 @@ Changelog List
 ```
 + Add title to the Single Post Link
 + Add ability to expand breadcrumbs on showthread and forumdisplay
+* Fix username highlighting to preserve case on replaced text if search is case insensitive
 ```
 ### <a name="2166"></a>v2.1.6.6 (10/10/2014)
 ```
