@@ -8,12 +8,16 @@ After 2.0.0 is that * is a change, - is a removal and + is an addition.
   
 Developer only seen features (such as internal functions) may or may not be recorded in the changelog.
 
-Changelog List
+Changelog List 
 --------------
 ### <a name="2167"></a>v2.1.7 ()
 ```
 + Add title to the Single Post Link
 + Add ability to expand breadcrumbs on showthread and forumdisplay
++ Add setting to view Mod Bar (beneath breadcrumbs) in forumdisplay
+* Fix CSS for two additional custom user icons when platinum grenade is turned off
+* Fix CSS on numbers in forum/usercp view expanding/changing location of other numbers when you hover over them
+- Remove SALR youtube fullscreen fix (SA finally did it)
 ```
 ### <a name="2166"></a>v2.1.6.6 (10/10/2014)
 ```
