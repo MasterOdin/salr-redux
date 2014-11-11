@@ -215,12 +215,12 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.hideUserGrenade == 'true') {
                 jQuery("#thread dl.userinfo dt.author").removeClass("platinum");
-                jQuery('.impzoneik').css({
+                jQuery('.impzoneik, #thread .userid-180223 dt.author, #thread dl.userinfo dt.tflcspotter').css({
                                         "padding-left": "20px",
                                         "line-height": "16px",
                                         "background-position": "left center",
-                                        "background-repeat": "no-repeat",
-                                        });
+                                        "background-repeat": "no-repeat"
+                });
             }
 
             if (this.settings.fixCancer == 'true') {
