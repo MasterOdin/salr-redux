@@ -126,7 +126,7 @@ SALR.prototype.pageInit = function() {
                 this.inlineYoutubes();
             }
 
-            this.fullscreenYoutubeFix();
+            //this.fullscreenYoutubeFix();
 
             if (this.settings.inlineTweet == 'true') {
                 this.inlineTweets();
@@ -984,6 +984,9 @@ SALR.prototype.inlineYoutubes = function() {
     });
 };
 
+/*
+    DEPRECIATED BY SA 2.1.22 update
+*/
 SALR.prototype.fullscreenYoutubeFix = function() {
     jQuery('.postbody iframe[class*="youtube-player"]').each(function() {
         jQuery(this).attr('allowfullscreen','true');
@@ -2146,10 +2149,23 @@ SALR.prototype.highlightOwnUsername = function() {
     jQuery(selector).each(function() {
         getTextNodesIn(this).forEach(function(node) {
             var matches = node.wholeText.match(re);
+            var wholeText = node.wholeText;
+            var newNode = node.ownerDocument.createElement("span");
             if(matches != null) {
-                newNode = node.ownerDocument.createElement("span");
-                jQuery(newNode).html(node.wholeText.replace(re, styled));
-                node.parentNode.replaceChild(newNode, node);
+                if (that.settings.usernameCase == 'true') {
+                    matches.forEach(function(match) {
+                        newNode = node.ownerDocument.createElement("span");
+                        styled = '<span class="usernameHighlight" style="font-weight: bold; color: ' + that.settings.usernameHighlight + ';">' + match + '</span>';
+                        wholeText = wholeText.replace(new RegExp(match,''), styled);
+                    });
+                    jQuery(newNode).html(wholeText);
+                    node.parentNode.replaceChild(newNode, node);                   
+                }
+                else {
+                    jQuery(newNode).html(wholeText.replace(re,styled));
+                    node.parentNode.replaceChild(newNode, node);
+                }
+
             }
         });
     });

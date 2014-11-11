@@ -17,6 +17,7 @@ Changelog List
 + Add setting to view Mod Bar (beneath breadcrumbs) in forumdisplay
 * Fix CSS for two additional custom user icons when platinum grenade is turned off
 * Fix CSS on numbers in forum/usercp view expanding/changing location of other numbers when you hover over them
+* Fix username highlighting to preserve case on replaced text if search is case insensitive
 - Remove SALR youtube fullscreen fix (SA finally did it)
 ```
 ### <a name="2166"></a>v2.1.6.6 (10/10/2014)
