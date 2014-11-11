@@ -204,6 +204,7 @@ defaultSettings['topLepersColony']              = 'true';
 defaultSettings['topSupport']                   = 'true';
 defaultSettings['topLogout']                    = 'true';
 defaultSettings['expandBreadcrumbs']            = 'false';
+defaultSettings['displayMods']                  = 'false';
 
 // Thread Options
 defaultSettings['showUserAvatarImage']          = 'true';

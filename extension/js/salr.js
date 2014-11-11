@@ -98,7 +98,17 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.expandBreadcrumbs == 'true') {
                 this.expandBreadcrumbs();
-            }                                                
+            }
+
+            if (this.settings.displayMods == 'true') {
+                jQuery('#mp_bar').css({
+                    "visibility":"visible",
+                    "font-size":"11px",
+                    "padding-left":"36px",
+                    "padding-top":"5px"
+                });
+            }
+
             break;
         case 'showthread.php':
 
