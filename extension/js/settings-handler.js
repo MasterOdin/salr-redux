@@ -189,6 +189,11 @@ jQuery(document).ready(function() {
     defaultSettings['ignoreBookmarkStarGold']       = 'false';
     defaultSettings['ignoreBookmarkStarRed']        = 'false';
     defaultSettings['ignoreBookmarkStarYellow']     = 'false';
+    defaultSettings['openAllForumUnreadLink']       = 'false';
+    defaultSettings['ignoreForumStarNone']          = 'false';
+    defaultSettings['ignoreForumStarGold']          = 'false';
+    defaultSettings['ignoreForumStarRed']           = 'false';
+    defaultSettings['ignoreForumStarYellow']        = 'false';
     defaultSettings['fixUserCPFont']                = 'false';
 
     // Misc Options (don't show up on settings.html)

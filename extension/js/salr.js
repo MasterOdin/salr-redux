@@ -108,7 +108,9 @@ SALR.prototype.pageInit = function() {
                     "padding-top":"5px"
                 });
             }
-
+            if (this.settings.openAllForumUnreadLink == 'true') {
+                this.renderOpenUpdatedThreadsButton();
+            }
             break;
         case 'showthread.php':
 
@@ -1167,14 +1169,31 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
     //                    this.settings.ignoreBookmarkStarRed == 'true' ||
     //                    this.settings.ignoreBookmarkStarYellow == 'true') ? true : false;
     var stars = [];
-    if (this.settings.ignoreBookmarkStarGold == 'true') {
-        stars.push("bm0");
+    var openNoStar = true;
+    if (this.currentPage == "forumdisplay.php") {
+        if (this.settings.ignoreForumStarNone == 'true') {
+            openNoStar = false;
+        }
+        if (this.settings.ignoreForumStarGold == 'true') {
+            stars.push("bm0");
+        }
+        if (this.settings.ignoreForumStarRed == 'true') {
+            stars.push("bm1");
+        }
+        if (this.settings.ignoreForumStarYellow == 'true') {
+            stars.push("bm2");
+        }
     }
-    if (this.settings.ignoreBookmarkStarRed == 'true') {
-        stars.push("bm1");
-    }
-    if (this.settings.ignoreBookmarkStarYellow == 'true') {
-        stars.push("bm2");
+    else {
+        if (this.settings.ignoreBookmarkStarGold == 'true') {
+            stars.push("bm0");
+        }
+        if (this.settings.ignoreBookmarkStarRed == 'true') {
+            stars.push("bm1");
+        }
+        if (this.settings.ignoreBookmarkStarYellow == 'true') {
+            stars.push("bm2");
+        }
     }
 
     jQuery('th.title:first').append('<div id="open-updated-threads"' +
@@ -1196,17 +1215,17 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
                 }
             };
 
-            if (stars.length == 0) {
+            if (stars.length == 0 && openNoStar == true) {
                 open_thread();
                 return;
             }
 
-            var star_img = jQuery('td.star', this)[0].classList[1];
-            if (star_img.lenth == 0)
+            var star_img = jQuery('td.star', this)[0].classList;
+//            console.log(jQuery('td.star', this));
+            if (star_img.length <= 1 && openNoStar == false)
                 return;
 
-            if (jQuery.inArray(star_img,stars) == -1) {
-                //console.log(jQuery.inArray(star_img,stars));
+            if (jQuery.inArray(star_img[1],stars) == -1) {
                 open_thread();
             }
         });
