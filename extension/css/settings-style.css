@@ -167,3 +167,7 @@ a:active {
 div.misc {
     width: 100%;
 }
+
+#your-quote {
+    background: #FFFEBA none repeat-x;
+}

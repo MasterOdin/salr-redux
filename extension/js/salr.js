@@ -1256,8 +1256,8 @@ SALR.prototype.highlightFriendPosts = function() {
                 if (friends_id[parseInt(id)] == 1) {
                     jQuery(this).find('td').each(function() {
                         jQuery(this).css({
-                        'border-collapse' : 'collapse',
-                        'background-color': that.settings.highlightFriendsColor
+                            'border-collapse' : 'collapse',
+                            'background-color': that.settings.highlightFriendsColor
                         });
                     });
                 }

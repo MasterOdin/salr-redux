@@ -514,26 +514,28 @@ function highlightExamples() {
             jQuery(this).css('background-color', '');
         }
     });
+
     jQuery('dt#own-name').each(function() {
         if (localStorage.getItem('username') != '') {
             jQuery(this).text(localStorage.getItem('username'));
         }
     });
-    jQuery('span#your-name').each(function() {
+    jQuery('span.your-name').each(function() {
         if (localStorage.getItem('username') != '') {
             jQuery(this).text(localStorage.getItem('username'));
         }
-        if (localStorage.getItem('highlightOwnUsername')=='true') {
+        if (localStorage.getItem('highlightOwnUsername') == 'true') {
             jQuery(this).css('color', localStorage.getItem('usernameHighlight'));
         } else {
             jQuery(this).css('color', '');
         }
     });
-    jQuery('span#your-name-quote').each(function() {
+    jQuery('span.your-name-quote').each(function() {
         if (localStorage.getItem('username') != '') {
             jQuery(this).text(localStorage.getItem('username'));
         }
-        if (localStorage.getItem('highlightOwnQuotes')!='true' && localStorage.getItem('highlightOwnUsername')=='true') {
+        // this isn't how it acts in the while so why do it here?
+        if (/*localStorage.getItem('highlightOwnQuotes') !='true' &&*/ localStorage.getItem('highlightOwnUsername') =='true') {
             jQuery(this).css('color', localStorage.getItem('usernameHighlight'));
         } else {
             jQuery(this).css('color', '');
