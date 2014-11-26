@@ -908,7 +908,7 @@ function createSettingsBackup() {
             //key == 'saveUserNotes'  ||
             //key == 'userNotes'      ||
             //key == 'userNotesOld'   ||
-            key == 'userNotesLocal' ||
+            //key == 'userNotesLocal' ||
             //key == 'threadNotes'   ||
             key == 'forumPostKey' )
             continue;
