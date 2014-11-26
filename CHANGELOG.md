@@ -16,6 +16,7 @@ Changelog List
 + Add ability to expand breadcrumbs on showthread and forumdisplay
 + Add setting to view Mod Bar (beneath top breadcrumbs) in forumdisplay
 + Add "Open unread Threads" button to forumdisplay view
++ Added ability to backup/restore SALR settings as a JSON string
 * Fix CSS for two additional custom user icons when platinum grenade is turned off
 * Fix CSS on numbers in forum/usercp view expanding/changing location of other numbers when you hover over them
 * Fix username highlighting to preserve case on replaced text if search is case insensitive

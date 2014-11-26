@@ -189,7 +189,7 @@ jQuery(document).ready(function() {
     defaultSettings['ignoreBookmarkStarGold']       = 'false';
     defaultSettings['ignoreBookmarkStarRed']        = 'false';
     defaultSettings['ignoreBookmarkStarYellow']     = 'false';
-    defaultSettings['openAllForumUnreadLink']       = 'false';
+    defaultSettings['openAllForumUnreadLink']       = 'true';
     defaultSettings['ignoreForumStarNone']          = 'false';
     defaultSettings['ignoreForumStarGold']          = 'false';
     defaultSettings['ignoreForumStarRed']           = 'false';
@@ -319,6 +319,14 @@ jQuery(document).ready(function() {
 
     jQuery("#logo").click(function() {
         configWindow();
+    });
+
+    jQuery('#settings-backup').click(function() {
+        createSettingsBackup();
+    });
+
+    jQuery('#settings-restore').click(function() {
+        restoreSettingsBackup();
     });
 
     jQuery('#settings').click(function() {
@@ -888,4 +896,49 @@ function loadNewSettings() {
     for ( var key in setting ) {
         localStorage.setItem(key, setting[key]);
     }
+}
+
+function createSettingsBackup() {
+    var settings = {}
+    for (var key in localStorage) {
+        if (key == 'friendsList'    ||
+            key == 'friendsListId'  ||
+            key == 'forumsList'     || 
+            key == 'modList'        ||
+            //key == 'saveUserNotes'  ||
+            //key == 'userNotes'      ||
+            //key == 'userNotesOld'   ||
+            key == 'userNotesLocal' ||
+            //key == 'threadNotes'   ||
+            key == 'forumPostKey' )
+            continue;
+        settings[key] = localStorage.getItem(key);
+    }
+    jsonString = JSON.stringify(settings);
+    if (jQuery('#settings-backup-text').length == 0) {
+        var textarea = '<textarea id="settings-backup-text" cols="200" rows="20" readonly>'+jsonString+'</textarea>';
+        jQuery('#settings-backup').parent().append('<br />Copy JSON Setting String Below:<br />'+textarea);
+    }
+    console.log(jsonString);
+}
+
+function restoreSettingsBackup() {
+    if (jQuery('#settings-restore-text').length == 0) {
+        var textarea = '<textarea id="settings-restore-text" cols="200" rows="20"></textarea>';
+        var button = '<button style="margin-left:400px; width: 115px;" id="execute-restore">Restore Settings</button> (this will only overwrite settings in string)'
+        jQuery('#settings-restore').parent().append('<br />Paste JSON Setting String below:<br />'+textarea+'<br />'+button);
+        jQuery("#execute-restore").click(function() {
+            performSettingsRestore();
+        });
+    }
+}
+
+function performSettingsRestore() {
+    var restoresettings = JSON.parse(jQuery('#settings-restore-text').val());
+    //localStorage.clear();
+    for (var key in restoresettings) {
+        localStorage.setItem(key,restoresettings[key]);
+    }
+    alert("Settings restored!");
+    location.reload();
 }
