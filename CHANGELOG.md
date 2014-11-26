@@ -10,7 +10,7 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
-### <a name="2167"></a>v2.1.7 ()
+### <a name="2167"></a>v2.1.7 (11/26/2014)
 ```
 + Add title to the Single Post Link
 + Add ability to expand breadcrumbs on showthread and forumdisplay
@@ -20,6 +20,7 @@ Changelog List
 * Fix CSS on numbers in forum/usercp view expanding/changing location of other numbers when you hover over them
 * Fix username highlighting to preserve case on replaced text if search is case insensitive
 * Modify setting string for Quote highlighting (SA does this by in yellow by default now)
+* Fix SA quote highlighting overriding the user set option of SALR
 - Remove SALR youtube fullscreen fix (SA finally did it)
 ```
 ### <a name="2166"></a>v2.1.6.6 (10/10/2014)
@@ -37,9 +38,9 @@ Changelog List
 ```
 ### <a name="2163"></a>v2.1.6.3 (9/3/2014)
 ```
++ Add a hotkey to go to UserCP (u)
 * Fix regression in Live Preview checkbox setting for Quick Reply not working properly
 * Make SOAP link always appear before "Edit Note" button, regardless of Sync settings.
-+ Add a hotkey to go to UserCP (u)
 ```
 ### v2.1.6.2 (9/1/2014)
 ```
@@ -106,11 +107,11 @@ Changelog List
 ```
 ### v2.0.10 (12/25/2013)
 ```
-* Change settings dump to be easier to paste into javascript code
 + Added function to use for settings dump in settings-handler.js
++ Added support for youtube playlist links in inline player
+* Change settings dump to be easier to paste into javascript code
 * Fixed clicking on "Configure SALR" at the bottom of a page taking you to the top
 * Fixed shortened youtube links (youtu.be) and https lead links not behaving correctly
-+ Added support for youtube playlist links in inline player
 * Added css element to page navigator to prevent it blinking while scrolling for some users
 * Make removing the "top" button only truly disappear when the page navigator will be used on that page
 ```
@@ -148,10 +149,10 @@ Changelog List
 ```
 ### v2.0.2 (7/25/2013)
 ```
-* Update Quick Reply size logic to work better on various monitor resolutions
-* Fix Mouse Gestures bottom button location. Should prevent random page refreshes from occuring (esp. on two-finger scroll on Macs)
 + Add ability to by default check any/all checkboxes in quick reply window
 + Setting sections now minimize automatically if selecting a different area
+* Update Quick Reply size logic to work better on various monitor resolutions
+* Fix Mouse Gestures bottom button location. Should prevent random page refreshes from occuring (esp. on two-finger scroll on Macs)
 * Fixed mouse gestures breaking when display first and last three pages option was selected
 * Fixed some smilies being converted to links when ImageToLink was selected
 ```
@@ -162,53 +163,53 @@ Changelog List
 ```
 ### v2.0.0 (7/15/2013)
 ```
++ Alphabetized smiley list in Quick Reply window. Added setting to enable this.
++ Added little help question mark next to settings to explain what they do or if they require some option change
++ Add way to not show the link to single post view underneath every post
++ Add ability to minimize/maximize setting sections as needed. By default, all sections are minimized.
++ Using alt key on changing from mouse gestures to context menu holds setting between pages
++ Added Accidental Quote, Not Edit warning to the Quick Relpy box enabled by the existing option at bottom of settings.html 
++ Added ability to select several star colors to not open on the "Open all unread messages" option.
++ Added option to show a link to a user's SOAP underneath their post next to the button for Rap Sheet
++ Added ability for extension to know if SALR Redux Browser Button is installed, and disable Omnibar icon (and setting) is it is.
++ Added option to have username be highlighted regardless of case as it's currently always case-sensitive.
++ Added options to only enable the "Display threads with new posts first" and "Show Last Three Pages" options in certain parts of SA
++ Added slight padding to the thread titles when "Display new post counts inline" enabled to prevent thread title from overlaping
++ Add explanation to what the hotkeys are attached to "Enable keyboard navigation"
++ Add F/L hotkeys that take user to first and last post respectively
++ Added ability to change between going up a forum layer or going to UCP on mouse gesture "Up" button
 * Updated jQuery to v1.10.1.
 * Updated jQuery-ui to a custom v1.10.3 version. Adds 'ui-salr' to an instance of ui-icon to ignore forum css
 * Updated js/settings-handler.js to use .prop() instead of .attr() as appropriate
 * Updated quick-reply.js to use delegated on handler for emote/bbcode insertion instead of live()
-- Renamed a couple options (ex: User Avatar settings) to be clearer on their intent
-- Removed "Hide top menu" setting as it didn't do anything
-- Removed second "Automatically collapse long quotes" setting
 * Renamed "Display quotes in boxes" to "Display quotes in simpler style"
 * Renamed "Hide SALR Logo" to "Hide SALR Logo in top thread bar"
-+ Added little help question mark next to settings to explain what they do or if they require some option change
 * Move color picker for inline youtube videos over next to the text input box
 * Updated Page-Navigator selector for lastseen icon
 * Reduced threshold to collapse long quote from 400 to 150. This is ~113 words words on a 1280x1024 monitor.
 * Moved all settings over slightly on the options page (~10px)
 * Made it so clicking on logo on settings page takes user to settings dump page (as this was default behavior at one point?)
-- Removed "Adjust window position after threads load" as this is a forum option
-- Removed "Fix thumbnailed images" as these got fixed on SA a while ago
 * Moved "SALR Bar" up a few pixels in thread view
 * Updated admin/mod stars in setting view
-+ Using alt key on changing from mouse gestures to context menu holds setting between pages
 * Made pageCount util.js routine a bit more robust for parts of the forum that don't always show pages (ie. Privage Messages)
-+ Added ability to change between going up a forum layer or going to UCP on mouse gesture "Up" button
-+ Added Accidental Quote, Not Edit warning to the Quick Relpy box enabled by the existing option at bottom of settings.html 
-+ Added ability to select several star colors to not open on the "Open all unread messages" option.
-+ Added option to show a link to a user's SOAP underneath their post next to the button for Rap Sheet
 * Fixed Omnibar icon for quick forum jumping.
-+ Added ability for extension to know if SALR Redux Browser Button is installed, and disable Omnibar icon (and setting) is it is.
-+ Added option to have username be highlighted regardless of case as it's currently always case-sensitive.
 * Moved "Show Last Three Pages" option into the "Forums Display Options" section
-+ Added options to only enable the "Display threads with new posts first" and "Show Last Three Pages" options in certain parts of SA
 * Update and simplify smiley emotion regex for live preview (taken from scottferg#45)
 * Fix console error when hitting "reply" button in a thread when using quick reply
 * Fix buttons (such as live preview and smiley) for showing top/side bar in quick reply being broken if closing quick reply with them still open
-+ Added slight padding to the thread titles when "Display new post counts inline" enabled to prevent thread title from overlaping
 * Fix hotkeys being active in the thread while editing user notes
-+ Add explanation to what the hotkeys are attached to "Enable keyboard navigation"
-+ Add F/L hotkeys that take user to first and last post respectively
 * Fix forward/back a page hotkeys being broken when using the "Show Three Pages" option
 * Move Thread Notes button over ~30px so that the "Top" button doesn't overlap it
-+ Add way to not show the link to single post view underneath every post
-+ Add ability to minimize/maximize setting sections as needed. By default, all sections are minimized.
 * Fixed all iFrames showing same youtube video when shown inline
-+ Alphabetized smiley list in Quick Reply window. Added setting to enable this.
-- Removed Imgur sidebar till such a time as it works again
-- Removed broken 'Highlight thread counts in yellow if you've posted there before' till it's fixedo
 * Fix quotes in "Live Preview" looking bad (having plaintext post id stuff)
 * Fix smilies with symbols (ex: :?:) being broken in live preview. They should be parsed correctly now.
+- Renamed a couple options (ex: User Avatar settings) to be clearer on their intent
+- Removed "Hide top menu" setting as it didn't do anything
+- Removed second "Automatically collapse long quotes" setting
+- Removed Imgur sidebar till such a time as it works again
+- Removed broken 'Highlight thread counts in yellow if you've posted there before' till it's fixed
+- Removed "Adjust window position after threads load" as this is a forum option
+- Removed "Fix thumbnailed images" as these got fixed on SA a while ago
 ```
 ### v1.5.18 (6/26/2013)
 ```

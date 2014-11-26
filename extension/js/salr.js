@@ -1332,6 +1332,7 @@ SALR.prototype.highlightOwnPosts = function() {
                 'background-color' : that.settings.highlightSelfColor
             });
         }
+        
         if (that.settings.removeOwnReport == 'true') {
             jQuery(this).children('ul.postbuttons').children('li.alertbutton').remove();
         }
@@ -2196,16 +2197,17 @@ SALR.prototype.highlightOwnUsername = function() {
 SALR.prototype.highlightOwnQuotes = function() {
     var that = this;
 
+    jQuery('.userquoted').attr("style", "background: "+this.settings.userQuote+"!important");
     var usernameQuoteMatch = that.settings.username+' posted:';
     jQuery('.bbc-block h4:contains(' + usernameQuoteMatch + ')').each(function() {
         if (jQuery(this).text() != usernameQuoteMatch)
             return;
-        jQuery(this).parent().css("background-color", that.settings.userQuote);
+        //jQuery(this).parent().css("background-color", that.settings.userQuote);
 
         // Replace the styling from username highlighting
         var previous = jQuery(this);
         jQuery('.usernameHighlight', previous).each(function() {
-            jQuery(this).css('color', '#555');
+            jQuery(this).css('color', '');
         });
     });
 };
