@@ -118,6 +118,8 @@ jQuery(document).ready(function() {
     defaultSettings['showUserAvatarImage']          = 'true';
     defaultSettings['showUserAvatar']               = 'true';
     defaultSettings['hideUserGrenade']              = 'false';
+    defaultSettings['hideGarbageDick']              = 'false';
+    defaultSettings['hideStupidNewbie']             = 'false';
     defaultSettings['inlineVideo']                  = 'false';
     //defaultSettings['embedVideo']                   = 'false';
     defaultSettings['youtubeHighlight']             = '#ff00ff';

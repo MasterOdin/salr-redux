@@ -225,6 +225,15 @@ SALR.prototype.pageInit = function() {
                 });
             }
 
+            if (this.settings.hideGarbageDick == 'true') {
+                jQuery("img[src='http://fi.somethingawful.com/images/newbie.gif']").css({'display':'none'});
+                jQuery("img[src='http://forumimages.somethingawful.com/images/newbie.gif']").css({'display':'none'});
+            }
+
+            if (this.settings.hideStupidNewbie == 'true') {
+
+            }
+
             if (this.settings.fixCancer == 'true') {
                 this.fixCancerPosts();
             }
