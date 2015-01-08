@@ -75,3 +75,24 @@ table.selected-post {
 .no-after:after {
     content: "" !important;
 }
+
+#salr-image-hover-box {
+    background-color: #FFF;
+    position: absolute;
+    display: none;
+    border: 1px solid #555;
+    border-radius: 5px;
+    box-shadow: 5px 5px 5px #555;
+    padding: 5px;
+}
+
+#salr-image-hover-box img {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+#salr-image-hover-box-filename {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}

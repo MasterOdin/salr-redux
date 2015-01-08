@@ -271,6 +271,10 @@ SALR.prototype.pageInit = function() {
             if (this.settings.expandBreadcrumbs == 'true') {
                 this.expandBreadcrumbs();
             }
+
+            if (this.settings.imageLinkHover == 'true') {
+                this.hoverImages();
+            }
             break;
         case 'newreply.php':
             //if (!this.settings.forumPostKey) {
@@ -2600,3 +2604,143 @@ SALR.prototype.expandBreadcrumbs = function() {
     jQuery('a.up').remove();
     //jQuery('a.up').addClass('bclast').removeClass('up');
 }
+
+/**
+ * Show a linked image in a div when hovering over an image link
+ **/
+SALR.prototype.hoverImages = function() {
+    var salr = this;
+
+    function HoverBox() {
+        this.id = null;
+        this.url = null;
+        this.dom = jQuery('<div id="salr-image-hover-box"></div>');
+        this.images = {};
+        this.delay = 1000 * parseFloat(salr.settings.imageLinkHoverDelay);
+        this.status = 'hidden';
+
+        if (isNaN(this.delay) || this.delay < 0.05) {
+            // enforce a minimum delay, just to be sure that the switch from
+            // link-hover to image-hover has time to process
+            this.delay = 0.05;
+        }
+
+        this.dom.appendTo('body');
+
+        var that = this;
+        this.dom.on('mouseover',function() { that.show(that.url); });
+        this.dom.on('mouseout',function() { that.hide(); });
+    }
+
+    HoverBox.prototype.getImage = function(url) {
+        if (!this.images.hasOwnProperty(url)) {
+            this.images[url] = jQuery('<img>').attr('src',url);
+        }
+        return this.images[url].clone();
+    };
+
+    HoverBox.prototype.show = function(url,x,y) {
+        if (url == this.url && (this.status == 'shown' || this.status == 'showing')) { return; }
+
+        if (this.status == 'hiding' && this.id) {
+            if (url == this.url && this.dom.css('display') == 'block') {
+                clearTimeout(this.id);
+                this.id = null;
+                this.status = 'shown';
+                return;
+            } else {
+                this.hide(true);
+            }
+        }
+
+        var hb = this;
+        this.status = 'showing';
+        this.url = url;
+
+        this.id = setTimeout(function() {
+            hb.dom.empty();
+            hb.dom.append(hb.getImage(url));
+
+            if (salr.settings.imageLinkHoverShowURL == 'true') {
+                hb.dom.append(jQuery('<div>').attr('id','salr-image-hover-box-filename'));
+                var filename = hb.url;
+
+                if (filename.lastIndexOf('?') >= 0) {
+                    filename = filename.substring(0,filename.lastIndexOf('?'));
+                }
+                if (filename.lastIndexOf('#') >= 0) {
+                    filename = filename.substring(0,filename.lastIndexOf('#'));
+                }
+
+                if (salr.settings.imageLinkHoverShowFilename == 'true') {
+                    filename = filename.substr(filename.lastIndexOf('/')+1);
+                }
+                jQuery('#salr-image-hover-box-filename',hb.dom).text(filename);
+            }
+            
+            jQuery('img',hb.dom).on('load',function() {
+                var imgTop = y;
+                if (y + this.height + 10 > window.pageYOffset + window.innerHeight) {
+                    y -= (y + this.height + 10) - (window.pageYOffset + window.innerHeight);
+                }
+                hb.dom.css('top',y);
+                hb.dom.css('left',x);
+                hb.dom.css('display','block');
+                hb.status = 'shown';
+                hb.id = null;
+            });
+        }, this.delay);
+    };
+
+    HoverBox.prototype.hide = function(force) {
+        force = force || false;
+        if (!force) {
+            if (this.status == 'hiding' || this.status == 'hidden') { return; }
+
+            var hb = this;
+            this.status = 'hiding';
+
+            if (this.id) {
+                clearTimeout(this.id);
+                this.id = null;
+            }
+
+            this.id = setTimeout(function() {
+                hb.url = null;
+                hb.dom.css('display','none');
+                hb.status = 'hidden';
+                hb.id = null;
+            }, this.delay);
+        } else {
+            this.status = 'hiding';
+            if (this.id) { clearTimeout(this.id); }
+            this.id = null;
+            this.url = null;
+            this.dom.css('display','none');
+            this.status = 'hidden';
+        }
+    }
+
+    var hoverBox = new HoverBox();
+
+    var links = jQuery('.postbody a');
+
+    //NWS/NMS links
+    if(salr.settings.imageLinkHoverNWS == 'true') {
+        links = links.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
+    }
+
+    // spoiler'd links
+    if(salr.settings.imageLinkHoverSpoiler == 'true') {
+        links = links.not('.bbc-spoiler a');
+    }
+
+    links.filter(function() {
+        // RX yoink'd from modifyImages() above
+        return /https?\:\/\/(?:[\w-]+\.)+[a-z]{2,6}(?:\/[^\#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/.test(jQuery(this).attr('href'));
+    }).on('mouseover',function(e) {
+        hoverBox.show(jQuery(this).attr('href'), e.pageX, e.pageY);
+    }).on('mouseout',function(e) {
+        hoverBox.hide();
+    });
+};

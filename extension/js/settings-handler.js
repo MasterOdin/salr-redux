@@ -167,6 +167,10 @@ jQuery(document).ready(function() {
     defaultSettings['dontReplaceLinkSpoiler']       = 'false';
     defaultSettings['dontReplaceLinkRead']          = 'false';
     defaultSettings['dontReplaceLinkImage']         = 'false';
+    defaultSettings['imageLinkHover']               = 'false';
+    defaultSettings['imageLinkHoverDelay']          = '0.5';
+    defaultSettings['imageLinkHoverShowURL']        = 'true';
+    defaultSettings['imageLinkHoverShowFilename']   = 'false';
     defaultSettings['replaceImagesWithLinks']       = 'false';
     defaultSettings['replaceImagesReadOnly']        = 'false';
     defaultSettings['replaceImagesLink']            = 'false';
