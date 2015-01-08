@@ -10,7 +10,7 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
-### <a name="2167"></a>v2.1.7 (11/26/2014)
+### <a name="2167"></a>v2.1.7 (1/1/2015)
 ```
 + Add title to the Single Post Link
 + Add ability to expand breadcrumbs on showthread and forumdisplay
