@@ -664,6 +664,9 @@ SALR.prototype.updateStyling = function() {
         jQuery(".navigation li:has(a[href='/f/search'])").each(function() {
             jQuery(this).remove();
         });
+        jQuery(".navigation li:has(a[href='/query.php'])").each(function() {
+            jQuery(this).remove();
+        });
     }
 
     if (this.settings.topUserCP == 'false') {
