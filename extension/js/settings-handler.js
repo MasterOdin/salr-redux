@@ -124,9 +124,15 @@ jQuery(document).ready(function() {
     //defaultSettings['embedVideo']                   = 'false';
     defaultSettings['youtubeHighlight']             = '#ff00ff';
     defaultSettings['inlineTweet']                  = 'false';
+    defaultSettings['dontReplaceTwitterNWS']        = 'false';
+    defaultSettings['dontReplaceTwitterSpoiler']    = 'false';
     defaultSettings['inlineVine']                   = 'false';
+    defaultSettings['dontReplaceVineNWS']           = 'false';
+    defaultSettings['dontReplaceVineSpoiler']       = 'false';
     defaultSettings['inlineWebm']                   = 'false';
     defaultSettings['inlineWemAutoplay']            = 'true';
+    defaultSettings['dontReplaceWebmNWS']           = 'false';
+    defaultSettings['dontReplaceWebmSpoiler']       = 'false';
     defaultSettings['threadCaching']                = 'false';
     defaultSettings['boxQuotes']                    = 'false';
     defaultSettings['salrLogoHide']                 = 'false';

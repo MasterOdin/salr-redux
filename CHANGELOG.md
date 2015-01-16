@@ -10,10 +10,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
-### <a name="2171"></a>v2.1.7.1 (1/8/2015)
+### <a name="218"></a>v2.1.8 (1/16/2015)
 ```
 + Add: display-image-on-hover feature
++ Add NWS/Spoiler settings to tweets/vines/webm/gfycat
 * Fix: remove new search link
+* Fix: Have search box in thread use new search page
 ```
 ### <a name="217"></a>v2.1.7 (1/1/2015)
 ```

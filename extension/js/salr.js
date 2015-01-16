@@ -1000,7 +1000,7 @@ SALR.prototype.inlineYoutubes = function() {
 };
 
 /*
-    DEPRECIATED BY SA 2.1.22 update
+    DEPRECIATED BY SA 2.1.7 update
 */
 SALR.prototype.fullscreenYoutubeFix = function() {
     jQuery('.postbody iframe[class*="youtube-player"]').each(function() {
@@ -1011,7 +1011,17 @@ SALR.prototype.fullscreenYoutubeFix = function() {
 SALR.prototype.inlineTweets = function() {
 
     var that = this;
-    jQuery('.postbody a[href*="twitter.com"]').each(function() {
+    var tweets = jQuery('.postbody a[href*="twitter.com"]');
+    //NWS/NMS links
+    if(that.settings.dontReplaceTwitterNWS == 'true')
+    {
+        tweets = tweets.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
+    }
+    // spoiler'd links
+    if(that.settings.dontReplaceTwitterSpoiler == 'true') {
+        tweets = tweets.not('.bbc-spoiler a');
+    }
+    tweets.each(function() {
         var match = jQuery(this).attr('href').match(/(https|http):\/\/twitter.com\/[0-9a-zA-Z_]+\/(status|statuses)\/([0-9]+)/);
         if (match == null) {
             return;
@@ -1029,7 +1039,16 @@ SALR.prototype.inlineTweets = function() {
 
 SALR.prototype.inlineVines = function() {
     var that = this;
-    jQuery('.postbody a[href*="vine.co"]').each(function() {
+    var vines = jQuery('.postbody a[href*="vine.co"]');
+    if(that.settings.dontReplaceVineNWS == 'true')
+    {
+        vines = vines.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
+    }
+    // spoiler'd links
+    if(that.settings.dontReplaceVineSpoiler == 'true') {
+        vines = vines.not('.bbc-spoiler a');
+    }
+    vines.each(function() {
         jQuery(this).html('<iframe class="vine-embed" src="'+jQuery(this).attr('href')+'/embed/simple" width="600" height="600" frameborder="0"></iframe>'+
                           '<script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>');
     });
@@ -1037,7 +1056,16 @@ SALR.prototype.inlineVines = function() {
 
 SALR.prototype.inlineWebm = function() {
     var that = this;
-    jQuery('.postbody a[href$="webm"]').each(function() {
+    var webms = jQuery('.postbody a[href$="webm"]');
+    if(that.settings.dontReplaceWebmNWS == 'true')
+    {
+        webms = webms.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
+    }
+    // spoiler'd links
+    if(that.settings.dontReplaceWebmSpoiler == 'true') {
+        webms = webms.not('.bbc-spoiler a');
+    }
+    webms.each(function() {
         var autoplay = (that.settings.inlineWemAutoplay == "true") ? "autoplay" : "";
         jQuery(this).html('<video '+autoplay+' loop width="450" muted="true" controls> <source src="'+jQuery(this).attr('href')+'" type="video/webm"> </video>');
     });
@@ -1131,9 +1159,10 @@ SALR.prototype.addSearchThreadForm = function() {
     var threadid = findThreadID();
     searchHTML = '<span id="salrsearch">'+
            '<form id="salrSearchForm" '+
-            'action="http://forums.somethingawful.com/f/search/submit" '+
-            'method="post">'+
-           '<input type="hidden" name="forumids" value="'+forumid+'">'+
+            'action="http://forums.somethingawful.com/query" '+
+            'method="post" _lpchecked="1">'+
+           //'<input type="hidden" name="forumids" value="'+forumid+'">'+
+           /*
            '<input type="hidden" name="groupmode" value="0">'+
            '<input type="hidden" name="opt_search_posts" value="on">'+
            '<input type="hidden" name="opt_search_titles" value="on">'+
@@ -1144,8 +1173,10 @@ SALR.prototype.addSearchThreadForm = function() {
            '<input type="hidden" name="uf_posts" value="on">'+
            '<input type="hidden" name="userid_filters" value="">'+
            '<input type="hidden" name="username_filter" value="type a username">'+
-           '<input id="salrSearch" name="keywords" size="25" style="">'+
-           '<input type="submit" value="Search thread">'+
+            */
+           '<input id="salrSearch" name="q" size="25" style="">'+
+           //'<input type="submit" value="Search thread">'+
+           '<button type="submit" name="action" value="query">Search</button>'
            '</form>'+
            '</span>';
 
