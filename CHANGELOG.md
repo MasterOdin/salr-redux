@@ -10,10 +10,14 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
+### <a name="2181"></a>v2.1.8.1 (1/24/2015)
+```
+* Fix: Quicksearch endpoint
+```
 ### <a name="218"></a>v2.1.8 (1/16/2015)
 ```
 + Add: display-image-on-hover feature
-+ Add NWS/Spoiler settings to tweets/vines/webm/gfycat
++ Add: NWS/Spoiler settings to tweets/vines/webm/gfycat
 * Fix: remove new search link
 * Fix: Have search box in thread use new search page
 ```
