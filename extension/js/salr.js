@@ -1159,7 +1159,7 @@ SALR.prototype.addSearchThreadForm = function() {
     var threadid = findThreadID();
     searchHTML = '<span id="salrsearch">'+
            '<form id="salrSearchForm" '+
-            'action="http://forums.somethingawful.com/query" '+
+            'action="http://forums.somethingawful.com/query.php" '+
             'method="post" _lpchecked="1">'+
            //'<input type="hidden" name="forumids" value="'+forumid+'">'+
            /*
