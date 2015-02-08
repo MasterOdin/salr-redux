@@ -191,6 +191,7 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.collapseTldrQuotes == 'true') {
                 this.tldrQuotes();
+                anchorPage = true;
             }
             if (this.settings.enableQuickReply == 'true') {
                 //if (!this.settings.forumPostKey) {
@@ -228,6 +229,7 @@ SALR.prototype.pageInit = function() {
             if (this.settings.hideGarbageDick == 'true') {
                 jQuery("img[src='http://fi.somethingawful.com/images/newbie.gif']").css({'display':'none'});
                 jQuery("img[src='http://forumimages.somethingawful.com/images/newbie.gif']").css({'display':'none'});
+                anchorPage = true;
             }
 
             if (this.settings.hideStupidNewbie == 'true') {
@@ -496,7 +498,7 @@ SALR.prototype.updateStyling = function() {
         //   this thread has unread posts
         //   bookmark coloring forums option is disabled
         //      or stars is disabled
-        if (that.settings.highlightThread=='true' && seenThread && (thread.attr('class') == 'thread seen' || thread.attr('class')=='thread' || noStars)) {
+        if (that.settings.highlightThread=='true' && seenThread && (thread.attr('class') == 'thread seen' || thread.attr('class')=='thread' || noStars || thread.attr('class') == 'thread seen arch')) {
             // If the thread has new posts, display the green shade,
             // otherwise show the blue shade
             var darkShade = (newPosts) ? that.settings.darkNewReplies : that.settings.darkRead;

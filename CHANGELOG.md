@@ -10,18 +10,22 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
-### <a name="2181"></a>v2.1.8.1 (1/24/2015)
+### <a name="2182"></a>v2.1.8.2 (02/07/2015)
+```
+* Fix: Some threads not getting custom highlighting
+```
+### <a name="2181"></a>v2.1.8.1 (01/24/2015)
 ```
 * Fix: Quicksearch endpoint
 ```
-### <a name="218"></a>v2.1.8 (1/16/2015)
+### <a name="218"></a>v2.1.8 (01/16/2015)
 ```
 + Add: display-image-on-hover feature
 + Add: NWS/Spoiler settings to tweets/vines/webm/gfycat
 * Fix: remove new search link
 * Fix: Have search box in thread use new search page
 ```
-### <a name="217"></a>v2.1.7 (1/1/2015)
+### <a name="217"></a>v2.1.7 (01/01/2015)
 ```
 + Add title to the Single Post Link
 + Add ability to expand breadcrumbs on showthread and forumdisplay
@@ -41,48 +45,48 @@ Changelog List
 * Fix impzoneik icon from being messed up when removing platinum icon
 * Fix #lastpost not actually going to the lastpost on a page
 ```
-### <a name="2165"></a>v2.1.6.5 (10/5/2014)
+### <a name="2165"></a>v2.1.6.5 (10/05/2014)
 ```
 * Fix "Adjust window position" setting not affecting anything
 ```
-### <a name="2164"></a>v2.1.6.4 (9/9/2014)
+### <a name="2164"></a>v2.1.6.4 (09/09/2014)
 ```
 * Limit the pages that u hotkey will work on (so not newreply.php for example)
 ```
-### <a name="2163"></a>v2.1.6.3 (9/3/2014)
+### <a name="2163"></a>v2.1.6.3 (09/03/2014)
 ```
 + Add a hotkey to go to UserCP (u)
 * Fix regression in Live Preview checkbox setting for Quick Reply not working properly
 * Make SOAP link always appear before "Edit Note" button, regardless of Sync settings.
 ```
-### v2.1.6.2 (9/1/2014)
+### v2.1.6.2 (09/01/2014)
 ```
 * Fix regression in User Notes sync
 ```
-### v2.1.6.1 (8/29/2014)
+### v2.1.6.1 (08/29/2014)
 ```
 + Add setting to fix UserCP font changes
 ```
-### v2.1.6 (8/23/2014)
+### v2.1.6 (08/23/2014)
 ```
 + Added in option to hide SA Grenade on Platinum Users (thanks nskillen)
 * AdjustAfterLoad now also works on #lastpost in URL as well as going to specific post
 ```
-### v2.1.5 (7/16/2014)
+### v2.1.5 (07/16/2014)
 ```
 + Pasting of youtube links into Quick Reply auto-formats them into [video] tags
 + Bring back AdjustLoad setting with allowing for user scroll disable of it
 * Add delay to AdjustLoad to better avoid user-scrolling
 * Fix Quick Reply sometimes not working due to incorrect post key
 ```
-### v2.1.4 (5/30/2014)
+### v2.1.4 (05/30/2014)
 ```
 + Allow imgur/twitter api permissions be optional (active only when related setting is on)
 + Add setting for autoplaying webm/gifycat links
 * Fix SALR crashing if someone linked the twitter blog and embed tweets option is enabled
 * Improved catching more types of twitter links (http in addition to https)
 ```
-### v2.1.3 (5/11/2014)
+### v2.1.3 (05/11/2014)
 ```
 + Allow tweet links to show up inline
 + Allow vine links to show up inline
@@ -93,12 +97,12 @@ Changelog List
 * Fix "Jump to another forum" appearing in Omnibar (and Chrome Button extension) jump list
 * Improve first usage of "Quick Reply" if user had just installed SALR and hadn't visited "newreply.php" yet
 ```
-### v2.1.2 (4/14/2014)
+### v2.1.2 (04/14/2014)
 ```
 * Fix SALR crash when using Post Cout Highlighting on forum page with global announcement
 * Fix logic on image resizing
 ```
-### v2.1.1 (4/3/2014)
+### v2.1.1 (04/03/2014)
 ```
 + Add page navigator to usercp/bookmarkthreads.php if more than two pages of bookmarks (will only show if more than one page)
 + Add mouse gestures for usercp/bookmarkthreads if more than one page
@@ -107,7 +111,7 @@ Changelog List
 * Fix bug with single post button setting
 * Fix horrible slowdown associated with friends highlighting
 ```
-### v2.1.0 (3/11/2014)
+### v2.1.0 (03/11/2014)
 ```
 + Allow for use of localStorage (instead of Chrome.storage.sync) for User Notes
 + Reintroduced indicator for threads posted in
@@ -140,27 +144,27 @@ Changelog List
 ```
 * Fixed user note selector being confused if there was a "userid=###" link in a post
 ```
-### v2.0.6 (10/7/2013)
+### v2.0.6 (10/07/2013)
 ```
 * User Note Sync added (User Notes are now synced between computers using chrome sync)
 * Increased speed of friend highlighting
 * Modified how Case Insensitive handles usernames
 ```
-### v2.0.5 (9/25/2013)
+### v2.0.5 (09/25/2013)
 ```
 * (Mod) Fixed topic edit button not working
 * Fixed hotkey-manager from printing out any non-hotkey keycode when it's active.
 * Improved remembering the status of the "alt" key for mouse gestures better. It should remember the state properly across tabs.
 ```
-### v2.0.4 (7/31/2013)
+### v2.0.4 (07/31/2013)
 ```
 * Fixed some smilies being converted to links when ImageToLink was selected. All four smiley URLs should be parsed properly.
 ```
-### v2.0.3 (7/27/2013)
+### v2.0.3 (07/27/2013)
 ```
 * Fixed checkbox on Bookmark Threads being unchecked if editing a post and having the option being enabled.
 ```
-### v2.0.2 (7/25/2013)
+### v2.0.2 (07/25/2013)
 ```
 + Add ability to by default check any/all checkboxes in quick reply window
 + Setting sections now minimize automatically if selecting a different area
@@ -169,12 +173,12 @@ Changelog List
 * Fixed mouse gestures breaking when display first and last three pages option was selected
 * Fixed some smilies being converted to links when ImageToLink was selected
 ```
-### v2.0.1 (7/15/2013)
+### v2.0.1 (07/15/2013)
 ```
 - Actually remove the thread yellow count highlight option
 * Fix jQuery error on not parsing smilies when using ImageToLink option
 ```
-### v2.0.0 (7/15/2013)
+### v2.0.0 (07/15/2013)
 ```
 + Alphabetized smiley list in Quick Reply window. Added setting to enable this.
 + Added little help question mark next to settings to explain what they do or if they require some option change
@@ -224,45 +228,45 @@ Changelog List
 - Removed "Adjust window position after threads load" as this is a forum option
 - Removed "Fix thumbnailed images" as these got fixed on SA a while ago
 ```
-### v1.5.18 (6/26/2013)
+### v1.5.18 (06/26/2013)
 ```
 + Add Thread Notes as something to port from original SALR to Redux
 ```
-### v1.5.17 (6/26/2013)
+### v1.5.17 (06/26/2013)
 ```
 + Added ability to port over User Notes from original SALR to Redux.
 ```
-### v1.5.16 (6/12/2013)
+### v1.5.16 (06/12/2013)
 ```
 - Fixed custom thread coloring not being removed when "x" is hit on thread
 - Removed friendList from settings dump page
 + Added new setting "Don't convert links containing images" for "Convert links into inline images"
 + Added new setting "If image was linked, put link after image link" for "Images-to-Links"
 ```
-### v1.5.15 (6/11/2013)
+### v1.5.15 (06/11/2013)
 ```
 - Changed "Convert links into inline images" to ignore when the link is of a picture (eg. [url=test.jpg][img]test.jpg[/img][/url])
 - Removed ForumPostKey from settings dump page
 - Fixed regression in "Use custom thread highlighting" checkbox toggle for thread examples above not leaving custom highlighting
 ```
-### v1.5.14 (5/18/2013)
+### v1.5.14 (05/18/2013)
 ```
 - Fixed "Convert links into inline images" to properly deal with links that have ".(jp?eg|png|gif|bmp).html" in them (they made broken images)
 ```
-### v1.5.13 (5/2/2013)
+### v1.5.13 (05/02/2013)
 ```
 + Added defaults for all settings
 - Fixed style being for old forum layout on settings.html (most noticable in the quote box)
 - Fixed coloring on settings.html for thread highlighting
 - Fixed star column not being colored appropriately when using thread highlighting
 ```
-### v1.5.12 (5/1/2013)
+### v1.5.12 (05/01/2013)
 ```
 - Fixed friend highlighting only working for first two friends in UserCP.php
 - Fixed Post thread button disappearing on all pages if a missing setting got set in the past
 - Separated out function calls between forumdisplay.php and showthread.php so aforementioned setting doesn't affect forum post button 
 ```
-### v1.5.11 (4/22/2013) - "I really hate mouse gestures"
+### v1.5.11 (04/22/2013) - "I really hate mouse gestures"
 ```
 - Replaced right click option with alt key option
 + Alt key can be used to switch between mouse gestures or default 
@@ -271,21 +275,21 @@ context menu
 - Mouse Gesture disables left/right on single page thread/forums properly
 - Mouse Gesture overlay appears above images on forum
 ```
-### v1.5.10 (4/15/2013)
+### v1.5.10 (04/15/2013)
 ```
 - Fixed "Open Updated Threads" opening tabs twice
 - Fixed right click menu being enabled even when the box wasn't ticked on initial installion of 1.5.9
 - Moved "Pages per thread" to be a sub-setting of First/Last Three Pages
 - Added ability to dump settings into a table of values for easy copy/paste.
 ```
-### v1.5.9 (4/14/2013)
+### v1.5.9 (04/14/2013)
 ```
 - Fixed Preview Reply pane being underneath images
 + Added option to allow default right click menu to appear when mouse gestures enabled
 - Fixed Ignore Star option in settings pane (as well as prevent script breaking when it was set) 
 - Fixed being able to change children settings when parent setting was disabled
 ```
-### v1.5.8 (4/11/2013)
+### v1.5.8 (04/11/2013)
 ```
 - Fixed Show First/Last three pages feature being broken (from forum update)
 - Fixed friend post highlighting not working
@@ -295,7 +299,7 @@ context menu
 + Added setting to show top/bottom navigation bar independently of the other bar
 - Fixed "User CP" not disappearing in navigation bar if setting was false
 ```
-### v1.5.7 (4/8/2013)
+### v1.5.7 (04/08/2013)
 ```
 - Regression fixes (settings page and custom icons broke on change-over)
 - Fix keyboard shortcut 'b' for Opening Updated Threads in Bookmark thread
