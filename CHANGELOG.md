@@ -10,9 +10,10 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
-### <a name="2182"></a>v2.1.8.2 (02/07/2015)
+### <a name="2182"></a>v2.1.8.2 (02/16/2015)
 ```
 * Fix: Some threads not getting custom highlighting
+* Fix: Quick Thread Search endpoint
 ```
 ### <a name="2181"></a>v2.1.8.1 (01/24/2015)
 ```
