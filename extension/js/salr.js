@@ -1177,8 +1177,8 @@ SALR.prototype.addSearchThreadForm = function() {
            '<input type="hidden" name="username_filter" value="type a username">'+
             */
            '<input id="salrSearch" name="q" size="25" style="">'+
-           //'<input type="submit" value="Search thread">'+
-           '<button type="submit" name="action" value="query">Search</button>'
+           '<input name="action" value="query" type="hidden">'+
+           '<button type="submit">Search</button>'+
            '</form>'+
            '</span>';
 
