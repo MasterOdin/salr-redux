@@ -10,6 +10,10 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
+### <a name="2183"></a>v2.1.8.3 (03/14/2015)
+```
+* Fix an embedded vines false positive
+```
 ### <a name="2182"></a>v2.1.8.2 (02/16/2015)
 ```
 * Fix: Some threads not getting custom highlighting
