@@ -5,6 +5,10 @@ div#gesture-overlay {
     z-index: 99;
 }
 
+div#gesture-overlay img {
+    display: block;
+}
+
 div#gesture-top, div#gesture-bottom {
     position: relative;
     left: 50%;
@@ -12,14 +16,13 @@ div#gesture-top, div#gesture-bottom {
 }
 
 div#gesture-top {
-    top: 3px;
     margin-left: -39px;
     /*right: 10px;*/
 }
 
 div#gesture-bottom {
     position: absolute;
-    top: 157px;
+    top: 154px;
     margin-left: -39px;
 }
 
