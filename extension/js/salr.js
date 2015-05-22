@@ -1041,7 +1041,7 @@ SALR.prototype.inlineTweets = function() {
 
 SALR.prototype.inlineVines = function() {
     var that = this;
-    var vines = jQuery('.postbody a[href*="vine.co"]');
+    var vines = jQuery('.postbody a[href*="://vine.co/v/"]');
     if(that.settings.dontReplaceVineNWS == 'true')
     {
         vines = vines.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");

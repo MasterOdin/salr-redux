@@ -14,6 +14,9 @@ Changelog List
 ```
 * Fix: Improve pasting in quick reply functionality (ctrl+z works better and focuses on cursor if large posts)
 * Add: Embed gifv and gyfcat formats (all tied to webm embedding setting)
+### <a name="2183"></a>v2.1.8.3 (03/14/2015)
+```
+* Fix an embedded vines false positive
 ```
 ### <a name="2182"></a>v2.1.8.2 (02/16/2015)
 ```
