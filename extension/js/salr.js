@@ -384,9 +384,9 @@ SALR.prototype.openSettings = function() {
 // stash the styling logic in it's own function that we can call
 // once we're ready
 SALR.prototype.updateStyling = function() {
-
     var that = this;
-    
+    var forumId = findRealForumID();
+
     // make it so highlighting number doesn't change space it takes up in forumdisplay or usercp
     jQuery('td.title div.title_pages a').css("border","1px solid transparent");
 
@@ -398,7 +398,7 @@ SALR.prototype.updateStyling = function() {
         var newPosts = false;
         var seenThread = false;
 
-        if (that.settings.displayCustomButtons == 'true') {
+        if (that.settings.displayCustomButtons == 'true' && forumId != YOSPOS_ID) {
             // Re-style the new post count link
             jQuery('a.count', thread).each(function() {
 
@@ -1058,7 +1058,7 @@ SALR.prototype.inlineVines = function() {
 
 SALR.prototype.inlineWebm = function() {
     var that = this;
-    var webms = jQuery('.postbody a[href$="webm"]');
+    var webms = jQuery('.postbody a[href$="webm"],a[href$="gifv"],a[href*="gfycat.com"]');
     if(that.settings.dontReplaceWebmNWS == 'true')
     {
         webms = webms.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
@@ -1068,8 +1068,26 @@ SALR.prototype.inlineWebm = function() {
         webms = webms.not('.bbc-spoiler a');
     }
     webms.each(function() {
-        var autoplay = (that.settings.inlineWemAutoplay == "true") ? "autoplay" : "";
-        jQuery(this).html('<video '+autoplay+' loop width="450" muted="true" controls> <source src="'+jQuery(this).attr('href')+'" type="video/webm"> </video>');
+        
+        if (jQuery(this).attr('href').substr(jQuery(this).attr('href').length-5).indexOf('webm') != -1) {
+            var autoplay = (that.settings.inlineWemAutoplay == "true") ? "autoplay" : "";
+            jQuery(this).html('<video '+autoplay+' loop width="450" muted="true" controls> <source src="'+jQuery(this).attr('href')+'" type="video/webm"> </video>');
+        }
+        else if (jQuery(this).attr('href').indexOf('gfycat.com') != -1) {
+            jQuery(this).parent().append('\n'+
+'                <script>\n' +
+'(function(d, t) {\n' +
+'    var g = d.createElement(t),\n' +
+'       s = d.getElementsByTagName(t)[0];\n' +
+'   g.src = \'http://assets.gfycat.com/js/gfyajax-0.517d.js\';\n' +
+'    s.parentNode.insertBefore(g, s);\n' +
+'}(document, \'script\'));\n' +
+'</script>\n' +
+'<img class="gfyitem" data-id="'+jQuery(this).attr('href')+'" />');
+        }
+        else {
+            jQuery(this).html('<iframe autoplay="true" loop allowfullscreen="" frameborder="0" scrolling="no"  width="660" height="370" src="'+jQuery(this).attr('href')+'#embed"></iframe>');
+        }
     });
 };
 

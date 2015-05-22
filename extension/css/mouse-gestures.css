@@ -1,7 +1,7 @@
 div#gesture-overlay {
     float: left;
     position: absolute;
-    width: 231px;
+    width: 232px;
     z-index: 99;
 }
 

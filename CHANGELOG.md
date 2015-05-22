@@ -10,6 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
+### <a name="219"></a>v2.1.9 (04/07/2015)
+```
+* Fix: Improve pasting in quick reply functionality (ctrl+z works better and focuses on cursor if large posts)
+* Add: Embed gifv and gyfcat formats (all tied to webm embedding setting)
+```
 ### <a name="2182"></a>v2.1.8.2 (02/16/2015)
 ```
 * Fix: Some threads not getting custom highlighting

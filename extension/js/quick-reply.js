@@ -37,6 +37,8 @@ function QuickReplyBox(base_image_uri, settings) {
     this.reply_url = 'http://forums.somethingawful.com/newreply.php';
     this.edit_url = 'http://forums.somethingawful.com/editpost.php';
 
+    this.previous_text = null;
+
     this.quickReplyState = {
         expanded: false,
         visible: false,
@@ -657,6 +659,14 @@ QuickReplyBox.prototype.isVisible = function() {
 
 QuickReplyBox.prototype.formatText = function() {
     //FIXME Do not active on AltGR. How do we detect this?
+    if (event.ctrlKey && String.fromCharCode(event.keyCode) == 'Z') {
+        if (this.previous_text != null) {
+            event.srcElement.value = this.previous_text;
+            this.previous_text = null;
+            event.preventDefault();
+        }
+    }
+
     if (!event.ctrlKey)
         return;
 
@@ -730,15 +740,27 @@ QuickReplyBox.prototype.pasteText = function() {
     //var orig = elem[0].val();
     var start = elem[0].selectionStart;
     var end = elem[0].selectionEnd;
-    
-    elem.val('');
+
+    //elem.val('');
     elem.focus();
 
+    var that = this;
     // TODO: make this more readable and stuff
     setTimeout(function() {
-        var paste = elem.val();
+        var new_elem = elem.val()
+        if (start == end) {
+            var paste = new_elem.substr(start,new_elem.length-orig.length);
+        }
+        else {
+            // start < end
+            var temp = orig.substr(0,start) + orig.substr(end);
+            var paste = new_elem.substr(start,new_elem.length-temp.length);
+        }
+        elem.val(orig);
+        elem[0].selectionStart = start;
+        elem[0].selectionEnd = end;
         var c = paste;
-        if (/^https?:\/\//.test(paste) && -1 == paste.indexOf("\n") && -1 == paste.indexOf("\r")) {
+        if (/^https?:\/\//.test(paste) && paste.indexOf("\n") == -1 && paste.indexOf("\r") == -1) {
             var h = /([^:]+):\/\/([^\/]+)(\/.*)?/.exec(decodeURI(paste));
             if (h) {
                 var f = {
@@ -835,8 +857,10 @@ QuickReplyBox.prototype.pasteText = function() {
                 
             }
         }
-        var set = orig.substr(0,start).length + c.length; // don't forget to reset the cursor!
+        
+        that.previous_text = orig;
         elem.val(orig.substr(0,start)+c+orig.substr(end));
+        var set = orig.substr(0,start).length + c.length;
         elem[0].selectionStart = set;
         elem[0].selectionEnd = set;
     }, 5);
