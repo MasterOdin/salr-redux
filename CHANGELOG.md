@@ -10,10 +10,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
-### <a name="219"></a>v2.1.9 (04/07/2015)
+### <a name="2184"></a>v2.1.8.4 (06/03/2015)
 ```
 * Fix: Improve pasting in quick reply functionality (ctrl+z works better and focuses on cursor if large posts)
 * Add: Embed gifv and gyfcat formats (all tied to webm embedding setting)
+* Fix: Mouse overlay was positioned wrong on versions of Chrome
+```
 ### <a name="2183"></a>v2.1.8.3 (03/14/2015)
 ```
 * Fix an embedded vines false positive

@@ -350,10 +350,7 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
             threadid: threadid
         },
         function(response) {
-            //if(that.forum_post_key == -1)
-            //{
             that.notifyFormKey(parseFormKey(response));
-            //}
             that.notifyReplyReady(parseFormCookie(response));
         }
     );
@@ -569,9 +566,6 @@ QuickReplyBox.prototype.toggleTopbar = function() {
     
     if (this.quickReplyState.topbar_visible) {
         top_bar.animate( { bottom: '-=' + (320-(390-this.quickReplyState.height)) + 'px' } );
-        //if (salr_client.pageNavigator) {
-        //    salr_client.pageNavigator.display();
-        //}
         this.quickReplyState.topbar_visible = false;
     } else {
         top_bar.animate( { bottom: '+=' + (320-(390-this.quickReplyState.height)) + 'px' } );
@@ -658,7 +652,10 @@ QuickReplyBox.prototype.isVisible = function() {
 };
 
 QuickReplyBox.prototype.formatText = function() {
-    //FIXME Do not active on AltGR. How do we detect this?
+    // Both CtrlKey & AltKey means AltGr was hit
+    if (!event.ctrlKey || (event.ctrlKey && event.altKey))
+        return;
+
     if (event.ctrlKey && String.fromCharCode(event.keyCode) == 'Z') {
         if (this.previous_text != null) {
             event.srcElement.value = this.previous_text;
@@ -666,9 +663,6 @@ QuickReplyBox.prototype.formatText = function() {
             event.preventDefault();
         }
     }
-
-    if (!event.ctrlKey)
-        return;
 
     var key = String.fromCharCode(event.keyCode);
     var src = event.srcElement;
