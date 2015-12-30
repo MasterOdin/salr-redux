@@ -1,5 +1,5 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013-2014 Matthew Peveler  
+// Copyright (c) 2009-2013 Scott Ferguson
+// Copyright (c) 2013-2016 Matthew Peveler
 // All rights reserved.
 
 // Redistribution and use in source and binary forms, with or without
@@ -13,7 +13,7 @@
 // - Neither the name of the software nor the
 //   names of its contributors may be used to endorse or promote products
 //   derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -128,8 +128,6 @@ SALR.prototype.pageInit = function() {
                 this.inlineYoutubes();
             }
 
-            //this.fullscreenYoutubeFix();
-
             if (this.settings.inlineTweet == 'true') {
                 this.inlineTweets();
             }
@@ -147,19 +145,19 @@ SALR.prototype.pageInit = function() {
             }
 
             this.updateForumsList();
-            
+
             if (this.settings.highlightFriends == 'true') {
-                this.highlightFriendPosts();    
+                this.highlightFriendPosts();
             }
-        
+
             if (this.settings.highlightOP == 'true') {
-                this.highlightOPPosts();    
+                this.highlightOPPosts();
             }
 
             if (this.settings.highlightSelf == 'true' || this.settings.removeOwnReport == 'true') {
                 this.highlightOwnPosts();
             }
-            
+
             if (this.settings.enableSOAPLink == 'true') {
                 this.addSOAPLink();
             }
@@ -180,7 +178,7 @@ SALR.prototype.pageInit = function() {
             if (this.settings.highlightOwnUsername == 'true') {
                 this.highlightOwnUsername();
             }
-            
+
             if (this.settings.highlightOwnQuotes == 'true') {
                 this.highlightOwnQuotes();
             }
@@ -200,7 +198,7 @@ SALR.prototype.pageInit = function() {
                 // new QuickReplyBox(this.settings.forumPostKey,this.base_image_uri,this.settings);
                 this.quickReply = new QuickReplyBox(this.base_image_uri, this.settings);
                 this.bindQuickReply();
-            }             
+            }
 
             if (this.settings.enableThreadNotes == 'true') {
                 this.threadNotes();
@@ -282,7 +280,7 @@ SALR.prototype.pageInit = function() {
             //if (!this.settings.forumPostKey) {
             //this.findFormKey();
             //}
-            
+
             if (this.settings.qneProtection == 'true') {
                 this.quoteNotEditProtection();
             }
@@ -356,7 +354,7 @@ SALR.prototype.pageInit = function() {
              preventAdjust = true;
         }
     });
- 
+
     if (this.settings.adjustAfterLoad == "true") {
         window.onload = function() {
             if (!(that.settings.preventAdjust == "true" && preventAdjust)) {
@@ -369,7 +367,7 @@ SALR.prototype.pageInit = function() {
                         jQuery(window).scrollTop(post.offset().top);
                         //console.log("Readjust to " + post.offset().top);
                     }, 75);
-                    
+
                 }
             }
         };
@@ -422,10 +420,10 @@ SALR.prototype.updateStyling = function() {
                 jQuery(this).addClass('no-after');
 
                 jQuery(this).parent().css("box-shadow", "0 0 0px #fff");
-            
+
 
                 if (that.settings.inlinePostCounts == 'true') {
-                    jQuery('div.lastseen', thread).each(function() {          
+                    jQuery('div.lastseen', thread).each(function() {
                         // Strip HTML tags
                         newPostCount = parseInt(newPostCount.replace(/(<([^>]+)>)/ig, ""));
 
@@ -436,7 +434,7 @@ SALR.prototype.updateStyling = function() {
                     });
                 } else {
                     // Display number of new replies for each thread
-                    jQuery('td.replies', thread).each(function() {           
+                    jQuery('td.replies', thread).each(function() {
                         // Strip HTML tags
                         newPostCount = parseInt(newPostCount.replace(/(<([^>]+)>)/ig, ""));
 
@@ -469,7 +467,7 @@ SALR.prototype.updateStyling = function() {
                 // Remove styling if x is hit
                 jQuery(this).click(function() {
                     thread.children().each(function() {
-                        jQuery(this).css({  "background-color" : '', 
+                        jQuery(this).css({  "background-color" : '',
                                             "background-image" : '',
                                             "background-repeat" : '',
                                             "background-position": ''
@@ -508,7 +506,7 @@ SALR.prototype.updateStyling = function() {
             jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {
                 var other = that;
 
-                jQuery(this).css({ "background-color" : darkShade, 
+                jQuery(this).css({ "background-color" : darkShade,
                                    "background-image" : "url('" + other.base_image_uri + "gradient.png')",
                                    "background-repeat" : "repeat-x",
                                    "background-position" : "left"
@@ -519,7 +517,7 @@ SALR.prototype.updateStyling = function() {
             jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {
                 var other = that;
 
-                jQuery(this).css({ "background-color" : lightShade, 
+                jQuery(this).css({ "background-color" : lightShade,
                                    "background-image" : "url('" + other.base_image_uri + "gradient.png')",
                                    "background-repeat" : "repeat-x",
                                    "background-position" : "left"
@@ -530,7 +528,7 @@ SALR.prototype.updateStyling = function() {
         // Send threads without unread posts to the end of the list
         if (!newPosts && that.settings.displayNewPostsFirst == 'true') {
             if ((that.currentPage == 'forumdisplay.php' && that.settings.displayNewPostsFirstForum == 'true') ||
-                ((that.currentPage == 'usercp.php' || that.currentPage == 'bookmarkthreads.php') 
+                ((that.currentPage == 'usercp.php' || that.currentPage == 'bookmarkthreads.php')
                     && that.settings.displayNewPostsFirstUCP == 'true')) {
                 thread.parent().append(thread);
             }
@@ -547,7 +545,7 @@ SALR.prototype.updateStyling = function() {
         that.openSettings();
         return false;
     });
-    
+
     // Hide header/footer links
     if (this.settings.hideHeaderLinks == 'true') {
         jQuery('div#globalmenu').each(function() {
@@ -555,7 +553,7 @@ SALR.prototype.updateStyling = function() {
             jQuery(this).css('height', '0px');
         });
     }
-    
+
     // Hide each top row of links
     if (this.settings.showPurchases == 'false') {
         jQuery('#nav_purchase').each(function() {
@@ -765,7 +763,7 @@ SALR.prototype.modifyImages = function() {
                 var match = jQuery(this).attr('href').match(/https?\:\/\/(?:[-_0-9a-zA-Z]+\.)+[a-z]{2,6}(?:\/[^/#?]+)+\.(?:jpe?g|gif|png|bmp)+(?!(\.html)|[a-zA-Z]|\.)/);
                 if(match != null && !(that.settings.dontReplaceLinkImage == 'true' && jQuery(this).has('img').length > 0)) {
                     jQuery(this).after("<img src='" + match[0] + "' />");
-                    jQuery(this).remove();                
+                    jQuery(this).remove();
                 }
             });
         }
@@ -777,7 +775,7 @@ SALR.prototype.modifyImages = function() {
         subset = subset.not('img[src*="http://fi.somethingawful.com/safs/smilies/"]');
         subset = subset.not('img[src*="http://fi.somethingawful.com/customtitles/"]');
         subset = subset.not('img[src*="http://fi.somethingawful.com/smilies/"]');
-        subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');        
+        subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');
         subset = subset.not('img[src*="http://i.somethingawful.com/images/"]');
         subset = subset.not('img[src*="http://i.somethingawful.com/mjolnir/images/"]');
         subset = subset.not('img[src*="http://i.somethingawful.com/u/garbageday/"]');
@@ -801,7 +799,7 @@ SALR.prototype.modifyImages = function() {
                         add = " (<a href='"+jQuery(this).parent().attr('href')+"' target=\"_blank\" rel=\"nofollow\">Original Link</a>)";
                     }
                     change = jQuery(this).parent();
-                }            
+                }
                 add = "<a href='" + source + "' target=\"_blank\" rel=\"nofollow\">" + source + "</a>" + add;
                 change.after(add);
                 change.remove();
@@ -814,7 +812,7 @@ SALR.prototype.modifyImages = function() {
         }
 
         var restrictImagePxW = parseInt(that.settings.restrictImagePxW);
-        var restrictImagePxH = parseInt(that.settings.restrictImagePxH);     
+        var restrictImagePxH = parseInt(that.settings.restrictImagePxH);
         subset.each(function() {
             if (that.settings.restrictImageSize == 'true' && (restrictImagePxH > 0 || restrictImagePxW > 0)) {
                 var img = jQuery(this)[0];
@@ -871,7 +869,7 @@ SALR.prototype.modifyImages = function() {
                 }
             }
         });
-/*    
+/*
         jQuery.when(subset,subset1,subset_filtered).promise().done(function() {
             var href = window.location.href;
             if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0) {
@@ -1001,15 +999,6 @@ SALR.prototype.inlineYoutubes = function() {
     });
 };
 
-/*
-    DEPRECIATED BY SA 2.1.7 update
-*/
-SALR.prototype.fullscreenYoutubeFix = function() {
-    jQuery('.postbody iframe[class*="youtube-player"]').each(function() {
-        jQuery(this).attr('allowfullscreen','true');
-    });
-};
-
 SALR.prototype.inlineTweets = function() {
 
     var that = this;
@@ -1068,7 +1057,7 @@ SALR.prototype.inlineWebm = function() {
         webms = webms.not('.bbc-spoiler a');
     }
     webms.each(function() {
-        
+
         if (jQuery(this).attr('href').substr(jQuery(this).attr('href').length-5).indexOf('webm') != -1) {
             var autoplay = (that.settings.inlineWemAutoplay == "true") ? "autoplay" : "";
             jQuery(this).html('<video '+autoplay+' loop width="450" muted="true" controls> <source src="'+jQuery(this).attr('href')+'" type="video/webm"> </video>');
@@ -1333,7 +1322,7 @@ SALR.prototype.highlightFriendPosts = function() {
     var friends_id = this.settings.friendsListId;
     if (friends_id != undefined && friends_id != null && friends_id != "undefined") {
         friends_id = JSON.parse(friends_id);
-        jQuery('table.post').each(function() {    
+        jQuery('table.post').each(function() {
             var id = jQuery(this).find('.profilelinks').children(0).html().match(/[0-9]+/gi);
             if (friends_id[parseInt(id)] != null) {
                 if (friends_id[parseInt(id)] == 1) {
@@ -1380,7 +1369,7 @@ SALR.prototype.highlightOPPosts = function() {
         jQuery(this).after(
             '<dd style="color: #07A; font-weight: bold; ">Thread Poster</dd>'
         );
-    });  
+    });
 };
 
 /**
@@ -1396,7 +1385,7 @@ SALR.prototype.highlightOwnPosts = function() {
                 'background-color' : that.settings.highlightSelfColor
             });
         }
-        
+
         if (that.settings.removeOwnReport == 'true') {
             jQuery(this).children('ul.postbuttons').children('li.alertbutton').remove();
         }
@@ -1635,7 +1624,7 @@ SALR.prototype.updateForumsListIndex = function() {
                 var title = jQuery(this).text();
                 if (match != null)
                     forumid = match[1];
-                
+
                 forums.push({ 'name'   : title,
                               'id'     : forumid,
                               'level'  : 2,
@@ -1779,7 +1768,7 @@ SALR.prototype.displayUserNotesSync = function() {
                         sync[x] = old[x]
                     }
                     else {
-                        // sync has something, but old doesn't so do nothing       
+                        // sync has something, but old doesn't so do nothing
                     }
                 }
 
@@ -1819,10 +1808,10 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
                   "115838"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Ferg
                   "101547"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}, // Rohaq
                   "163390"  : {'text' : 'SALR Developer', 'color' : '#9933FF'}  // Master_Odin
-                }; 
+                };
         postMessage({ 'message': message,
                            'option' : 'userNotes',
-                           'value'  : JSON.stringify(notes) 
+                           'value'  : JSON.stringify(notes)
         });
     } else {
         notes = JSON.parse(notes);
@@ -1833,14 +1822,14 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
             "<p><label for='salr-usernotes-color'><strong>Color:</strong></label><br/><input type='text' id='salr-usernotes-color'/> <a href='http://www.colorpicker.com/' target='_blank'>Hex Codes</a></p>"+
         "</fieldset>"+
     "</div>");
-    
+
     jQuery('table.post').each(function () {
         var profile = jQuery(this).find('ul.profilelinks a[href*=userid]')[0];
-        if (profile == undefined) 
+        if (profile == undefined)
             return;
         var userid = profile.href.match(/userid=(\d+)/)[1];
         var hasNote = notes[userid] != null;
-        
+
         if (hasNote) {
             jQuery('dl.userinfo > dt.author', this).after(
                 '<dd style="font-weight: bold; color: ' + notes[userid].color + '">' + notes[userid].text + '</dd>'
@@ -1857,7 +1846,7 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
                 },
                 buttons: {
                     "OK" : function () {
-                        notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(), 
+                        notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(),
                                          'color' : jQuery('#salr-usernotes-color').val()};
                         // TODO: Fix this
                         postMessage({ 'message': message,
@@ -1883,7 +1872,7 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
             });
         });
         // append a space to create a new text node which fixes spacing problems you'll get otherwise
-        jQuery('ul.profilelinks', this).append(' ').append(editLink).append(' '); 
+        jQuery('ul.profilelinks', this).append(' ').append(editLink).append(' ');
     });
 
 };
@@ -1918,14 +1907,14 @@ SALR.prototype.boxQuotes = function() {
 */
 SALR.prototype.tldrQuotes = function() {
     var that = this;
-    
+
     function tldrHideQuote(obj) {
         if(obj.currentTarget != undefined)
             obj = this;
         var blockquote = jQuery("blockquote:last", obj);
         var hidden = jQuery(obj).data("tldrHidden");
         var clickText = jQuery("span.tldrclick", obj);
-        
+
         if(hidden == true)
         {
             jQuery("span.tldr", obj).remove();
@@ -1936,18 +1925,18 @@ SALR.prototype.tldrQuotes = function() {
         {
             var imageCount = jQuery("img", blockquote).length;
             var wordCount = blockquote.text().split(" ").length;
-            
+
             var imageStr, wordStr;
             if(imageCount == 1)
                 imageStr = "1 image";
             else if(imageCount > 1)
                 imageStr = imageCount + " images";
-            
+
             if(wordCount == 1)
                 wordStr = "1 word";
             else if(wordCount > 1)
                 wordStr = wordCount + " words";
-            
+
             var tldrSpan = "<span class='tldr'><strong>TLDR:</strong> ";
             if(wordCount > 0)
                 tldrSpan+= wordStr;
@@ -1956,24 +1945,24 @@ SALR.prototype.tldrQuotes = function() {
             if(imageCount > 0)
                 tldrSpan+= imageStr;
             tldrSpan+="</span>";
-            
+
             blockquote.before(tldrSpan);
 
             blockquote.css({display:"none"});
             clickText.text("Double-Click quote to expand");
         }
-        
+
         window.getSelection().removeAllRanges();
-        
+
         jQuery(obj).data("tldrHidden", !hidden);
     }
-    
+
     jQuery("div.bbc-block").each(function(i, obj){
         jQuery(obj).data("tldrHidden", false);
         jQuery(obj).dblclick(tldrHideQuote);
-        
+
         jQuery("h4", obj).before("<span class='tldrclick' style='font-size: 70%; text-transform: uppercase; float: right; margin: 2px; font-weight: bold;'>Double-Click quote to collapse</span>");
-        
+
         if(that.settings.collapseTldrQuotes == 'true' && jQuery(obj).height() > 150){
             tldrHideQuote(obj);
             jQuery("span.tldrclick", obj).text("Double-Click quote to expand");
@@ -1984,7 +1973,7 @@ SALR.prototype.tldrQuotes = function() {
 /**
  * Change pages display to show links to first three and (if applicable)
  * last three pages of thread
- * 
+ *
  * @author Nathan Skillen (nuvan)
  */
 SALR.prototype.showLastThreePages = function() {
@@ -2132,7 +2121,7 @@ SALR.prototype.showLastThreePages = function() {
                 for(key in links) {
                     ++i;
                     b.append(links[key]);
-                    
+
                     if( i == 3 && !nobeginellipses )
                         b.append(' ... ');
                     else if( i == (pagelinks - 3) && !noendellipses )
@@ -2222,7 +2211,7 @@ SALR.prototype.highlightOwnUsername = function() {
 
     var selector = "";
     if(this.settings.usernameCase == 'true') {
-        var re = new RegExp(this.settings.username, 'gi'); 
+        var re = new RegExp(this.settings.username, 'gi');
         selector = 'td.postbody';
     }
     else {
@@ -2243,7 +2232,7 @@ SALR.prototype.highlightOwnUsername = function() {
                         wholeText = wholeText.replace(new RegExp(match,''), styled);
                     });
                     jQuery(newNode).html(wholeText);
-                    node.parentNode.replaceChild(newNode, node);                   
+                    node.parentNode.replaceChild(newNode, node);
                 }
                 else {
                     jQuery(newNode).html(wholeText.replace(re,styled));
@@ -2324,7 +2313,7 @@ SALR.prototype.bindQuickReply = function() {
             that.quickReply.show();
         });
     });
-    
+
     jQuery('a > img[alt="Reply"]').each(function() {
         jQuery(this).parent().attr('href', 'javascript:void(0);');
 
@@ -2346,7 +2335,7 @@ SALR.prototype.findFormKey = function() {
 
 /**
  * On the post or edit pages (where you see the textbox for your post),
- * we bind some custom code to when you hit that "Submit" button. 
+ * we bind some custom code to when you hit that "Submit" button.
  *
  */
 SALR.prototype.bindThreadCaching = function() {
@@ -2361,7 +2350,7 @@ SALR.prototype.bindThreadCaching = function() {
                 });
                 history.getThreadStatus(findThreadID());
             });
-            
+
         }
     }
 };
@@ -2536,8 +2525,8 @@ SALR.prototype.swapRetinaEmotes = function() {
 
             var item = $(this);
               if (
-                (item.attr('src').indexOf('i.somethingawful.com/forumsystem/emoticons/') > -1 || 
-                item.attr('src').indexOf('http:/fi.somethingawful.com/images/smilies/') > -1) && 
+                (item.attr('src').indexOf('i.somethingawful.com/forumsystem/emoticons/') > -1 ||
+                item.attr('src').indexOf('http:/fi.somethingawful.com/images/smilies/') > -1) &&
                 item.attr('src').indexOf('@2x') == -1 ) {
 
                     var f = retinaFilename(item);
@@ -2575,11 +2564,11 @@ function retinaFilename(img) {
  */
 SALR.prototype.setImageTooltips = function() {
     var salr = this;
-    
+
     jQuery('td.postbody img').filter(function(index) {
         if(salr.settings.setImageTooltipBlankOnly === 'true') {
             if(jQuery(this).attr('title') !== undefined && jQuery(this).attr('title').length > 0) { return false; }
-        } 
+        }
 
         if(salr.settings.setImageTooltipSkipEmoticons === 'true') {
             var emoticon_paths = [
@@ -2595,7 +2584,7 @@ SALR.prototype.setImageTooltips = function() {
 
             var img_path = jQuery(this).attr('src');
             img_path = img_path.substr(img_path.indexOf('//'));
-            
+
             for(var idx = 0; idx < emoticon_paths.length; ++idx) {
                 var path = emoticon_paths[idx];
                 if(path.toLowerCase() == img_path.substr(0,path.length).toLowerCase()) { return false; }
@@ -2728,7 +2717,7 @@ SALR.prototype.hoverImages = function() {
                 }
                 jQuery('#salr-image-hover-box-filename',hb.dom).text(filename);
             }
-            
+
             jQuery('img',hb.dom).on('load',function() {
                 var imgTop = y;
                 if (y + this.height + 10 > window.pageYOffset + window.innerHeight) {
