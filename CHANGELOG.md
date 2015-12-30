@@ -10,6 +10,10 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
+### <a name="2185"></a>v2.1.8.5 (12/30/2015)
+```
+* Fix: Do not trigger keyboard shortcuts in Quick Reply for AltGR
+```
 ### <a name="2184"></a>v2.1.8.4 (06/03/2015)
 ```
 * Fix: Improve pasting in quick reply functionality (ctrl+z works better and focuses on cursor if large posts)

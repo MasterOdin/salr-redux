@@ -13,7 +13,7 @@
 // - Neither the name of the software nor the
 //   names of its contributors may be used to endorse or promote products
 //   derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -34,7 +34,7 @@ var port = chrome.extension.connect({"name":"settings"});
 
 jQuery(document).ready(function() {
     var debug = "false";
-    
+
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
         localStorage.setItem('salrInitialized', 'true');
@@ -46,7 +46,7 @@ jQuery(document).ready(function() {
 
     defaultSettings['username']                     = '';
     defaultSettings['usernameCase']                 = 'false';
-    
+
     // Thread Highlighting
     defaultSettings['hightlightThread']             = 'false';
     defaultSettings['darkRead']                     = '#6699cc';
@@ -192,7 +192,7 @@ jQuery(document).ready(function() {
     defaultSettings['setImageTooltipHideExtension'] = 'true';
     defaultSettings['setImageTooltipSkipEmoticons'] = 'true';
     defaultSettings['setImageTooltipHideSourceUrl'] = 'true';
-    
+
     // Other Options
     defaultSettings['qneProtection']                = 'false';
     defaultSettings['showEditBookmarks']            = 'false';
@@ -213,8 +213,9 @@ jQuery(document).ready(function() {
 
     // Set the version text on the settings page
     var version = chrome.runtime.getManifest().version;
-    jQuery('#version-text').text(version);
-    jQuery('#version-text').attr('href',jQuery('#version-text').attr('href')+version.replace(/\./g,""));
+    var versionQuery = jQuery('#version-text');
+    versionQuery.text(version);
+    versionQuery.attr('href', versionQuery.attr('href')+version.replace(/\./g,""));
 
     // Check stored settings, if value not set, set to default value
     for ( var key in defaultSettings ) {
@@ -238,7 +239,7 @@ jQuery(document).ready(function() {
         jQuery(this).focus(function() {
             onInputSelect(jQuery(this));
         });
-        
+
         // Set blur handler for the entry fields
         jQuery(this).blur(function() {
             onInputDeselect(jQuery(this));
@@ -300,7 +301,7 @@ jQuery(document).ready(function() {
                 localStorage.setItem(jQuery(el).attr('id'), jQuery(el).val());
                 highlightExamples();
 			},
-			onBeforeShow: function () { 
+			onBeforeShow: function () {
 				jQuery(this).ColorPickerSetColor(this.value);
 			}
 	})
@@ -313,7 +314,7 @@ jQuery(document).ready(function() {
 
         jQuery(this).css('background-color', backgroundColor);
     });
- 
+
     // Set click handler for the okay button
     jQuery('.submit-panel > input#submit').click(function() {
         onSubmitClicked();
@@ -416,23 +417,23 @@ function highlightExamples() {
     jQuery('tr#thread-read').each(function() {
         if (localStorage.getItem('highlightThread')=='true') {
             jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {
-                jQuery(this).css({ "background-color" : localStorage.getItem('lightRead'), 
+                jQuery(this).css({ "background-color" : localStorage.getItem('lightRead'),
                                    "background-image" : "url('images/gradient.png')",
                                    "background-repeat" : "repeat-x",
                                    "background-position" : "left"
                                  });
-            });  
+            });
 
             jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {
-                jQuery(this).css({ "background-color" : localStorage.getItem('darkRead'), 
+                jQuery(this).css({ "background-color" : localStorage.getItem('darkRead'),
                                    "background-image" : "url('images/gradient.png')",
                                    "background-repeat" : "repeat-x",
                                    "background-position" : "left"
                                  });
-            });                      
+            });
         } else {
             jQuery(this).children().each(function() {
-                jQuery(this).css({ "background-color" : '', 
+                jQuery(this).css({ "background-color" : '',
                                    "background-image" : '',
                                    "background-repeat" : '',
                                    "background-position": ''
@@ -443,24 +444,24 @@ function highlightExamples() {
 
     jQuery('tr#thread-unread').each(function() {
         if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {            
-                jQuery(this).css({ "background-color" : localStorage.getItem('lightNewReplies'), 
+            jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {
+                jQuery(this).css({ "background-color" : localStorage.getItem('lightNewReplies'),
                                    "background-image" : "url('images/gradient.png')",
                                    "background-repeat" : "repeat-x",
                                    "background-position": "left"
                                  });
             });
 
-            jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {                
-                jQuery(this).css({ "background-color" : localStorage.getItem('darkNewReplies'), 
+            jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {
+                jQuery(this).css({ "background-color" : localStorage.getItem('darkNewReplies'),
                                    "background-image" : "url('images/gradient.png')",
                                    "background-repeat" : "repeat-x",
                                    "background-position": "left"
                                  });
-            });          
+            });
         } else {
             jQuery(this).children().each(function() {
-                jQuery(this).css({ "background-color" : '', 
+                jQuery(this).css({ "background-color" : '',
                                    "background-image" : '',
                                    "background-repeat" : '',
                                    "background-position": ''
@@ -471,12 +472,12 @@ function highlightExamples() {
 
     jQuery('div#lastseen-forum').each(function() {
         if (localStorage.getItem('displayCustomButtons')=='true') {
-            jQuery(this).css('display','none');          
+            jQuery(this).css('display','none');
         } else {
             jQuery(this).css('display','');
         }
     });
-    
+
     jQuery('div#lastseen-custom').each(function() {
         if (localStorage.getItem('displayCustomButtons')=='true') {
             jQuery(this).css({
@@ -518,7 +519,7 @@ function highlightExamples() {
                 jQuery(this).addClass('no-after');
 
                 jQuery(this).text('');
-            });        
+            });
         } else {
             jQuery(this).css('display','none');
         }
@@ -633,11 +634,11 @@ function onParentOptionSelect(element) {
     	} else {
 			nextDiv.addClass('disabled-options');
 			nextDiv.find('input').attr('disabled', true);
-    	} 
-	
+    	}
+
 	}
 }
-	
+
 /**
  * Event handler for focusing on the input
  *
@@ -729,7 +730,7 @@ function populateDropDownMenus(element) {
 }
 
 /**
- * Event handler for clicking the submit button 
+ * Event handler for clicking the submit button
  *
  *
  */
@@ -751,9 +752,9 @@ function onSubmitClicked() {
 
         localStorage.setItem(preferenceID, value);
     });
-	
+
 	// Close the settings window
-	
+
     window.close();
 }
 
@@ -771,7 +772,7 @@ function configWindow() {
         for (var key in localStorage) {
             if (key == 'friendsList'    ||
                 key == 'friendsListId'  ||
-                key == 'forumsList'     || 
+                key == 'forumsList'     ||
                 key == 'modList'        ||
                 //key == 'saveUserNotes'  ||
                 key == 'userNotes'      ||
@@ -796,7 +797,7 @@ function configWindow() {
         for (var i in sync) {
             win.document.writeln(i+":<br />&nbsp;&nbsp;&nbsp;&nbsp;Text: "+sync[i]['text']+"<br />"+
                 "&nbsp;&nbsp;&nbsp;&nbsp;Color: "+sync[i]['color']+"<br />");
-        }        
+        }
         win.document.writeln('</body></html>');
         win.document.close();
     });
@@ -867,9 +868,9 @@ function userNotesSync() {
                     //local[x] = sync[x];
                 }
             }
-            */ 
+            */
             chrome.storage.sync.set({'userNotes' : JSON.stringify(local)});
-        }       
+        }
     });
 }
 
@@ -915,7 +916,7 @@ function createSettingsBackup() {
     for (var key in localStorage) {
         if (key == 'friendsList'    ||
             key == 'friendsListId'  ||
-            key == 'forumsList'     || 
+            key == 'forumsList'     ||
             key == 'modList'        ||
             //key == 'saveUserNotes'  ||
             //key == 'userNotes'      ||
