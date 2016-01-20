@@ -44,9 +44,9 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
     // Page navigation functions are provided globally
     // in page-navigator.js
     switch(this.currentPageName) {
-        case 'forumdisplay.php':
-        case 'showthread.php':
-            this.rootPageType = (this.currentPageName == 'forumdisplay.php') ? 'forumid' : 'threadid';
+        case 'forumdisplay':
+        case 'showthread':
+            this.rootPageType = (this.currentPageName == 'forumdisplay') ? 'forumid' : 'threadid';
             this.basePageID = findForumID();
         case 'usercp.php':
             break;
@@ -187,14 +187,14 @@ MouseGesturesController.prototype.bindCanvasEvent = function() {
 
 MouseGesturesController.prototype.setPageSpecificCSS = function() {
     if (window.location.href == 'http://forums.somethingawful.com/' 
-            || this.currentPageName == 'index.php') {
+            || this.currentPageName == 'index') {
         this.disableGesture('up');
         this.disableGesture('left');
         this.disableGesture('right');
     }
 
-    if (this.currentPageName == 'usercp.php'
-            || this.currentPageName == 'bookmarkthreads.php') {
+    if (this.currentPageName == 'usercp'
+            || this.currentPageName == 'bookmarkthreads') {
         //this.disableGesture('left');
         //this.disableGesture('right');
         if (this.settings.enableMouseUpUCP == 'true') {
@@ -304,10 +304,10 @@ MouseGesturesController.prototype.topAction = function() {
         if (this.settings.enableMouseUpUCP == 'true') {
             location.href ='http://forums.somethingawful.com/usercp.php';
         }
-        else if (this.currentPageName == 'showthread.php' 
-            || this.currentPageName == 'usercp.php'
-            || this.currentPageName == 'forumdisplay.php'
-            || this.currentPageName =='bookmarkthreads.php') 
+        else if (this.currentPageName == 'showthread' 
+            || this.currentPageName == 'usercp'
+            || this.currentPageName == 'forumdisplay'
+            || this.currentPageName =='bookmarkthreads') 
         {
             var href = jQuery('span.mainbodytextlarge a').slice(-2, -1).attr('href');
 
@@ -347,8 +347,8 @@ MouseGesturesController.prototype.disableGesture = function(gesture) {
     switch(gesture) {
         case 'up':
             if (this.settings.enableMouseUpUCP == 'true' && 
-                    (this.currentPageName != 'usercp.php' &&
-                     this.currentPageName != 'bookmarkthreads.php')) {
+                    (this.currentPageName != 'usercp' &&
+                     this.currentPageName != 'bookmarkthreads')) {
                 return;
             }
             button = jQuery('div#gesture-top');

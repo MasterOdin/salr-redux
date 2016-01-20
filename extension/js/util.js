@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013-2014 Matthew Peveler  
+// Copyright (c) 2013-2016 Matthew Peveler  
 // All rights reserved.
 
 // Redistribution and use in source and binary forms, with or without
@@ -32,9 +32,11 @@ var YOSPOS_ID = 219;
  *
  */
 function findCurrentPage() {
-    // Substrings out everything after the domain, then splits on the ?
-    // and takes the left-side of the result
-    return (window.location.href).substr(33).split('?')[0].replace('#','');
+    page = location.href.split("/").slice(-1)[0].split(".php")[0];
+    if (page == undefined || page == null || page == "") {
+        page = 'index';
+    }
+    return page;
 }
 
 /**

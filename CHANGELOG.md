@@ -10,6 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
+### <a name="2186"></a>v2.1.8.6 (01/20/2016)
+```
+* Fix: Get SALR working with https scheme --- IN PROGRESS
+* Remove: Take out Tweet, Webm, and Gifv embedding (as it's done forum side now) --- NOT STARTED
+```
 ### <a name="2185"></a>v2.1.8.5 (12/30/2015)
 ```
 * Fix: Do not trigger keyboard shortcuts in Quick Reply for AltGR

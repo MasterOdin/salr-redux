@@ -1,5 +1,5 @@
 // Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013-2014 Matthew Peveler  
+// Copyright (c) 2013-2016 Matthew Peveler  
 // All rights reserved.
 
 // Redistribution and use in source and binary forms, with or without
@@ -187,12 +187,12 @@ HotKeyManager.prototype.refreshImageCache = function() {
 
 HotKeyManager.prototype.openUCP = function() {
     switch(findCurrentPage()) {
-        case 'forumdisplay.php':
-        case 'showthread.php':
-        case 'usercp.php':
-        case 'bookmarkthreads.php':
-        case 'search.php':
-        case 'banlist.php':
+        case 'forumdisplay':
+        case 'showthread':
+        case 'usercp':
+        case 'bookmarkthreads':
+        case 'search':
+        case 'banlist':
             jumpToPage("http://forums.somethingawful.com/usercp.php?"+jQuery.now());
     }
 };
@@ -207,12 +207,12 @@ HotKeyManager.prototype.disableHotKeys = function() {
 
 HotKeyManager.prototype.nextPage = function() {
     switch(findCurrentPage()) {
-        case 'forumdisplay.php':
-        case 'showthread.php':
-        case 'usercp.php':
-        case 'bookmarkthreads.php':
-        case 'search.php':
-        case 'banlist.php':
+        case 'forumdisplay':
+        case 'showthread':
+        case 'usercp':
+        case 'bookmarkthreads':
+        case 'search':
+        case 'banlist':
             if (this.currentPage <= 0)
                 this.currentPage = 1;
 
@@ -227,12 +227,12 @@ HotKeyManager.prototype.nextPage = function() {
 
 HotKeyManager.prototype.previousPage = function() {
     switch(findCurrentPage()) {
-        case 'forumdisplay.php':
-        case 'showthread.php':
-        case 'bookmarkthreads.php':
-        case 'usercp.php':
-        case 'search.php':
-        case 'banlist.php':
+        case 'forumdisplay':
+        case 'showthread':
+        case 'bookmarkthreads':
+        case 'usercp':
+        case 'search':
+        case 'banlist':
             if (this.currentPage <= 0)
                 this.currentPage = 1;
 
@@ -244,7 +244,7 @@ HotKeyManager.prototype.previousPage = function() {
 };
 
 HotKeyManager.prototype.nextPost = function() {
-    if (findCurrentPage() != 'showthread.php') {
+    if (findCurrentPage() != 'showthread') {
         return;
     }
 
@@ -264,7 +264,7 @@ HotKeyManager.prototype.nextPost = function() {
 };
 
 HotKeyManager.prototype.previousPost = function() {
-    if (findCurrentPage() != 'showthread.php') {
+    if (findCurrentPage() != 'showthread') {
         return;
     }
 
@@ -283,7 +283,7 @@ HotKeyManager.prototype.previousPost = function() {
 };
 
 HotKeyManager.prototype.firstPost = function() {
-    if (findCurrentPage() != 'showthread.php') {
+    if (findCurrentPage() != 'showthread') {
         return;
     }
 
@@ -308,7 +308,7 @@ HotKeyManager.prototype.firstPost = function() {
 };
 
 HotKeyManager.prototype.lastPost = function() {
-    if (findCurrentPage() != 'showthread.php') {
+    if (findCurrentPage() != 'showthread') {
         return;
     }
 
@@ -333,7 +333,7 @@ HotKeyManager.prototype.lastPost = function() {
 };
 
 HotKeyManager.prototype.anchorThread = function() {
-    if (findCurrentPage() != 'showthread.php') {
+    if (findCurrentPage() != 'showthread') {
         return;
     } else if (this.current_post == -1) {
         return;
@@ -389,7 +389,7 @@ HotKeyManager.prototype.editCurrentPost = function() {
 HotKeyManager.prototype.displayQuickReply = function() {
     if (!this.quickReply)
         return;
-    if (findCurrentPage() == 'showthread.php') {
+    if (findCurrentPage() == 'showthread') {
         this.quickReply.show();
     }
 };
@@ -399,7 +399,7 @@ HotKeyManager.prototype.toggleQuickReply = function() {
         return;
     if (!this.quickReply.isVisible())
         return;
-    if (findCurrentPage() == 'showthread.php') {
+    if (findCurrentPage() == 'showthread') {
         this.quickReply.toggleView();
     }
 };
@@ -409,7 +409,7 @@ HotKeyManager.prototype.hideQuickReply = function() {
         return;
     if (!this.quickReply.isVisible())
         return;
-    if (findCurrentPage() == 'showthread.php') {
+    if (findCurrentPage() == 'showthread') {
         this.quickReply.hide();
     }
 };
