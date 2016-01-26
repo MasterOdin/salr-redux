@@ -119,7 +119,7 @@ SALR.prototype.pageInit = function() {
                 // Switch to a goto post link
                 if (jQuery('td.postbody').length == 0) {
                     var m = window.location.href.match(/postid=(\d+)/);
-                    jumpToPage(this.urlSchema+'://forums.somethingawful.com/showthread.php?goto=post&postid='+m[1]);
+                    jumpToPage(this.urlSchema+'//forums.somethingawful.com/showthread.php?goto=post&postid='+m[1]);
                     return;
                 }
             }
@@ -1091,7 +1091,7 @@ SALR.prototype.displaySinglePostLink = function() {
 
     var that = this;
     jQuery('td.postdate').each( function() {
-        jQuery('a[href^=#post]', this).before('<a title="View as single post" href="'+that.urlSchema+'://forums.somethingawful.com/'+
+        jQuery('a[href^=#post]', this).before('<a title="View as single post" href="'+that.urlSchema+'//forums.somethingawful.com/'+
                 'showthread.php?action=showpost&postid='+getPostID(jQuery(this))+'">1</a> ');
     });
 };
@@ -1145,7 +1145,7 @@ SALR.prototype.renderWhoPostedInThreadLink = function() {
         return;
 
     var threadid = findThreadID();
-    var href = this.urlSchema+'://forums.somethingawful.com/misc.php?action=whoposted&threadid='+threadid;
+    var href = this.urlSchema+'//forums.somethingawful.com/misc.php?action=whoposted&threadid='+threadid;
     var linkHTML = '<a href="'+href+'">Who Posted?</a>';
     salrbar.append(linkHTML);
 };
@@ -1168,7 +1168,7 @@ SALR.prototype.addSearchThreadForm = function() {
     var threadid = findThreadID();
     searchHTML = '<span id="salrsearch">'+
            '<form id="salrSearchForm" '+
-            'action="'+this.urlSchema+'://forums.somethingawful.com/query.php" '+
+            'action="'+this.urlSchema+'//forums.somethingawful.com/query.php" '+
             'method="post" _lpchecked="1">'+
            '<input id="salrSearch" name="q" size="25" style="">'+
            '<input name="action" value="query" type="hidden">'+
@@ -1251,7 +1251,7 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
                 if (jQuery('a[class*=count]', other).length > 0) {
                     var href = jQuery('a[class*=count]', other).attr('href');
                     postMessage({ 'message': 'OpenTab',
-                        'url'  : that.urlSchema+'://forums.somethingawful.com'+href });
+                        'url'  : that.urlSchema+'//forums.somethingawful.com'+href });
                 }
             };
 
@@ -2442,7 +2442,7 @@ SALR.prototype.addRapSheetToProfile = function() {
     var link = jQuery('table a[href*=userid]:first');
     var userid = link.attr('href').split('userid=')[1];
     var el = link.parent().clone();
-    jQuery('a',el).attr('href', this.urlSchema+'://forums.somethingawful.com/banlist.php?userid='+userid);
+    jQuery('a',el).attr('href', this.urlSchema+'//forums.somethingawful.com/banlist.php?userid='+userid);
     jQuery('a',el).text('Rap Sheet');
     link.parent().append(' ');
     link.parent().append(el);
