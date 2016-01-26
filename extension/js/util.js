@@ -1,5 +1,5 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013-2016 Matthew Peveler  
+// Copyright (c) 2009-2013 Scott Ferguson
+// Copyright (c) 2013-2016 Matthew Peveler
 // All rights reserved.
 
 // Redistribution and use in source and binary forms, with or without
@@ -13,7 +13,7 @@
 // - Neither the name of the software nor the
 //   names of its contributors may be used to endorse or promote products
 //   derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -44,7 +44,7 @@ function findCurrentPage() {
  *
  */
 function findThreadID() {
-    if (findCurrentPage() == 'editpost.php') {
+    if (findCurrentPage() == 'editpost') {
         var value = jQuery('span.mainbodytextlarge').children().children();
         value = jQuery(value[value.length-1]).attr('href').split('=');
         return value[1];
@@ -58,7 +58,7 @@ function findThreadID() {
         var currentParam = (parameterList[parameter]).split('=');
 
         if (currentParam[0] == 'threadid' && currentParam[1] != undefined) {
-            return currentParam[1]; 
+            return currentParam[1];
         }
     }
 
@@ -85,7 +85,7 @@ function findForumID() {
         var currentParam = (parameterList[parameter]).split('=');
 
         if (currentParam[0] == 'threadid' || currentParam[0] == 'forumid') {
-            return currentParam[1]; 
+            return currentParam[1];
         }
     }
 }
@@ -127,7 +127,7 @@ function getCurrentPageNumber() {
 }
 
 function buildUrl(rootPageType, basePageID, page) {
-    return 'http://forums.somethingawful.com/' + findCurrentPage() + '?' + rootPageType + '=' + basePageID + '&pagenumber=' + page;
+    return 'http://forums.somethingawful.com/' + findCurrentPage() + '.php?' + rootPageType + '=' + basePageID + '&pagenumber=' + page;
 }
 
 function nextPageUrl() {
@@ -235,4 +235,8 @@ function addThreadToCache(thread_id) {
     var post_history = new PostHistory();
 
     post_history.addThread(thread_id);
+}
+
+function findUrlSchema() {
+    return location.protocol;
 }

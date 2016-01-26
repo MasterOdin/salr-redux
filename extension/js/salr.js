@@ -42,6 +42,7 @@ SALR.prototype.pageInit = function() {
     this.currentPage = findCurrentPage();
     this.pageCount = countPages();
     this.getCurrentPage = getCurrentPageNumber();
+    this.urlSchema = findUrlSchema();
 
     // Update the styles now that we have
     // the settings
@@ -70,7 +71,6 @@ SALR.prototype.pageInit = function() {
     switch (this.currentPage) {
         case '':
         case 'index':
-            //this.updateForumsListIndex();
             if (this.settings.highlightModAdmin == 'true') {
                 this.skimModerators();
             }
@@ -119,7 +119,7 @@ SALR.prototype.pageInit = function() {
                 // Switch to a goto post link
                 if (jQuery('td.postbody').length == 0) {
                     var m = window.location.href.match(/postid=(\d+)/);
-                    jumpToPage('http://forums.somethingawful.com/showthread.php?goto=post&postid='+m[1]);
+                    jumpToPage(this.urlSchema+'://forums.somethingawful.com/showthread.php?goto=post&postid='+m[1]);
                     return;
                 }
             }
@@ -225,8 +225,8 @@ SALR.prototype.pageInit = function() {
             }
 
             if (this.settings.hideGarbageDick == 'true') {
-                jQuery("img[src='http://fi.somethingawful.com/images/newbie.gif']").css({'display':'none'});
-                jQuery("img[src='http://forumimages.somethingawful.com/images/newbie.gif']").css({'display':'none'});
+                jQuery("img[src='fi.somethingawful.com/images/newbie.gif']").css({'display':'none'});
+                jQuery("img[src='forumimages.somethingawful.com/images/newbie.gif']").css({'display':'none'});
                 anchorPage = true;
             }
 
@@ -770,14 +770,14 @@ SALR.prototype.modifyImages = function() {
         var subset = jQuery('.postbody img');
 
         //if(settings.dontReplaceEmoticons) {
-        subset = subset.not('img[src*="http://fi.somethingawful.com/images/smilies/"]');
-        subset = subset.not('img[src*="http://fi.somethingawful.com/safs/smilies/"]');
-        subset = subset.not('img[src*="http://fi.somethingawful.com/customtitles/"]');
-        subset = subset.not('img[src*="http://fi.somethingawful.com/smilies/"]');
-        subset = subset.not('img[src*="http://i.somethingawful.com/forumsystem/emoticons/"]');
-        subset = subset.not('img[src*="http://i.somethingawful.com/images/"]');
-        subset = subset.not('img[src*="http://i.somethingawful.com/mjolnir/images/"]');
-        subset = subset.not('img[src*="http://i.somethingawful.com/u/garbageday/"]');
+        subset = subset.not('img[src*="fi.somethingawful.com/images/smilies/"]');
+        subset = subset.not('img[src*="fi.somethingawful.com/safs/smilies/"]');
+        subset = subset.not('img[src*="fi.somethingawful.com/customtitles/"]');
+        subset = subset.not('img[src*="fi.somethingawful.com/smilies/"]');
+        subset = subset.not('img[src*="i.somethingawful.com/forumsystem/emoticons/"]');
+        subset = subset.not('img[src*="i.somethingawful.com/images/"]');
+        subset = subset.not('img[src*="i.somethingawful.com/mjolnir/images/"]');
+        subset = subset.not('img[src*="i.somethingawful.com/u/garbageday/"]');
         //}
 
         if(that.settings.replaceImagesReadOnly == 'true') {
@@ -1089,8 +1089,9 @@ SALR.prototype.displaySinglePostLink = function() {
         return jQuery('a[href^=#post]', element).attr('href').split('#post')[1];
     };
 
+    var that = this;
     jQuery('td.postdate').each( function() {
-        jQuery('a[href^=#post]', this).before('<a title="View as single post" href="http://forums.somethingawful.com/'+
+        jQuery('a[href^=#post]', this).before('<a title="View as single post" href="'+that.urlSchema+'://forums.somethingawful.com/'+
                 'showthread.php?action=showpost&postid='+getPostID(jQuery(this))+'">1</a> ');
     });
 };
@@ -1144,7 +1145,7 @@ SALR.prototype.renderWhoPostedInThreadLink = function() {
         return;
 
     var threadid = findThreadID();
-    var href = 'http://forums.somethingawful.com/misc.php?action=whoposted&threadid='+threadid;
+    var href = this.urlSchema+'://forums.somethingawful.com/misc.php?action=whoposted&threadid='+threadid;
     var linkHTML = '<a href="'+href+'">Who Posted?</a>';
     salrbar.append(linkHTML);
 };
@@ -1167,21 +1168,8 @@ SALR.prototype.addSearchThreadForm = function() {
     var threadid = findThreadID();
     searchHTML = '<span id="salrsearch">'+
            '<form id="salrSearchForm" '+
-            'action="http://forums.somethingawful.com/query.php" '+
+            'action="'+this.urlSchema+'://forums.somethingawful.com/query.php" '+
             'method="post" _lpchecked="1">'+
-           //'<input type="hidden" name="forumids" value="'+forumid+'">'+
-           /*
-           '<input type="hidden" name="groupmode" value="0">'+
-           '<input type="hidden" name="opt_search_posts" value="on">'+
-           '<input type="hidden" name="opt_search_titles" value="on">'+
-           '<input type="hidden" name="perpage" value="20">'+
-           '<input type="hidden" name="search_mode" value="ext">'+
-           '<input type="hidden" name="show_post_previews" value="1">'+
-           '<input type="hidden" name="sortmode" value="1">'+
-           '<input type="hidden" name="uf_posts" value="on">'+
-           '<input type="hidden" name="userid_filters" value="">'+
-           '<input type="hidden" name="username_filter" value="type a username">'+
-            */
            '<input id="salrSearch" name="q" size="25" style="">'+
            '<input name="action" value="query" type="hidden">'+
            '<button type="submit">Search</button>'+
@@ -1263,7 +1251,7 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
                 if (jQuery('a[class*=count]', other).length > 0) {
                     var href = jQuery('a[class*=count]', other).attr('href');
                     postMessage({ 'message': 'OpenTab',
-                        'url'  : 'http://forums.somethingawful.com'+href });
+                        'url'  : that.urlSchema+'://forums.somethingawful.com'+href });
                 }
             };
 
@@ -1335,21 +1323,6 @@ SALR.prototype.highlightFriendPosts = function() {
             }
         });
     }
-/*
-    jQuery(friends).each(function() {
-        if (selector != '') {
-            selector += ', ';
-        }
-        selector += "dt.author:contains('" +  this + "')";
-    });
-
-    jQuery('table.post:has('+selector+') td').each(function() {
-        jQuery(this).css({
-            'border-collapse'  : 'collapse',
-            'background-color' : that.settings.highlightFriendsColor
-        });
-    });
-*/
 };
 
 /**
@@ -2469,7 +2442,7 @@ SALR.prototype.addRapSheetToProfile = function() {
     var link = jQuery('table a[href*=userid]:first');
     var userid = link.attr('href').split('userid=')[1];
     var el = link.parent().clone();
-    jQuery('a',el).attr('href','http://forums.somethingawful.com/banlist.php?userid='+userid);
+    jQuery('a',el).attr('href', this.urlSchema+'://forums.somethingawful.com/banlist.php?userid='+userid);
     jQuery('a',el).text('Rap Sheet');
     link.parent().append(' ');
     link.parent().append(el);
@@ -2524,7 +2497,7 @@ SALR.prototype.swapRetinaEmotes = function() {
             var item = $(this);
               if (
                 (item.attr('src').indexOf('i.somethingawful.com/forumsystem/emoticons/') > -1 ||
-                item.attr('src').indexOf('http:/fi.somethingawful.com/images/smilies/') > -1) &&
+                item.attr('src').indexOf('fi.somethingawful.com/images/smilies/') > -1) &&
                 item.attr('src').indexOf('@2x') == -1 ) {
 
                     var f = retinaFilename(item);
