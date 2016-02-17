@@ -225,8 +225,8 @@ SALR.prototype.pageInit = function() {
             }
 
             if (this.settings.hideGarbageDick == 'true') {
-                jQuery("img[src='fi.somethingawful.com/images/newbie.gif']").css({'display':'none'});
-                jQuery("img[src='forumimages.somethingawful.com/images/newbie.gif']").css({'display':'none'});
+                jQuery("img[src*='fi.somethingawful.com/images/newbie.gif']").css({'display':'none'});
+                jQuery("img[src*='forumimages.somethingawful.com/images/newbie.gif']").css({'display':'none'});
                 anchorPage = true;
             }
 
