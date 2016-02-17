@@ -196,7 +196,7 @@ SALR.prototype.pageInit = function() {
                     //this.settings.forumPostKey = -1;
                 //}
                 // new QuickReplyBox(this.settings.forumPostKey,this.base_image_uri,this.settings);
-                this.quickReply = new QuickReplyBox(this.base_image_uri, this.settings);
+                this.quickReply = new QuickReplyBox(this.base_image_uri, this.settings, this.urlSchema);
                 this.bindQuickReply();
             }
 

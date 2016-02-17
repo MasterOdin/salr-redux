@@ -10,6 +10,11 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
+### <a name="2187"></a>v2.1.8.7 (02/05/2016)
+```
+* Fix: Hide Newbie Avatar setting wasn't working
+* Fix: Quick Reply failing when using HTTPS
+```
 ### <a name="2186"></a>v2.1.8.6 (01/20/2016)
 ```
 * Fix: Get SALR working with https scheme

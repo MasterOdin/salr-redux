@@ -1,5 +1,5 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013-2014 Matthew Peveler  
+// Copyright (c) 2009-2013 Scott Ferguson
+// Copyright (c) 2013-2014 Matthew Peveler
 // All rights reserved.
 
 // Redistribution and use in source and binary forms, with or without
@@ -13,7 +13,7 @@
 // - Neither the name of the software nor the
 //   names of its contributors may be used to endorse or promote products
 //   derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -30,12 +30,13 @@
 // http://forums.somethingawful.com/newreply.php?action=newreply&postid=379818033
 // http://forums.somethingawful.com/newreply.php?s=&action=newreply&threadid=3208437
 // function QuickReplyBox(forum_post_key, base_image_uri, settings) {
-function QuickReplyBox(base_image_uri, settings) {
+function QuickReplyBox(base_image_uri, settings, urlSchema) {
     //this.forum_post_key = forum_post_key;
     this.base_image_uri = base_image_uri;
     this.settings = settings;
-    this.reply_url = 'http://forums.somethingawful.com/newreply.php';
-    this.edit_url = 'http://forums.somethingawful.com/editpost.php';
+    this.urlSchema = urlSchema;
+    this.reply_url = this.urlSchema + '//forums.somethingawful.com/newreply.php';
+    this.edit_url = this.urlSchema + '//forums.somethingawful.com/editpost.php';
 
     this.previous_text = null;
 
@@ -90,18 +91,18 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 '      <div id="preview-content">' +
                 '      </div>' +
                 '   </div>' +
-                '</div>' + 
-                '<div id="quick-reply"> ' + 
+                '</div>' +
+                '<div id="quick-reply"> ' +
                 '   <form id="quick-reply-form" enctype="multipart/form-data" action="newreply.php" name="vbform" method="POST" onsubmit="addThreadToCache(' + findThreadID() + '); return validate(this);">' +
-                '       <input id="quick-reply-action" type="hidden" name="action" value="postreply">' + 
-                '       <input type="hidden" name="threadid" value="' + findThreadID() + '">' + 
-                '       <input id="quick-reply-postid" type="hidden" name="postid" value="">' + 
-                '       <input type="hidden" name="formkey" value="formkey">' + 
-                '       <input type="hidden" name="form_cookie" value="formcookie">' + 
-                '       <div id="title-bar">' + 
-                '           Quick Reply' + 
+                '       <input id="quick-reply-action" type="hidden" name="action" value="postreply">' +
+                '       <input type="hidden" name="threadid" value="' + findThreadID() + '">' +
+                '       <input id="quick-reply-postid" type="hidden" name="postid" value="">' +
+                '       <input type="hidden" name="formkey" value="formkey">' +
+                '       <input type="hidden" name="form_cookie" value="formcookie">' +
+                '       <div id="title-bar">' +
+                '           Quick Reply' +
                 '       </div>' +
-                '       <div id="view-buttons">' + 
+                '       <div id="view-buttons">' +
                 '          <a id="toggle-view"><img id="quick-reply-rollbutton" class="quick-reply-image" src="' + this.base_image_uri + "quick-reply-rolldown.gif" + '"></a>' +
                 '          <a id="dismiss-quick-reply"><img class="quick-reply-image" src="' + this.base_image_uri + "quick-reply-close.gif" + '"></a>' +
                 '       </div>' +
@@ -122,36 +123,36 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 '           <label>' +
                 '           <input type="checkbox" id="parseurl" name="parseurl" value="yes">' +
                 '              <span class="post-options">Parse URLs</span>' +
-                '           </input>' + 
-                '           </label>' + 
+                '           </input>' +
+                '           </label>' +
                 '           <label>' +
-                '           <input type="checkbox" id="quickReplyBookmark" name="bookmark" value="yes">' + 
+                '           <input type="checkbox" id="quickReplyBookmark" name="bookmark" value="yes">' +
                 '              <span class="post-options">Bookmark thread</span>' +
-                '           </input>' + 
-                '           </label>' + 
+                '           </input>' +
+                '           </label>' +
                 '           <label>' +
-                '           <input type="checkbox" id="disablesmilies" name="disablesmilies" value="yes">' + 
+                '           <input type="checkbox" id="disablesmilies" name="disablesmilies" value="yes">' +
                 '               <span class="post-options">Disable smilies</span>' +
-                '           </input>' + 
-                '           </label>' + 
+                '           </input>' +
+                '           </label>' +
                 '           <label>' +
-                '           <input type="checkbox" id="signature" name="signature" value="yes">' + 
+                '           <input type="checkbox" id="signature" name="signature" value="yes">' +
                 '               <span class="post-options">Show signature</span>' +
-                '          </input>' + 
-                '           </label>' + 
+                '          </input>' +
+                '           </label>' +
                 '           <label>' +
-                '           <input type="checkbox" id="live-preview" value="yes">' + 
+                '           <input type="checkbox" id="live-preview" value="yes">' +
                 '               <span class="post-options">Show live preview</span>' +
-                '          </input>' + 
-                '           </label>' + 
+                '          </input>' +
+                '           </label>' +
                 '       </div>' +
                 '       <div id="submit-buttons">' +
-                '           <input type="submit" class="bginput" name="preview" value="Preview Reply" tabindex="3">' + 
-                '           <input type="submit" class="bginput" name="submit" value="Submit Reply" tabindex="2">' + 
+                '           <input type="submit" class="bginput" name="preview" value="Preview Reply" tabindex="3">' +
+                '           <input type="submit" class="bginput" name="submit" value="Submit Reply" tabindex="2">' +
                 '       </div>' +
                 '   </form>' +
                '</div>';
-               
+
     // Only append it if we haven't already
     if (jQuery('#quick-reply').length == 0) {
         jQuery('body').append(html);
@@ -170,7 +171,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
     jQuery('#dismiss-quick-reply').click(function() {
         that.hide();
     });
-    
+
     jQuery('div#quick-reply').addClass('modal');
 
     jQuery('#title-bar').click(function() {
@@ -214,7 +215,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
 
             if (selection.text) {
                 var replacement_text = '[' + that.bbcodes[selected_item] + ']' + selection.text + '[/' + that.bbcodes[selected_item] + ']';
-        
+
                 text_area.replaceSelection(replacement_text, true);
             } else {
                 var replacement_text = '[' + that.bbcodes[selected_item] + '][/' + that.bbcodes[selected_item] + ']';
@@ -228,7 +229,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
 
     this.sidebar_html = '<img class="loading-spinner" src="' + this.base_image_uri + 'loading-spinner.gif" />';
     this.emotes = null;
-    
+
     this.fetchFormCookie(findThreadID());
     jQuery('#side-bar').hide();
     jQuery('#quick-reply').hide();
@@ -253,7 +254,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 });
                 history.getThreadStatus(findThreadID());
             });
-            
+
         }
     }
 };
@@ -285,9 +286,9 @@ QuickReplyBox.prototype.show = function() {
             }
         }
         that.quickReplyState.visible = true;
-        jQuery('#post-message').focus().putCursorAtEnd(); 
+        jQuery('#post-message').focus().putCursorAtEnd();
     });
-	   
+
 };
 
 QuickReplyBox.prototype.hide = function() {
@@ -563,7 +564,7 @@ QuickReplyBox.prototype.toggleTopbar = function() {
     if (!top_bar.is(':visible')) {
         top_bar.css('display', 'block');
     }
-    
+
     if (this.quickReplyState.topbar_visible) {
         top_bar.animate( { bottom: '-=' + (320-(390-this.quickReplyState.height)) + 'px' } );
         this.quickReplyState.topbar_visible = false;
@@ -593,14 +594,14 @@ QuickReplyBox.prototype.notifyFormKey = function(form_key) {
     jQuery('input[name="formkey"').attr('value', form_key);
     /*postMessage({   'message': 'ChangeSetting',
                     'option' : 'forumPostKey',
-                    'value'  : form_key 
+                    'value'  : form_key
     });*/
 };
 
 QuickReplyBox.prototype.setEmoteSidebar = function() {
     var html = '';
 
-    if (this.settings.quickReplyEmotes == 'true') {    
+    if (this.settings.quickReplyEmotes == 'true') {
         for (i = 0; i < this.sortedEmotes.length; i++) {
             html += '<div class="sidebar-menu-item emote">' +
                     '   <div><img src="' + this.sortedEmotes[i][1] + '" /></div>' +
@@ -625,7 +626,7 @@ QuickReplyBox.prototype.setEmoteSidebar = function() {
 QuickReplyBox.prototype.setBBCodeSidebar = function() {
     var html = '';
 
-    for (var code in this.bbcodes) { 
+    for (var code in this.bbcodes) {
         html += '<div class="sidebar-menu-item bbcode">' +
                 '   <div class="menu-item-code">' + code + '</div>' +
                 '</div>';
@@ -790,7 +791,7 @@ QuickReplyBox.prototype.pasteText = function() {
                     f.path = f.path.substr(0, h);
                 }
 
-                h = f.path.lastIndexOf("/"); 
+                h = f.path.lastIndexOf("/");
                 if (h != -1) {
                     f.filename = f.path.substr(h + 1);
                 }
@@ -807,7 +808,7 @@ QuickReplyBox.prototype.pasteText = function() {
                 h = e.filename.substr(i+1);
                 f = e.filename.substr(0,i);
             }
-            
+
             if ((i = /^([^\.]+\.)?youtu\.be$/.test(e.domain)) || /^([^\.]+\.)?youtube(-nocookie)?\.com$/.test(e.domain)) {
                 if (e.query.v) {
                     c = '[video type="youtube"';
@@ -828,7 +829,7 @@ QuickReplyBox.prototype.pasteText = function() {
                                 b[a[j]] = true;
                             }
                         }
-                        g = b;        
+                        g = b;
                     }
                     if (g.t) {
                             c += ' start="' + parseInt(g.t, 10) + '"';
@@ -836,7 +837,7 @@ QuickReplyBox.prototype.pasteText = function() {
                     c += ']' + e.query.v +'[/video]';
                     g = true;
                 }
-                
+
                 else if (i || /^\/embed/.test(e.path)) {
                     c = '[video type="youtube"';
                     if (e.query.hd) {
@@ -844,14 +845,14 @@ QuickReplyBox.prototype.pasteText = function() {
                     }
                     if (e.query.start) {
                         c += ' start="' + parseInt(e.query.start, 10) + '"';
-                    } 
+                    }
                     c += "]" + e.path.substr(e.path.lastIndexOf("/") + 1) + "[/video]";
                     g = true;
                 }
-                
+
             }
         }
-        
+
         that.previous_text = orig;
         elem.val(orig.substr(0,start)+c+orig.substr(end));
         var set = orig.substr(0,start).length + c.length;
