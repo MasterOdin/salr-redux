@@ -10,6 +10,10 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
+### <a name="2188"></a>v2.1.8.8 (03/06/2016)
+```
+* Fix: SALR breaking when viewing a page with an ignored post having friend highlighting on
+```
 ### <a name="2187"></a>v2.1.8.7 (02/05/2016)
 ```
 * Fix: Hide Newbie Avatar setting wasn't working
