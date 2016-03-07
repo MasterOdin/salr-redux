@@ -63,7 +63,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
     jQuery(document).keydown(function(event) {
         if (event.keyCode == 18) {
             if (that.settings.enableMouseMenu == "true") {
-                not_context = localStorage.getItem("MouseActiveContext") == 'false' ? 'true' : 'false';
+                not_context = localStorage.getItem("MouseActiveContext") == 'true' ? 'false' : 'true';
                 localStorage.setItem("MouseActiveContext", not_context);
             }
         }

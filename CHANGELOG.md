@@ -14,6 +14,7 @@ Changelog List
 ```
 * Fix: SALR breaking when viewing a page with an ignored post having friend highlighting on
 * Fix: Remove white background of SA grenade (could be improved by a real artist)
+* Fix: Have alt click for Mouse Gestures take effect on first press if localStorage setting was deleted
 ```
 ### <a name="2187"></a>v2.1.8.7 (02/05/2016)
 ```
