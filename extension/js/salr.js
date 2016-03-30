@@ -360,11 +360,9 @@ SALR.prototype.pageInit = function() {
                 var href = window.location.href;
                 if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0 || href.indexOf('#lastpost') >= 0) {
                     var getPost = (href.indexOf('#lastpost') >= 0) ? findLastPost() : findFirstUnreadPost();
-                    var post = jQuery('div#thread > table.post').eq(getPost);
                     // wait a tiny bit just to really make sure DOM is done
                     setTimeout(function() {
-                        jQuery(window).scrollTop(post.offset().top);
-                        //console.log("Readjust to " + post.offset().top);
+                        window.location.hash = '#pti' + (getPost + 1);
                     }, 75);
 
                 }
