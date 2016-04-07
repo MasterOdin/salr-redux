@@ -356,9 +356,23 @@ SALR.prototype.pageInit = function() {
                 var href = window.location.href;
                 if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0 || href.indexOf('#lastpost') >= 0) {
                     var getPost = (href.indexOf('#lastpost') >= 0) ? findLastPost() : findFirstUnreadPost();
+                    var hashId = $('div#thread > table.post').eq(getPost).attr('id');
                     // wait a tiny bit just to really make sure DOM is done
                     setTimeout(function() {
-                        window.location.hash = '#pti' + (getPost + 1);
+                        // We have to change the hash to a new value that still points to the
+                        // the same post as originally asked for so that the page resets itself 
+                        // to the right post, but then set it back to what it was originally 
+                        // so the url entered doesn't change (mainly for #lastpost)
+                        if (href.indexOf('#pti') >= 0) {
+                            window.location.hash = '#' + hashId;
+                            console.log('#' + hashId);
+                        }
+                        else {
+                            window.location.hash = '#pti' + (getPost + 1);
+                            console.log('#pti' + (getPost + 1));
+                        }
+                        window.location.hash = '#' + href.split("#")[1];
+                        console.log('#' + href.split('#')[1]);
                     }, 75);
 
                 }
