@@ -123,9 +123,6 @@ jQuery(document).ready(function() {
     defaultSettings['inlineVideo']                  = 'false';
     //defaultSettings['embedVideo']                   = 'false';
     defaultSettings['youtubeHighlight']             = '#ff00ff';
-    defaultSettings['inlineTweet']                  = 'false';
-    defaultSettings['dontReplaceTwitterNWS']        = 'false';
-    defaultSettings['dontReplaceTwitterSpoiler']    = 'false';
     defaultSettings['inlineVine']                   = 'false';
     defaultSettings['dontReplaceVineNWS']           = 'false';
     defaultSettings['dontReplaceVineSpoiler']       = 'false';

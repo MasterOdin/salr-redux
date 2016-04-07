@@ -128,10 +128,6 @@ SALR.prototype.pageInit = function() {
                 this.inlineYoutubes();
             }
 
-            if (this.settings.inlineTweet == 'true') {
-                this.inlineTweets();
-            }
-
             if (this.settings.inlineWebm == 'true') {
                 this.inlineWebm();
             }
@@ -993,35 +989,6 @@ SALR.prototype.inlineYoutubes = function() {
             jQuery(this).addClass('show-player');
         }
         return false;
-    });
-};
-
-SALR.prototype.inlineTweets = function() {
-
-    var that = this;
-    var tweets = jQuery('.postbody a[href*="twitter.com"]');
-    //NWS/NMS links
-    if(that.settings.dontReplaceTwitterNWS == 'true')
-    {
-        tweets = tweets.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
-    }
-    // spoiler'd links
-    if(that.settings.dontReplaceTwitterSpoiler == 'true') {
-        tweets = tweets.not('.bbc-spoiler a');
-    }
-    tweets.each(function() {
-        var match = jQuery(this).attr('href').match(/(https|http):\/\/twitter.com\/[0-9a-zA-Z_]+\/(status|statuses)\/([0-9]+)/);
-        if (match == null) {
-            return;
-        }
-        var tweetId = match[3];
-        var link = this;
-        jQuery.ajax({url:"https://api.twitter.com/1/statuses/oembed.json?id="+tweetId,
-            success: function(data) {
-                link = jQuery(link).wrap("<div class='tweet'>").parent();
-                jQuery(link).html(data.html);
-            }
-        });
     });
 };
 
