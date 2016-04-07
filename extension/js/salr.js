@@ -365,14 +365,11 @@ SALR.prototype.pageInit = function() {
                         // so the url entered doesn't change (mainly for #lastpost)
                         if (href.indexOf('#pti') >= 0) {
                             window.location.hash = '#' + hashId;
-                            console.log('#' + hashId);
                         }
                         else {
                             window.location.hash = '#pti' + (getPost + 1);
-                            console.log('#pti' + (getPost + 1));
                         }
                         window.location.hash = '#' + href.split("#")[1];
-                        console.log('#' + href.split('#')[1]);
                     }, 75);
 
                 }
