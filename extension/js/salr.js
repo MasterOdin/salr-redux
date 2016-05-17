@@ -990,7 +990,7 @@ SALR.prototype.inlineYoutubes = function() {
             var list = jQuery(this).attr('href').match(/^http[s]*\:\/\/((?:www|[a-z]{2})\.)?(youtube\.com\/watch\?v=|youtu.be\/)([-_0-9a-zA-Z]+)&list=([-_0-9a-zA-Z]+)/);
 
             jQuery(this).after('<div><iframe class="salr-player youtube-player"></iframe></div>');
-            jQuery(this).next().children("iframe").attr("src", "http://www.youtube.com/embed/" + videoId);
+            jQuery(this).next().children("iframe").attr("src", "//www.youtube.com/embed/" + videoId);
             jQuery(this).next().children("iframe").attr("width","640");
             jQuery(this).next().children("iframe").attr("height","385");
             jQuery(this).next().children("iframe").attr("type","text/html");
