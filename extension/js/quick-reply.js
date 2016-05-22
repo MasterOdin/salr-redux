@@ -574,10 +574,10 @@ QuickReplyBox.prototype.toggleTopbar = function() {
     }
 };
 
-QuickReplyBox.prototype.notify = function(emotes) {
+QuickReplyBox.prototype.notify = function(emotes, sortedEmotes) {
     var that = this;
     this.emotes = emotes;
-    this.sortedEmotes = this.emote_parser.getSortedEmotes();
+    this.sortedEmotes = sortedEmotes;
 
     jQuery('#post-message').keyup(function() {
         that.updatePreview();

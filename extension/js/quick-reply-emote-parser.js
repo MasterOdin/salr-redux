@@ -30,18 +30,26 @@ function EmoteParser(observer) {
     this.observer = observer;
     this.emotes = {};
     this.emotesArray = [];
+    this.expireTimeOut = 1000 * 60 * 60 * 24; // One day
 
     this.construct()
 }
 
 EmoteParser.prototype.construct = function() {
-     var that = this;
+    var expireTime = localStorage.lastExpireTime;
 
-     jQuery.get(this.emote_url, { action: 'showsmilies' },
-       function(response) {
-           that.parseResponse(response);
-       }
-    );
+    if (expireTime === undefined || (Date.now() - expireTime > this.expireTimeout)) {
+      var that = this;
+      jQuery.get(this.emote_url, { action: 'showsmilies' },
+        function(response) {
+            that.parseResponse(response);
+            that.observer.notify(that.emotes, that.emotesArray);
+        }
+      );
+    } else {
+      this.loadFromLocalStorage();
+      this.observer.notify(this.emotes, this.emotesArray);
+    }
 };
 
 EmoteParser.prototype.parseResponse = function(response) {
@@ -84,8 +92,19 @@ EmoteParser.prototype.parseResponse = function(response) {
 
     this.emotesArray.splice(2,0,this.emotesArray.pop(),this.emotesArray.pop());
 
-    this.observer.notify(this.emotes);
+    this.saveInLocalStorage();
 };
+
+EmoteParser.prototype.saveInLocalStorage = function() {
+  localStorage.emotes = JSON.stringify(this.emotes);
+  localStorage.emotesArray = JSON.stringify(this.emotesArray);
+  localStorage.lastExpireTime = Date.now();
+}
+
+EmoteParser.prototype.loadFromLocalStorage = function() {
+  this.emotes = JSON.parse(localStorage.emotes);
+  this.emotesArray = JSON.parse(localStorage.emotesArray);
+}
 
 EmoteParser.prototype.getEmotes = function() {
     return this.emotes;
