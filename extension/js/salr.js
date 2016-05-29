@@ -355,6 +355,9 @@ SALR.prototype.pageInit = function() {
             if (!(that.settings.preventAdjust == "true" && preventAdjust)) {
                 var href = window.location.href;
                 if (href.indexOf('#pti') >= 0 || href.indexOf('#post') >= 0 || href.indexOf('#lastpost') >= 0) {
+                    var baseUrl = href.split('#')[0];
+                    var hash = href.split('#')[1];
+
                     var getPost = (href.indexOf('#lastpost') >= 0) ? findLastPost() : findFirstUnreadPost();
                     var hashId = $('div#thread > table.post').eq(getPost).attr('id');
                     // wait a tiny bit just to really make sure DOM is done
@@ -364,12 +367,12 @@ SALR.prototype.pageInit = function() {
                         // to the right post, but then set it back to what it was originally 
                         // so the url entered doesn't change (mainly for #lastpost)
                         if (href.indexOf('#pti') >= 0) {
-                            window.location.hash = '#' + hashId;
+                            window.location.replace(baseUrl + "#" + hashId);
                         }
                         else {
-                            window.location.hash = '#pti' + (getPost + 1);
+                            window.location.replace(baseUrl + "#pti" + (getPost + 1));
                         }
-                        window.location.hash = '#' + href.split("#")[1];
+                        window.location.replace(baseUrl + "#" + hash);
                     }, 75);
 
                 }
