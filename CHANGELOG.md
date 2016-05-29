@@ -10,10 +10,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List 
 --------------
-### <a name="21810"></a>v2.1.8.10 (--/--/2016)
+### <a name="21810"></a>v2.1.8.10 (05/29/2016)
 ```
 * Fix: Improve the scrolling on page loads to be at the beginning of the post more reliably
 * Remove: Strip out settings and code related to tweet embedding as forums now handle it natively
+* Fix: Youtube frame should inheriet http/https correctly from parent (thanks recycleddan)
+* Fix: Freeze when browsing thread with Quick Reply enabled (thanks cmaggard)
 ```
 ### <a name="2189"></a>v2.1.8.9 (03/09/2016)
 ```
