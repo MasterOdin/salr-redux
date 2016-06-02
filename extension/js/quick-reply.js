@@ -569,6 +569,7 @@ QuickReplyBox.prototype.toggleTopbar = function() {
         top_bar.animate( { bottom: '-=' + (320-(390-this.quickReplyState.height)) + 'px' } );
         this.quickReplyState.topbar_visible = false;
     } else {
+        this.updatePreview();
         top_bar.animate( { bottom: '+=' + (320-(390-this.quickReplyState.height)) + 'px' } );
         this.quickReplyState.topbar_visible = true;
     }
@@ -579,8 +580,10 @@ QuickReplyBox.prototype.notify = function(emotes, sortedEmotes) {
     this.emotes = emotes;
     this.sortedEmotes = sortedEmotes;
 
-    jQuery('#post-message').keyup(function() {
+    jQuery(document).on('keyup', '#post-message', function() {
+      if (that.quickReplyState.topbar_visible) {
         that.updatePreview();
+      }
     });
 
     this.setEmoteSidebar();
