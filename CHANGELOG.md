@@ -5,11 +5,15 @@ Listed below are the various bugfixes and enhancements that go into a given vers
 
 General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is addition.   
 After 2.0.0 is that * is a change, - is a removal and + is an addition.  
-  
+
 Developer only seen features (such as internal functions) may or may not be recorded in the changelog.
 
-Changelog List 
+Changelog List
 --------------
+### <a name="21811"></a>v2.1.8.11 (07/30/2016)
+```
+* Fix: Fix post preview not working (thanks cmaggard)
+```
 ### <a name="21810"></a>v2.1.8.10 (05/29/2016)
 ```
 * Fix: Improve the scrolling on page loads to be at the beginning of the post more reliably
@@ -226,7 +230,7 @@ Changelog List
 + Add way to not show the link to single post view underneath every post
 + Add ability to minimize/maximize setting sections as needed. By default, all sections are minimized.
 + Using alt key on changing from mouse gestures to context menu holds setting between pages
-+ Added Accidental Quote, Not Edit warning to the Quick Relpy box enabled by the existing option at bottom of settings.html 
++ Added Accidental Quote, Not Edit warning to the Quick Relpy box enabled by the existing option at bottom of settings.html
 + Added ability to select several star colors to not open on the "Open all unread messages" option.
 + Added option to show a link to a user's SOAP underneath their post next to the button for Rap Sheet
 + Added ability for extension to know if SALR Redux Browser Button is installed, and disable Omnibar icon (and setting) is it is.
@@ -305,12 +309,12 @@ Changelog List
 ```
 - Fixed friend highlighting only working for first two friends in UserCP.php
 - Fixed Post thread button disappearing on all pages if a missing setting got set in the past
-- Separated out function calls between forumdisplay.php and showthread.php so aforementioned setting doesn't affect forum post button 
+- Separated out function calls between forumdisplay.php and showthread.php so aforementioned setting doesn't affect forum post button
 ```
 ### v1.5.11 (04/22/2013) - "I really hate mouse gestures"
 ```
 - Replaced right click option with alt key option
-+ Alt key can be used to switch between mouse gestures or default 
++ Alt key can be used to switch between mouse gestures or default
 context menu
 + Button button in Mouse Gestures now refreshes current page
 - Mouse Gesture disables left/right on single page thread/forums properly
@@ -327,7 +331,7 @@ context menu
 ```
 - Fixed Preview Reply pane being underneath images
 + Added option to allow default right click menu to appear when mouse gestures enabled
-- Fixed Ignore Star option in settings pane (as well as prevent script breaking when it was set) 
+- Fixed Ignore Star option in settings pane (as well as prevent script breaking when it was set)
 - Fixed being able to change children settings when parent setting was disabled
 ```
 ### v1.5.8 (04/11/2013)
