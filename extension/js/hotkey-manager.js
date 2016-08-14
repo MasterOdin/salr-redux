@@ -1,10 +1,10 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013-2016 Matthew Peveler  
+// Copyright (c) 2009-2013 Scott Ferguson
+// Copyright (c) 2013-2016 Matthew Peveler
+//
 // All rights reserved.
-
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-
 // - Redistributions of source code must retain the above copyright
 //   notice, this list of conditions and the following disclaimer.
 // - Redistributions in binary form must reproduce the above copyright
@@ -13,7 +13,7 @@
 // - Neither the name of the software nor the
 //   names of its contributors may be used to endorse or promote products
 //   derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -41,7 +41,7 @@ function HotKeyManager(quickReply, settings, currentPage, countPages) {
     this.bindHotKeys();
     this.pageCount = countPages;
     this.currentPage = currentPage;
-    
+
     jQuery(document).data("enableSALRHotkeys", true);
     jQuery(document).bind("enableSALRHotkeys", this.enableHotKeys);
     jQuery(document).bind("disableSALRHotkeys", this.disableHotKeys);
@@ -74,7 +74,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
         */
 
         var quick_reply_block = false;
-        
+
         if(!jQuery(document).data("enableSALRHotkeys"))
             return;
 

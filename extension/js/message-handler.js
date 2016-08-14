@@ -1,10 +1,10 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013-2014 Matthew Peveler  
+// Copyright (c) 2009-2013 Scott Ferguson
+// Copyright (c) 2013-2016 Matthew Peveler
+//
 // All rights reserved.
-
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-
 // - Redistributions of source code must retain the above copyright
 //   notice, this list of conditions and the following disclaimer.
 // - Redistributions in binary form must reproduce the above copyright
@@ -13,7 +13,7 @@
 // - Neither the name of the software nor the
 //   names of its contributors may be used to endorse or promote products
 //   derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -77,7 +77,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'OpenCloseTab':
                 openCloseNewTab(data.url);
-                break;                
+                break;
             case 'ReloadTab':
                 reloadTab();
                 break;
@@ -124,7 +124,7 @@ chrome.extension.onConnect.addListener(function(port) {
                     salr.onMessage.addListener(function(data) {
                         localStorage.setItem('userNotes',data.userNotes);
                         localStorage.setItem('threadNotes', data.threadNotes);
-                    });                    
+                    });
                     salr.postMessage({'message':'GetSALRSettings'});
                 });
                 break;
@@ -188,13 +188,13 @@ defaultSettings['topPurchaseBannerAd']          = 'true';
 defaultSettings['topPurchaseEmoticon']          = 'true';
 defaultSettings['topPurchaseSticky']            = 'true';
 defaultSettings['topPurchaseGiftCert']          = 'true';
-defaultSettings['showNavigation']               = 'true';       
+defaultSettings['showNavigation']               = 'true';
 defaultSettings['topNavBar']                    = 'true';
 defaultSettings['bottomNavBar']                 = 'true';
 defaultSettings['topSAForums']                  = 'true';
 defaultSettings['topSALink']                    = 'true';
 defaultSettings['topSearch']                    = 'true';
-defaultSettings['displayConfigureSalr']         = 'true';    
+defaultSettings['displayConfigureSalr']         = 'true';
 defaultSettings['topUserCP']                    = 'true';
 defaultSettings['topPrivMsgs']                  = 'true';
 defaultSettings['topForumRules']                = 'true';
@@ -278,9 +278,9 @@ defaultSettings['setImageTooltipBlankOnly']     = 'true';
 defaultSettings['setImageTooltipHideExtension'] = 'true';
 defaultSettings['setImageTooltipSkipEmoticons'] = 'true';
 defaultSettings['setImageTooltipHideSourceUrl'] = 'true';
-    
+
 // Other Options
-defaultSettings['qneProtection']                = 'false';      
+defaultSettings['qneProtection']                = 'false';
 defaultSettings['showEditBookmarks']            = 'false';
 defaultSettings['openAllUnreadLink']            = 'true';
 //defaultSettings['ignoreBookmarkStar']           = "";
@@ -374,7 +374,7 @@ function getPageSettings() {
     response['message'] = 'SettingsResult';
 
     return response;
-} 
+}
 
 /**
  * Update settings from old versions

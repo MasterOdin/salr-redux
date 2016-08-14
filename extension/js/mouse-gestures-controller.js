@@ -1,10 +1,10 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013-2014 Matthew Peveler  
+// Copyright (c) 2009-2013 Scott Ferguson
+// Copyright (c) 2013-2016 Matthew Peveler
+//
 // All rights reserved.
-
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-
 // - Redistributions of source code must retain the above copyright
 //   notice, this list of conditions and the following disclaimer.
 // - Redistributions in binary form must reproduce the above copyright
@@ -13,7 +13,7 @@
 // - Neither the name of the software nor the
 //   names of its contributors may be used to endorse or promote products
 //   derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -76,7 +76,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
     jQuery('div#container').each(function() {
         var removeOverlay = function(x, y) {
             var handler = that.findFunction(x, y);
-            
+
             jQuery('div#gesture-overlay').each(function() {
                 jQuery(this).remove();
             });
@@ -100,7 +100,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
             if (event.pageX < (overlay_left + 77)) {
                 x_coord = 0;
             }
-            
+
             if (event.pageY < (overlay_top + 77)) {
                 y_coord = 0;
             }
@@ -127,7 +127,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
             context.closePath();
 
             that.updateButtonStyles(event.pageX, event.pageY);
-        }          
+        }
 
         jQuery(this).rightMouseDown(function(event) {
             if (localStorage.getItem("MouseActiveContext") == 'false') {
@@ -190,7 +190,7 @@ MouseGesturesController.prototype.bindCanvasEvent = function() {
 };
 
 MouseGesturesController.prototype.setPageSpecificCSS = function() {
-    if (window.location.href == 'http://forums.somethingawful.com/' 
+    if (window.location.href == 'http://forums.somethingawful.com/'
             || this.currentPageName == 'index') {
         this.disableGesture('up');
         this.disableGesture('left');
@@ -220,7 +220,7 @@ MouseGesturesController.prototype.updateButtonStyles = function(x_coord, y_coord
     var gesture_bottom = jQuery('div#gesture-bottom');
     var gesture_left = jQuery('div#gesture-left');
     var gesture_right = jQuery('div#gesture-right');
-    
+
     jQuery('img#top-image', gesture_top).first().attr('src', this.base_image_uri + 'gesturenav-top.png');
     jQuery('img#bottom-image', gesture_bottom).first().attr('src', this.base_image_uri + 'gesturenav-bottom.png');
     jQuery('img#left-image', gesture_left).first().attr('src', this.base_image_uri + 'gesturenav-left.png');
@@ -271,7 +271,7 @@ MouseGesturesController.prototype.determineLocation = function(x_coord, y_coord)
     // it is also in a valid Y coordinate
 
     if (y_coord > top_button.offset().top && y_coord < top_button.offset().top + 77) {
-        if (x_coord > top_button.offset().left && x_coord < top_button.offset().left + 77) {        
+        if (x_coord > top_button.offset().left && x_coord < top_button.offset().left + 77) {
             return 'top';
         }
     } else if (x_coord > left_button.offset().left && x_coord < left_button.offset().left + 77) {
@@ -308,10 +308,10 @@ MouseGesturesController.prototype.topAction = function() {
         if (this.settings.enableMouseUpUCP == 'true') {
             location.href ='http://forums.somethingawful.com/usercp.php';
         }
-        else if (this.currentPageName == 'showthread' 
+        else if (this.currentPageName == 'showthread'
             || this.currentPageName == 'usercp'
             || this.currentPageName == 'forumdisplay'
-            || this.currentPageName =='bookmarkthreads') 
+            || this.currentPageName =='bookmarkthreads')
         {
             var href = jQuery('span.mainbodytextlarge a').slice(-2, -1).attr('href');
 
@@ -341,7 +341,7 @@ MouseGesturesController.prototype.leftAction = function() {
 
 MouseGesturesController.prototype.bottomAction = function() {
     if (this.is_enabled(this.bottomAction)) {
-        postMessage({'message': 'ReloadTab'}); 
+        postMessage({'message': 'ReloadTab'});
     }
 }
 
@@ -350,7 +350,7 @@ MouseGesturesController.prototype.disableGesture = function(gesture) {
 
     switch(gesture) {
         case 'up':
-            if (this.settings.enableMouseUpUCP == 'true' && 
+            if (this.settings.enableMouseUpUCP == 'true' &&
                     (this.currentPageName != 'usercp' &&
                      this.currentPageName != 'bookmarkthreads')) {
                 return;

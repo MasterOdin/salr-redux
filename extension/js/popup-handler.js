@@ -1,10 +1,10 @@
-// Copyright (c) 2009-2013 Scott Ferguson  
-// Copyright (c) 2013-2014 Matthew Peveler  
+// Copyright (c) 2009-2013 Scott Ferguson
+// Copyright (c) 2013-2016 Matthew Peveler
+//
 // All rights reserved.
-
+//
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
-
 // - Redistributions of source code must retain the above copyright
 //   notice, this list of conditions and the following disclaimer.
 // - Redistributions in binary form must reproduce the above copyright
@@ -13,7 +13,7 @@
 // - Neither the name of the software nor the
 //   names of its contributors may be used to endorse or promote products
 //   derived from this software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE AUTHORS ''AS IS'' AND ANY
 // EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -30,7 +30,7 @@ var settings = {};
 var port = chrome.extension.connect({"name":"popup"});
 
 /**
- * Opens a link in a tab. 
+ * Opens a link in a tab.
  */
 function openTab(tabUrl) {
     var button = event.button;
@@ -79,11 +79,11 @@ function populateMenu() {
     var forums = JSON.parse(settings.forumsList);
     var newHTML = '';
     var color = '#ffffff';
-    
+
     jQuery(forums).each( function() {
         var indent = this.level;
         var title = this.name;
-        
+
         if (indent == -1) { // Separator
             // Loop through forum list and add stickied forums
             for(i in forums) {
@@ -96,13 +96,13 @@ function populateMenu() {
                     }
                 }
             }
-            
+
             newHTML += '<hr/>';
         } else if (indent == 0) {
             newHTML += '<div class="header-link">';
             newHTML += '<a href="http://forums.somethingawful.com/forumdisplay.php?forumid=' + this.id + '" class="link link'+ indent +'">' + title + '</a><br/>';
             newHTML += '</div>';
-        
+
         } else {
             newHTML += populateMenuHelper(this, color, false);
         }
@@ -113,7 +113,7 @@ function populateMenu() {
             color = '#ffffff';
         }
     });
-    
+
     jQuery('div#forums-list').html(newHTML);
 }
 
@@ -140,7 +140,7 @@ function populateMenuHelper(forum, color, stuck) {
 }
 
 port.onMessage.addListener(function(data) {
-    settings = data;    
+    settings = data;
     populateMenu();
 
     jQuery('a').on("click",function(event) {
@@ -155,4 +155,4 @@ port.onMessage.addListener(function(data) {
 
 port.postMessage({
     'message': 'GetForumsJumpList'
-});    
+});
