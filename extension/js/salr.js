@@ -363,8 +363,8 @@ SALR.prototype.pageInit = function() {
                     // wait a tiny bit just to really make sure DOM is done
                     setTimeout(function() {
                         // We have to change the hash to a new value that still points to the
-                        // the same post as originally asked for so that the page resets itself 
-                        // to the right post, but then set it back to what it was originally 
+                        // the same post as originally asked for so that the page resets itself
+                        // to the right post, but then set it back to what it was originally
                         // so the url entered doesn't change (mainly for #lastpost)
                         if (href.indexOf('#pti') >= 0) {
                             window.location.replace(baseUrl + "#" + hashId);
@@ -987,10 +987,8 @@ SALR.prototype.inlineYoutubes = function() {
             jQuery(this).removeClass('show-player');
         }
         else {
-            var match = jQuery(this).attr('href').match(/^http[s]*\:\/\/((?:www|[a-z]{2})\.)?(youtube\.com\/watch\?v=|youtu.be\/)([-_0-9a-zA-Z]+)/); //get youtube video id
+            var match = jQuery(this).attr('href').match(/^http[s]*\:\/\/((?:www|[a-z]{2})\.)?(youtube\.com\/watch\?v=|youtu.be\/|m.youtube.com\/watch\?v=)([-_0-9a-zA-Z]+)/); //get youtube video id
             var videoId = match[3];
-
-            var list = jQuery(this).attr('href').match(/^http[s]*\:\/\/((?:www|[a-z]{2})\.)?(youtube\.com\/watch\?v=|youtu.be\/)([-_0-9a-zA-Z]+)&list=([-_0-9a-zA-Z]+)/);
 
             jQuery(this).after('<div><iframe class="salr-player youtube-player"></iframe></div>');
             jQuery(this).next().children("iframe").attr("src", "//www.youtube.com/embed/" + videoId);

@@ -10,6 +10,10 @@ Developer only seen features (such as internal functions) may or may not be reco
 
 Changelog List
 --------------
+### <a name="21812"></a>v2.1.8.12 (08/14/2016)
+```
+* Fix Youtube Embed breaking on mobile links
+```
 ### <a name="21811"></a>v2.1.8.11 (07/30/2016)
 ```
 * Fix: Fix post preview not working (thanks cmaggard)
