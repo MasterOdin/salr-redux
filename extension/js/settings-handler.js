@@ -30,7 +30,7 @@
  *
  */
 
-var port = chrome.extension.connect({"name":"settings"});
+var port = chrome.runtime.connect({"name":"settings"});
 
 jQuery(document).ready(function() {
     var debug = "false";

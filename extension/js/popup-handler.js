@@ -27,7 +27,7 @@
 
 // Fetch extension settings
 var settings = {};
-var port = chrome.extension.connect({"name":"popup"});
+var port = chrome.runtime.connect({"name":"popup"});
 
 /**
  * Opens a link in a tab.

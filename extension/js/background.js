@@ -35,7 +35,7 @@ var salr_client = false;
  * within the extension.
  *
  */
-var port = chrome.extension.connect();
+var port = chrome.runtime.connect();
 
 port.onMessage.addListener(function(data) {
     if (!salr_client) {
@@ -43,7 +43,7 @@ port.onMessage.addListener(function(data) {
     }
 });
 
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     salr_client.appendImage(request.original, request.thumbnail, request.type);
 });
 

@@ -1075,7 +1075,7 @@ SALR.prototype.displaySinglePostLink = function() {
 
 SALR.prototype.detectFancySA = function() {
     var fancyId = 'ohlohgldhcaajjhadleledokhlpgamjm';
-    chrome.extension.sendMessage(fancyId, {message:"installcheck"}, function(response) {
+    chrome.runtime.sendMessage(fancyId, {message:"installcheck"}, function(response) {
         if (response === undefined)
             return;
         if (response.message != "yes")

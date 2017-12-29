@@ -30,8 +30,8 @@
  *
  */
 
-if(chrome.extension.onConnectExternal != undefined) {
-    chrome.extension.onConnectExternal.addListener(function(port) {
+if(chrome.runtime.onConnectExternal != undefined) {
+    chrome.runtime.onConnectExternal.addListener(function(port) {
         port.onMessage.addListener(function(data) {
             switch (data.message) {
                 case 'GetForumsJumpList':
@@ -50,7 +50,7 @@ if(chrome.extension.onConnectExternal != undefined) {
  * Message event listener so that we can talk to the content-script
  *
  */
-chrome.extension.onConnect.addListener(function(port) {
+chrome.runtime.onConnect.addListener(function(port) {
     port.onMessage.addListener(function(data) {
         switch (data.message) {
             case 'OpenSettings':
@@ -120,7 +120,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'ConvertSettings':
                 chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
-                    var salr = chrome.extension.connect("nlcklobeoigfjmcigmhbjkepmniladed");
+                    var salr = chrome.runtime.connect("nlcklobeoigfjmcigmhbjkepmniladed");
                     salr.onMessage.addListener(function(data) {
                         localStorage.setItem('userNotes',data.userNotes);
                         localStorage.setItem('threadNotes', data.threadNotes);
