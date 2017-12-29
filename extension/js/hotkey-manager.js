@@ -56,7 +56,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
     var that = this;
 
     jQuery(document).keydown(function(event) {
-        switch(event.keyCode) {
+        switch(event.which) {
             case 27: /* esc */
                 that.hideQuickReply();
                 break;
@@ -78,7 +78,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
         if(!jQuery(document).data("enableSALRHotkeys"))
             return;
 
-        if (event.keyCode == 98)
+        if (event.which == 98)
             that.b_count++;
         else
             that.b_count=0;
@@ -90,7 +90,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
         }
 
         if (!quick_reply_block) {*/
-            switch(event.keyCode) {
+            switch(event.which) {
                 case 110: /* n */
                     // Next post
                     that.nextPost();
@@ -172,7 +172,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
                 //    event.preventDefault();
                     break;
                 default:
-                    //console.log(event.keyCode);
+                    //console.log(event.which);
                     break;
             }
         //}
