@@ -149,6 +149,7 @@ jQuery(document).ready(function() {
 
     // Control Options
     defaultSettings['displayPageNavigator']         = 'true';
+    defaultSettings['loadNewWithLastPost']          = 'false';
     defaultSettings['displayOmnibarIcon']           = 'false';
     defaultSettings['enableKeyboardShortcuts']      = 'false';
     defaultSettings['enableMouseGestures']          = 'false';

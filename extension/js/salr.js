@@ -137,7 +137,7 @@ SALR.prototype.pageInit = function() {
             }
 
             if (this.settings.displayPageNavigator == 'true') {
-                this.pageNavigator = new PageNavigator(this.base_image_uri);
+                this.pageNavigator = new PageNavigator(this.base_image_uri, this.settings);
             }
 
             this.updateForumsList();

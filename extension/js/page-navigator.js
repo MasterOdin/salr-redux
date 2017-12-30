@@ -25,9 +25,12 @@
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-function PageNavigator(base_image_uri) {
+function PageNavigator(base_image_uri, settings) {
     this.base_image_uri = base_image_uri;
 
+    if (settings) {
+        this.settings = settings;
+    }
     this.pageCount = countPages();
 
     // Determines if we are on a forum or a thread
@@ -84,21 +87,21 @@ PageNavigator.prototype.writeNavigatorHtml = function() {
                 '       </a>' +
                 '       <a class="nav-button" id="nav-last-page">' +
                 '           <img src="' + this.base_image_uri + 'nav-lastpage.png" />' +
-                '       </a>' +
-                '       <a class="nav-button" id="nav-last-post" >' +
-                '          <img src="' + this.base_image_uri + 'lastpost.png" />' +
-                '       </a>' +
-                '   </span>' +
+                '       </a>';
+
+    // Only add the last post button in threads
+    if (findCurrentPage() === 'showthread') {
+        html +=     '       <a class="nav-button" id="nav-last-post" >' +
+                    '          <img src="' + this.base_image_uri + 'lastpost.png" />' +
+                    '       </a>';
+    }
+
+    html +=     '   </span>' +
                 '   </div>' +
                '</nav>';
 
     // Add the navigator to the DOM
     jQuery('#container').append(html);
-
-    var navigatorWidth = (this.pageCount > 100) ? 219 : 212;
-
-    // Setup page nav CSS
-    jQuery('nav#page-nav').css({'width': navigatorWidth + 'px'});
 };
 
 PageNavigator.prototype.selectPage = function(page_number) {
@@ -136,11 +139,17 @@ PageNavigator.prototype.bindButtonEvents = function() {
         jQuery('#nav-next-page').css('opacity', '0.5');
     }
 
-    jQuery('#nav-last-post').click(function() {
-        var post = jQuery('div#thread > table.post').eq(findFirstUnreadPost());
+    if (this.settings && this.settings.loadNewWithLastPost == "true") {
+        // Load new posts with last post button
+        jQuery('#nav-last-post').first().attr('href', window.location.href.replace(/\?.*threadid/,'?threadid').replace(/\&.*$/,'&goto=newpost'));
+    } else {
+        // Scroll to first unread post
+        jQuery('#nav-last-post').click(function() {
+            var post = jQuery('div#thread > table.post').eq(findFirstUnreadPost());
 
-        jQuery(window).scrollTop(post.offset().top);
-    });
+            jQuery(window).scrollTop(post.offset().top);
+        });
+    }
 };
 
 PageNavigator.prototype.display = function() {
