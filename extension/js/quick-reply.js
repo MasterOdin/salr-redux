@@ -505,7 +505,7 @@ QuickReplyBox.prototype.toggleView = function() {
 };
 
 QuickReplyBox.prototype.toggleSidebar = function(element) {
-    side_bar = jQuery("#side-bar").first();
+    var side_bar = jQuery("#side-bar").first();
 
     if(!side_bar.is(':visible')) {
         side_bar.css('display', 'block');
