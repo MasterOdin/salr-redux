@@ -43,10 +43,6 @@ port.onMessage.addListener(function(data) {
     }
 });
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    salr_client.appendImage(request.original, request.thumbnail, request.type);
-});
-
 // Request the settings from the extension
 port.postMessage({'message': 'GetPageSettings'});
 

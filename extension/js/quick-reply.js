@@ -79,6 +79,13 @@ function QuickReplyBox(base_image_uri, settings, urlSchema) {
 QuickReplyBox.prototype.create = function(username, quote) {
 
     var that = this;
+
+    // Add listener for successful image uploads to append
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.original)
+            that.appendImage(request.original, request.thumbnail, request.type);
+    });
+
     // Begin fetching and parsing the emotes as soon as we create the quick-reply
     this.emote_parser = new EmoteParser(this);
 
@@ -212,13 +219,14 @@ QuickReplyBox.prototype.create = function(username, quote) {
         if (jQuery(this).is('.bbcode')) {
             var text_area = jQuery('textarea#post-message');
             var selection = text_area.getSelection();
+            var replacement_text;
 
             if (selection.text) {
-                var replacement_text = '[' + that.bbcodes[selected_item] + ']' + selection.text + '[/' + that.bbcodes[selected_item] + ']';
+                replacement_text = '[' + that.bbcodes[selected_item] + ']' + selection.text + '[/' + that.bbcodes[selected_item] + ']';
 
                 text_area.replaceSelection(replacement_text, true);
             } else {
-                var replacement_text = '[' + that.bbcodes[selected_item] + '][/' + that.bbcodes[selected_item] + ']';
+                replacement_text = '[' + that.bbcodes[selected_item] + '][/' + that.bbcodes[selected_item] + ']';
 
                 that.appendText(replacement_text);
             }
@@ -605,7 +613,7 @@ QuickReplyBox.prototype.setEmoteSidebar = function() {
     var html = '';
 
     if (this.settings.quickReplyEmotes == 'true') {
-        for (i = 0; i < this.sortedEmotes.length; i++) {
+        for (var i = 0; i < this.sortedEmotes.length; i++) {
             html += '<div class="sidebar-menu-item emote">' +
                     '   <div><img src="' + this.sortedEmotes[i][1] + '" /></div>' +
                     '   <div class="menu-item-code">' + this.sortedEmotes[i][0] + '</div>' +
@@ -641,7 +649,7 @@ QuickReplyBox.prototype.setBBCodeSidebar = function() {
 };
 
 QuickReplyBox.prototype.setImgurImagesSidebar = function() {
-    html = '<iframe src="' + chrome.extension.getURL('/') + 'imgur-upload.html" width="162" height="245" frameborder="0"></iframe>';
+    var html = '<iframe src="' + chrome.extension.getURL('/') + 'imgur-upload.html" width="162" height="245" frameborder="0"></iframe>';
     jQuery('#sidebar-list').html(html);
 
     this.sidebar_html = html;

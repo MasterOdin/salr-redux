@@ -101,9 +101,10 @@ chrome.runtime.onConnect.addListener(function(port) {
                 //port.postMessage({"message":"setting changed"});
                 break;
             case 'AppendUploadedImage':
-                chrome.tabs.query({active: true}, function(tabs) {
-                    chrome.tabs.sendMessage(tabs[0].id, data);
-                });
+                // Send to the tab that requested it
+                if (typeof port.sender.tab === "object" && port.sender.tab.id) {
+                    chrome.tabs.sendMessage(port.sender.tab.id, data);
+                }
                 break;
             case 'GetSALRButtonStatus':
                 chrome.management.get("dodkgjokbnmiickhikhikpggfohagmfb",function(result) {

@@ -1628,7 +1628,7 @@ SALR.prototype.updateForumsList = function() {
     var stickyList = new Array();
     if (this.settings.forumsList != null) {
         var oldForums = JSON.parse(this.settings.forumsList);
-        for(i in oldForums) {
+        for (var i in oldForums) {
             stickyList[oldForums[i].id] = oldForums[i].sticky;
         }
     }
@@ -2209,12 +2209,6 @@ SALR.prototype.highlightOwnQuotes = function() {
             jQuery(this).css('color', '');
         });
     });
-};
-
-SALR.prototype.appendImage = function(original, thumbnail, type) {
-    if (this.quickReply) {
-        this.quickReply.appendImage(original, thumbnail, type);
-    }
 };
 
 /**
