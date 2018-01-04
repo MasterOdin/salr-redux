@@ -37,8 +37,8 @@ function openTab(tabUrl) {
     if (button > 1)
         return;
     if (button == 0 && !event.ctrlKey) { // Left click
-        chrome.tabs.getSelected(null, function (tab) {
-            chrome.tabs.update(tab.id, {url: tabUrl});
+        chrome.tabs.query({active: true}, function (tabs) {
+            chrome.tabs.update(tabs[0].id, {url: tabUrl});
             window.close();
         });
     }
