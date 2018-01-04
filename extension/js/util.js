@@ -32,7 +32,7 @@ var YOSPOS_ID = 219;
  *
  */
 function findCurrentPage() {
-    page = location.href.split("/").slice(-1)[0].split(".php")[0];
+    var page = location.href.split("/").slice(-1)[0].split(".php")[0];
     if (page == undefined || page == null || page == "") {
         page = 'index';
     }
@@ -44,7 +44,8 @@ function findCurrentPage() {
  *
  */
 function findThreadID() {
-    if (findCurrentPage() == 'editpost') {
+    var curPage = findCurrentPage();
+    if (curPage === 'editpost') {
         var value = jQuery('span.mainbodytextlarge').children().children();
         value = jQuery(value[value.length-1]).attr('href').split('=');
         return value[1];
@@ -69,6 +70,13 @@ function findThreadID() {
             return value;
         }
     });
+
+    // Check "Show posts by this user" link (necessary for single post pages)
+    if (curPage === 'showthread') {
+        var questionId = jQuery('a.user_jump');
+        questionId = questionId[questionId.length-1].href.match(/threadid=(\d+)/i);
+        return questionId[1];
+    }
 }
 
 /**
