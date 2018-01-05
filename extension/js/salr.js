@@ -2247,8 +2247,12 @@ SALR.prototype.bindQuickReply = function() {
 
         // Bind the quick edit box to the button
         jQuery(this).parent().click(function() {
-            var subscribe = jQuery('.subscribe > a').html().indexOf('Unbookmark') == 0 ? true : false;
-
+            var subscribe = jQuery('.subscribe > a').html();
+            // On single post view, there's no bookmark star.
+            if (subscribe)
+                subscribe = subscribe.indexOf('Unbookmark') == 0 ? true : false;
+            else
+                subscribe = false;
             that.quickReply.editPost(postid, subscribe);
             that.quickReply.show();
         });

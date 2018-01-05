@@ -353,16 +353,22 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
         return jQuery('input[name="formkey"]', html).val();
     };
 
-    jQuery.get(this.reply_url,
-        {
-            action: 'newreply',
-            threadid: threadid
-        },
-        function(response) {
-            that.notifyFormKey(parseFormKey(response));
-            that.notifyReplyReady(parseFormCookie(response));
-        }
-    );
+    // Firefox will refuse to send credentials with requests to SA if third-
+    //     party cookies are disabled unless we use content.fetch (Firefox 58+)
+    const contentFetch = ((typeof content === "object" && content.fetch) ? content.fetch : fetch);
+    contentFetch(this.reply_url + '?action=newreply&threadid=' + threadid, {
+        method: "get",
+        credentials: 'include'
+    }).then(function(response) {
+        return response.text();
+    }).then(function(responseText) {
+        // Parse the response outside of the current document tree
+        // Among other things, this will prevent boogeyman from playing
+        //    in Firefox 57 and below if third-party cookies are disabled.
+        var parsedResponse = jQuery.parseHTML(responseText, document.implementation.createHTMLDocument(''), false);
+        that.notifyFormKey(parseFormKey(parsedResponse));
+        that.notifyReplyReady(parseFormCookie(parsedResponse));
+    });
 };
 
 QuickReplyBox.prototype.updatePreview = function() {
@@ -398,27 +404,34 @@ QuickReplyBox.prototype.appendQuote = function(postid) {
         this.quickReplyState.wait_for_quote = true;
 
     // Call up SA's quote page
-    jQuery.get(this.reply_url,
-                {
-                    action: 'newreply',
-                    postid: postid
-                },
-                function(response) {
-                    // Pull quoted text from reply box
-                    var textarea = jQuery(response).find('textarea[name=message]')
-                    var quote = '';
-                    if (textarea.length)
-                        quote = textarea.val();
+    // Firefox will refuse to send credentials with requests to SA if third-
+    //     party cookies are disabled unless we use content.fetch (Firefox 58+)
+    const contentFetch = ((typeof content === "object" && content.fetch) ? content.fetch : fetch);
+    contentFetch(this.reply_url + '?action=newreply&postid=' + postid, {
+        method: "get",
+        credentials: 'include'
+    }).then(function(response) {
+        return response.text();
+    }).then(function(responseText) {
+        // Parse the response outside of the current document tree
+        // Among other things, this will prevent boogeyman from playing
+        //    in Firefox 57 and below if third-party cookies are disabled.
+        var parsedResponse = jQuery.parseHTML(responseText, document.implementation.createHTMLDocument(''), false);
+        // Pull quoted text from reply box
+        var textarea = jQuery(parsedResponse).find('textarea[name=message]');
+        var quote = '';
+        if (textarea.length)
+            quote = textarea.val();
 
-                    // this is the first thing in the Quick Reply
-                    if (that.quickReplyState.wait_for_quote) {
-                        that.prependText(quote);
-                        that.showWarning();
-                        that.quickReplyState.wait_for_quote=false;
-                    } else {
-                        that.appendText(quote);
-                    }
-                });
+        // this is the first thing in the Quick Reply
+        if (that.quickReplyState.wait_for_quote) {
+            that.prependText(quote);
+            that.showWarning();
+            that.quickReplyState.wait_for_quote=false;
+        } else {
+            that.appendText(quote);
+        }
+    });
 };
 
 QuickReplyBox.prototype.appendImage = function(original, thumbnail, type) {
@@ -437,21 +450,33 @@ QuickReplyBox.prototype.appendImage = function(original, thumbnail, type) {
 QuickReplyBox.prototype.editPost = function(postid, subscribe) {
     var that = this;
 
-    // Call up SA's quote page
-    jQuery.get(this.edit_url,
-                {
-                    action: 'editpost',
-                    postid: postid
-                },
-                function(response) {
-                    // Pull quoted text from reply box
-                    var textarea = jQuery(response).find('textarea[name=message]');
-                    var edit = '';
-                    if (textarea.length)
-                        edit = textarea.val();
-                    jQuery('#post-message').val(edit);
-                    that.updatePreview();
-                });
+    // Call up SA's edit page
+    // Firefox will refuse to send credentials with requests to SA if third-
+    //     party cookies are disabled unless we use content.fetch (Firefox 58+)
+    const contentFetch = ((typeof content === "object" && content.fetch) ? content.fetch : fetch);
+    contentFetch(this.edit_url + '?action=editpost&postid=' + postid, {
+        method: "get",
+        credentials: 'include'
+    }).then(function(response) {
+        return response.text();
+    }).then(function(responseText) {
+        // Parse the response outside of the current document tree
+        // Among other things, this will prevent boogeyman from playing
+        //    in Firefox 57 and below if third-party cookies are disabled.
+        var parsedResponse = jQuery.parseHTML(responseText, document.implementation.createHTMLDocument(''), false);
+        // Pull quoted text from reply box
+        var textarea = jQuery(parsedResponse).find('textarea[name=message]');
+        var edit = '';
+        if (textarea.length)
+            edit = textarea.val();
+        jQuery('#post-message').val(edit);
+        // Grab bookmark status (only way to get it for edits from single post)
+        var existingBookmark = jQuery(parsedResponse).find('input[name=bookmark]').attr('checked');
+        if (existingBookmark && existingBookmark === 'checked')
+            jQuery('input#quickReplyBookmark').prop('checked', true);
+        that.updatePreview();        
+    });
+
     jQuery('#post-warning').remove();
     jQuery('div#title-bar').text('Quick Edit');
     jQuery('form#quick-reply-form').attr('action', 'editpost.php');
