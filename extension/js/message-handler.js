@@ -30,8 +30,8 @@
  *
  */
 
-if(chrome.extension.onConnectExternal != undefined) {
-    chrome.extension.onConnectExternal.addListener(function(port) {
+if(chrome.runtime.onConnectExternal != undefined) {
+    chrome.runtime.onConnectExternal.addListener(function(port) {
         port.onMessage.addListener(function(data) {
             switch (data.message) {
                 case 'GetForumsJumpList':
@@ -50,7 +50,7 @@ if(chrome.extension.onConnectExternal != undefined) {
  * Message event listener so that we can talk to the content-script
  *
  */
-chrome.extension.onConnect.addListener(function(port) {
+chrome.runtime.onConnect.addListener(function(port) {
     port.onMessage.addListener(function(data) {
         switch (data.message) {
             case 'OpenSettings':
@@ -101,12 +101,10 @@ chrome.extension.onConnect.addListener(function(port) {
                 //port.postMessage({"message":"setting changed"});
                 break;
             case 'AppendUploadedImage':
-                console.log('Got request!');
-                chrome.tabs.getSelected(null, function(tab) {
-                    chrome.tabs.sendMessage(tab.id, data, function(response) {
-                        console.log(response.farewell);
-                    });
-                });
+                // Send to the tab that requested it
+                if (typeof port.sender.tab === "object" && port.sender.tab.id) {
+                    chrome.tabs.sendMessage(port.sender.tab.id, data);
+                }
                 break;
             case 'GetSALRButtonStatus':
                 chrome.management.get("dodkgjokbnmiickhikhikpggfohagmfb",function(result) {
@@ -120,7 +118,7 @@ chrome.extension.onConnect.addListener(function(port) {
                 break;
             case 'ConvertSettings':
                 chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
-                    var salr = chrome.extension.connect("nlcklobeoigfjmcigmhbjkepmniladed");
+                    var salr = chrome.runtime.connect("nlcklobeoigfjmcigmhbjkepmniladed");
                     salr.onMessage.addListener(function(data) {
                         localStorage.setItem('userNotes',data.userNotes);
                         localStorage.setItem('threadNotes', data.threadNotes);

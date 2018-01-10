@@ -1,4 +1,4 @@
-var port = chrome.extension.connect();
+var port = chrome.runtime.connect();
 var uploader = new ImageUploader(
     'https://api.imgur.com/2/upload.xml',
     {

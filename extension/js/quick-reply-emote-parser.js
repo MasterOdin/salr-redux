@@ -26,29 +26,34 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 function EmoteParser(observer) {
-    this.emote_url = "http://forums.somethingawful.com/misc.php";
+    this.emote_url = "https://forums.somethingawful.com/misc.php?action=showsmilies";
     this.observer = observer;
     this.emotes = {};
     this.emotesArray = [];
-    this.expireTimeOut = 1000 * 60 * 60 * 24; // One day
+    this.expireTimeout = 1000 * 60 * 60 * 24; // One day
 
-    this.construct()
+    this.construct();
 }
 
 EmoteParser.prototype.construct = function() {
     var expireTime = localStorage.lastExpireTime;
 
     if (expireTime === undefined || (Date.now() - expireTime > this.expireTimeout)) {
-      var that = this;
-      jQuery.get(this.emote_url, { action: 'showsmilies' },
-        function(response) {
-            that.parseResponse(response);
+        var that = this;
+
+        var contentFetch = ((content && content.fetch) ? content.fetch : fetch);
+        contentFetch(this.emote_url, {
+            method: "get",
+            credentials: 'include'
+        }).then(function(response) {
+            return response.text();
+        }).then(function(responseText) {
+            that.parseResponse(responseText);
             that.observer.notify(that.emotes, that.emotesArray);
-        }
-      );
+        });
     } else {
-      this.loadFromLocalStorage();
-      this.observer.notify(this.emotes, this.emotesArray);
+        this.loadFromLocalStorage();
+        this.observer.notify(this.emotes, this.emotesArray);
     }
 };
 
@@ -86,6 +91,12 @@ EmoteParser.prototype.parseResponse = function(response) {
         that.emotesArray.push([emote,image]);
     });
 
+    // Don't bother continuing/saving if we found nothing.
+    if (that.emotesArray.length === 0) {
+        console.log("SALR Error: Couldn't find any emotes.");
+        return;
+    }
+
     this.emotesArray.sort(function(a,b) {
         return a[0].toLowerCase() > b[0].toLowerCase() ? 1 : -1;
     });
@@ -99,12 +110,12 @@ EmoteParser.prototype.saveInLocalStorage = function() {
   localStorage.emotes = JSON.stringify(this.emotes);
   localStorage.emotesArray = JSON.stringify(this.emotesArray);
   localStorage.lastExpireTime = Date.now();
-}
+};
 
 EmoteParser.prototype.loadFromLocalStorage = function() {
   this.emotes = JSON.parse(localStorage.emotes);
   this.emotesArray = JSON.parse(localStorage.emotesArray);
-}
+};
 
 EmoteParser.prototype.getEmotes = function() {
     return this.emotes;

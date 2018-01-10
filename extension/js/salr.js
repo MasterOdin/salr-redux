@@ -137,7 +137,7 @@ SALR.prototype.pageInit = function() {
             }
 
             if (this.settings.displayPageNavigator == 'true') {
-                this.pageNavigator = new PageNavigator(this.base_image_uri);
+                this.pageNavigator = new PageNavigator(this.base_image_uri, this.settings);
             }
 
             this.updateForumsList();
@@ -1075,7 +1075,7 @@ SALR.prototype.displaySinglePostLink = function() {
 
 SALR.prototype.detectFancySA = function() {
     var fancyId = 'ohlohgldhcaajjhadleledokhlpgamjm';
-    chrome.extension.sendMessage(fancyId, {message:"installcheck"}, function(response) {
+    chrome.runtime.sendMessage(fancyId, {message:"installcheck"}, function(response) {
         if (response === undefined)
             return;
         if (response.message != "yes")
@@ -1628,7 +1628,7 @@ SALR.prototype.updateForumsList = function() {
     var stickyList = new Array();
     if (this.settings.forumsList != null) {
         var oldForums = JSON.parse(this.settings.forumsList);
-        for(i in oldForums) {
+        for (var i in oldForums) {
             stickyList[oldForums[i].id] = oldForums[i].sticky;
         }
     }
@@ -2211,12 +2211,6 @@ SALR.prototype.highlightOwnQuotes = function() {
     });
 };
 
-SALR.prototype.appendImage = function(original, thumbnail, type) {
-    if (this.quickReply) {
-        this.quickReply.appendImage(original, thumbnail, type);
-    }
-};
-
 /**
  * Binds quick-reply box to reply/quote buttons
  *
@@ -2253,8 +2247,12 @@ SALR.prototype.bindQuickReply = function() {
 
         // Bind the quick edit box to the button
         jQuery(this).parent().click(function() {
-            var subscribe = jQuery('.subscribe > a').html().indexOf('Unbookmark') == 0 ? true : false;
-
+            var subscribe = jQuery('.subscribe > a').html();
+            // On single post view, there's no bookmark star.
+            if (subscribe)
+                subscribe = subscribe.indexOf('Unbookmark') == 0 ? true : false;
+            else
+                subscribe = false;
             that.quickReply.editPost(postid, subscribe);
             that.quickReply.show();
         });

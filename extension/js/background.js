@@ -35,16 +35,12 @@ var salr_client = false;
  * within the extension.
  *
  */
-var port = chrome.extension.connect();
+var port = chrome.runtime.connect();
 
 port.onMessage.addListener(function(data) {
     if (!salr_client) {
         salr_client = new SALR(data, chrome.extension.getURL("images/"));
     }
-});
-
-chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-    salr_client.appendImage(request.original, request.thumbnail, request.type);
 });
 
 // Request the settings from the extension

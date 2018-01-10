@@ -79,6 +79,13 @@ function QuickReplyBox(base_image_uri, settings, urlSchema) {
 QuickReplyBox.prototype.create = function(username, quote) {
 
     var that = this;
+
+    // Add listener for successful image uploads to append
+    chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+        if (request.original)
+            that.appendImage(request.original, request.thumbnail, request.type);
+    });
+
     // Begin fetching and parsing the emotes as soon as we create the quick-reply
     this.emote_parser = new EmoteParser(this);
 
@@ -212,13 +219,14 @@ QuickReplyBox.prototype.create = function(username, quote) {
         if (jQuery(this).is('.bbcode')) {
             var text_area = jQuery('textarea#post-message');
             var selection = text_area.getSelection();
+            var replacement_text;
 
             if (selection.text) {
-                var replacement_text = '[' + that.bbcodes[selected_item] + ']' + selection.text + '[/' + that.bbcodes[selected_item] + ']';
+                replacement_text = '[' + that.bbcodes[selected_item] + ']' + selection.text + '[/' + that.bbcodes[selected_item] + ']';
 
                 text_area.replaceSelection(replacement_text, true);
             } else {
-                var replacement_text = '[' + that.bbcodes[selected_item] + '][/' + that.bbcodes[selected_item] + ']';
+                replacement_text = '[' + that.bbcodes[selected_item] + '][/' + that.bbcodes[selected_item] + ']';
 
                 that.appendText(replacement_text);
             }
@@ -345,16 +353,22 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
         return jQuery('input[name="formkey"]', html).val();
     };
 
-    jQuery.get(this.reply_url,
-        {
-            action: 'newreply',
-            threadid: threadid
-        },
-        function(response) {
-            that.notifyFormKey(parseFormKey(response));
-            that.notifyReplyReady(parseFormCookie(response));
-        }
-    );
+    // Firefox will refuse to send credentials with requests to SA if third-
+    //     party cookies are disabled unless we use content.fetch (Firefox 58+)
+    const contentFetch = ((typeof content === "object" && content.fetch) ? content.fetch : fetch);
+    contentFetch(this.reply_url + '?action=newreply&threadid=' + threadid, {
+        method: "get",
+        credentials: 'include'
+    }).then(function(response) {
+        return response.text();
+    }).then(function(responseText) {
+        // Parse the response outside of the current document tree
+        // Among other things, this will prevent boogeyman from playing
+        //    in Firefox 57 and below if third-party cookies are disabled.
+        var parsedResponse = jQuery.parseHTML(responseText, document.implementation.createHTMLDocument(''), false);
+        that.notifyFormKey(parseFormKey(parsedResponse));
+        that.notifyReplyReady(parseFormCookie(parsedResponse));
+    });
 };
 
 QuickReplyBox.prototype.updatePreview = function() {
@@ -390,27 +404,34 @@ QuickReplyBox.prototype.appendQuote = function(postid) {
         this.quickReplyState.wait_for_quote = true;
 
     // Call up SA's quote page
-    jQuery.get(this.reply_url,
-                {
-                    action: 'newreply',
-                    postid: postid
-                },
-                function(response) {
-                    // Pull quoted text from reply box
-                    var textarea = jQuery(response).find('textarea[name=message]')
-                    var quote = '';
-                    if (textarea.length)
-                        quote = textarea.val();
+    // Firefox will refuse to send credentials with requests to SA if third-
+    //     party cookies are disabled unless we use content.fetch (Firefox 58+)
+    const contentFetch = ((typeof content === "object" && content.fetch) ? content.fetch : fetch);
+    contentFetch(this.reply_url + '?action=newreply&postid=' + postid, {
+        method: "get",
+        credentials: 'include'
+    }).then(function(response) {
+        return response.text();
+    }).then(function(responseText) {
+        // Parse the response outside of the current document tree
+        // Among other things, this will prevent boogeyman from playing
+        //    in Firefox 57 and below if third-party cookies are disabled.
+        var parsedResponse = jQuery.parseHTML(responseText, document.implementation.createHTMLDocument(''), false);
+        // Pull quoted text from reply box
+        var textarea = jQuery(parsedResponse).find('textarea[name=message]');
+        var quote = '';
+        if (textarea.length)
+            quote = textarea.val();
 
-                    // this is the first thing in the Quick Reply
-                    if (that.quickReplyState.wait_for_quote) {
-                        that.prependText(quote);
-                        that.showWarning();
-                        that.quickReplyState.wait_for_quote=false;
-                    } else {
-                        that.appendText(quote);
-                    }
-                });
+        // this is the first thing in the Quick Reply
+        if (that.quickReplyState.wait_for_quote) {
+            that.prependText(quote);
+            that.showWarning();
+            that.quickReplyState.wait_for_quote=false;
+        } else {
+            that.appendText(quote);
+        }
+    });
 };
 
 QuickReplyBox.prototype.appendImage = function(original, thumbnail, type) {
@@ -429,21 +450,33 @@ QuickReplyBox.prototype.appendImage = function(original, thumbnail, type) {
 QuickReplyBox.prototype.editPost = function(postid, subscribe) {
     var that = this;
 
-    // Call up SA's quote page
-    jQuery.get(this.edit_url,
-                {
-                    action: 'editpost',
-                    postid: postid
-                },
-                function(response) {
-                    // Pull quoted text from reply box
-                    var textarea = jQuery(response).find('textarea[name=message]');
-                    var edit = '';
-                    if (textarea.length)
-                        edit = textarea.val();
-                    jQuery('#post-message').val(edit);
-                    that.updatePreview();
-                });
+    // Call up SA's edit page
+    // Firefox will refuse to send credentials with requests to SA if third-
+    //     party cookies are disabled unless we use content.fetch (Firefox 58+)
+    const contentFetch = ((typeof content === "object" && content.fetch) ? content.fetch : fetch);
+    contentFetch(this.edit_url + '?action=editpost&postid=' + postid, {
+        method: "get",
+        credentials: 'include'
+    }).then(function(response) {
+        return response.text();
+    }).then(function(responseText) {
+        // Parse the response outside of the current document tree
+        // Among other things, this will prevent boogeyman from playing
+        //    in Firefox 57 and below if third-party cookies are disabled.
+        var parsedResponse = jQuery.parseHTML(responseText, document.implementation.createHTMLDocument(''), false);
+        // Pull quoted text from reply box
+        var textarea = jQuery(parsedResponse).find('textarea[name=message]');
+        var edit = '';
+        if (textarea.length)
+            edit = textarea.val();
+        jQuery('#post-message').val(edit);
+        // Grab bookmark status (only way to get it for edits from single post)
+        var existingBookmark = jQuery(parsedResponse).find('input[name=bookmark]').attr('checked');
+        if (existingBookmark && existingBookmark === 'checked')
+            jQuery('input#quickReplyBookmark').prop('checked', true);
+        that.updatePreview();        
+    });
+
     jQuery('#post-warning').remove();
     jQuery('div#title-bar').text('Quick Edit');
     jQuery('form#quick-reply-form').attr('action', 'editpost.php');
@@ -505,7 +538,7 @@ QuickReplyBox.prototype.toggleView = function() {
 };
 
 QuickReplyBox.prototype.toggleSidebar = function(element) {
-    side_bar = jQuery("#side-bar").first();
+    var side_bar = jQuery("#side-bar").first();
 
     if(!side_bar.is(':visible')) {
         side_bar.css('display', 'block');
@@ -605,7 +638,7 @@ QuickReplyBox.prototype.setEmoteSidebar = function() {
     var html = '';
 
     if (this.settings.quickReplyEmotes == 'true') {
-        for (i = 0; i < this.sortedEmotes.length; i++) {
+        for (var i = 0; i < this.sortedEmotes.length; i++) {
             html += '<div class="sidebar-menu-item emote">' +
                     '   <div><img src="' + this.sortedEmotes[i][1] + '" /></div>' +
                     '   <div class="menu-item-code">' + this.sortedEmotes[i][0] + '</div>' +
@@ -641,7 +674,7 @@ QuickReplyBox.prototype.setBBCodeSidebar = function() {
 };
 
 QuickReplyBox.prototype.setImgurImagesSidebar = function() {
-    html = '<iframe src="' + chrome.extension.getURL('/') + 'imgur-upload.html" width="162" height="245" frameborder="0"></iframe>';
+    var html = '<iframe src="' + chrome.extension.getURL('/') + 'imgur-upload.html" width="162" height="245" frameborder="0"></iframe>';
     jQuery('#sidebar-list').html(html);
 
     this.sidebar_html = html;

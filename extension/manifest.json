@@ -16,7 +16,10 @@
       ],
       "persistent": false
   },
-  "options_page":"settings.html",
+  "options_ui": {
+      "page": "settings.html",
+      "open_in_tab": true
+  },
   "content_scripts": [
     {
       "css" : [

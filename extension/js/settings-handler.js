@@ -30,7 +30,7 @@
  *
  */
 
-var port = chrome.extension.connect({"name":"settings"});
+var port = chrome.runtime.connect({"name":"settings"});
 
 jQuery(document).ready(function() {
     var debug = "false";
@@ -149,6 +149,7 @@ jQuery(document).ready(function() {
 
     // Control Options
     defaultSettings['displayPageNavigator']         = 'true';
+    defaultSettings['loadNewWithLastPost']          = 'false';
     defaultSettings['displayOmnibarIcon']           = 'false';
     defaultSettings['enableKeyboardShortcuts']      = 'false';
     defaultSettings['enableMouseGestures']          = 'false';
