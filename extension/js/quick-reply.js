@@ -119,9 +119,9 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 '       <div id="tag-menu" class="sidebar-menu">' +
                 '           <img src="' + this.base_image_uri + "quick-reply-tags.gif" + '" />' +
                 '       </div>' +
-                //'       <div id="imgur-images-menu" class="sidebar-menu">' +
-                //'           <img src="' + this.base_image_uri + "quick-reply-imgur.png" + '" />' +
-                //'       </div>' +
+                '       <div id="imgur-images-menu" class="sidebar-menu">' +
+                '           <img src="' + this.base_image_uri + "quick-reply-imgur.png" + '" />' +
+                '       </div>' +
                 '       <div id="post-input-field">' +
                 '           <textarea name="message" rows="18" size="10" id="post-message" tabindex="1">' +
                 '           </textarea>' +

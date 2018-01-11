@@ -23,18 +23,6 @@ div#upload-label {
     display: none;
 }
 
-div#progress-bar {
-    width: 152px; 
-    border: 1px solid #999;
-}
-
-div#progress-bar span {
-    width: 0px; 
-    background: #ccc; 
-    display: block; 
-    height: 10px;
-}
-
 div#enter-url {
     position: relative;
     text-align: center;
@@ -67,4 +55,8 @@ div#error {
     color: red;
     font-size: 10pt;
     font-family: sans-serif;
+}
+
+body {
+    overflow: hidden;
 }
