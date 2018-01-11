@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "chrome-webstore-upload-cli": "^1.0.0"
+  },
+  "scripts": {
+    "release-chrome": "echo ${EXTENSION_ID}",
+    "release-firefox": "echo firefox"
+  }
+}

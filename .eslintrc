@@ -1,0 +1,40 @@
+{
+    "extends": "eslint:recommended",
+    "rules": {
+        "complexity": [1,12],
+        "eqeqeq": [1, "smart"],
+        "no-unused-vars": [1, {"vars": "all", "args": "none", "varsIgnorePattern": "Handler"}],
+        "no-use-before-define": [2, "nofunc"],
+        "no-eval": 2,
+        "guard-for-in": 2,
+        "no-array-constructor": 1,
+        "no-new-object": 1,
+        "no-new-wrappers": 2,
+        "no-spaced-func": 2,
+        "no-useless-escape": 1,        
+        "comma-dangle": [0, "always-multiline"],
+        "no-empty": 1,
+        "no-mixed-spaces-and-tabs": [1, "smart-tabs"],
+        "no-regex-spaces": 1,
+        "indent": 0,
+        "quotes": 0,
+        "linebreak-style": 0,
+        "semi": [2, "always"],
+        "keyword-spacing": 0,
+        "no-console": 1
+    },
+    "env": {
+        "browser": true,
+        "jquery": true,
+        "webextensions": true
+    },
+    "globals": {
+        "jQuery": true,
+        "content": false,
+        "PostHistory": true,
+        "PreviewParser": true,
+        "EmoteParser": true,
+        "findThreadID": true,
+        "findCurrentPage": true
+    }
+}
