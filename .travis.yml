@@ -4,9 +4,9 @@ node_js:
   - "8"
 
 env:
-  - EXTENSION_ID=bogegdelcjhoaakaepmoglademmhiboo
   matrix:
     - BROWSER='chrome'
+      EXTENSION_ID=bogegdelcjhoaakaepmoglademmhiboo
     - BROWSER='firefox'
 
 script:
