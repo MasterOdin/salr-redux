@@ -9,6 +9,10 @@ env:
     - BROWSER='chrome'
     - BROWSER='firefox'
 
+script:
+  - echo ${EXTENSION_ID}
+  - echo ${BROWSER}
+
 deploy:
   provider: script
   script: npm run release-${BROWSER}
