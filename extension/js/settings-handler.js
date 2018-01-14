@@ -759,6 +759,8 @@ function configWindow() {
         win.document.writeln('<tr><th>Key</th><th>Value</th></tr>');
         win.document.writeln('</table>');
         for (var key in localStorage) {
+            if (!localStorage.hasOwnProperty(key))
+                continue;
             if (key == 'friendsList'    ||
                 key == 'friendsListId'  ||
                 key == 'forumsList'     ||
@@ -917,6 +919,8 @@ function userNotesClear(sync) {
 function createSettingsBackup() {
     var settings = {};
     for (var key in localStorage) {
+        if (!localStorage.hasOwnProperty(key))
+            continue;
         if (key == 'friendsList'    ||
             key == 'friendsListId'  ||
             key == 'forumsList'     ||
