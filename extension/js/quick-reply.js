@@ -354,21 +354,20 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
     };
 
     // Firefox will refuse to send credentials with requests to SA if third-
-    //     party cookies are disabled unless we use content.fetch (Firefox 58+)
-    const contentFetch = ((typeof content === "object" && content.fetch) ? content.fetch : fetch);
-    contentFetch(this.reply_url + '?action=newreply&threadid=' + threadid, {
-        method: "get",
-        credentials: 'include'
-    }).then(function(response) {
-        return response.text();
-    }).then(function(responseText) {
+    //     party cookies are disabled unless we use content. (Firefox 58+)
+    const contentXHR = ((typeof content === "object" && content.XMLHttpRequest) ? content.XMLHttpRequest : XMLHttpRequest);
+    var xhr = new contentXHR;
+    xhr.open("GET", this.reply_url + '?action=newreply&threadid=' + threadid);
+    xhr.withCredentials = true;
+    xhr.onload = function() {
         // Parse the response outside of the current document tree
         // Among other things, this will prevent boogeyman from playing
         //    in Firefox 57 and below if third-party cookies are disabled.
-        var parsedResponse = jQuery.parseHTML(responseText, document.implementation.createHTMLDocument(''), false);
+        var parsedResponse = jQuery.parseHTML(xhr.responseText, document.implementation.createHTMLDocument(''), false);
         that.notifyFormKey(parseFormKey(parsedResponse));
         that.notifyReplyReady(parseFormCookie(parsedResponse));
-    });
+    };
+    xhr.send();
 };
 
 QuickReplyBox.prototype.updatePreview = function() {
@@ -405,18 +404,16 @@ QuickReplyBox.prototype.appendQuote = function(postid) {
 
     // Call up SA's quote page
     // Firefox will refuse to send credentials with requests to SA if third-
-    //     party cookies are disabled unless we use content.fetch (Firefox 58+)
-    const contentFetch = ((typeof content === "object" && content.fetch) ? content.fetch : fetch);
-    contentFetch(this.reply_url + '?action=newreply&postid=' + postid, {
-        method: "get",
-        credentials: 'include'
-    }).then(function(response) {
-        return response.text();
-    }).then(function(responseText) {
+    //     party cookies are disabled unless we use content. (Firefox 58+)
+    const contentXHR = ((typeof content === "object" && content.XMLHttpRequest) ? content.XMLHttpRequest : XMLHttpRequest);
+    var xhr = new contentXHR;
+    xhr.open("GET", this.reply_url + '?action=newreply&postid=' + postid);
+    xhr.withCredentials = true;
+    xhr.onload = function() {
         // Parse the response outside of the current document tree
         // Among other things, this will prevent boogeyman from playing
         //    in Firefox 57 and below if third-party cookies are disabled.
-        var parsedResponse = jQuery.parseHTML(responseText, document.implementation.createHTMLDocument(''), false);
+        var parsedResponse = jQuery.parseHTML(xhr.responseText, document.implementation.createHTMLDocument(''), false);
         // Pull quoted text from reply box
         var textarea = jQuery(parsedResponse).find('textarea[name=message]');
         var quote = '';
@@ -431,7 +428,8 @@ QuickReplyBox.prototype.appendQuote = function(postid) {
         } else {
             that.appendText(quote);
         }
-    });
+    };
+    xhr.send();
 };
 
 QuickReplyBox.prototype.appendImage = function(original, thumbnail, type) {
@@ -452,18 +450,16 @@ QuickReplyBox.prototype.editPost = function(postid, subscribe) {
 
     // Call up SA's edit page
     // Firefox will refuse to send credentials with requests to SA if third-
-    //     party cookies are disabled unless we use content.fetch (Firefox 58+)
-    const contentFetch = ((typeof content === "object" && content.fetch) ? content.fetch : fetch);
-    contentFetch(this.edit_url + '?action=editpost&postid=' + postid, {
-        method: "get",
-        credentials: 'include'
-    }).then(function(response) {
-        return response.text();
-    }).then(function(responseText) {
+    //     party cookies are disabled unless we use content. (Firefox 58+)
+    const contentXHR = ((typeof content === "object" && content.XMLHttpRequest) ? content.XMLHttpRequest : XMLHttpRequest);
+    var xhr = new contentXHR;
+    xhr.open("GET", this.edit_url + '?action=editpost&postid=' + postid);
+    xhr.withCredentials = true;
+    xhr.onload = function() {
         // Parse the response outside of the current document tree
         // Among other things, this will prevent boogeyman from playing
         //    in Firefox 57 and below if third-party cookies are disabled.
-        var parsedResponse = jQuery.parseHTML(responseText, document.implementation.createHTMLDocument(''), false);
+        var parsedResponse = jQuery.parseHTML(xhr.responseText, document.implementation.createHTMLDocument(''), false);
         // Pull quoted text from reply box
         var textarea = jQuery(parsedResponse).find('textarea[name=message]');
         var edit = '';
@@ -474,8 +470,9 @@ QuickReplyBox.prototype.editPost = function(postid, subscribe) {
         var existingBookmark = jQuery(parsedResponse).find('input[name=bookmark]').attr('checked');
         if (existingBookmark && existingBookmark === 'checked')
             jQuery('input#quickReplyBookmark').prop('checked', true);
-        that.updatePreview();        
-    });
+        that.updatePreview();
+    };
+    xhr.send();
 
     jQuery('#post-warning').remove();
     jQuery('div#title-bar').text('Quick Edit');
@@ -592,7 +589,7 @@ QuickReplyBox.prototype.toggleSidebar = function(element) {
 };
 
 QuickReplyBox.prototype.toggleTopbar = function() {
-    top_bar = jQuery('#top-bar');
+    var top_bar = jQuery('#top-bar');
 
     if (!top_bar.is(':visible')) {
         top_bar.css('display', 'block');
@@ -646,10 +643,10 @@ QuickReplyBox.prototype.setEmoteSidebar = function() {
         }
     }
     else {
-        for (var emote in this.emotes) {
+        for (var anEmote of Object.values(this.emotes)) {
             html += '<div class="sidebar-menu-item emote">' +
-                    '   <div><img src="' + this.emotes[emote].image + '" /></div>' +
-                    '   <div class="menu-item-code">' + this.emotes[emote].emote + '</div>' +
+                    '   <div><img src="' + anEmote.image + '" /></div>' +
+                    '   <div class="menu-item-code">' + anEmote.emote + '</div>' +
                     '</div>';
         }
     }
@@ -663,9 +660,11 @@ QuickReplyBox.prototype.setBBCodeSidebar = function() {
     var html = '';
 
     for (var code in this.bbcodes) {
-        html += '<div class="sidebar-menu-item bbcode">' +
-                '   <div class="menu-item-code">' + code + '</div>' +
-                '</div>';
+        if (this.bbcodes.hasOwnProperty(code)) {
+            html += '<div class="sidebar-menu-item bbcode">' +
+                    '   <div class="menu-item-code">' + code + '</div>' +
+                    '</div>';
+        }
     }
 
     jQuery('#sidebar-list').html(html);
@@ -778,14 +777,15 @@ QuickReplyBox.prototype.pasteText = function() {
     var that = this;
     // TODO: make this more readable and stuff
     setTimeout(function() {
-        var new_elem = elem.val()
+        var new_elem = elem.val();
+        var paste;
         if (start == end) {
-            var paste = new_elem.substr(start,new_elem.length-orig.length);
+            paste = new_elem.substr(start,new_elem.length-orig.length);
         }
         else {
             // start < end
             var temp = orig.substr(0,start) + orig.substr(end);
-            var paste = new_elem.substr(start,new_elem.length-temp.length);
+            paste = new_elem.substr(start,new_elem.length-temp.length);
         }
         elem.val(orig);
         elem[0].selectionStart = start;
@@ -901,7 +901,7 @@ QuickReplyBox.prototype.showWarning = function() {
     if (this.settings.qneProtection == 'true') {
         if (this.settings.username) {
             var regex = "quote=\"" + this.settings.username + "\"";
-            match = jQuery("#post-message").val().match(new RegExp(regex,"gi"));
+            var match = jQuery("#post-message").val().match(new RegExp(regex,"gi"));
             if (match != null) {
                 jQuery("#post-options").after("<div id='post-warning'><h4>Warning! Possible Quote/Edit mixup.</h4></div>");
             }
