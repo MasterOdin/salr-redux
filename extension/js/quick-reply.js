@@ -687,67 +687,67 @@ QuickReplyBox.prototype.isVisible = function() {
     return this.quickReplyState.visible;
 };
 
-QuickReplyBox.prototype.formatText = function() {
+QuickReplyBox.prototype.formatText = function(event) {
     // Both CtrlKey & AltKey means AltGr was hit
     if (!event.ctrlKey || (event.ctrlKey && event.altKey))
         return;
 
-    if (event.ctrlKey && String.fromCharCode(event.keyCode) == 'Z') {
+    // add undo for fancy paste handler
+    if (event.ctrlKey && event.key.toLowerCase() === 'z') {
         if (this.previous_text != null) {
-            event.srcElement.value = this.previous_text;
+            event.target.value = this.previous_text;
             this.previous_text = null;
             event.preventDefault();
         }
     }
 
-    var key = String.fromCharCode(event.keyCode);
-    var src = event.srcElement;
-    var selStart = src.selectionStart;
-    var selEnd = src.selectionEnd;
-
-    var text = src.value;
-    var pre = text.substring(0, selStart);
-    var sel = text.substring(selStart, selEnd);
-    var post = text.substring(selEnd);
-
     if (this.settings.quickReplyFormat == 'true') {
-        if (key == 'B') {
+        var key = event.key.toLowerCase();
+        var src = event.target;
+        var selStart = src.selectionStart;
+        var selEnd = src.selectionEnd;
+
+        var text = src.value;
+        var pre = text.substring(0, selStart);
+        var sel = text.substring(selStart, selEnd);
+        var post = text.substring(selEnd);
+        if (key === 'b') {
             // Bold
             src.value = pre+'[b]'+sel+'[/b]'+post;
             event.preventDefault();
             src.selectionStart = selStart+3;
             src.selectionEnd = selEnd+3;
-        } else if (key == 'I') {
+        } else if (key === 'i') {
             // Italics
             src.value = pre+'[i]'+sel+'[/i]'+post;
             event.preventDefault();
             src.selectionStart = selStart+3;
             src.selectionEnd = selEnd+3;
-        } else if (key == 'U') {
+        } else if (key === 'u') {
             // Underline
             src.value = pre+'[u]'+sel+'[/u]'+post;
             event.preventDefault();
             src.selectionStart = selStart+3;
             src.selectionEnd = selEnd+3;
-        } else if (key == 'S') {
+        } else if (key === 's') {
             // Strikeout
             src.value = pre+'[s]'+sel+'[/s]'+post;
             event.preventDefault();
             src.selectionStart = selStart+3;
             src.selectionEnd = selEnd+3;
-        } else if (key == 'F') {
+        } else if (key === 'f') {
             // Fixed
             src.value = pre+'[fixed]'+sel+'[/fixed]'+post;
             event.preventDefault();
             src.selectionStart = selStart+7;
             src.selectionEnd = selEnd+7;
-        } else if (key == 'P') {
+        } else if (key === 'p') {
             // Spoiler
             src.value = pre+'[spoiler]'+sel+'[/spoiler]'+post;
             event.preventDefault();
             src.selectionStart = selStart+9;
             src.selectionEnd = selEnd+9;
-        } else if (key == '8') {
+        } else if (key === '8') {
             // List Item
 
             // Check if we need to add a list tag
@@ -765,7 +765,7 @@ QuickReplyBox.prototype.formatText = function() {
 };
 
 QuickReplyBox.prototype.pasteText = function() {
-    var elem = jQuery(event.srcElement);
+    var elem = jQuery(event.target);
     var orig = elem.val();
     //var orig = elem[0].val();
     var start = elem[0].selectionStart;

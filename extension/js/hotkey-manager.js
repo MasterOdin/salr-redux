@@ -83,7 +83,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
         else
             that.b_count=0;
 
-        /*if (findCurrentPage() == 'showthread.php') {
+        /*if (findCurrentPage() === 'showthread') {
             if (this.quickReply.isExpanded() || this.quickReply.isVisible()) {
                 quick_reply_block = true;
             }
@@ -128,39 +128,40 @@ HotKeyManager.prototype.bindHotKeys = function() {
                     break;
                 case 113: /* q */
                     // Quick quote current post
-                    if (findCurrentPage() == 'showthread.php') {
+                    if (findCurrentPage() === 'showthread' && that.settings.enableQuickReply == 'true') {
                         that.quoteCurrentPost();
                         event.preventDefault();
                     }
                     break;
                 case 101: /* e */
                     // Quick edit current post
-                    if (findCurrentPage() == 'showthread.php') {
+                    if (findCurrentPage() === 'showthread' && that.settings.enableQuickReply == 'true') {
                         that.editCurrentPost();
                         event.preventDefault();
                     }
                     break;
                 case 114: /* r */
-                    // TODO: Conditionalize on quick reply being enabled
-                    if (findCurrentPage() == 'showthread.php') {
+                    if (findCurrentPage() === 'showthread' && that.settings.enableQuickReply == 'true') {
                         that.displayQuickReply();
                         event.preventDefault();
                     }
                     break;
                 case 98: /* b */
-                    // Open unread threads
-                    var curr_page = findCurrentPage();
-                    if (curr_page == 'bookmarkthreads.php' || curr_page == 'usercp.php') {
-                        if (that.b_count == 2) {
-                            that.b_count=0;
-                            that.openAllBookmarks();
-                            event.preventDefault();
-                        }
-                    } else if (curr_page == 'forumdisplay.php') {
-                        if (that.b_count == 2) {
-                            that.b_count=0;
-                            that.openAllBookmarks();
-                            event.preventDefault();
+                    // Open unread threads if the option is enabled
+                    if (that.settings.openAllUnreadLink == 'true') {
+                        var curr_page = findCurrentPage();
+                        if (curr_page === 'bookmarkthreads' || curr_page === 'usercp') {
+                            if (that.b_count == 2) {
+                                that.b_count=0;
+                                that.openAllBookmarks();
+                                event.preventDefault();
+                            }
+                        } else if (curr_page === 'forumdisplay') {
+                            if (that.b_count == 2) {
+                                that.b_count=0;
+                                that.openAllBookmarks();
+                                event.preventDefault();
+                            }
                         }
                     }
                     break;
@@ -170,7 +171,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
                 //case 99: /* c */
                 //    that.refreshImageCache();
                 //    event.preventDefault();
-                    break;
+                //    break;
                 default:
                     //console.log(event.which);
                     break;
@@ -441,4 +442,4 @@ HotKeyManager.prototype.openAllBookmarks = function() {
             open_thread();
         }
     });
-}
+};
