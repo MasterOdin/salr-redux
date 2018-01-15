@@ -372,7 +372,7 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
 
 QuickReplyBox.prototype.updatePreview = function() {
     if(jQuery('#post-message').val().length > 0) {
-        var parser = new PreviewParser(jQuery('#post-message').val(), this.emotes);
+        var parser = new PreviewParser(jQuery('#post-message').val(), this.sortedEmotes);
         jQuery('#preview-content').html(parser.fetchResult());
 
         var content = document.getElementById('topbar-preview');
@@ -385,7 +385,8 @@ QuickReplyBox.prototype.appendText = function(text) {
 
     jQuery('#post-message').val(current_message + text);
 
-    this.updatePreview();
+    if (this.quickReplyState.topbar_visible)
+        this.updatePreview();
 };
 
 QuickReplyBox.prototype.prependText = function(text) {
@@ -393,7 +394,8 @@ QuickReplyBox.prototype.prependText = function(text) {
 
     jQuery('#post-message').val(text + current_message);
 
-    this.updatePreview();
+    if (this.quickReplyState.topbar_visible)
+        this.updatePreview();
 };
 
 QuickReplyBox.prototype.appendQuote = function(postid) {
@@ -470,7 +472,8 @@ QuickReplyBox.prototype.editPost = function(postid, subscribe) {
         var existingBookmark = jQuery(parsedResponse).find('input[name=bookmark]').attr('checked');
         if (existingBookmark && existingBookmark === 'checked')
             jQuery('input#quickReplyBookmark').prop('checked', true);
-        that.updatePreview();
+        if (that.quickReplyState.topbar_visible)
+            that.updatePreview();
     };
     xhr.send();
 
