@@ -32,7 +32,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
     this.base_image_uri = base_image_uri;
 
     this.gesture_overlay_html = this.buildOverlay();
-    this.disabled_gestures = new Array();
+    this.disabled_gestures = [];
 
     this.pageCount = countPages;
     this.currentPage = currentPage;
@@ -48,6 +48,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
         case 'showthread':
             this.rootPageType = (this.currentPageName == 'forumdisplay') ? 'forumid' : 'threadid';
             this.basePageID = findForumID();
+            break;
         case 'usercp.php':
             break;
         default:
@@ -58,8 +59,10 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
         localStorage.setItem("MouseActiveContext", false);
     }
 
-    jQuery(document).bind("contextmenu", function(e) {
-        if (localStorage.getItem("MouseActiveContext") == 'false') {
+    document.addEventListener("contextmenu", (event) => {
+        if (that.settings.enableMouseMenu == "true" && localStorage.getItem("MouseActiveContext") == 'false') {
+            event.preventDefault();
+            event.stopPropagation();
             return false;
         }
     });
@@ -67,7 +70,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
     jQuery(document).keydown(function(event) {
         if (event.keyCode == 18) {
             if (that.settings.enableMouseMenu == "true") {
-                not_context = localStorage.getItem("MouseActiveContext") != 'true' ? 'true' : 'false';
+                var not_context = localStorage.getItem("MouseActiveContext") != 'true' ? 'true' : 'false';
                 localStorage.setItem("MouseActiveContext", not_context);
             }
         }
@@ -81,39 +84,46 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
                 jQuery(this).remove();
             });
 
+            // Successful gesture
             if (handler) {
+                // if the alt-toggle setting is disabled
+                if (that.settings.enableMouseMenu == 'false') {
+                    document.addEventListener("contextmenu", (event) => {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return false;
+                    }, {once: true});
+                }
                 handler.call(that);
             }
         };
 
         var drawIndicator = function(event) {
-            canvas = document.getElementById('gesture-indicator');
+            var canvas = document.getElementById('gesture-indicator');
 
             var overlay_left = jQuery('div#gesture-overlay').offset().left;
             var overlay_top = jQuery('div#gesture-overlay').offset().top;
 
-            var x_coord = event.offsetX;
-            var y_coord = event.offsetY;
+            var x_coord = event.pageX - (overlay_left + 77);
+            var y_coord = event.pageY - (overlay_top + 77);
 
             // If we are out of bounds of the overlay then we need
             // to adjust accordingly
-            if (event.pageX < (overlay_left + 77)) {
+            if (x_coord < 0) {
                 x_coord = 0;
             }
-
-            if (event.pageY < (overlay_top + 77)) {
-                y_coord = 0;
-            }
-
-            if (event.pageX > (overlay_left + 153)) {
+            else if (x_coord > 77) {
                 x_coord = 77;
             }
 
-            if (event.pageY > (overlay_top + 153)) {
+            if (y_coord < 0) {
+                y_coord = 0;
+            }
+            else if (y_coord > 77) {
                 y_coord = 77;
             }
 
-            context = canvas.getContext('2d');
+            var context = canvas.getContext('2d');
 
             // Clear the rectangle and draw the stroke
             context.clearRect(0, 0, 77, 77);
@@ -127,22 +137,23 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
             context.closePath();
 
             that.updateButtonStyles(event.pageX, event.pageY);
-        }
+        };
 
         jQuery(this).rightMouseDown(function(event) {
-            if (localStorage.getItem("MouseActiveContext") == 'false') {
-                jQuery('body').append(that.gesture_overlay_html);
-                jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
-                                     'top': event.pageY - 115});
+            // Bail if the alt-toggle setting is enabled and it's context menu time
+            if (that.settings.enableMouseMenu == "true" && localStorage.getItem("MouseActiveContext") == 'true')
+                return;
+            jQuery('body').append(that.gesture_overlay_html);
+            jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
+                                    'top': event.pageY - 115});
 
-                that.setPageSpecificCSS();
+            that.setPageSpecificCSS();
 
-                jQuery('div#gesture-overlay').rightMouseUp(function(event) {
-                    removeOverlay(event.pageX, event.pageY);
-                });
+            jQuery('div#gesture-overlay').rightMouseUp(function(event) {
+                removeOverlay(event.pageX, event.pageY);
+            });
 
-                jQuery('div#gesture-overlay').mousemove(drawIndicator);
-            }
+            jQuery('div#gesture-overlay').mousemove(drawIndicator);
         });
 
         jQuery(this).rightMouseUp(function(event) {
@@ -154,7 +165,7 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
 }
 
 MouseGesturesController.prototype.buildOverlay = function() {
-    html = '<div id="gesture-overlay">' +
+    var html = '<div id="gesture-overlay">' +
            '    <div id="gesture-top">' +
            '        <img id="top-image" src="' + this.base_image_uri + 'gesturenav-top.png">' +
            '    </div>' +
@@ -174,6 +185,7 @@ MouseGesturesController.prototype.buildOverlay = function() {
     return html;
 };
 
+/* Not used
 MouseGesturesController.prototype.bindCanvasEvent = function() {
     canvas.addEventListener('mousemove', gestureMouseMove, false);
 
@@ -186,8 +198,9 @@ MouseGesturesController.prototype.bindCanvasEvent = function() {
           y = event.layerY;
         }
 
-    }
+    };
 };
+*/
 
 MouseGesturesController.prototype.setPageSpecificCSS = function() {
     if (window.location.href == 'http://forums.somethingawful.com/'
@@ -248,16 +261,12 @@ MouseGesturesController.prototype.findFunction = function(x_coord, y_coord) {
     switch (this.determineLocation(x_coord, y_coord)) {
         case 'top':
             return this.topAction;
-            break;
         case 'bottom':
             return this.bottomAction;
-            break;
         case 'left':
             return this.leftAction;
-            break;
         case 'right':
             return this.rightAction;
-            break;
     }
 };
 
@@ -343,7 +352,7 @@ MouseGesturesController.prototype.bottomAction = function() {
     if (this.is_enabled(this.bottomAction)) {
         postMessage({'message': 'ReloadTab'});
     }
-}
+};
 
 MouseGesturesController.prototype.disableGesture = function(gesture) {
     var button = false;
