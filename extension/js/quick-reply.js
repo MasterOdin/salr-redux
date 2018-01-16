@@ -767,7 +767,7 @@ QuickReplyBox.prototype.formatText = function(event) {
     }
 };
 
-QuickReplyBox.prototype.pasteText = function() {
+QuickReplyBox.prototype.pasteText = function(event) {
     var elem = jQuery(event.target);
     var orig = elem.val();
     //var orig = elem[0].val();
