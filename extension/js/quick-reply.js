@@ -359,13 +359,11 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
     var xhr = new contentXHR;
     xhr.open("GET", this.reply_url + '?action=newreply&threadid=' + threadid);
     xhr.withCredentials = true;
+    xhr.responseType = 'document';
     xhr.onload = function() {
-        // Parse the response outside of the current document tree
-        // Among other things, this will prevent boogeyman from playing
-        //    in Firefox 57 and below if third-party cookies are disabled.
-        var parsedResponse = jQuery.parseHTML(xhr.responseText, document.implementation.createHTMLDocument(''), false);
-        that.notifyFormKey(parseFormKey(parsedResponse));
-        that.notifyReplyReady(parseFormCookie(parsedResponse));
+        var doc = xhr.response;
+        that.notifyFormKey(parseFormKey(doc));
+        that.notifyReplyReady(parseFormCookie(doc));
     };
     xhr.send();
 };
@@ -381,18 +379,17 @@ QuickReplyBox.prototype.updatePreview = function() {
 };
 
 QuickReplyBox.prototype.appendText = function(text) {
-    var current_message = jQuery('#post-message').val();
+    var current_message = document.getElementById('post-message').value;
 
-    jQuery('#post-message').val(current_message + text);
-
+    document.getElementById('post-message').value = current_message + text;
     if (this.quickReplyState.topbar_visible)
         this.updatePreview();
 };
 
 QuickReplyBox.prototype.prependText = function(text) {
-    var current_message = jQuery('#post-message').val();
+    var current_message = document.getElementById('post-message').value;
 
-    jQuery('#post-message').val(text + current_message);
+    document.getElementById('post-message').value = text + current_message;
 
     if (this.quickReplyState.topbar_visible)
         this.updatePreview();
@@ -411,16 +408,14 @@ QuickReplyBox.prototype.appendQuote = function(postid) {
     var xhr = new contentXHR;
     xhr.open("GET", this.reply_url + '?action=newreply&postid=' + postid);
     xhr.withCredentials = true;
+    xhr.responseType = 'document';
     xhr.onload = function() {
-        // Parse the response outside of the current document tree
-        // Among other things, this will prevent boogeyman from playing
-        //    in Firefox 57 and below if third-party cookies are disabled.
-        var parsedResponse = jQuery.parseHTML(xhr.responseText, document.implementation.createHTMLDocument(''), false);
+        var doc = xhr.response;
         // Pull quoted text from reply box
-        var textarea = jQuery(parsedResponse).find('textarea[name=message]');
+        var textarea = doc.querySelector('textarea[name=message]');
         var quote = '';
-        if (textarea.length)
-            quote = textarea.val();
+        if (textarea.textLength)
+            quote = textarea.value;
 
         // this is the first thing in the Quick Reply
         if (that.quickReplyState.wait_for_quote) {
@@ -457,21 +452,18 @@ QuickReplyBox.prototype.editPost = function(postid, subscribe) {
     var xhr = new contentXHR;
     xhr.open("GET", this.edit_url + '?action=editpost&postid=' + postid);
     xhr.withCredentials = true;
+    xhr.responseType = 'document';
     xhr.onload = function() {
-        // Parse the response outside of the current document tree
-        // Among other things, this will prevent boogeyman from playing
-        //    in Firefox 57 and below if third-party cookies are disabled.
-        var parsedResponse = jQuery.parseHTML(xhr.responseText, document.implementation.createHTMLDocument(''), false);
+        var doc = xhr.response;
         // Pull quoted text from reply box
-        var textarea = jQuery(parsedResponse).find('textarea[name=message]');
+        var textarea = doc.querySelector('textarea[name=message]');
         var edit = '';
-        if (textarea.length)
-            edit = textarea.val();
-        jQuery('#post-message').val(edit);
+        if (textarea.textLength)
+            edit = textarea.value;
+        document.getElementById('post-message').value = edit;
         // Grab bookmark status (only way to get it for edits from single post)
-        var existingBookmark = jQuery(parsedResponse).find('input[name=bookmark]').attr('checked');
-        if (existingBookmark && existingBookmark === 'checked')
-            jQuery('input#quickReplyBookmark').prop('checked', true);
+        if (doc.querySelector('input[name=bookmark]').checked)
+            document.getElementById('quickReplyBookmark').checked = true;
         if (that.quickReplyState.topbar_visible)
             that.updatePreview();
     };
