@@ -371,12 +371,27 @@ QuickReplyBox.prototype.fetchFormCookie = function(threadid) {
 };
 
 QuickReplyBox.prototype.updatePreview = function() {
-    if(jQuery('#post-message').val().length > 0) {
-        var parser = new PreviewParser(jQuery('#post-message').val(), this.sortedEmotes);
-        jQuery('#preview-content').html(parser.fetchResult());
+    let preview = document.querySelector('#preview-content');
+    let message = document.querySelector('#post-message');
 
-        var content = document.getElementById('topbar-preview');
-        content.scrollTop = content.scrollHeight;
+    if (message.value.length > 0) {
+        let body = new FormData(document.querySelector('#quick-reply-form'));
+
+        body.append('preview', 'Preview Reply');
+
+        fetch(this.reply_url, {body, credentials: 'include', method: 'POST'})
+            .then(response => response.text())
+            .catch(error => console.log(error))
+            .then(html => {
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(html, 'text/html');
+
+                preview.innerHTML = doc.querySelector('div.inner.postbody').innerHTML;
+            });
+    }
+
+    else {
+        preview.innerHTML = '';
     }
 };
 
