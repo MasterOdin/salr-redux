@@ -46,7 +46,7 @@ jQuery(document).ready(function() {
     defaultSettings['usernameCase']                 = 'false';
 
     // Thread Highlighting
-    defaultSettings['hightlightThread']             = 'false';
+    defaultSettings['highlightThread']              = 'false';
     defaultSettings['darkRead']                     = '#6699cc';
     defaultSettings['lightRead']                    = '#99ccff';
     defaultSettings['darkNewReplies']               = '#99cc99';
