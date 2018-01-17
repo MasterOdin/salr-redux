@@ -4,15 +4,18 @@ node_js:
 - '8'
 env:
   matrix:
-  - BROWSER='chrome' EXTENSION_ID=bogegdelcjhoaakaepmoglademmhiboo CLIENT_ID=KAx6Hmr3qYwShCyqU8QmOBPHDFnojndp0poX6Au4S6Q8VGohaWLoDN33XMWjLdE7DnulX4ILAVuonhQ+J9SfEp9P3ELjm/8hBHEwaBlzHM8kYRlmbWxerJTHS0YLYAk7Vn66iQuT7rkPVbszb1dSORcCK67asdI5RvI2YUaLn0w=
+  - BROWSER='chrome' 
+  # EXTENSION_ID=bogegdelcjhoaakaepmoglademmhiboo CLIENT_ID=KAx6Hmr3qYwShCyqU8QmOBPHDFnojndp0poX6Au4S6Q8VGohaWLoDN33XMWjLdE7DnulX4ILAVuonhQ+J9SfEp9P3ELjm/8hBHEwaBlzHM8kYRlmbWxerJTHS0YLYAk7Vn66iQuT7rkPVbszb1dSORcCK67asdI5RvI2YUaLn0w=
   - BROWSER='firefox'
-  global:
-  - secure: D6nhbCVjXaLqJo6kX/ikXpZTEa1U0XIJrXO8c0igSLyN8XJ2rK2Nu1Pmh2m5CaM/PmQhkCh/KGiIcOUMBsSw3TSxxUUK6JA7jsgM0NUJM205T/4mapeeXQNjsAd87Bqvya+lQ/OxVlRaXkS2hnkUucCkX1RcsvGWM6TIcC0BN0Y=
-  - secure: Z7FnEELW4cx10V0MM3XAuuDbVABDHWMoGIkN1vWxb1aQKWp4SSB0xjvYdQGucO+LqEtWLcaQZ2wiZAAfHVaSV4Kx6I35ifedE8AciXTvt2zfDIcGXvERHbG3D06dyGvyam8L3+TMCtUVVGXUiJs5QEQ0A9ColN7mWunccjxcqrw=
+  #global:
+  #- secure: D6nhbCVjXaLqJo6kX/ikXpZTEa1U0XIJrXO8c0igSLyN8XJ2rK2Nu1Pmh2m5CaM/PmQhkCh/KGiIcOUMBsSw3TSxxUUK6JA7jsgM0NUJM205T/4mapeeXQNjsAd87Bqvya+lQ/OxVlRaXkS2hnkUucCkX1RcsvGWM6TIcC0BN0Y=
+  #- secure: Z7FnEELW4cx10V0MM3XAuuDbVABDHWMoGIkN1vWxb1aQKWp4SSB0xjvYdQGucO+LqEtWLcaQZ2wiZAAfHVaSV4Kx6I35ifedE8AciXTvt2zfDIcGXvERHbG3D06dyGvyam8L3+TMCtUVVGXUiJs5QEQ0A9ColN7mWunccjxcqrw=
 
 script:
 - echo ${EXTENSION_ID}
 - echo ${BROWSER}
+- node build.js ${BROWSER}
+
 deploy:
   provider: script
   script: npm run release-${BROWSER}
