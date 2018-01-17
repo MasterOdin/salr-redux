@@ -143,7 +143,7 @@ function textToHtmlCB(mstr, m1, m2, m3, m4, offset, string)
 
          case "url":
             opentags.push(new taginfo_t(m2, "</a>"));
-            
+
             // check if there's a valid option
             if(m3 && uri_re.test(m3)) {
                // if there is, output a complete start anchor tag
@@ -162,7 +162,7 @@ function textToHtmlCB(mstr, m1, m2, m3, m4, offset, string)
             opentags.push(new taginfo_t(m2, "</" + m2 + ">"));
             return m3 && m3.length && uri_re.test(m3) ? "<" + m2 + " cite=\"" + m3 + "\">" : "<" + m2 + ">";
 
-         case "pre":
+         case "list":
             opentags.push(new taginfo_t(m2, "</ul>"));
             crlf2br = false;
             return "<ul>";
@@ -189,11 +189,11 @@ function textToHtmlCB(mstr, m1, m2, m3, m4, offset, string)
             noparse = false;
             return "";
          }
-         
+
          // otherwise just output the original text
          return "[/" + m4 + "]";
       }
-      
+
       // highlight mismatched end tags
       if(!opentags.length || opentags[opentags.length-1].bbtag != m4)
          return "<span style=\"color: red\">[/" + m4 + "]</span>";
@@ -202,7 +202,7 @@ function textToHtmlCB(mstr, m1, m2, m3, m4, offset, string)
          // if there was no option, use the content of the [url] tag
          if(urlstart > 0)
             return "\">" + string.substr(urlstart, offset-urlstart) + opentags.pop().etag;
-         
+
          // otherwise just close the tag
          return opentags.pop().etag;
       }
@@ -221,7 +221,7 @@ function textToHtmlCB(mstr, m1, m2, m3, m4, offset, string)
 //
 function parseBBCode(post)
 {
-   var result, endtags, tag;
+   var result, endtags;
 
    // convert CRLF to <br> by default
    crlf2br = true;
@@ -236,17 +236,17 @@ function parseBBCode(post)
    // reset noparse, if it was unbalanced
    if(noparse)
       noparse = false;
-   
+
    // if there are any unbalanced tags, make sure to close them
    if(opentags.length) {
-      endtags = new String();
-      
+      endtags = '';
+
       // if there's an open [url] at the top, close it
       if(opentags[opentags.length-1].bbtag == "url") {
          opentags.pop();
          endtags += "\">" + post.substr(urlstart, post.length-urlstart) + "</a>";
       }
-      
+
       // close remaining open tags
       while(opentags.length)
          endtags += opentags.pop().etag;
