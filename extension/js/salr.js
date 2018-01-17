@@ -154,8 +154,8 @@ SALR.prototype.pageInit = function() {
                 this.highlightOwnPosts();
             }
 
-            if (this.settings.enableSOAPLink == 'true') {
-                this.addSOAPLink();
+            if (this.settings.enableSAARSLink == 'true') {
+                this.addSAARSLink();
             }
 
             if (this.settings.enableUserNotes == 'true') {
@@ -2553,14 +2553,14 @@ SALR.prototype.hidePostButtonInThread = function() {
 }
 
 /**
- * Add a link to the user's SOAP page to view previous avatars
+ * Add a link to the user's SAARS page to view previous avatars
  */
-SALR.prototype.addSOAPLink = function() {
+SALR.prototype.addSAARSLink = function() {
     var that = this;
 
     jQuery('table.post').each(function() {
-        var username = jQuery(this).find('dt.author').html();
-        jQuery(this).find('ul.profilelinks').append('<li><a href="http://esarahpalinonline.com/soap?username='+username+'" target="blank">SOAP</a></li>');
+        var username = jQuery(this).find('dt.author').text();
+        jQuery(this).find('ul.profilelinks').append('<li><a href="https://www.muddledmuse.com/saars/?goon='+encodeURIComponent(username)+'" target="blank">SAARS</a></li>');
     });
 }
 

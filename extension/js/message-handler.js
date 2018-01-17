@@ -231,7 +231,7 @@ defaultSettings['enableThreadNotes']            = 'false';
 defaultSettings['fixCancer']                    = 'true';
 defaultSettings['adjustAfterLoad']              = 'true';
 defaultSettings['preventAdjust']                = 'false';
-defaultSettings['enableSOAPLink']               = 'true';
+defaultSettings['enableSAARSLink']              = 'true';
 defaultSettings['hidePostButtonInThread']       = 'false';
 defaultSettings['removeOwnReport']              = 'true';
 defaultSettings['collapseTldrQuotes']           = 'false';
@@ -407,5 +407,10 @@ function fixSettings() {
             chrome.permissions.remove({ origins: ['https://api.twitter.com/*'] });
         }
         localStorage.removeItem('embedVideo');
+    }
+
+    if (localStorage.getItem('enableSOAPLink')) {
+        localStorage.setItem('enableSAARSLink', localStorage.getItem('enableSOAPLink'));
+        localStorage.removeItem('enableSOAPLink');
     }
 }

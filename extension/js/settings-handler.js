@@ -141,7 +141,7 @@ jQuery(document).ready(function() {
     defaultSettings['fixCancer']                    = 'true';
     defaultSettings['adjustAfterLoad']              = 'true';
     defaultSettings['preventAdjust']                = 'false';
-    defaultSettings['enableSOAPLink']               = 'true';
+    defaultSettings['enableSAARSLink']              = 'true';
     defaultSettings['enableSinglePost']             = 'true';
     defaultSettings['hidePostButtonInThread']       = 'false';
     defaultSettings['removeOwnReport']              = 'true';
