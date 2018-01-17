@@ -34,7 +34,21 @@
         "PostHistory": true,
         "PreviewParser": true,
         "EmoteParser": true,
+        "QuickReplyBox": true,
+        "PageNavigator": true,
+        "MouseGesturesController": true,
+        "HotKeyManager": true,
+        "jumpToPage": true,
         "findThreadID": true,
-        "findCurrentPage": true
+        "findCurrentPage": true,
+        "salr_client": true,
+        "findRealForumID": true,
+        "YOSPOS_ID": true,
+        "findLastPost": true,
+        "findFirstUnreadPost": true,
+        "countPages": true,
+        "getCurrentPageNumber": true,
+        "findUrlSchema": true,
+        "findForumID": true
     }
 }

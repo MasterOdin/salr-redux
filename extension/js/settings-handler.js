@@ -33,8 +33,6 @@
 var port = chrome.runtime.connect({"name":"settings"});
 
 jQuery(document).ready(function() {
-    var debug = "false";
-
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
         localStorage.setItem('salrInitialized', 'true');
@@ -48,7 +46,7 @@ jQuery(document).ready(function() {
     defaultSettings['usernameCase']                 = 'false';
 
     // Thread Highlighting
-    defaultSettings['hightlightThread']             = 'false';
+    defaultSettings['highlightThread']              = 'false';
     defaultSettings['darkRead']                     = '#6699cc';
     defaultSettings['lightRead']                    = '#99ccff';
     defaultSettings['darkNewReplies']               = '#99cc99';
@@ -222,10 +220,6 @@ jQuery(document).ready(function() {
         }
     }
 
-    if (debug == "true") {
-        loadNewSettings();
-    }
-
     jQuery('#d_username').text(localStorage.getItem('username'));
 
     // Initialize text entry fields
@@ -350,7 +344,7 @@ jQuery(document).ready(function() {
 
     jQuery('#user-notes-sync').click(function() {
         userNotesSync();
-    })
+    });
 
     jQuery('#user-notes-delete-sync').click(function() {
         userNotesClear(true);
@@ -622,19 +616,16 @@ function highlightExamples() {
  *
  */
 function onParentOptionSelect(element) {
-
-	var nextDiv = element.parent().parent().next();
-	if(nextDiv.is('.sub-options')) {
-
-		if (element.is(':checked')) {
-			nextDiv.removeClass('disabled-options');
-   	    	nextDiv.find('input').removeAttr('disabled');
-    	} else {
-			nextDiv.addClass('disabled-options');
-			nextDiv.find('input').attr('disabled', true);
-    	}
-
-	}
+    var nextDiv = element.parent().parent().next();
+    if (nextDiv.is('.sub-options')) {
+        if (element.is(':checked')) {
+            nextDiv.removeClass('disabled-options');
+            nextDiv.find('input').removeAttr('disabled');
+        } else {
+            nextDiv.addClass('disabled-options');
+            nextDiv.find('input').attr('disabled', true);
+        }
+    }
 }
 
 /**
@@ -762,12 +753,14 @@ function onSubmitClicked() {
  */
 function configWindow() {
     chrome.storage.sync.get(function(settings) {
-        win = window.open('background.html','config');
+        var win = window.open('background.html','config');
         win.document.writeln('<html><body><h1>SALR Configuration</h1>');
         win.document.writeln('<table border="1">');
         win.document.writeln('<tr><th>Key</th><th>Value</th></tr>');
         win.document.writeln('</table>');
         for (var key in localStorage) {
+            if (!localStorage.hasOwnProperty(key))
+                continue;
             if (key == 'friendsList'    ||
                 key == 'friendsListId'  ||
                 key == 'forumsList'     ||
@@ -790,9 +783,9 @@ function configWindow() {
             win.document.writeln(i+":<br />&nbsp;&nbsp;&nbsp;&nbsp;Text: "+local[i]['text']+"<br />"+
                 "&nbsp;&nbsp;&nbsp;&nbsp;Color: "+local[i]['color']+"<br />");
         }
-        sync = JSON.parse(settings['userNotes']);
+        var sync = JSON.parse(settings['userNotes']);
         win.document.writeln('<br /><br />userNotesSync:<br />');
-        for (var i in sync) {
+        for (i in sync) {
             win.document.writeln(i+":<br />&nbsp;&nbsp;&nbsp;&nbsp;Text: "+sync[i]['text']+"<br />"+
                 "&nbsp;&nbsp;&nbsp;&nbsp;Color: "+sync[i]['color']+"<br />");
         }
@@ -807,26 +800,44 @@ function transitionSettings() {
     alert("User Notes gotten from SALR!");
 }
 
+/**
+ * Helper function to count local user notes
+ * @return {Number} number of local user notes
+ */
+function countLocalUserNotes() {
+    // userNotesLocal are initially set to 'null'; clearing them sets to ''
+    var count = 0;
+    var localNotes = localStorage.getItem('userNotesLocal');
+    if (localNotes && localNotes !== '' && localNotes !== 'null') {
+        var local = JSON.parse(localNotes);
+        count = Object.keys(local).length;
+    }
+    return count;
+}
+
+/** 
+ * Backs up synced user notes locally
+*/
 function userNotesLocal() {
     chrome.storage.sync.get(function(settings) {
+        if (!settings['userNotes']) {
+            alert("There are no synced notes to store locally!");
+            return;
+        }
         var sync = JSON.parse(settings['userNotes']);
-        var cnt = 0;
-        for(var i in sync) {
-            cnt++;
-        }
-        var old = JSON.parse(localStorage.getItem('userNotesOld'));
+        var cnt = Object.keys(sync).length;
+/* This bit wasn't used, so I fixed it up but I'll still comment it out.
+*    ~astral
         var cnt2 = 0;
-        for (var i in old) {
-            cnt2++;
+        var oldNotes = localStorage.getItem('userNotesOld');
+        if (oldNotes && oldNotes !== '' && oldNotes !== 'null') {
+            var old = JSON.parse(oldNotes);
+            cnt2 = Object.keys(old).length;
         }
-
-        var local = JSON.parse(localStorage.getItem('userNotesLocal'));
-        var cnt3 = 0;
-        for (var i in local) {
-            cnt3++;
-        }
+*/
+        var cnt3 = countLocalUserNotes();
         var r = confirm("Backup "+cnt+" synced user notes locally? It will overwrite "+cnt3+" local notes.");
-        if (r == true) {
+        if (r === true) {
             /* for now we just do a straight overwrite
             for (x in old) {
                 if (old[x] != null && sync[x] == null) {
@@ -846,20 +857,24 @@ function userNotesLocal() {
     });
 }
 
+/** 
+ * Backs up local user notes to storage.sync
+*/
 function userNotesSync() {
     chrome.storage.sync.get(function(settings) {
-        var sync = JSON.parse(settings['userNotes']);
-        var cnt2 = 0;
-        for (var i in sync) {
-            cnt2++;
+        var cnt = countLocalUserNotes();
+        if (cnt === 0) {
+            alert("There are no local notes to save to sync storage!");
+            return;
         }
-        var local = JSON.parse(localStorage.getItem('userNotesLocal'));
-        var cnt = 0;
-        for (var i in local) {
-            cnt++;
+        var cnt2 = 0;
+        // Make sure it's not actually empty
+        if (settings['userNotes']) {
+            var sync = JSON.parse(settings['userNotes']);
+            cnt2 = Object.keys(sync).length;
         }
         var r = confirm("Backup saved "+cnt+" local notes to Chrome Sync? It will overwrite "+cnt2+" synced notes.");
-        if (r == true) {
+        if (r === true) {
             /* for now just do a straight overwrite
             for (x in sync) {
                 if (sync[x] != null && local[x] == null) {
@@ -867,51 +882,45 @@ function userNotesSync() {
                 }
             }
             */
-            chrome.storage.sync.set({'userNotes' : JSON.stringify(local)});
+            chrome.storage.sync.set({'userNotes' : localStorage.getItem('userNotesLocal')});
         }
     });
 }
 
+/** 
+ * Clears user notes
+ * @param {boolean} sync Whether to clear user notes from sync storage or local storage
+*/
 function userNotesClear(sync) {
     sync = typeof sync !== 'undefined' ? sync : false;
     if (sync == true) {
         chrome.storage.sync.get(function(settings) {
-            var sync = JSON.parse(settings['userNotes']);
             var cnt = 0;
-            for (var i in sync) {
-                cnt++;
+            // Handle the case where the notes are already empty
+            if (settings['userNotes']) {
+                var sync = JSON.parse(settings['userNotes']);
+                cnt = Object.keys(sync).length;
             }
             var r = confirm("Clear all "+cnt+" synced user notes?");
-            if (r == true) {
+            if (r === true) {
                 chrome.storage.sync.set({'userNotes' : ''});
             }
-        })
+        });
     }
     else {
-        var local = JSON.parse(localStorage.getItem('userNotesLocal'));
-        var cnt = 0;
-        for (var i in local) {
-            cnt++;
-        }
+        var cnt = countLocalUserNotes();
         var r = confirm("Clear all "+cnt+" local user notes?");
-        if (r == true) {
+        if (r === true) {
             localStorage.setItem('userNotesLocal','');
         }
     }
 }
 
-function loadNewSettings() {
-    var setting = [];
-
-    localStorage.clear();
-    for ( var key in setting ) {
-        localStorage.setItem(key, setting[key]);
-    }
-}
-
 function createSettingsBackup() {
-    var settings = {}
+    var settings = {};
     for (var key in localStorage) {
+        if (!localStorage.hasOwnProperty(key))
+            continue;
         if (key == 'friendsList'    ||
             key == 'friendsListId'  ||
             key == 'forumsList'     ||
@@ -925,7 +934,7 @@ function createSettingsBackup() {
             continue;
         settings[key] = localStorage.getItem(key);
     }
-    jsonString = JSON.stringify(settings);
+    var jsonString = JSON.stringify(settings);
     if (jQuery('#settings-backup-text').length == 0) {
         var textarea = '<textarea id="settings-backup-text" cols="200" rows="20" readonly>'+jsonString+'</textarea>';
         jQuery('#settings-backup').parent().append('<br />Copy JSON Setting String Below:<br />'+textarea);
@@ -936,7 +945,7 @@ function createSettingsBackup() {
 function restoreSettingsBackup() {
     if (jQuery('#settings-restore-text').length == 0) {
         var textarea = '<textarea id="settings-restore-text" cols="200" rows="20"></textarea>';
-        var button = '<button style="margin-left:400px; width: 115px;" id="execute-restore">Restore Settings</button> (this will only overwrite settings in string)'
+        var button = '<button style="margin-left:400px; width: 115px;" id="execute-restore">Restore Settings</button> (this will only overwrite settings in string)';
         jQuery('#settings-restore').parent().append('<br />Paste JSON Setting String below:<br />'+textarea+'<br />'+button);
         jQuery("#execute-restore").click(function() {
             performSettingsRestore();

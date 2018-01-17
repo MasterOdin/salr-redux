@@ -13,7 +13,7 @@ Alternatively, this can be added to chrome manually by downloading /extension/ a
 Bug Reporting
 -------------
 
-If you run into any issues using this extension, please report them in the appropriate [SA Thread](http://forums.somethingawful.com/showthread.php?threadid=3208437 "SA Thread").
+If you run into any issues using this extension, please report them in the appropriate [SA Thread](http://forums.somethingawful.com/showthread.php?threadid=3845597 "SA Thread").
 
 Development  
 -----------  

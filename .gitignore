@@ -3,3 +3,4 @@
 *.sublime-*
 *.zip
 .idea
+node_modules/

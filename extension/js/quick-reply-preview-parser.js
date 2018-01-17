@@ -42,9 +42,9 @@ PreviewParser.prototype.fetchResult = function() {
 };
 
 PreviewParser.prototype.parseSmilies = function() {
-    for (var index in this.emote_list) {
-        var title = this.emote_list[index].emote;
-        var img = this.emote_list[index].image;
+    for (var anEmote of this.emote_list) {
+        var title = anEmote[0]; // emote text
+        var img = anEmote[1]; // emote image
         var re;
 
         if (this.post_text.indexOf(title) != -1)

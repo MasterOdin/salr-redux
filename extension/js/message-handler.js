@@ -54,7 +54,7 @@ chrome.runtime.onConnect.addListener(function(port) {
     port.onMessage.addListener(function(data) {
         switch (data.message) {
             case 'OpenSettings':
-                onToolbarClick();
+                chrome.runtime.openOptionsPage();
                 break;
             case 'ChangeSetting':
                 localStorage.setItem(data.option, data.value);
@@ -145,7 +145,7 @@ chrome.runtime.onConnect.addListener(function(port) {
 
 // New assoc array for storing default settings.
 var defaultSettings = [];
-defaultSettings['hightlightThread']             = 'false';
+defaultSettings['highlightThread']              = 'false';
 defaultSettings['darkRead']                     = '#6699cc';
 defaultSettings['lightRead']                    = '#99ccff';
 defaultSettings['darkNewReplies']               = '#99cc99';
@@ -232,6 +232,7 @@ defaultSettings['fixCancer']                    = 'true';
 defaultSettings['adjustAfterLoad']              = 'true';
 defaultSettings['preventAdjust']                = 'false';
 defaultSettings['enableSAARSLink']              = 'true';
+defaultSettings['enableSinglePost']             = 'true';
 defaultSettings['hidePostButtonInThread']       = 'false';
 defaultSettings['removeOwnReport']              = 'true';
 defaultSettings['collapseTldrQuotes']           = 'false';
@@ -295,16 +296,6 @@ defaultSettings['fixUserCPFont']                = 'false';
 // Misc Options (don't show up on settings.html)
 defaultSettings['MouseActiveContext']           = 'false';
 
-
-/**
- * Event handler for clicking on the toolstrip logo
- *
- * @param element - Toolstrip element
- */
-function onToolbarClick() {
-    chrome.tabs.create({url:chrome.extension.getURL('settings.html')});
-}
-
 /**
  * Opens a new tab with the specified URL
  */
@@ -316,7 +307,7 @@ function openNewTab(aUrl) {
  * Opens a new tab with the specified URL, then closes it
  */
 function openCloseNewTab(aUrl) {
-    tabRemoved = false;
+    var tabRemoved = false;
     chrome.tabs.create({url: aUrl}, function(tab) {
         while (!tabRemoved) {
             chrome.tabs.query({url:aUrl,status:'complete'},function(t) {
@@ -366,7 +357,8 @@ function getPageSettings() {
     var response = {};
 
     for ( var index in localStorage ) {
-        response[index] = localStorage.getItem(index);
+        if (localStorage.hasOwnProperty(index))
+            response[index] = localStorage.getItem(index);
     }
 
     response['message'] = 'SettingsResult';

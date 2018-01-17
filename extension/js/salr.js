@@ -1760,6 +1760,9 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
                            'option' : 'userNotes',
                            'value'  : JSON.stringify(notes)
         });
+    } else if (notes === '') {
+        // They've been cleared in the preferences, so let's not readd the defaults
+        notes = {};
     } else {
         notes = JSON.parse(notes);
     }
