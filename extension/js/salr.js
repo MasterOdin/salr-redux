@@ -754,9 +754,9 @@ SALR.prototype.handleShowThread = function() {
 
     var posts = document.querySelectorAll('table.post');
     for (let post of posts) {
-        var profileLink = post.querySelector('ul.profilelinks a[href*="userid="]'); 
+        let profileLink = post.querySelector('ul.profilelinks a[href*="userid="]'); 
         if (!profileLink)
-            return;
+            continue;
 
         let userid = profileLink.href.match(/userid=(\d+)/)[1];
         let userLinks = profileLink.parentNode.parentNode;
@@ -1958,37 +1958,39 @@ SALR.prototype.clickToggleAvatar = function(idToToggle, hiddenAvatars, event) {
     var newHideAvatarStatus = (alreadyHiddenIndex === -1);
 
     var posts = document.querySelectorAll('table.post');
-    var profileLink, posterId, titleBox, toggleLink;
+    var reachedSelf = false;
 
     for (let post of posts) {
-        profileLink = post.querySelector('ul.profilelinks a[href*="userid="]'); 
+        let profileLink = post.querySelector('ul.profilelinks a[href*="userid="]'); 
         if (!profileLink)
             continue;
-        posterId = profileLink.href.match(/userid=(\d+)/i)[1];
-        if (posterId === idToToggle) {
-            // Standard template
-            titleBox = post.querySelector('dl.userinfo > dd.title');
-            // If that doesn't work, try old FYAD template
-            if (titleBox === null)
-                titleBox = post.querySelector('td.postbody div.title');
+        let posterId = profileLink.href.match(/userid=(\d+)/i)[1];
+        if (posterId !== idToToggle)
+            continue;
+        // Standard template
+        let titleBox = post.querySelector('dl.userinfo > dd.title');
+        // If that doesn't work, try old FYAD template
+        if (titleBox === null)
+            titleBox = post.querySelector('td.postbody div.title');
 
-            toggleLink = post.querySelector('a.salr-toggleavlink');
+        let toggleLink = post.querySelector('a.salr-toggleavlink');
+        if (toggleLink === clickedLink)
+            reachedSelf = true;
 
-            if (newHideAvatarStatus === true) { // need to hide
-                // We use hidden for anything above the link we clicked to prevent scrolling
-                if (toggleLink === clickedLink) // we've reached the link we clicked
-                    titleBox.style.display = "none";
-                else
-                    titleBox.style.visibility = "hidden";
-                toggleLink.textContent = "Show Avatar";
-            }
-            else { // need to show
-                if (titleBox.style.visibility === "hidden")
-                    titleBox.style.visibility = "visible";
-                else
-                    titleBox.style.display = "block";
-                toggleLink.textContent = "Hide Avatar";
-            }
+        if (newHideAvatarStatus === true) { // need to hide
+            // We use hidden for anything above the link we clicked to prevent scrolling
+            if (reachedSelf) // we've reached the link we clicked
+                titleBox.style.display = "none";
+            else
+                titleBox.style.visibility = "hidden";
+            toggleLink.textContent = "Show Avatar";
+        }
+        else { // need to show
+            if (titleBox.style.visibility === "hidden")
+                titleBox.style.visibility = "visible";
+            else
+                titleBox.style.display = "block";
+            toggleLink.textContent = "Hide Avatar";
         }
     }
 
