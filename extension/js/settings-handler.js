@@ -135,6 +135,7 @@ jQuery(document).ready(function() {
     defaultSettings['searchThreadHide']             = 'false';
     defaultSettings['enableUserNotes']              = 'false';
     defaultSettings['enableUserNotesSync']          = 'true';
+    defaultSettings['enableToggleUserAvatars']      = 'true';
     defaultSettings['enableThreadNotes']            = 'false';
     defaultSettings['fixCancer']                    = 'true';
     defaultSettings['adjustAfterLoad']              = 'true';
@@ -780,14 +781,16 @@ function configWindow() {
         win.document.writeln("userNotesLocal:<br />");
         var local = JSON.parse(localStorage['userNotesLocal']);
         for (var i in local) {
-            win.document.writeln(i+":<br />&nbsp;&nbsp;&nbsp;&nbsp;Text: "+local[i]['text']+"<br />"+
-                "&nbsp;&nbsp;&nbsp;&nbsp;Color: "+local[i]['color']+"<br />");
+            if (local.hasOwnProperty(i))
+                win.document.writeln(i+":<br />&nbsp;&nbsp;&nbsp;&nbsp;Text: "+local[i]['text']+"<br />"+
+                    "&nbsp;&nbsp;&nbsp;&nbsp;Color: "+local[i]['color']+"<br />");
         }
         var sync = JSON.parse(settings['userNotes']);
         win.document.writeln('<br /><br />userNotesSync:<br />');
         for (i in sync) {
-            win.document.writeln(i+":<br />&nbsp;&nbsp;&nbsp;&nbsp;Text: "+sync[i]['text']+"<br />"+
-                "&nbsp;&nbsp;&nbsp;&nbsp;Color: "+sync[i]['color']+"<br />");
+            if (sync.hasOwnProperty(i))
+                win.document.writeln(i+":<br />&nbsp;&nbsp;&nbsp;&nbsp;Text: "+sync[i]['text']+"<br />"+
+                    "&nbsp;&nbsp;&nbsp;&nbsp;Color: "+sync[i]['color']+"<br />");
         }
         win.document.writeln('</body></html>');
         win.document.close();
@@ -957,7 +960,8 @@ function performSettingsRestore() {
     var restoresettings = JSON.parse(jQuery('#settings-restore-text').val());
     //localStorage.clear();
     for (var key in restoresettings) {
-        localStorage.setItem(key,restoresettings[key]);
+        if (restoresettings.hasOwnProperty(key))
+            localStorage.setItem(key,restoresettings[key]);
     }
     alert("Settings restored!");
     location.reload();

@@ -59,6 +59,9 @@ chrome.runtime.onConnect.addListener(function(port) {
             case 'ChangeSetting':
                 localStorage.setItem(data.option, data.value);
                 break;
+            case 'SetHideAvatarStatus':
+                setHideAvatarStatus(data);
+                break;
             case 'ChangeSyncSetting':
                 if (data.option == 'userNotes') {
                     if (localStorage.getItem('enableUserNotesSync') != 'true') {
@@ -227,6 +230,7 @@ defaultSettings['whoPostedHide']                = 'false';
 defaultSettings['searchThreadHide']             = 'false';
 defaultSettings['enableUserNotes']              = 'false';
 defaultSettings['enableUserNotesSync']          = 'true';
+defaultSettings['enableToggleUserAvatars']      = 'true';
 defaultSettings['enableThreadNotes']            = 'false';
 defaultSettings['fixCancer']                    = 'true';
 defaultSettings['adjustAfterLoad']              = 'true';
@@ -405,5 +409,33 @@ function fixSettings() {
     if (localStorage.getItem('enableSOAPLink')) {
         localStorage.setItem('enableSAARSLink', localStorage.getItem('enableSOAPLink'));
         localStorage.removeItem('enableSOAPLink');
+    }
+}
+
+/**
+ * Message handler for 'SetHideAvatarStatus' message from content script
+ * Sets a specific user's hide avatar status without overriding any others
+ * @param {Object}  messageData                     Raw message data from content script
+ * @param {string}  messageData.idToToggle          The user ID for which we want to hide or show avatars
+ * @param {boolean} messageData.newHideAvatarStatus Whether we want to hide or show avatars
+ */
+function setHideAvatarStatus(messageData) {
+    var idToToggle = messageData.idToToggle;
+    var newHideAvatarStatus = messageData.newHideAvatarStatus;
+    var rawAvatars = localStorage.getItem('hiddenAvatarsLocal');
+    var hiddenAvatars = rawAvatars ? JSON.parse(rawAvatars) : [];
+    var alreadyHiddenIndex = hiddenAvatars.indexOf(parseInt(idToToggle, 10));
+
+    // we want to remove them BUT make sure they were on the list first
+    if (newHideAvatarStatus === false && alreadyHiddenIndex > -1) {
+        hiddenAvatars.splice(alreadyHiddenIndex, 1);
+        // Update the stored value
+        localStorage.setItem('hiddenAvatarsLocal', JSON.stringify(hiddenAvatars));
+    }
+    // add them to the list BUT make sure they weren't already
+    else if (newHideAvatarStatus === true && alreadyHiddenIndex === -1) {
+        hiddenAvatars.push(parseInt(idToToggle, 10));
+        // Update the stored value
+        localStorage.setItem('hiddenAvatarsLocal', JSON.stringify(hiddenAvatars));
     }
 }

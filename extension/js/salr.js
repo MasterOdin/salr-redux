@@ -124,6 +124,9 @@ SALR.prototype.pageInit = function() {
                 }
             }
 
+            // Someday, we'll only iterate through the posts table once
+            this.handleShowThread();
+
             if (this.settings.inlineVideo == 'true') {
                 this.inlineYoutubes();
             }
@@ -152,10 +155,6 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.highlightSelf == 'true' || this.settings.removeOwnReport == 'true') {
                 this.highlightOwnPosts();
-            }
-
-            if (this.settings.enableSAARSLink == 'true') {
-                this.addSAARSLink();
             }
 
             if (this.settings.enableUserNotes == 'true') {
@@ -740,6 +739,63 @@ SALR.prototype.updateStyling = function() {
             jQuery(this).remove();
         });
     }
+};
+
+/** 
+ * This function will eventually be the only one iterating through the posts table.
+*/
+SALR.prototype.handleShowThread = function() {
+    var that = this;
+
+    // Fetch hidden avatars from cache
+    if (this.settings.enableToggleUserAvatars === 'true') {
+        var hiddenAvatars = this.getHiddenAvatars();
+    }
+
+    var posts = document.querySelectorAll('table.post');
+    for (let post of posts) {
+        var profileLink = post.querySelector('ul.profilelinks a[href*="userid="]'); 
+        if (!profileLink)
+            return;
+
+        let userid = profileLink.href.match(/userid=(\d+)/)[1];
+        let userLinks = profileLink.parentNode.parentNode;
+
+        // Add a link to the user's SAARS page to view previous avatars
+        if (that.settings.enableSAARSLink === 'true') {
+            let username = post.querySelector('dt.author').textContent;
+            userLinks.insertAdjacentHTML('beforeend', ' <li><a href="https://www.muddledmuse.com/saars/?goon='+encodeURIComponent(username)+'" target="blank">SAARS</a></li>');
+        }
+
+        if (that.settings.enableToggleUserAvatars === 'true') {
+            // Build hide avatar link
+            let avButton = document.createElement("li");
+            let avAnch = document.createElement("a");
+            avAnch.title = "Toggle displaying this poster's avatar.";
+            avAnch.classList.add('salr-toggleavlink');
+
+            // Is their avatar already hidden?
+            if (that.isUserAvatarHidden(userid, hiddenAvatars)) {
+                avAnch.textContent = "Show Avatar";
+                // Hide it!
+                let userAvatar = post.querySelector('dl.userinfo > dd.title');
+                if (userAvatar)
+                    userAvatar.style.display = "none";
+            }
+            else {
+                avAnch.textContent = "Hide Avatar";
+            }
+
+            avAnch.addEventListener("click", (event) => {
+                that.clickToggleAvatar(userid, hiddenAvatars, event);
+            }, false);
+
+            avButton.appendChild(avAnch);
+            userLinks.appendChild(document.createTextNode(" "));
+            userLinks.appendChild(avButton);
+        }
+    }
+
 };
 
 SALR.prototype.modifyImages = function() {
@@ -1441,19 +1497,21 @@ SALR.prototype.highlightModAdminShowThread = function() {
 
     if (this.settings.highlightModAdminUsername != 'true') {
         jQuery('table.post:has(dt.role-mod) td').each(function () {
-            jQuery(this).css({
-                'border-collapse' : 'collapse',
-                'background-color' : that.settings.highlightModeratorColor
-            });
+            if (this.style.getPropertyPriority('background-color') !== 'important')
+                jQuery(this).css({
+                    'border-collapse' : 'collapse',
+                    'background-color' : that.settings.highlightModeratorColor
+                });
             jQuery('dt.author', this).after(
                 '<dd style="font-weight: bold; ">Forum Moderator</dd>'
             );
         });
         jQuery('table.post:has(dt.role-admin) td').each(function () {
-            jQuery(this).css({
-                'border-collapse' : 'collapse',
-                'background-color' : that.settings.highlightAdminColor
-            });
+            if (this.style.getPropertyPriority('background-color') !== 'important')
+                jQuery(this).css({
+                    'border-collapse' : 'collapse',
+                    'background-color' : that.settings.highlightAdminColor
+                });
             jQuery('dt.author', this).after(
                 '<dd style="font-weight: bold; ">Forum Moderator</dd>'
             );
@@ -1790,6 +1848,7 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
         "<fieldset>"+
             "<p><label for='salr-usernotes-text'><strong>Note:</strong></label><br/><input type='text' id='salr-usernotes-text'/></p>"+
             "<p><label for='salr-usernotes-color'><strong>Color:</strong></label><br/><input type='text' id='salr-usernotes-color'/> <a href='http://www.colorpicker.com/' target='_blank'>Hex Codes</a></p>"+
+            "<p><label for='salr-usernotes-bgcolor'><strong>BG Color:</strong></label><br/><input type='text' id='salr-usernotes-bgcolor'/><br />(leave blank for default)</p>"+
         "</fieldset>"+
     "</div>");
 
@@ -1801,9 +1860,21 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
         var hasNote = notes[userid] != null;
 
         if (hasNote) {
-            jQuery('dl.userinfo > dt.author', this).after(
-                '<dd style="font-weight: bold; color: ' + notes[userid].color + '">' + notes[userid].text + '</dd>'
-            );
+            // Only set user text/color if one is specified
+            if (typeof notes[userid].text === 'string' && notes[userid].text !== '') {
+                var colorstring = '';
+                if (typeof notes[userid].color === 'string' && notes[userid].color !== '')
+                    colorstring = 'color: ' + notes[userid].color + ';';
+                jQuery('dl.userinfo > dt.author', this).after(
+                    '<dd style="font-weight: bold;' + colorstring + '">' + notes[userid].text + '</dd>'
+                );
+            }
+            // Important property could be removed once we only iterate through posts table once
+            if (typeof notes[userid].bgcolor === 'string' && notes[userid].bgcolor !== '') {
+                jQuery('td', this).each(function() {
+                    this.style.setProperty('background-color', notes[userid].bgcolor, 'important');
+                });
+            }
         }
 
         var editLink = jQuery('<li><a href="javascript:;">Edit Note</a></li>');
@@ -1813,11 +1884,14 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
                     jQuery(document).trigger('disableSALRHotkeys');
                     jQuery('#salr-usernotes-text').val(hasNote ? notes[userid].text : '');
                     jQuery('#salr-usernotes-color').val(hasNote ? notes[userid].color : '#FF0000');
+                    jQuery('#salr-usernotes-bgcolor').val(hasNote ? notes[userid].bgcolor : '');
                 },
                 buttons: {
                     "OK" : function () {
                         notes[userid] = {'text' : jQuery('#salr-usernotes-text').val(),
-                                         'color' : jQuery('#salr-usernotes-color').val()};
+                                         'color' : jQuery('#salr-usernotes-color').val(),
+                                         'bgcolor' : jQuery('#salr-usernotes-bgcolor').val()
+                                        };
                         // TODO: Fix this
                         postMessage({ 'message': message,
                                             'option' : 'userNotes',
@@ -1845,6 +1919,95 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
         jQuery('ul.profilelinks', this).append(' ').append(editLink).append(' ');
     });
 
+};
+
+/**
+ * Fetch cached list of hidden avatars
+ * @return {Array.<number>} Array of number user IDs with hidden avatars
+ */
+SALR.prototype.getHiddenAvatars = function() {
+    var rawAvatars = this.settings.hiddenAvatarsLocal;
+    if (!rawAvatars || rawAvatars === '')
+        return [];
+    var hiddenAvatars = JSON.parse(rawAvatars);
+    return hiddenAvatars;
+};
+
+/**
+ * Check hidden avatar array to see if a user's avatar is hidden
+ * @param {string}         userid        User ID to check
+ * @param {Array.<number>} hiddenAvatars Array of number user IDs with hidden avatars
+ * @return {boolean} Whether an avatar is hidden on the current page.
+ */
+SALR.prototype.isUserAvatarHidden = function(userid, hiddenAvatars) {
+    return hiddenAvatars.includes(parseInt(userid, 10));
+};
+
+/**
+ * Event handler for clicking the "Hide Avatar" or "Unhide Avatar" links
+ * @param {string}         idToToggle    User ID of poster to toggle avatar for.
+ * @param {Array.<number>} hiddenAvatars Array of Number user IDs with hidden avatars
+ * @param {Event}          event         The click event to handle.
+ */
+SALR.prototype.clickToggleAvatar = function(idToToggle, hiddenAvatars, event) {
+    event.stopPropagation();
+    event.preventDefault();
+    var clickedLink = event.target;
+
+    var alreadyHiddenIndex = hiddenAvatars.indexOf(parseInt(idToToggle, 10));
+    var newHideAvatarStatus = (alreadyHiddenIndex === -1);
+
+    var posts = document.querySelectorAll('table.post');
+    var profileLink, posterId, titleBox, toggleLink;
+
+    for (let post of posts) {
+        profileLink = post.querySelector('ul.profilelinks a[href*="userid="]'); 
+        if (!profileLink)
+            continue;
+        posterId = profileLink.href.match(/userid=(\d+)/i)[1];
+        if (posterId === idToToggle) {
+            // Standard template
+            titleBox = post.querySelector('dl.userinfo > dd.title');
+            // If that doesn't work, try old FYAD template
+            if (titleBox === null)
+                titleBox = post.querySelector('td.postbody div.title');
+
+            toggleLink = post.querySelector('a.salr-toggleavlink');
+
+            if (newHideAvatarStatus === true) { // need to hide
+                // We use hidden for anything above the link we clicked to prevent scrolling
+                if (toggleLink === clickedLink) // we've reached the link we clicked
+                    titleBox.style.display = "none";
+                else
+                    titleBox.style.visibility = "hidden";
+                toggleLink.textContent = "Show Avatar";
+            }
+            else { // need to show
+                if (titleBox.style.visibility === "hidden")
+                    titleBox.style.visibility = "visible";
+                else
+                    titleBox.style.display = "block";
+                toggleLink.textContent = "Hide Avatar";
+            }
+        }
+    }
+
+    // Update the cached avatar list on this page
+    if (newHideAvatarStatus === true) {
+        // Avatar wasn't on the hidden list; add to the cached list
+        hiddenAvatars.push(parseInt(idToToggle, 10));
+    }
+    else {
+        // Avatar was already hidden; remove from the cached list to show them
+        hiddenAvatars.splice(alreadyHiddenIndex, 1);
+    }
+
+    // Notify background page we might need to update the stored list
+    postMessage({
+        'message': 'SetHideAvatarStatus',
+        'idToToggle': idToToggle,
+        'newHideAvatarStatus': newHideAvatarStatus
+    });
 };
 
 /**
@@ -2577,18 +2740,6 @@ SALR.prototype.setImageTooltips = function() {
 
 SALR.prototype.hidePostButtonInThread = function() {
     jQuery('ul.postbuttons li a[href^="newthread.php"]').hide();
-};
-
-/**
- * Add a link to the user's SAARS page to view previous avatars
- */
-SALR.prototype.addSAARSLink = function() {
-    var that = this;
-
-    jQuery('table.post').each(function() {
-        var username = jQuery(this).find('dt.author').text();
-        jQuery(this).find('ul.profilelinks').append('<li><a href="https://www.muddledmuse.com/saars/?goon='+encodeURIComponent(username)+'" target="blank">SAARS</a></li>');
-    });
 };
 
 /**
