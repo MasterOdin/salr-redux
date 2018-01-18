@@ -1,18 +1,18 @@
-div.qne_warn { 
-    padding: 0.5em; 
-    color: #333; 
-    margin: 1em 0; 
-    border: 1px blue solid; 
+div.qne_warn {
+    padding: 0.5em;
+    color: #333;
+    margin: 1em 0;
+    border: 1px blue solid;
 }
 
-div.qne_warn { 
-    background: #de94d6; 
+div.qne_warn {
+    background: #de94d6;
 }
 
-div.qne_warn h4 { 
-    margin: 0; 
-    padding-left: 16px; 
-    background: url('http://fi.somethingawful.com/images/warning.gif') no-repeat left; 
+div.qne_warn h4 {
+    margin: 0;
+    padding-left: 16px;
+    background: url('http://fi.somethingawful.com/images/warning.gif') no-repeat left;
 }
 
 nav#page-nav {
@@ -26,7 +26,7 @@ nav#page-nav {
     padding-right: 6px;
     border-top-left-radius: 6px 6px;
     border-top-right-radius: 6px 6px;
-    -webkit-backface-visibility: hidden;    
+    -webkit-backface-visibility: hidden;
     -webkit-box-shadow: #000000 0px 0px 12px;
     -webkit-transition: -webkit-transform 0.25s ease-out;
 
@@ -95,4 +95,11 @@ table.selected-post {
 #salr-image-hover-box-filename {
     padding-top: 5px;
     padding-bottom: 5px;
+}
+
+#salr-title-with-open-threads-link {
+    display: flex;
+}
+#salr-title-with-open-threads-link span {
+    flex-grow: 1;
 }

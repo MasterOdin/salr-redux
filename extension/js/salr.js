@@ -1182,9 +1182,7 @@ SALR.prototype.addSearchThreadForm = function() {
  */
 SALR.prototype.renderOpenUpdatedThreadsButton = function() {
     var that = this;
-    //var checkStars = (this.settings.ignoreBookmarkStarGold == 'true' ||
-    //                    this.settings.ignoreBookmarkStarRed == 'true' ||
-    //                    this.settings.ignoreBookmarkStarYellow == 'true') ? true : false;
+
     var stars = [];
     var openNoStar = true;
     if (this.currentPage == "forumdisplay") {
@@ -1213,14 +1211,26 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
         }
     }
 
-    jQuery('th.title:first').append('<div id="open-updated-threads"' +
-                                    '     style="float:right; ' +
-                                    '            cursor:pointer; ' +
-                                    '            text-decoration: underline;">' +
-                                    'Open updated threads</div>');
+    if (!document.getElementById('salr-title-with-open-threads-link')) {
+        var parent = document.querySelector('th.title');
+        var wrapper = document.createElement('span');
+        var title = document.createElement('span');
+        var link = document.createElement('a');
+
+        for (let child of parent.childNodes) {
+            title.appendChild(child);
+        }
+
+        link.appendChild(document.createTextNode('Open updated threads'));
+
+        wrapper.setAttribute('id', 'salr-title-with-open-threads-link');
+        wrapper.appendChild(title);
+        wrapper.appendChild(link);
+        parent.appendChild(wrapper);
+    }
 
     // Open all updated threads in tabs
-    jQuery('#open-updated-threads').click( function() {
+    jQuery('#salr-title-with-open-threads-link a').click( function() {
         jQuery('tr.thread').each( function() {
             var other = this;
 
@@ -1238,7 +1248,7 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
             }
 
             var star_img = jQuery('td.star', this)[0].classList;
-//            console.log(jQuery('td.star', this));
+
             if (star_img.length <= 1 && openNoStar == false)
                 return;
 
