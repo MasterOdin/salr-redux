@@ -107,6 +107,9 @@ table.selected-post {
 #salr-title-with-open-threads-link span {
     flex-grow: 1;
 }
+#salr-title-with-open-threads-link a {
+    text-decoration: underline;
+}
 
 /* forum overrides */
 
