@@ -108,7 +108,7 @@ table.selected-post {
     flex-grow: 1;
 }
 #salr-title-with-open-threads-link a {
-    text-decoration: underline;
+    text-decoration: underline !important;
 }
 
 /* forum overrides */
