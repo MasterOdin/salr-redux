@@ -26,10 +26,12 @@ nav#page-nav {
     padding-right: 6px;
     border-top-left-radius: 6px 6px;
     border-top-right-radius: 6px 6px;
+    backface-visibility: hidden;    
     -webkit-backface-visibility: hidden;    
+    box-shadow: #000000 0px 0px 12px;
     -webkit-box-shadow: #000000 0px 0px 12px;
+    transition: transform 0.25s ease-out;
     -webkit-transition: -webkit-transform 0.25s ease-out;
-
 }
 
 div#nav-body {
@@ -37,6 +39,7 @@ div#nav-body {
 }
 
 nav.displayed {
+    transform: translateY(-50px);
     -webkit-transform: translateY(-50px);
 }
 
@@ -52,6 +55,7 @@ select#number-drop-down {
 }
 
 table.selected-post {
+    box-shadow: orange 0px 0px 15px;
     -webkit-box-shadow: orange 0px 0px 15px;
 }
 
@@ -96,3 +100,11 @@ table.selected-post {
     padding-top: 5px;
     padding-bottom: 5px;
 }
+
+/* forum overrides */
+
+/* Stop the post date/time from wrapping onto a second line */
+#thread table.post td.postdate {
+    white-space: nowrap;
+}
+
