@@ -65,8 +65,30 @@ span.settings-group-title {
     padding-left: 10px;
 }
 
+/* Make fieldsets transparent to user */
+fieldset {
+    display: block;
+    border: none;
+    margin-left: 0;
+    padding: 0;
+}
+legend {
+    padding-left: 0;
+}
+
+/* Dim disabled sub-options */
+fieldset:disabled > div.sub-options {
+    color: #cccccc;
+}
+
 div.display-preference {
     padding: 1px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#post-highlighting div.display-preference {
     width: 400px;
 }
 
@@ -114,10 +136,6 @@ footer.submit-panel {
     text-align: right;
 }
 
-div.disabled-options {
-	color: #cccccc;
-}
-
 input#submit {
     border: 1px solid;
     border-color: #999999;
@@ -130,8 +148,7 @@ input#submit {
 }
 
 img.help {
-    float: right;
-    margin-top: -15px;
+    margin-left: 0.5em;
     height: 12px;
 }
 

@@ -254,7 +254,6 @@ jQuery(document).ready(function() {
     var obj = {'inlineTweet':'https://api.twitter.com/*','enableQuickReply':'https://api.imgur.com/*'};
     jQuery('div.display-preference input[type=checkbox]').each(function() {
         populateCheckboxes(jQuery(this));
-        onParentOptionSelect(jQuery(this));
         jQuery(this).click(function() {
             var id = jQuery(this).attr('id');
             if (id == 'inlineTweet' || id == 'enableQuickReply') {
@@ -271,9 +270,20 @@ jQuery(document).ready(function() {
             }
             localStorage.setItem(jQuery(this).attr('id'), jQuery(this).prop('checked'));
             highlightExamples();
-            onParentOptionSelect(jQuery(this));
         });
     });
+
+    // Rig up listeners for fieldset (suboptions) enabling/disabling
+    var fieldSets = document.querySelectorAll('fieldset');
+    for (let fieldSet of fieldSets) {
+        let controlInput = fieldSet.querySelector('legend input[type=checkbox]');
+        if (!controlInput)
+            continue;
+        fieldSet.disabled = !controlInput.checked;
+        controlInput.addEventListener('change', () => {
+            fieldSet.disabled = !controlInput.checked;
+        });
+    }
 
     // Initialize drop down menus
     jQuery('div.display-preference select').each(function() {
@@ -609,24 +619,6 @@ function highlightExamples() {
             jQuery(this).css('background-color', '');
         }
     });
-}
-
-/**
- *
- * Event handler for sub-options
- *
- */
-function onParentOptionSelect(element) {
-    var nextDiv = element.parent().parent().next();
-    if (nextDiv.is('.sub-options')) {
-        if (element.is(':checked')) {
-            nextDiv.removeClass('disabled-options');
-            nextDiv.find('input').removeAttr('disabled');
-        } else {
-            nextDiv.addClass('disabled-options');
-            nextDiv.find('input').attr('disabled', true);
-        }
-    }
 }
 
 /**

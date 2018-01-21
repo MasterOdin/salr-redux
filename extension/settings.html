@@ -166,14 +166,18 @@
             </td>
         </tr>
         </table>
-        <div class='display-preference'>
-            <label><input id='displayCustomButtons' class='user-preference' type='checkbox' /> Use SALR jump buttons</label>
-        </div>
-        <div class='sub-options'>
-            <div class='display-preference'>
-                <label><input id='inlinePostCounts' class='user-preference' type='checkbox' /> Display new post counts inline</label>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='displayCustomButtons' class='user-preference' type='checkbox' /> Use SALR jump buttons</label>
+                </div>
+            </legend>
+            <div class='sub-options'>
+                <div class='display-preference'>
+                    <label><input id='inlinePostCounts' class='user-preference' type='checkbox' /> Display new post counts inline</label>
+                </div>
             </div>
-        </div>
+        </fieldset>
         <div style="clear: both;"></div>
         <br />
     </section>
@@ -187,7 +191,7 @@
         </div>
     </a>
 
-    <section class="settings-panel">
+    <section class="settings-panel" id="post-highlighting">
         <div class="threadbar top">&nbsp;</div>
         <div id="thread">
         <table id="op-post" class="post">
@@ -420,42 +424,50 @@
         <div class='display-preference'>
             <label><input id='hideAdvertisements' class='user-preference' type='checkbox' /> Hide header/footer ads</label>
         </div>
-        <div class='display-preference'>
-            <label><input id='displayNewPostsFirst' class='user-preference' type='checkbox' /> Display threads with new posts first</label>
-        </div>
-        <div class="sub-options">
-            <div class='display-preference'>
-                <label><input id='displayNewPostsFirstForum' class='user-preference' type='checkbox' /> Enable option in the forum display</label>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='displayNewPostsFirst' class='user-preference' type='checkbox' /> Display threads with new posts first</label>
+                </div>
+            </legend>
+            <div class="sub-options">
+                <div class='display-preference'>
+                    <label><input id='displayNewPostsFirstForum' class='user-preference' type='checkbox' /> Enable option in the forum display</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='displayNewPostsFirstUCP' class='user-preference' type='checkbox' /> Enable option in the User Control Panel</label>
+                </div>
             </div>
-            <div class='display-preference'>
-                <label><input id='displayNewPostsFirstUCP' class='user-preference' type='checkbox' /> Enable option in the User Control Panel</label>
+        </fieldset>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread</label>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">Set the "Posts per Page" to the same as the "Default Posts per Thread:" option in the UCP.</div>
+                </div>
+            </legend>
+            <div class='sub-options'>
+                <div class='display-preference'>
+                    <label>Posts per Page: <select id='postsPerPage' class='user-preference'>
+                        <option selected value='default'>Forum Default</option>
+                        <option value='5'>5</option>
+                        <option value='10'>10</option>
+                        <option value='20'>20</option>
+                        <option value='30'>30</option>
+                        <option value='40'>40</option></select></label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='showLastThreePagesForum' class='user-preference' type='checkbox' /> Enable option in the forum display</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='showLastThreePagesUCP' class='user-preference' type='checkbox' /> Enable option in the User Control Panel</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='showLastThreePagesThread' class='user-preference' type='checkbox' /> Enable option in the thread display</label>
+                </div>
             </div>
-        </div>
-        <div class='display-preference'>
-          <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread</label>
-            <img class="help" src="images/settings_question.png" />
-            <div class="help-box">Set the "Posts per Page" to the same as the "Default Posts per Thread:" option in the UCP.</div>
-        </div>
-        <div class='sub-options'>
-            <div class='display-preference'>
-                <label>Posts per Page: <select id='postsPerPage' class='user-preference'>
-                    <option selected value='default'>Forum Default</option>
-                    <option value='5'>5</option>
-                    <option value='10'>10</option>
-                    <option value='20'>20</option>
-                    <option value='30'>30</option>
-                    <option value='40'>40</option></select></label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='showLastThreePagesForum' class='user-preference' type='checkbox' /> Enable option in the forum display</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='showLastThreePagesUCP' class='user-preference' type='checkbox' /> Enable option in the User Control Panel</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='showLastThreePagesThread' class='user-preference' type='checkbox' /> Enable option in the thread display</label>
-            </div>
-        </div>
+        </fieldset>
         <div class='display-preference'>
             <label><input id='expandBreadcrumbs' class='user-preference' type='checkbox' /> Expand breadcrumbs to be individual links</label>
         </div>
@@ -480,88 +492,96 @@
         <div class='display-preference'>
             <label><input id='hideHeaderLinks' class='user-preference' type='checkbox' /> Hide top menu</label>
         </div>-->
-        <div class='display-preference'>
-            <label><input id='showPurchases' class='user-preference' type='checkbox' /> Display Purchase menu links</label>
-        </div>
-        <div class="sub-options">
-            <div class='display-preference'>
-                <label><input id='topPurchaseAcc' class='user-preference' type='checkbox' /> Account</label>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='showPurchases' class='user-preference' type='checkbox' /> Display Purchase menu links</label>
+                </div>
+            </legend>
+            <div class="sub-options">
+                <div class='display-preference'>
+                    <label><input id='topPurchaseAcc' class='user-preference' type='checkbox' /> Account</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchasePlat' class='user-preference' type='checkbox' /> Platinum</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseAva' class='user-preference' type='checkbox' /> Avatar</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseArchives' class='user-preference' type='checkbox' /> Archives</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseNoAds' class='user-preference' type='checkbox' /> No-Ads</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseUsername' class='user-preference' type='checkbox' /> New Username</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseBannerAd' class='user-preference' type='checkbox' /> Banner Advertisment</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseEmoticon' class='user-preference' type='checkbox' /> Emoticon</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseSticky' class='user-preference' type='checkbox' /> Stick Thread</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPurchaseGiftCert' class='user-preference' type='checkbox' /> Gift Certificate</label>
+                </div>
             </div>
-            <div class='display-preference'>
-                <label><input id='topPurchasePlat' class='user-preference' type='checkbox' /> Platinum</label>
+        </fieldset>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='showNavigation' class='user-preference' type='checkbox' /> Display Navigation menu links</label>
+                </div>
+            </legend>
+            <div class="sub-options">
+                <div class='display-preference'>
+                    <label><input id="topNavBar" class='user-preference' type='checkbox' /> Display Top Navigation Bar</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='bottomNavBar' class='user-preference' type='checkbox' /> Display Bottom Navigation Bar</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topSAForums' class='user-preference' type='checkbox' /> SA Forums</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topSALink' class='user-preference' type='checkbox' /> Something Awful</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topSearch' class='user-preference' type='checkbox' /> Search the Forums</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='displayConfigureSalr' class='user-preference' type='checkbox' /> Configure SALR</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topUserCP' class='user-preference' type='checkbox' /> User Control Panel</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topPrivMsgs' class='user-preference' type='checkbox' /> Private Message</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topForumRules' class='user-preference' type='checkbox' /> Forum Rules</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topSaclopedia' class='user-preference' type='checkbox' /> SAclopedia</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topGloryhole' class='user-preference' type='checkbox' /> Posting Gloryhole</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topLepersColony' class='user-preference' type='checkbox' /> Leper's Colony</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topSupport' class='user-preference' type='checkbox' /> Support</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='topLogout' class='user-preference' type='checkbox' /> Logout</label>
+                </div>
             </div>
-            <div class='display-preference'>
-                <label><input id='topPurchaseAva' class='user-preference' type='checkbox' /> Avatar</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topPurchaseArchives' class='user-preference' type='checkbox' /> Archives</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topPurchaseNoAds' class='user-preference' type='checkbox' /> No-Ads</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topPurchaseUsername' class='user-preference' type='checkbox' /> New Username</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topPurchaseBannerAd' class='user-preference' type='checkbox' /> Banner Advertisment</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topPurchaseEmoticon' class='user-preference' type='checkbox' /> Emoticon</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topPurchaseSticky' class='user-preference' type='checkbox' /> Stick Thread</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topPurchaseGiftCert' class='user-preference' type='checkbox' /> Gift Certificate</label>
-            </div>
-        </div>
-        <div class='display-preference'>
-            <label><input id='showNavigation' class='user-preference' type='checkbox' /> Display Navigation menu links</label>
-        </div>
-        <div class="sub-options">
-            <div class='display-preference'>
-                <label><input id="topNavBar" class='user-preference' type='checkbox' /> Display Top Navigation Bar</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='bottomNavBar' class='user-preference' type='checkbox' /> Display Bottom Navigation Bar</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topSAForums' class='user-preference' type='checkbox' /> SA Forums</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topSALink' class='user-preference' type='checkbox' /> Something Awful</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topSearch' class='user-preference' type='checkbox' /> Search the Forums</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='displayConfigureSalr' class='user-preference' type='checkbox' /> Configure SALR</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topUserCP' class='user-preference' type='checkbox' /> User Control Panel</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topPrivMsgs' class='user-preference' type='checkbox' /> Private Message</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topForumRules' class='user-preference' type='checkbox' /> Forum Rules</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topSaclopedia' class='user-preference' type='checkbox' /> SAclopedia</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topGloryhole' class='user-preference' type='checkbox' /> Posting Gloryhole</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topLepersColony' class='user-preference' type='checkbox' /> Leper's Colony</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topSupport' class='user-preference' type='checkbox' /> Support</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='topLogout' class='user-preference' type='checkbox' /> Logout</label>
-            </div>
-        </div>
+        </fieldset>
         <div style="clear: both;"></div>
         <br />
     </section>
@@ -610,31 +630,39 @@
                 <div class='color-picker-box'></div>
             </div>
         </div>
-        <div class='display-preference'>
-            <label><input id='inlineVine' class='user-preference' type='checkbox' /> Convert Vine links to inline video</label>
-        </div>
-        <div class='sub-options'>
-            <div class='display-preference'>
-                <label><input id="dontReplaceVineNWS" class='user-preference' type='checkbox' /> Don't convert if post contains a NWS/NMS warning</label>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='inlineVine' class='user-preference' type='checkbox' /> Convert Vine links to inline video</label>
+                </div>
+            </legend>
+            <div class='sub-options'>
+                <div class='display-preference'>
+                    <label><input id="dontReplaceVineNWS" class='user-preference' type='checkbox' /> Don't convert if post contains a NWS/NMS warning</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='dontReplaceVineSpoiler' class='user-preference' type='checkbox' /> Don't convert vines inside spoiler tags</label>
+                </div>
             </div>
-            <div class='display-preference'>
-                <label><input id='dontReplaceVineSpoiler' class='user-preference' type='checkbox' /> Don't convert vines inside spoiler tags</label>
+        </fieldset>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='inlineWebm' class='user-preference' type='checkbox' /> Convert webm/gfycat links to inline video</label>
+                </div>
+            </legend>
+            <div class='sub-options'>
+                <div class='display-preference'>
+                    <label><input id='inlineWemAutoplay' class='user-preference' type='checkbox' /> Have webm/gfycat links autoplay</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id="dontReplaceWebmNWS" class='user-preference' type='checkbox' /> Don't convert if post contains a NWS/NMS warning</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='dontReplaceWebmSpoiler' class='user-preference' type='checkbox' /> Don't convert webm/gfycat inside spoiler tags</label>
+                </div>
             </div>
-        </div>
-        <div class='display-preference'>
-            <label><input id='inlineWebm' class='user-preference' type='checkbox' /> Convert webm/gfycat links to inline video</label>
-        </div>
-        <div class='sub-options'>
-            <div class='display-preference'>
-                <label><input id='inlineWemAutoplay' class='user-preference' type='checkbox' /> Have webm/gfycat links autoplay</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id="dontReplaceWebmNWS" class='user-preference' type='checkbox' /> Don't convert if post contains a NWS/NMS warning</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='dontReplaceWebmSpoiler' class='user-preference' type='checkbox' /> Don't convert webm/gfycat inside spoiler tags</label>
-            </div>
-        </div>
+        </fieldset>
         <div style="clear: both;"></div>
         <div class='display-preference'>
             <label><input id='threadCaching' class='user-preference' type='checkbox' /> Highlight thread counts in yellow if you've posted there before</label>
@@ -653,17 +681,21 @@
         <div class='display-preference'>
             <label><input id='searchThreadHide' class='user-preference' type='checkbox' /> Hide thread search form</label>
         </div>
-        <div class='display-preference'>
-            <label><input id='enableUserNotes' class='user-preference' type='checkbox' /> Enable user notes</label>
-        </div>
-        <div class="sub-options">
-             <div class='display-preference'>
-                <label><input id="enableUserNotesSync" class='user-preference' type='checkbox' /> Use Chrome Sync for User Notes</label>
-                <img class="help" src="images/settings_question.png" />
-                <div class="help-box">By default, user notes will sync to your Google account and be pulled from it. This allows user notes to be synced across computers.
-                If you have issues, try disabling this option.</div>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='enableUserNotes' class='user-preference' type='checkbox' /> Enable user notes</label>
+                </div>
+            </legend>
+            <div class="sub-options">
+                <div class='display-preference'>
+                    <label><input id="enableUserNotesSync" class='user-preference' type='checkbox' /> Use sync storage for user notes</label>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">By default, user notes will sync to your browser's sync provider. This allows user notes to be synced across computers.
+                    If you have issues, try disabling this option.</div>
+                </div>
             </div>
-        </div>
+        </fieldset>
         <div class='display-preference'>
             <label><input id='enableToggleUserAvatars' class='user-preference' type='checkbox' /> Enable toggling of individual user avatars</label>
         </div>
@@ -673,16 +705,20 @@
         <div class='display-preference'>
             <label><input id='fixCancer' class='user-preference' type='checkbox' /> Fix forums cancer posts</label>
         </div>
-        <div class='display-preference'>
-          <label><input id='adjustAfterLoad' class='user-preference' type='checkbox' /> Adjust window position after threads load</label>
-            <img class="help" src="images/settings_question.png" />
-            <div class="help-box">This setting is useful when you have settings that change elements on the page (img size, twitter, etc.).</div>
-        </div>
-        <div class="sub-options">
-            <div class='display-preference'>
-                <label><input id="preventAdjust" class='user-preference' type='checkbox' /> Prevent adjust if user scrolls the window</label>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='adjustAfterLoad' class='user-preference' type='checkbox' /> Adjust window position after threads load</label>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">This setting is useful when you have settings that change elements on the page (img size, twitter, etc.).</div>
+                </div>
+            </legend>
+            <div class="sub-options">
+                <div class='display-preference'>
+                    <label><input id="preventAdjust" class='user-preference' type='checkbox' /> Prevent adjust if user scrolls the window</label>
+                </div>
             </div>
-        </div>
+        </fieldset>
         <div class='display-preference'>
             <label><input id='enableSAARSLink' class='user-preference' type='checkbox' /> Show a link to SAARS under a user's post</label>
             <img class="help" src="images/settings_question.png" />
@@ -712,14 +748,18 @@
     </a>
 
     <section class="settings-panel">
-        <div class='display-preference'>
-            <label><input id='displayPageNavigator' class='user-preference' type='checkbox' /> Display page navigator</label>
-        </div>
-        <div class="sub-options">
-            <div class='display-preference'>
-                <label><input id='loadNewWithLastPost' class='user-preference' type='checkbox' /> Last post button reloads the current thread to check for new posts instead of scrolling to an unread post</label>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='displayPageNavigator' class='user-preference' type='checkbox' /> Display page navigator</label>
+                </div>
+            </legend>
+            <div class="sub-options">
+                <div class='display-preference'>
+                    <label><input id='loadNewWithLastPost' class='user-preference' type='checkbox' /> Last post button reloads the current thread to check for new posts instead of scrolling to an unread post</label>
+                </div>
             </div>
-        </div>
+        </fieldset>
         <div class='display-preference'>
             <label><input id='displayOmnibarIcon' class='user-preference' type='checkbox' /> Display jump list icon in omnibar</label>
             <img class="help" src="images/settings_question.png" />
@@ -746,50 +786,58 @@
                 </ul>
             </div>
         </div>
-        <div class='display-preference'>
-            <label><input id='enableMouseGestures' class='user-preference' type='checkbox' /> Enable mouse gestures to navigate forums</label>
-        </div>
-        <div class="sub-options">
-            <div class='display-preference'>
-                <label><input id="enableMouseMenu" class='user-preference' type='checkbox' /> Allow Alt key to switch between mouse gestures and context menu</label>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='enableMouseGestures' class='user-preference' type='checkbox' /> Enable mouse gestures to navigate forums</label>
+                </div>
+            </legend>
+            <div class="sub-options">
+                <div class='display-preference'>
+                    <label><input id="enableMouseMenu" class='user-preference' type='checkbox' /> Allow Alt key to switch between mouse gestures and context menu</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='enableMouseUpUCP' class='user-preference' type='checkbox' /> Enable up arrow to go to UCP instead of up a forum layer</label>
+                </div>
             </div>
-            <div class='display-preference'>
-                <label><input id='enableMouseUpUCP' class='user-preference' type='checkbox' /> Enable up arrow to go to UCP instead of up a forum layer</label>
+        </fieldset>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='enableQuickReply' class='user-preference' type='checkbox' /> Use Quick Reply box</label>
+                </div>
+            </legend>
+            <div class='sub-options'>
+                <div class='display-preference'>
+                    <label><input id='quickReplyParseUrls' class='user-preference' type='checkbox' /> By default, check parse URLs box</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='quickReplyBookmark' class='user-preference' type='checkbox' /> By default, check bookmark thread box</label>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">Note: This checkbox is checked by default when editing bookmarked threads. Unselecting this option on editing posts will unbookmark this thread. Unselecting this option when just regularly posting won't unbookmark the thread.</div>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='quickReplyDisableSmilies' class='user-preference' type='checkbox' /> By default, check disable smilies box</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='quickReplySignature' class='user-preference' type='checkbox' /> By default, check show signature box</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='quickReplyLivePreview' class='user-preference' type='checkbox' /> By default, check show live preview box</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='quickReplyFormat' class='user-preference' type='checkbox' /> Enable quick format keys</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='quickReplyEmotes' class='user-preference' type='checkbox' /> Alphabetize sidebar smiley list</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id='quickReplyYoutube' class'user-preference' type='checkbox' /> Enable auto-formatting of youtube pastes</label>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">When you paste a youtube video link into the quick reply, with this setting, it will be automatically parsed into the video tag for you.</div>
+                </div>
             </div>
-        </div>
-        <div class='display-preference'>
-            <label><input id='enableQuickReply' class='user-preference' type='checkbox' /> Use Quick Reply box</label>
-        </div>
-        <div class='sub-options'>
-            <div class='display-preference'>
-                <label><input id='quickReplyParseUrls' class='user-preference' type='checkbox' /> By default, check parse URLs box</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='quickReplyBookmark' class='user-preference' type='checkbox' /> By default, check bookmark thread box</label>
-                <img class="help" src="images/settings_question.png" />
-                <div class="help-box">Note: This checkbox is checked by default when editing bookmarked threads. Unselecting this option on editing posts will unbookmark this thread. Unselecting this option when just regularly posting won't unbookmark the thread.</div>
-            </div>
-            <div class='display-preference'>
-                <label><input id='quickReplyDisableSmilies' class='user-preference' type='checkbox' /> By default, check disable smilies box</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='quickReplySignature' class='user-preference' type='checkbox' /> By default, check show signature box</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='quickReplyLivePreview' class='user-preference' type='checkbox' /> By default, check show live preview box</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='quickReplyFormat' class='user-preference' type='checkbox' /> Enable quick format keys</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='quickReplyEmotes' class='user-preference' type='checkbox' /> Alphabetize sidebar smiley list</label>
-            </div>
-            <div class='display-preference'>
-                <label><input id='quickReplyYoutube' class'user-preference' type='checkbox' /> Enable auto-formatting of youtube pastes</label>
-                <img class="help" src="images/settings_question.png" />
-                <div class="help-box">When you paste a youtube video link into the quick reply, with this setting, it will be automatically parsed into the video tag for you.</div>
-            </div>
-        </div>
+        </fieldset>
         <div style="clear: both;"></div>
         <br />
     </section>
@@ -806,80 +854,100 @@
     <section class="settings-panel">
         <span class='settings-group-title'>Links-to-Images</span>
         <div class='settings-group'>
-            <div class='display-preference'>
-                <label><input id='replaceLinksWithImages' class='user-preference' type='checkbox' /> Convert links into inline images</label>
-            </div>
-            <div class='sub-options'>
-                <div class='display-preference'>
-                    <label><input id='dontReplaceLinkNWS' class='user-preference' type='checkbox' /> Don't convert if post contains a NWS/NMS warning</label>
+            <fieldset>
+                <legend>
+                    <div class='display-preference'>
+                        <label><input id='replaceLinksWithImages' class='user-preference' type='checkbox' /> Convert links into inline images</label>
+                    </div>
+                </legend>
+                <div class='sub-options'>
+                    <div class='display-preference'>
+                        <label><input id='dontReplaceLinkNWS' class='user-preference' type='checkbox' /> Don't convert if post contains a NWS/NMS warning</label>
+                    </div>
+                    <div class='display-preference'>
+                        <label><input id='dontReplaceLinkSpoiler' class='user-preference' type='checkbox' /> Don't convert links inside spoiler tags</label>
+                    </div>
+                    <div class='display-preference'>
+                        <label><input id='dontReplaceLinkRead' class='user-preference' type='checkbox' /> Don't convert links in marked-as-read posts</label>
+                    </div>
+                    <div class='display-preference'>
+                        <label><input id='dontReplaceLinkImage' class='user-preference' type='checkbox' /> Don't convert links containing images</label>
+                    </div>
                 </div>
-                <div class='display-preference'>
-                    <label><input id='dontReplaceLinkSpoiler' class='user-preference' type='checkbox' /> Don't convert links inside spoiler tags</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='dontReplaceLinkRead' class='user-preference' type='checkbox' /> Don't convert links in marked-as-read posts</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='dontReplaceLinkImage' class='user-preference' type='checkbox' /> Don't convert links containing images</label>
-                </div>
-            </div>
+            </fieldset>
         </div>
         <span class='settings-group-title'>Linked-Image Hover</span>
         <div class='settings-group'>
-            <div class='display-preference'>
-                <label><input id='imageLinkHover' class='user-preference' type='checkbox' /> Show linked image when hovering on link</label>
-                <img class="help" src="images/settings_question.png" />
-                <div class="help-box">Does not appear to cause any problems when used simultaneously with Links-to-images feature above.</div>
-            </div>
-            <div class='sub-options'>
-                <div class='display-preference'>
-                    <label>Hover after <input id='imageLinkHoverDelay' class='text-entry user-preference' type='text' size='5' default='0.5' /> seconds</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='imageLinkHoverShowURL' type='checkbox' /> Show image URL below image</label>
-                </div>
+            <fieldset>
+                <legend>
+                    <div class='display-preference'>
+                        <label><input id='imageLinkHover' class='user-preference' type='checkbox' /> Show linked image when hovering on a link to one</label>
+                        <img class="help" src="images/settings_question.png" />
+                        <div class="help-box">Does not appear to cause any problems when used simultaneously with Links-to-images feature above.</div>
+                    </div>
+                </legend>
                 <div class='sub-options'>
                     <div class='display-preference'>
-                        <label><input id='imageLinkHoverShowFilename' type='checkbox' /> Only show filename, not whole URL</label>
+                        <label>Hover after <input id='imageLinkHoverDelay' class='text-entry user-preference' type='text' size='5' default='0.5' /> seconds</label>
+                    </div>
+                    <fieldset>
+                        <legend>
+                            <div class='display-preference'>
+                                <label><input id='imageLinkHoverShowURL' type='checkbox' /> Show image URL below image</label>
+                            </div>
+                        </legend>
+                        <div class='sub-options'>
+                            <div class='display-preference'>
+                                <label><input id='imageLinkHoverShowFilename' type='checkbox' /> Only show filename, not whole URL</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class='display-preference'>
+                        <label><input id='imageLinkHoverNWS' type='checkbox' /> Don't display hover if post contains NWS/NMS warning</label>
+                    </div>
+                    <div class='display-preference'>
+                        <label><input id='imageLinkHoverSpoiler' type='checkbox' /> Don't display hover for image links in spoiler tags</label>
                     </div>
                 </div>
-                <div class='display-preference'>
-                    <label><input id='imageLinkHoverNWS' type='checkbox' /> Don't display hover if post contains NWS/NMS warning</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='imageLinkHoverSpoiler' type='checkbox' /> Don't display hover for image links in spoiler tags</label>
-                </div>
-            </div>
+            </fieldset>
         </div>
         <span class='settings-group-title'>Images-to-Links</span>
         <div class='settings-group'>
-            <div class='display-preference'>
-                <label><input id='replaceImagesWithLinks' class='user-preference' type='checkbox' /> Replace Images with links</label>
-            </div>
-            <div class='sub-options'>
-                <div class='display-preference'>
-                    <label><input id='replaceImagesReadOnly' class='user-preference' type='checkbox' /> Convert Images in Read Posts only</label>
+            <fieldset>
+                <legend>
+                    <div class='display-preference'>
+                        <label><input id='replaceImagesWithLinks' class='user-preference' type='checkbox' /> Replace images with links</label>
+                    </div>
+                </legend>
+                <div class='sub-options'>
+                    <div class='display-preference'>
+                        <label><input id='replaceImagesReadOnly' class='user-preference' type='checkbox' /> Convert images in read posts only</label>
+                    </div>
+                    <div class='display-preference'>
+                        <label><input id='replaceImagesLink' class='user-preference' type='checkbox' /> If image was linked, put link after image link</label>
+                    </div>
                 </div>
-                <div class='display-preference'>
-                    <label><input id='replaceImagesLink' class='user-preference' type='checkbox' /> If image was linked, put link after image link</label>
-                </div>
-            </div>
+            </fieldset>
         </div>
         <span class='settings-group-title'>Image Resizing</span>
         <div class='settings-group'>
-            <div class='display-preference'>
-                <label><input id='restrictImageSize' class='user-preference' type='checkbox' /> Restrict Size of Images to</label>
-                <img class="help" src="images/settings_question.png" />
-                <div class="help-box">Limit the size of images posted on the forums. Putting 0 in the below boxes will disable limiting in that particular dimension.</div>
-            </div>
-            <div class='sub-options'>
-                <div class='display-preference'>
-                    <label>Width: <input id='restrictImagePxW' class='text-entry user-preference' type='input' style='color: #999999;' /> px</label>
+            <fieldset>
+                <legend>
+                    <div class='display-preference'>
+                        <label><input id='restrictImageSize' class='user-preference' type='checkbox' /> Restrict size of images to:</label>
+                        <img class="help" src="images/settings_question.png" />
+                        <div class="help-box">Limit the size of images posted on the forums. Putting 0 in the below boxes will disable limiting in that particular dimension.</div>
+                    </div>
+                </legend>
+                <div class='sub-options'>
+                    <div class='display-preference'>
+                        <label>Width: <input id='restrictImagePxW' class='text-entry user-preference' type='input' style='color: #999999;' /> px</label>
+                    </div>
+                    <div class='display-preference'>
+                        <label>Height: <input id='restrictImagePxH' class='text-entry user-preference' type='input' style='color: #999999;' /> px</label>
+                    </div>
                 </div>
-                <div class='display-preference'>
-                    <label>Height: <input id='restrictImagePxH' class='text-entry user-preference' type='input' style='color: #999999;' /> px</label>
-                </div>
-            </div>
+            </fieldset>
         </div>
         <span class='settings-group-title'>Imgur Setttings</span>
         <div class='settings-group'>
@@ -907,25 +975,29 @@
 
         <span class='settings-group-title'>Image Tooltip</span>
         <div class='settings-group'>
-            <div class='display-preference'>
-                <label><input id='setImageTooltip' class='user-preference' type='checkbox' /> Set image tooltip to file name</label>
-            </div>
-            <div class='sub-options'>
-                <div class='display-preference'>
-                    <label><input id='setImageTooltipBlankOnly' class='user-preference' type='checkbox' /> Only when not already set</label>
+            <fieldset>
+                <legend>
+                    <div class='display-preference'>
+                        <label><input id='setImageTooltip' class='user-preference' type='checkbox' /> Set image tooltip to file name</label>
+                    </div>
+                </legend>
+                <div class='sub-options'>
+                    <div class='display-preference'>
+                        <label><input id='setImageTooltipBlankOnly' class='user-preference' type='checkbox' /> Only when not already set</label>
+                    </div>
+                    <div class='display-preference'>
+                        <label><input id='setImageTooltipHideExtension' class='user-preference' type='checkbox' /> Hide image file extension</label>
+                    </div>
+                    <div class='display-preference'>
+                        <label><input id='setImageTooltipSkipEmoticons' class='user-preference' type='checkbox' /> Don't set for emoticons</label>
+                        <img class="help" src="images/settings_question.png" />
+                        <div class="help-box">This requires "Only when not already set" to also not be checked to work on emoticons</div>
+                    </div>
+                    <div class='display-preference'>
+                        <label><input id='setImageTooltipHideSourceUrl' class='user-preference' type='checkbox' /> Hide image file source url</label>
+                    </div>
                 </div>
-                <div class='display-preference'>
-                    <label><input id='setImageTooltipHideExtension' class='user-preference' type='checkbox' /> Hide image file extension</label>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='setImageTooltipSkipEmoticons' class='user-preference' type='checkbox' /> Don't set for emoticons</label>
-                    <img class="help" src="images/settings_question.png" />
-                    <div class="help-box">This requires "Only when not already set" to also not be checked to work on emoticons</div>
-                </div>
-                <div class='display-preference'>
-                    <label><input id='setImageTooltipHideSourceUrl' class='user-preference' type='checkbox' /> Hide image file source url</label>
-                </div>
-            </div>
+            </fieldset>
         </div>
         <div style="clear: both;"></div>
         <br />
@@ -942,54 +1014,50 @@
 
     <section class="settings-panel">
         <div class='display-preference'>
-          <label><input id='qneProtection' class='user-preference' type='checkbox' /> Protect against accidental quotes instead of edits</label>
+            <label><input id='qneProtection' class='user-preference' type='checkbox' /> Protect against accidental quotes instead of edits</label>
         </div>
         <div class='display-preference'>
-          <label><input id='showEditBookmarks' class='user-preference' type='checkbox' /> Always display "Edit Bookmarks" column in User CP</label>
+            <label><input id='showEditBookmarks' class='user-preference' type='checkbox' /> Always display "Edit Bookmarks" column in User CP</label>
         </div>
-        <div class='display-preference'>
-          <label><input id='openAllUnreadLink' class='user-preference' type='checkbox' /> Display "Open all unread messages" link on User CP</label>
-        </div>
-        <div class='sub-options'>
-          <div class='display-preference'>
-            Ignore bookmarks with a<br />
-<!--
-              <label>Ignore bookmarks with a<br />
-                  <select id='ignoreBookmarkStar' class='user-preference'>
-                      <option value="">Disabled</option>
-                      <option value="bm0">Gold Star</option>
-                      <option value="bm1">Red Star</option>
-                      <option value="bm2">Yellow Star</option>
-                  </select>
-              </label>
--->
-                <label><input id="ignoreBookmarkStarGold" class='user-preference' type='checkbox' /> Gold Star</label>
-                <label><input id="ignoreBookmarkStarRed" class='user-preference' type='checkbox' /> Red Star</label>
-                <label><input id="ignoreBookmarkStarYellow" class='user-preference' type='checkbox' /> Yellow Star</label>
-          </div>
-        </div>
-        <div class='display-preference'>
-          <label><input id='openAllForumUnreadLink' class='user-preference' type='checkbox' /> Display "Open all unread messages" link on Forum Display</label>
-        </div>
-        <div class='sub-options'>
-            <div class='display-preference'>
-            Ignore bookmarks with a<br />
-<!--
-              <label>Ignore bookmarks with a<br />
-                  <select id='ignoreBookmarkStar' class='user-preference'>
-                      <option value="">Disabled</option>
-                      <option value="bm0">Gold Star</option>
-                      <option value="bm1">Red Star</option>
-                      <option value="bm2">Yellow Star</option>
-                  </select>
-              </label>
--->
-                <label><input id="ignoreForumStarNone" class='user-preference' type='checkbox' /> No Star</label>
-                <label><input id="ignoreForumStarGold" class='user-preference' type='checkbox' /> Gold Star</label>
-                <label><input id="ignoreForumStarRed" class='user-preference' type='checkbox' /> Red Star</label>
-                <label><input id="ignoreForumStarYellow" class='user-preference' type='checkbox' /> Yellow Star</label>
+        <fieldset>
+            <legend>
+                <div class='display-preference'>
+                    <label><input id='openAllUnreadLink' class='user-preference' type='checkbox' /> Display "Open all unread messages" link on User CP</label>
+                </div>
+            </legend>
+            <div class='sub-options'>
+                Ignore bookmarks with:<br />
+                <div class='display-preference'>
+                    <label><input id="ignoreBookmarkStarGold" class='user-preference' type='checkbox' /> Gold Stars</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id="ignoreBookmarkStarRed" class='user-preference' type='checkbox' /> Red Stars</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id="ignoreBookmarkStarYellow" class='user-preference' type='checkbox' /> Yellow Stars</label>
+                </div>
             </div>
-        </div>
+        </fieldset>
+        <fieldset>
+            <legend><div class='display-preference'>
+                <label><input id='openAllForumUnreadLink' class='user-preference' type='checkbox' /> Display "Open all unread messages" link on Forum Display</label>
+            </div></legend>
+            <div class='sub-options'>
+                Ignore threads with:<br />
+                <div class='display-preference'>
+                    <label><input id="ignoreForumStarNone" class='user-preference' type='checkbox' /> No stars</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id="ignoreForumStarGold" class='user-preference' type='checkbox' /> Gold Stars</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id="ignoreForumStarRed" class='user-preference' type='checkbox' /> Red Stars</label>
+                </div>
+                <div class='display-preference'>
+                    <label><input id="ignoreForumStarYellow" class='user-preference' type='checkbox' /> Yellow Stars</label>
+                </div>
+            </div>
+        </fieldset>
         <div class='display-preference'>
             <label><input id='fixUserCPFont' class='user-preference' type='checkbox' /> Fix User CP Font</label>
         </div>
