@@ -145,25 +145,12 @@ SALR.prototype.pageInit = function() {
 
             this.updateForumsList();
 
-            if (this.settings.highlightFriends == 'true') {
-                this.highlightFriendPosts();
-            }
-
-            if (this.settings.highlightOP == 'true') {
-                this.highlightOPPosts();
-            }
-
-            if (this.settings.highlightSelf == 'true' || this.settings.removeOwnReport == 'true') {
-                this.highlightOwnPosts();
-            }
-
             if (this.settings.enableUserNotes == 'true') {
                 this.displayUserNotesHandler();
             }
 
             if (this.settings.highlightModAdmin == 'true') {
                 this.skimModerators();
-                this.highlightModAdminPosts();
             }
 
             if (this.settings.boxQuotes == 'true') {
@@ -745,57 +732,31 @@ SALR.prototype.updateStyling = function() {
  * This function will eventually be the only one iterating through the posts table.
 */
 SALR.prototype.handleShowThread = function() {
-    var that = this;
-
     // Fetch hidden avatars from cache
+    var hiddenAvatars = [];
     if (this.settings.enableToggleUserAvatars === 'true') {
-        var hiddenAvatars = this.getHiddenAvatars();
+        hiddenAvatars = this.getStoredHiddenAvatars();
+    }
+
+    // Fetch friend list info
+    var friends_id = null;
+    if (this.settings.highlightFriends === 'true') {
+        friends_id = this.getStoredFriendNums();
     }
 
     var posts = document.querySelectorAll('table.post');
     for (let post of posts) {
+        if (post.id === 'post') // adbot
+            continue;
         let profileLink = post.querySelector('ul.profilelinks a[href*="userid="]'); 
         if (!profileLink)
             continue;
 
         let userid = profileLink.href.match(/userid=(\d+)/)[1];
-        let userLinks = profileLink.parentNode.parentNode;
 
-        // Add a link to the user's SAARS page to view previous avatars
-        if (that.settings.enableSAARSLink === 'true') {
-            let username = post.querySelector('dt.author').textContent;
-            userLinks.insertAdjacentHTML('beforeend', ' <li><a href="https://www.muddledmuse.com/saars/?goon='+encodeURIComponent(username)+'" target="blank">SAARS</a></li>');
-        }
-
-        if (that.settings.enableToggleUserAvatars === 'true') {
-            // Build hide avatar link
-            let avButton = document.createElement("li");
-            let avAnch = document.createElement("a");
-            avAnch.title = "Toggle displaying this poster's avatar.";
-            avAnch.classList.add('salr-toggleavlink');
-
-            // Is their avatar already hidden?
-            if (that.isUserAvatarHidden(userid, hiddenAvatars)) {
-                avAnch.textContent = "Show Avatar";
-                // Hide it!
-                let userAvatar = post.querySelector('dl.userinfo > dd.title');
-                if (userAvatar)
-                    userAvatar.style.display = "none";
-            }
-            else {
-                avAnch.textContent = "Hide Avatar";
-            }
-
-            avAnch.addEventListener("click", (event) => {
-                that.clickToggleAvatar(userid, hiddenAvatars, event);
-            }, false);
-
-            avButton.appendChild(avAnch);
-            userLinks.appendChild(document.createTextNode(" "));
-            userLinks.appendChild(avButton);
-        }
+        this.highlightPost(post, userid, friends_id);
+        this.addUserLinksToPost(post, userid, profileLink, hiddenAvatars);
     }
-
 };
 
 SALR.prototype.modifyImages = function() {
@@ -1343,73 +1304,105 @@ SALR.prototype.updateFriendsList = function() {
 };
 
 /**
- * Highlight the posts of friends
+ * Get list of stored friend userids
+ * @return {Object} null, or an object with userid numbers as keys
  */
-SALR.prototype.highlightFriendPosts = function() {
-    var that = this;
-    if (!this.settings.friendsList)
-        return;
-    var friends = JSON.parse(this.settings.friendsList);
-    var selector = '';
+SALR.prototype.getStoredFriendNums = function() {
+    if (!this.settings.friendsListId)
+        return null;
 
-    if (friends == 0) {
+    var friends_id = JSON.parse(this.settings.friendsListId);
+    if (!friends_id)
+        return null;
+
+    return friends_id;
+};
+
+/**
+ * Perform color highlighting on a single post
+ * @param {HTMLElement} post       Post to check for color highlighting
+ * @param {string}      userid     string userid of current poster
+ * @param {Object}      friends_id null, or an object containing our list of friends with number userids as keys
+ */
+SALR.prototype.highlightPost = function(post, userid, friends_id) {
+    let userNameBox = post.querySelector('dt.author');
+    if (!userNameBox) // Something has gone horribly wrong
         return;
+
+    let highlightColor = '';
+
+    // Highlight friend posts
+    if (friends_id && this.isUserAFriend(userid, friends_id)) {
+        highlightColor = this.settings.highlightFriendsColor;
     }
 
-    var friends_id = this.settings.friendsListId;
-    if (friends_id != undefined && friends_id != null && friends_id != "undefined") {
-        friends_id = JSON.parse(friends_id);
-        jQuery('table.post').each(function() {
-            var id = parseInt(jQuery(this).find('td.userinfo, div.userinfo').attr('class').split(" ")[1].split("-")[1]);
-            if (friends_id[id] != null && friends_id[id] == 1) {
-                jQuery(this).find('td').each(function() {
-                    jQuery(this).css({
-                        'border-collapse' : 'collapse',
-                        'background-color': that.settings.highlightFriendsColor
-                    });
-                });
+    // Highlight OP posts
+    if (this.settings.highlightOP === 'true') {
+        if (userNameBox.classList.contains('op')) {
+            highlightColor = this.settings.highlightOPColor;
+            userNameBox.insertAdjacentHTML('afterend', '<dd style="color: #07A; font-weight: bold; ">Thread Poster</dd>');
+        }
+    }
+
+    // Highlight mod/admin posts
+    if (this.settings.highlightModAdmin === 'true') {
+        if (userNameBox.classList.contains('role-admin')) {
+            if (this.settings.highlightModAdminUsername === 'true') {
+                userNameBox.style.color = this.settings.highlightAdminColor;
+                userNameBox.insertAdjacentHTML('afterend', '<dd style="font-weight: bold; color: ' + this.settings.highlightAdminColor+ '">Forum Administrator</dd>');
             }
-        });
+            else {
+                highlightColor = this.settings.highlightAdminColor;
+                userNameBox.insertAdjacentHTML('afterend', '<dd style="font-weight: bold; ">Forum Administrator</dd>');
+            }
+        }
+        else if (userNameBox.classList.contains('role-mod')) {
+            if (this.settings.highlightModAdminUsername === 'true') {
+                userNameBox.style.color = this.settings.highlightModeratorColor;
+                userNameBox.insertAdjacentHTML('afterend', '<dd style="font-weight: bold; color: ' + this.settings.highlightModeratorColor+ '">Forum Moderator</dd>');
+            }
+            else {
+                highlightColor = this.settings.highlightModeratorColor;
+                userNameBox.insertAdjacentHTML('afterend', '<dd style="font-weight: bold; ">Forum Moderator</dd>');
+            }
+        }
+    }
+
+    // Highlight own posts
+    let userName = userNameBox.textContent.trim();
+    if (this.settings.username !== "" && userName === this.settings.username) {
+        if (this.settings.highlightSelf === 'true')
+            highlightColor = this.settings.highlightSelfColor;
+
+        if (this.settings.removeOwnReport === 'true') {
+            let reportButton = post.querySelector('li.alertbutton');
+            if (reportButton)
+                reportButton.style.display = 'none';
+        }
+    }
+
+    if (highlightColor !== '') {
+        let tds = post.querySelectorAll('td');
+        for (let sometd of tds) {
+            sometd.style.backgroundColor = highlightColor;
+            sometd.style.borderCollapse = 'collapse';
+        }
     }
 };
 
 /**
- * Highlight the posts by the OP
+ * Checks if a number userid is a friend
+ * @param {string} userid     string userid to test for friendship
+ * @param {Object} friends_id null, or an object containing our list of friends with number userids as keys
+ * @return {boolean} Whether the specified user is a friend
  */
-SALR.prototype.highlightOPPosts = function() {
-    var that = this;
-
-    jQuery('table.post:has(dt.author.op) td').each(function () {
-        jQuery(this).css({
-            'border-collapse' : 'collapse',
-            'background-color' : that.settings.highlightOPColor
-        });
-    });
-    jQuery('dt.author.op').each(function() {
-        jQuery(this).after(
-            '<dd style="color: #07A; font-weight: bold; ">Thread Poster</dd>'
-        );
-    });
-};
-
-/**
- * Highlight the posts by one self
- */
-SALR.prototype.highlightOwnPosts = function() {
-    var that = this;
-
-    jQuery("table.post:has(dt.author:econtains('"+that.settings.username+"')) td").each(function () {
-        if (that.settings.highlightSelf == 'true') {
-            jQuery(this).css({
-                'border-collapse' : 'collapse',
-                'background-color' : that.settings.highlightSelfColor
-            });
-        }
-
-        if (that.settings.removeOwnReport == 'true') {
-            jQuery(this).children('ul.postbuttons').children('li.alertbutton').remove();
-        }
-    });
+SALR.prototype.isUserAFriend = function(userid, friends_id) {
+    if (!friends_id)
+        return false;
+    let useridnum = parseInt(userid, 10);
+    if (friends_id[useridnum] && friends_id[useridnum] === 1)
+        return true;
+    return false;
 };
 
 /**
@@ -1421,9 +1414,6 @@ SALR.prototype.highlightModAdminPosts = function() {
         case 'usercp':
         case 'bookmarkthreads':
             this.highlightModAdminForumDisplay();
-            break;
-        case 'showthread':
-            this.highlightModAdminShowThread();
             break;
         case 'misc':
             this.highlightModAdminWhoPosted();
@@ -1486,51 +1476,6 @@ SALR.prototype.highlightModAdminForumDisplay = function() {
             }
         }
     });
-};
-
-/**
- * Highlight the posts by moderators and admins
- * on the thread display page
- */
-SALR.prototype.highlightModAdminShowThread = function() {
-    var that = this;
-
-    if (this.settings.highlightModAdminUsername != 'true') {
-        jQuery('table.post:has(dt.role-mod) td').each(function () {
-            if (this.style.getPropertyPriority('background-color') !== 'important')
-                jQuery(this).css({
-                    'border-collapse' : 'collapse',
-                    'background-color' : that.settings.highlightModeratorColor
-                });
-            jQuery('dt.author', this).after(
-                '<dd style="font-weight: bold; ">Forum Moderator</dd>'
-            );
-        });
-        jQuery('table.post:has(dt.role-admin) td').each(function () {
-            if (this.style.getPropertyPriority('background-color') !== 'important')
-                jQuery(this).css({
-                    'border-collapse' : 'collapse',
-                    'background-color' : that.settings.highlightAdminColor
-                });
-            jQuery('dt.author', this).after(
-                '<dd style="font-weight: bold; ">Forum Moderator</dd>'
-            );
-        });
-    } else {
-        jQuery('dt.role-mod').each(function() {
-            jQuery(this).css('color', that.settings.highlightModeratorColor);
-            jQuery(this).after(
-                '<dd style="font-weight: bold; color: ' + that.settings.highlightModeratorColor+ '">Forum Moderator</dd>'
-            );
-        });
-
-        jQuery('dt.role-admin').each(function() {
-            jQuery(this).css('color', that.settings.highlightAdminColor);
-            jQuery(this).after(
-                '<dd style="font-weight: bold; color: ' + that.settings.highlightAdminColor+ '">Forum Administrator</dd>'
-            );
-        });
-    }
 };
 
 /**
@@ -1853,6 +1798,8 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
     "</div>");
 
     jQuery('table.post').each(function () {
+        if (this.id === 'post') // adbot
+            return;
         var profile = jQuery(this).find('ul.profilelinks a[href*=userid]')[0];
         if (profile == undefined)
             return;
@@ -1922,10 +1869,10 @@ SALR.prototype.displayUserNotes = function(userNotes,that,message) {
 };
 
 /**
- * Fetch cached list of hidden avatars
+ * Fetch stored list of hidden avatars
  * @return {Array.<number>} Array of number user IDs with hidden avatars
  */
-SALR.prototype.getHiddenAvatars = function() {
+SALR.prototype.getStoredHiddenAvatars = function() {
     var rawAvatars = this.settings.hiddenAvatarsLocal;
     if (!rawAvatars || rawAvatars === '')
         return [];
@@ -1935,16 +1882,62 @@ SALR.prototype.getHiddenAvatars = function() {
 
 /**
  * Check hidden avatar array to see if a user's avatar is hidden
- * @param {string}         userid        User ID to check
+ * @param {number}         useridnum     User ID to check
  * @param {Array.<number>} hiddenAvatars Array of number user IDs with hidden avatars
  * @return {boolean} Whether an avatar is hidden on the current page.
  */
-SALR.prototype.isUserAvatarHidden = function(userid, hiddenAvatars) {
-    return hiddenAvatars.includes(parseInt(userid, 10));
+SALR.prototype.isUserAvatarHidden = function(useridnum, hiddenAvatars) {
+    return hiddenAvatars.includes(useridnum);
 };
 
 /**
- * Event handler for clicking the "Hide Avatar" or "Unhide Avatar" links
+ * Adds SAARS and Avatar-toggling links to post if the relevant options are enabled.
+ * Hides current post's avatar if the avatar-toggling setting is enabled + user's avatars are hidden.
+ * @param {HTMLElement}    post          Post to add user links to
+ * @param {string}         userid        User ID of the current poster poster
+ * @param {HTMLElement}    profileLink   Link to the profile of the current poster
+ * @param {Array.<number>} hiddenAvatars Array of number user IDs with hidden avatars
+ */
+SALR.prototype.addUserLinksToPost = function(post, userid, profileLink, hiddenAvatars) {
+    let userLinks = profileLink.parentNode.parentNode;
+
+    // Add a link to the user's SAARS page to view previous avatars
+    if (this.settings.enableSAARSLink === 'true') {
+        let username = post.querySelector('dt.author').textContent;
+        userLinks.insertAdjacentHTML('beforeend', ' <li><a href="https://www.muddledmuse.com/saars/?goon='+encodeURIComponent(username)+'" target="blank">SAARS</a></li>');
+    }
+
+    if (this.settings.enableToggleUserAvatars === 'true') {
+        // Build hide avatar link
+        let avButton = document.createElement("li");
+        let avAnch = document.createElement("a");
+        avAnch.title = "Toggle displaying this poster's avatar.";
+        avAnch.classList.add('salr-toggleavlink');
+
+        // Is their avatar already hidden?
+        if (this.isUserAvatarHidden(parseInt(userid, 10), hiddenAvatars)) {
+            avAnch.textContent = "Show Avatar";
+            // Hide it!
+            let userAvatar = post.querySelector('dl.userinfo > dd.title');
+            if (userAvatar)
+                userAvatar.style.display = "none";
+        }
+        else {
+            avAnch.textContent = "Hide Avatar";
+        }
+
+        avAnch.addEventListener("click", (event) => {
+            this.clickToggleAvatar(userid, hiddenAvatars, event);
+        }, false);
+
+        avButton.appendChild(avAnch);
+        userLinks.appendChild(document.createTextNode(" "));
+        userLinks.appendChild(avButton);
+    }
+};
+
+/**
+ * Event handler for clicking the "Hide Avatar" or "Show Avatar" links
  * @param {string}         idToToggle    User ID of poster to toggle avatar for.
  * @param {Array.<number>} hiddenAvatars Array of Number user IDs with hidden avatars
  * @param {Event}          event         The click event to handle.

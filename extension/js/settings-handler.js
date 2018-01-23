@@ -762,6 +762,7 @@ function configWindow() {
                 key == 'userNotes'      ||
                 key == 'userNotesOld'   ||
                 key == 'userNotesLocal' ||
+                key == 'hiddenAvatarsList' ||
                 key == 'threadNotes'   ||
                 key == 'forumPostKey' )
                 continue;
