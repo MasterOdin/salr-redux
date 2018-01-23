@@ -1340,31 +1340,41 @@ SALR.prototype.highlightPost = function(post, userid, friends_id) {
     if (this.settings.highlightOP === 'true') {
         if (userNameBox.classList.contains('op')) {
             highlightColor = this.settings.highlightOPColor;
-            userNameBox.insertAdjacentHTML('afterend', '<dd style="color: #07A; font-weight: bold; ">Thread Poster</dd>');
+            let statusText = document.createElement('dd');
+            statusText.textContent = 'Thread Poster';
+            statusText.style.fontWeight = 'bold';
+            statusText.style.color = '#07A';
+            userNameBox.insertAdjacentElement('afterend', statusText);
         }
     }
 
     // Highlight mod/admin posts
     if (this.settings.highlightModAdmin === 'true') {
         if (userNameBox.classList.contains('role-admin')) {
+            let statusText = document.createElement('dd');
+            statusText.textContent = 'Forum Administrator';
+            statusText.style.fontWeight = 'bold';
             if (this.settings.highlightModAdminUsername === 'true') {
                 userNameBox.style.color = this.settings.highlightAdminColor;
-                userNameBox.insertAdjacentHTML('afterend', '<dd style="font-weight: bold; color: ' + this.settings.highlightAdminColor+ '">Forum Administrator</dd>');
+                statusText.style.color = this.settings.highlightAdminColor;
             }
             else {
                 highlightColor = this.settings.highlightAdminColor;
-                userNameBox.insertAdjacentHTML('afterend', '<dd style="font-weight: bold; ">Forum Administrator</dd>');
             }
+            userNameBox.insertAdjacentElement('afterend', statusText);
         }
         else if (userNameBox.classList.contains('role-mod')) {
+            let statusText = document.createElement('dd');
+            statusText.textContent = 'Forum Moderator';
+            statusText.style.fontWeight = 'bold';
             if (this.settings.highlightModAdminUsername === 'true') {
                 userNameBox.style.color = this.settings.highlightModeratorColor;
-                userNameBox.insertAdjacentHTML('afterend', '<dd style="font-weight: bold; color: ' + this.settings.highlightModeratorColor+ '">Forum Moderator</dd>');
+                statusText.style.color = this.settings.highlightModeratorColor;
             }
             else {
                 highlightColor = this.settings.highlightModeratorColor;
-                userNameBox.insertAdjacentHTML('afterend', '<dd style="font-weight: bold; ">Forum Moderator</dd>');
             }
+            userNameBox.insertAdjacentElement('afterend', statusText);
         }
     }
 
@@ -1904,14 +1914,22 @@ SALR.prototype.addUserLinksToPost = function(post, userid, profileLink, hiddenAv
     // Add a link to the user's SAARS page to view previous avatars
     if (this.settings.enableSAARSLink === 'true') {
         let username = post.querySelector('dt.author').textContent;
-        userLinks.insertAdjacentHTML('beforeend', ' <li><a href="https://www.muddledmuse.com/saars/?goon='+encodeURIComponent(username)+'" target="blank">SAARS</a></li>');
+        let avHistoryButton = document.createElement("li");
+        let avHistoryAnch = document.createElement("a");
+        avHistoryAnch.title = "View this poster's previous avatars";
+        avHistoryAnch.textContent = "SAARS";
+        avHistoryAnch.href = 'https://www.muddledmuse.com/saars/?goon='+encodeURIComponent(username);
+        avHistoryAnch.target = "_blank";
+        avHistoryButton.appendChild(avHistoryAnch);
+        userLinks.appendChild(document.createTextNode(" "));
+        userLinks.appendChild(avHistoryButton);
     }
 
     if (this.settings.enableToggleUserAvatars === 'true') {
         // Build hide avatar link
         let avButton = document.createElement("li");
         let avAnch = document.createElement("a");
-        avAnch.title = "Toggle displaying this poster's avatar.";
+        avAnch.title = "Toggle displaying this poster's avatar";
         avAnch.classList.add('salr-toggleavlink');
 
         // Is their avatar already hidden?
