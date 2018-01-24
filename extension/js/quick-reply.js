@@ -755,6 +755,12 @@ QuickReplyBox.prototype.formatText = function(event) {
             sel = sel.replace(/\n/g, "\n[*]");
             src.value = pre+'[*]'+sel+post;
             event.preventDefault();
+        } else if (key === 'q') {
+            // Quote
+            src.value = pre+'[quote]'+sel+'[/quote]'+post;
+            event.preventDefault();
+            src.selectionStart = selStart+7;
+            src.selectionEnd = selEnd+7;
         }
     }
 };
