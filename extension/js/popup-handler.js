@@ -38,6 +38,7 @@ function openTab(event) {
     if (button > 1)
         return;
     if (button == 0 && !event.ctrlKey) { // Left click
+        event.preventDefault();
         chrome.tabs.query({active: true}, function (tabs) {
             chrome.tabs.update(tabs[0].id, {url: tabUrl});
             window.close();
@@ -144,7 +145,7 @@ port.onMessage.addListener(function(data) {
     settings = data;
     populateMenu();
 
-    jQuery('a').on("click",function(event) {
+    jQuery('a').on("click", function(event) {
         openTab(event);
     });
     jQuery('img').on("click", function(event) {
