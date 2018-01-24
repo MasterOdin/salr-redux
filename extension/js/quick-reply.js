@@ -759,6 +759,96 @@ QuickReplyBox.prototype.formatText = function(event) {
     }
 };
 
+/**
+ * Parses a query string into an object.
+ * @param {string} str a string
+ * @return {Object} Object containing query string parts
+ * @author SA Forums
+ */
+QuickReplyBox.prototype.parseQueryString = function(str)
+{
+    var query = str.split('&');
+    var o = {};
+    var i;
+    for (var item of query) {
+        i = item.indexOf('=');
+        if (i != -1)
+        {
+            o[item.substr(0, i)] = item.substr(i + 1);
+        }
+        else
+        {
+            o[item] = true;
+        }
+    }
+
+    return o;
+};
+
+/**
+ * Parsed URL object.
+ * @typedef {Object} ParsedURL
+ * @property {string} scheme
+ * @property {string} domain
+ * @property {string} path
+ * @property {string} filename
+ * @property {string} query
+ * @property {string} fragment
+ */
+/**
+ * Parses a URL into manageable pieces.
+ * @param {string} url URL to parse
+ * @return {ParsedURL} Object with fragments of a URL, or null.
+ * @author SA Forums
+ */
+QuickReplyBox.prototype.parseURL = function(url)
+{
+    var m = (/([^:]+):\/\/([^\/]+)(\/.*)?/).exec(decodeURI(url));
+    if (m)
+    {
+        var tmp;
+        var item;
+        var i;
+        var o = {
+            'scheme': m[1],
+            'domain': m[2],
+            'path': m[3] || '',
+            'filename': '',
+            'query': {},
+            'fragment': ''
+        };
+
+        i = o.path.lastIndexOf('#');
+        if (i != -1)
+        {
+            o.fragment = o.path.substr(i + 1);
+            o.path = o.path.substr(0, i);
+        }
+
+        i = o.path.lastIndexOf('?');
+        if (i != -1)
+        {
+            o.query = this.parseQueryString(o.path.substr(i + 1));
+            o.path = o.path.substr(0, i);
+        }
+
+        i = o.path.lastIndexOf('/');
+        if (i != -1)
+        {
+            o.filename = o.path.substr(i + 1);
+        }
+
+        return o;
+    }
+
+    return null;
+};
+
+/**
+ * Handles paste event in the quick reply box.
+ * @param {Event} event The paste event
+ * @author SA Forums
+ */
 QuickReplyBox.prototype.pasteText = function(event) {
     var elem = jQuery(event.target);
     var orig = elem.val();
@@ -770,7 +860,6 @@ QuickReplyBox.prototype.pasteText = function(event) {
     elem.focus();
 
     var that = this;
-    // TODO: make this more readable and stuff
     setTimeout(function() {
         var new_elem = elem.val();
         var paste;
@@ -785,108 +874,106 @@ QuickReplyBox.prototype.pasteText = function(event) {
         elem.val(orig);
         elem[0].selectionStart = start;
         elem[0].selectionEnd = end;
-        var c = paste;
-        if (/^https?:\/\//.test(paste) && paste.indexOf("\n") == -1 && paste.indexOf("\r") == -1) {
-            var h = /([^:]+):\/\/([^\/]+)(\/.*)?/.exec(decodeURI(paste));
-            if (h) {
-                var f = {
-                        scheme: h[1],
-                        domain: h[2],
-                        path: h[3] || "",
-                        filename: "",
-                        query: {},
-                        fragment: ""
-                };
-                h = f.path.lastIndexOf("#");
-                if (h != -1) {
-                    f.fragment = f.path.substr(h + 1);
-                    f.path = f.path.substr(0,h);
-                }
 
-                h = f.path.lastIndexOf("?");
-                if (h != -1) {
-                    var a = f.path.substr(h + 1);
-                    a = a.split("&");
-                    var b = {};
-                    var d, j;
-                    for (j in a) {
-                        d = a[j].indexOf("=");
-                        if (-1 != d) {
-                            b[a[j].substr(0, d)] = a[j].substr(d + 1);
-                        }
-                        else {
-                            b[a[j]] = !0;
-                        }
-                    }
-                    f.query = b;
-                    f.path = f.path.substr(0, h);
-                }
-
-                h = f.path.lastIndexOf("/");
-                if (h != -1) {
-                    f.filename = f.path.substr(h + 1);
-                }
-                e = f;
-            }
-            else {
-                e = null;
-            }
-            f = "";
-            h = "";
-            g = false;
-            i = e.filename.lastIndexOf(".");
+        if ((/^https?:\/\//).test(paste) && paste.indexOf('\n') == -1 && paste.indexOf('\r') == -1) {
+            // So far a URL.
+            var urlinfo = that.parseURL(paste);
+            var extension = '';
+            var filename = '';
+            var handled = false;
+            var i = urlinfo.filename.lastIndexOf('.');
             if (i != -1) {
-                h = e.filename.substr(i+1);
-                f = e.filename.substr(0,i);
+                extension = urlinfo.filename.substr(i + 1);
+                filename = urlinfo.filename.substr(0, i);
+                //console.log('!!!', filename);
             }
 
-            if ((i = /^([^\.]+\.)?youtu\.be$/.test(e.domain)) || /^([^\.]+\.)?youtube(-nocookie)?\.com$/.test(e.domain)) {
-                if (e.query.v) {
-                    c = '[video type="youtube"';
-                    if (e.query.hd) {
-                        c += ' res="hd"';
+            // Detect youtube here!!
+            // http://www.youtube.com/watch?v=rK1XnD9f8Bc&feature=g-vrec
+            if ((/^([^\.]+\.)?youtube(-nocookie)?\.com$/).test(urlinfo.domain) ||
+                (/^([^\.]+\.)?youtu\.be$/).test(urlinfo.domain)) {
+                var getYTStart = function(timeStr) {
+                    var timeSearch = timeStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/);
+                    // return time in seconds to work around BBCode parser bug with time conversion
+                    return ((timeSearch[1] ? parseInt(timeSearch[1],10) * 3600 : 0) + 
+                        (timeSearch[2] ? parseInt(timeSearch[2],10) * 60 : 0) + 
+                        (timeSearch[3] ? parseInt(timeSearch[3],10) : 0));
+                };
+                var ytparms;
+                if (urlinfo.query.v) {
+                    //console.log('Clipboard is a Youtube video: ', paste);
+                    paste = '[video type="youtube"';
+                    if (urlinfo.query.hd) {
+                        paste += ' res="hd"';
                     }
-                    if (e.fragment) {
-                        a = e.fragment;
-                        var a = a.split("&"),
-                            b = {},
-                            d, j;
-                        for (j in a) {
-                            d = a[j].indexOf("=");
-                            if (-1 != d){
-                                b[a[j].substr(0, d)] = a[j].substr(d + 1);
-                            }
-                            else {
-                                b[a[j]] = true;
-                            }
+
+                    if (urlinfo.query.t)
+                        paste += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                    else if (urlinfo.fragment) {
+                        ytparms = that.parseQueryString(urlinfo.fragment);
+                        if (ytparms.t)
+                        {
+                            paste += ' start="' + getYTStart(ytparms.t) + '"';
                         }
-                        g = b;
                     }
-                    if (g.t) {
-                            c += ' start="' + parseInt(g.t, 10) + '"';
-                    }
-                    c += ']' + e.query.v +'[/video]';
-                    g = true;
-                }
 
-                else if (i || /^\/embed/.test(e.path)) {
-                    c = '[video type="youtube"';
-                    if (e.query.hd) {
-                        c += ' res="hd"';
-                    }
-                    if (e.query.start) {
-                        c += ' start="' + parseInt(e.query.start, 10) + '"';
-                    }
-                    c += "]" + e.path.substr(e.path.lastIndexOf("/") + 1) + "[/video]";
-                    g = true;
+                    paste += ']' + urlinfo.query.v + '[/video]';
+                    handled = true;
                 }
+                else if ((/^\/embed/).test(urlinfo.path)) {
+                    //console.log('Clipboard is an embedded Youtube video: ', paste);
+                    paste = '[video type="youtube"';
+                    if (urlinfo.query.hd) {
+                        paste += ' res="hd"';
+                    }
 
+                    if (urlinfo.query.start) {
+                        paste += ' start="' + getYTStart(urlinfo.query.start) + '"';
+                    }
+
+                    paste += ']' + urlinfo.path.substr(urlinfo.path.lastIndexOf('/') + 1) + '[/video]';
+                    handled = true;
+                }
+                else {
+                    //console.log('Clipboard is a short-link Youtube video: ', paste);
+                    paste = '[video type="youtube"';
+                    if (urlinfo.query.hd) {
+                        paste += ' res="hd"';
+                    }
+
+                    if (urlinfo.query.t)
+                        paste += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                    else if (urlinfo.fragment) {
+                        ytparms = that.parseQueryString(urlinfo.fragment);
+                        if (ytparms.t) {
+                            paste += ' start="' + getYTStart(ytparms.t) + '"';
+                        }
+                    }
+
+                    paste += ']' + urlinfo.path.substr(1) + '[/video]';
+                    handled = true;
+                }
+            }
+
+            if (!handled) {
+                switch(extension) {
+                    case 'jpg':
+                    case 'gif':
+                    case 'png':
+                            //console.log('Clipboard is an image URL: ', paste);
+                            paste = '[img]' + paste + '[/img]';
+                        break;
+                    default:
+                        // console.log('Clipboard is a URL: ', data);
+                        // data = '[url]' + data + '[/url]';
+                        break;
+                }
             }
         }
 
         that.previous_text = orig;
-        elem.val(orig.substr(0,start)+c+orig.substr(end));
-        var set = orig.substr(0,start).length + c.length;
+        elem.val(orig.substr(0,start)+paste+orig.substr(end));
+        var set = orig.substr(0,start).length + paste.length;
         elem[0].selectionStart = set;
         elem[0].selectionEnd = set;
     }, 5);
