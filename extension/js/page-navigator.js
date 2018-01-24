@@ -48,7 +48,7 @@ function PageNavigator(base_image_uri, settings) {
     this.writeNavigatorHtml();
     this.selectPage(this.currentPage);
     this.bindButtonEvents();
-};
+}
 
 PageNavigator.prototype.writeNavigatorHtml = function() {
     // store the fact we've shown it in #container, since it's the parent of the element I guess
@@ -139,9 +139,14 @@ PageNavigator.prototype.bindButtonEvents = function() {
         jQuery('#nav-next-page').css('opacity', '0.5');
     }
 
-    if (this.settings && this.settings.loadNewWithLastPost == "true") {
-        // Load new posts with last post button
-        jQuery('#nav-last-post').first().attr('href', window.location.href.replace(/\?.*threadid/,'?threadid').replace(/\&.*$/,'&goto=newpost'));
+    if (this.settings && this.settings.loadNewWithLastPost === "true") {
+        // Load new posts with 'last post' button
+        let newPostsButton = document.getElementById('nav-last-post');
+        // Special handling for single post view
+        if (window.location.href.indexOf('postid=') >= 0)
+            newPostsButton.href = document.location.pathname + '?threadid=' + findThreadID() + '&goto=newpost';
+        else
+            newPostsButton.href = document.location.pathname + document.location.search + '&goto=newpost';
     } else {
         // Scroll to first unread post
         jQuery('#nav-last-post').click(function() {

@@ -55,8 +55,8 @@ function findThreadID() {
     // parameter in the list, and splits on the = to get the result
     var parameterList = ((window.location.href).substr(33).split('?')[1]).split('&');
 
-    for (var parameter in parameterList) {
-        var currentParam = (parameterList[parameter]).split('=');
+    for (var someParameter of parameterList) {
+        var currentParam = someParameter.split('=');
 
         if (currentParam[0] == 'threadid' && currentParam[1] != undefined) {
             return currentParam[1];
@@ -77,6 +77,8 @@ function findThreadID() {
         questionId = questionId[questionId.length-1].href.match(/threadid=(\d+)/i);
         return questionId[1];
     }
+    // Another place to look if we need it in the future:
+    // <div id="thread" class="thread:[threadid]">
 }
 
 /**
@@ -89,8 +91,8 @@ function findForumID() {
     // parameter in the list, and splits on the = to get the result
     var parameterList = ((window.location.href).substr(33).split('?')[1]).split('&');
 
-    for (var parameter in parameterList) {
-        var currentParam = (parameterList[parameter]).split('=');
+    for (var someParameter of parameterList) {
+        var currentParam = someParameter.split('=');
 
         if (currentParam[0] == 'threadid' || currentParam[0] == 'forumid') {
             return currentParam[1];
