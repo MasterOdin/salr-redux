@@ -88,8 +88,12 @@ div.display-preference {
     align-items: center;
 }
 
-#post-highlighting div.display-preference {
+section#post-highlighting div.display-preference {
     width: 400px;
+}
+
+section#misc-commands div.display-preference {
+    display: block;
 }
 
 div.sub-options {
