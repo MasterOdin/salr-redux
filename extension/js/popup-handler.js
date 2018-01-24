@@ -32,7 +32,8 @@ var port = chrome.runtime.connect({"name":"popup"});
 /**
  * Opens a link in a tab.
  */
-function openTab(tabUrl) {
+function openTab(event) {
+    var tabUrl = event.currentTarget.href;
     var button = event.button;
     if (button > 1)
         return;
@@ -49,17 +50,17 @@ function openTab(tabUrl) {
  */
 function toggleSticky(forumID) {
     var forums = JSON.parse(settings.forumsList);
-    for(i in forums) {
-        if (forums[i].id != forumID)
+    for (var someForum of forums) {
+        if (someForum.id != forumID)
             continue;
 
-        if (forums[i].sticky == true) {
-            forums[i].sticky = false;
+        if (someForum.sticky == true) {
+            someForum.sticky = false;
             jQuery('img#sticky-'+forumID).each( function() {
                 jQuery(this).attr('src', '../images/sticky_off.gif');
             });
         } else {
-            forums[i].sticky = true;
+            someForum.sticky = true;
             jQuery('img#sticky-'+forumID).each( function() {
                 jQuery(this).attr('src', '../images/sticky_on.gif');
             });
@@ -86,9 +87,9 @@ function populateMenu() {
 
         if (indent == -1) { // Separator
             // Loop through forum list and add stickied forums
-            for(i in forums) {
-                if (forums[i].sticky == true)  {
-                    newHTML += populateMenuHelper(forums[i], color, true);
+            for (var someForum of forums) {
+                if (someForum.sticky == true)  {
+                    newHTML += populateMenuHelper(someForum, color, true);
                     if (color == '#ffffff') {
                         color = '#eeeeee';
                     } else {
@@ -144,7 +145,7 @@ port.onMessage.addListener(function(data) {
     populateMenu();
 
     jQuery('a').on("click",function(event) {
-        openTab(event.currentTarget.href);
+        openTab(event);
     });
     jQuery('img').on("click", function(event) {
         toggleSticky(event.currentTarget.id.match(/[0-9].*/)[0]);

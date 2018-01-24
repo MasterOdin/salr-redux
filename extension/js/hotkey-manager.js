@@ -46,7 +46,7 @@ function HotKeyManager(quickReply, settings, currentPage, countPages) {
     jQuery(document).bind("enableSALRHotkeys", this.enableHotKeys);
     jQuery(document).bind("disableSALRHotkeys", this.disableHotKeys);
 
-    this.thread_post_size = jQuery('div#thread > table.post').size();
+    this.thread_post_size = jQuery('div#thread > table.post').length;
     this.current_post = findFirstUnreadPost();
     this.first_keypress = true;
     this.b_count = 0;

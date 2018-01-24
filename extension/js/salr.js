@@ -762,8 +762,7 @@ SALR.prototype.handleShowThread = function() {
 SALR.prototype.modifyImages = function() {
     // make sure we've loaded all images before executing this code
     var that = this;
-    $(window).load(function() {
-
+    window.addEventListener("load", function() {
         // fix timg, because it's broken
         //if(this.settings.fixTimg == 'true') this.fixTimg(this.settings.forceTimg == 'true');
         var subset1 = jQuery('.postbody a');
@@ -1087,12 +1086,12 @@ SALR.prototype.inlineWebm = function() {
  */
 SALR.prototype.displaySinglePostLink = function() {
     var getPostID = function(element) {
-        return jQuery('a[href^=#post]', element).attr('href').split('#post')[1];
+        return jQuery('a[href^="#post"]', element).attr('href').split('#post')[1];
     };
 
     var that = this;
     jQuery('td.postdate').each( function() {
-        jQuery('a[href^=#post]', this).before('<a title="View as single post" href="'+that.urlSchema+'//forums.somethingawful.com/'+
+        jQuery('a[href^="#post"]', this).before('<a title="View as single post" href="'+that.urlSchema+'//forums.somethingawful.com/'+
                 'showthread.php?action=showpost&postid='+getPostID(jQuery(this))+'">1</a> ');
     });
 };
@@ -2196,15 +2195,6 @@ SALR.prototype.showLastThreePages = function() {
                 var nobeginellipses = curpage < 6;
                 var noendellipses = curpage > pages - 5;
 
-                // used to find out how many page links we'll be making
-                Object.size = function(obj) {
-                    var size = 0, key;
-                    for(key in obj) {
-                        if(obj.hasOwnProperty(key)) size++;
-                    }
-                    return size;
-                };
-
                 // if there's fewer than 5 pages, let the forum handle it
                 if( pages > 5 ) {
                     var links = {};
@@ -2254,7 +2244,7 @@ SALR.prototype.showLastThreePages = function() {
                             break;
                         }
                     }
-                    var pagelinks = Object.size(links);
+                    var pagelinks = Object.keys(links).length;
 
                     // rebuild top and bottom page links
                     jQuery(this).empty().append('Pages: ');

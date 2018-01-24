@@ -187,7 +187,7 @@ function jumpToPage(url) {
 function findFirstUnreadPost() {
     var index = 0;
     var count = 0;
-    var thread_post_size = jQuery('div#thread > table.post').size();
+    var thread_post_size = jQuery('div#thread > table.post').length;
 
     // Get post number on page from anchor in URL
     var anchor_post = window.location.href.split('#pti')[1];

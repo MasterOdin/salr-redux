@@ -131,18 +131,6 @@ div.color-select-box {
     float: right;
 }
 
-footer.submit-panel {
-    padding-top: 4px;
-    text-align: right;
-}
-
-input#submit {
-    border: 1px solid;
-    border-color: #999999;
-    background-color: #d8d8d8;
-    font-size: 10pt;
-}
-
 #thread table.post td {
     border:1px solid #c1c1c1;
 }

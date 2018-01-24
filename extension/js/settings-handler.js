@@ -253,9 +253,9 @@ jQuery(document).ready(function() {
     // Initialize checkbox fields
     var obj = {'inlineTweet':'https://api.twitter.com/*','enableQuickReply':'https://api.imgur.com/*'};
     jQuery('div.display-preference input[type=checkbox]').each(function() {
-        populateCheckboxes(jQuery(this));
+        populateCheckboxes(this);
         jQuery(this).click(function() {
-            var id = jQuery(this).attr('id');
+            var id = this.id;
             if (id == 'inlineTweet' || id == 'enableQuickReply') {
                 if (jQuery(this).prop('checked') == true) {
                     chrome.permissions.request({origins: [obj[id]]}, function(granted) {
@@ -317,15 +317,6 @@ jQuery(document).ready(function() {
 
         jQuery(this).css('background-color', backgroundColor);
     });
-
-    // Set click handler for the okay button
-    jQuery('.submit-panel > input#submit').click(function() {
-        onSubmitClicked();
-    });
-
-	// once to initialize and once to bind click
-
-
 
     highlightExamples();
 
@@ -671,25 +662,19 @@ function populateValues(element) {
 }
 
 /**
- * Populates any checkboxes with their stored value
- *
- * @param element - Input (checkbox) element
- *
+ * Populates a checkbox with its stored value
+ * @param {HTMLInputElement} element Input (checkbox) element
  */
 function populateCheckboxes(element) {
-    var value = localStorage.getItem(element.attr('id'));
-
-    // Make sure we're getting passed a checkbox
-    if (element.attr('type') != 'checkbox')
+    // Make sure we're being passed a checkbox
+    if (element.getAttribute('type') !== 'checkbox')
         return;
 
+    var value = localStorage.getItem(element.id);
+
     // If there is a value in localStorage, then set it,
-    // otherwise unchecked it
-    if (value == 'true') {
-        element.attr('checked', true);
-    } else {
-        element.attr('checked', false);
-    }
+    // otherwise uncheck it
+    element.checked = (value === 'true');
 }
 
 /**
@@ -709,35 +694,6 @@ function populateDropDownMenus(element) {
 
     // Set the selected value to the one from LocalStorage
     jQuery('option[value="' + value + '"]', element).first().attr('selected', 'selected');
-}
-
-/**
- * Event handler for clicking the submit button
- *
- *
- */
-function onSubmitClicked() {
-
-	// Store the preferences locally so that the page can
-    // request it
-    // We use window.opener to assign it to the toolstrip localStorage, since
-    // the toolstrip handles all communication with the page
-    jQuery('.user-preference').each(function() {
-        var preferenceID = jQuery(this).attr('id');
-        var value = null;
-
-        if (jQuery(this).attr('type') == 'checkbox') {
-            value = jQuery(this).attr('checked');
-        } else {
-            value = jQuery(this).val();
-        }
-
-        localStorage.setItem(preferenceID, value);
-    });
-
-	// Close the settings window
-
-    window.close();
 }
 
 /**
