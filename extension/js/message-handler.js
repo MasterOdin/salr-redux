@@ -26,27 +26,6 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /**
- * External message event listener
- *
- */
-
-if(chrome.runtime.onConnectExternal != undefined) {
-    chrome.runtime.onConnectExternal.addListener(function(port) {
-        port.onMessage.addListener(function(data) {
-            switch (data.message) {
-                case 'GetForumsJumpList':
-                case 'GetSALRSettings':
-                    port.postMessage(getPageSettings());
-                    break;
-                case 'ChangeSALRSetting':
-                    localStorage.setItem(data.option, data.value);
-                    break;
-            }
-        });
-    });
-}
-
-/**
  * Message event listener so that we can talk to the content-script
  *
  */
@@ -84,18 +63,7 @@ chrome.runtime.onConnect.addListener(function(port) {
             case 'ReloadTab':
                 reloadTab();
                 break;
-            case 'ShowPageAction':
-                // efobaopfidfllhfnndjecciobldchcaf
-                // mclknakcbbdhhebmdibhehimkoefdjaa
-                // dodkgjokbnmiickhikhikpggfohagmfb - id of Redux Browser Button
-                chrome.management.get("dodkgjokbnmiickhikhikpggfohagmfb",function(result) {
-                    if (result == undefined || result.enabled == false) {
-                        chrome.pageAction.show(port.sender.tab.id);
-                    }
-                });
-                break;
             case 'GetPageSettings':
-            case 'GetSALRSettings':
             case 'GetForumsJumpList':
                 port.postMessage(getPageSettings());
                 break;
@@ -108,36 +76,6 @@ chrome.runtime.onConnect.addListener(function(port) {
                 if (typeof port.sender.tab === "object" && port.sender.tab.id) {
                     chrome.tabs.sendMessage(port.sender.tab.id, data);
                 }
-                break;
-            case 'GetSALRButtonStatus':
-                chrome.management.get("dodkgjokbnmiickhikhikpggfohagmfb",function(result) {
-                    if (result == undefined || result.enabled == false) {
-                        port.postMessage({'message':'salr-button','bool':'false'});
-                    }
-                    else {
-                        port.postMessage({'message':'salr-button','bool':'true'});
-                    }
-                });
-                break;
-            case 'ConvertSettings':
-                chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
-                    var salr = chrome.runtime.connect("nlcklobeoigfjmcigmhbjkepmniladed");
-                    salr.onMessage.addListener(function(data) {
-                        localStorage.setItem('userNotes',data.userNotes);
-                        localStorage.setItem('threadNotes', data.threadNotes);
-                    });
-                    salr.postMessage({'message':'GetSALRSettings'});
-                });
-                break;
-            case 'GetSALRStatus':
-                chrome.management.get("nlcklobeoigfjmcigmhbjkepmniladed", function(result) {
-                    if (result == undefined || result.installed == false) {
-                        port.postMessage({'message':'convert','bool':'false'});
-                    }
-                    else {
-                        port.postMessage({'message':'convert','bool':'true'});
-                    }
-                });
                 break;
             case 'log':
             default:
@@ -246,7 +184,6 @@ defaultSettings['postsPerPage']                 = 'default';
 // Control Options
 defaultSettings['displayPageNavigator']         = 'true';
 defaultSettings['loadNewWithLastPost']          = 'false';
-defaultSettings['displayOmnibarIcon']           = 'false';
 defaultSettings['enableKeyboardShortcuts']      = 'false';
 defaultSettings['enableMouseGestures']          = 'false';
 defaultSettings['enableMouseMenu']              = 'true';

@@ -149,7 +149,6 @@ jQuery(document).ready(function() {
     // Control Options
     defaultSettings['displayPageNavigator']         = 'true';
     defaultSettings['loadNewWithLastPost']          = 'false';
-    defaultSettings['displayOmnibarIcon']           = 'false';
     defaultSettings['enableKeyboardShortcuts']      = 'false';
     defaultSettings['enableMouseGestures']          = 'false';
     defaultSettings['enableMouseMenu']              = 'true';
@@ -336,10 +335,6 @@ jQuery(document).ready(function() {
         restoreSettingsBackup();
     });
 
-    jQuery('#settings').click(function() {
-        transitionSettings();
-    });
-
     jQuery('#user-notes-local').click(function() {
         userNotesLocal();
     });
@@ -382,27 +377,6 @@ jQuery(document).ready(function() {
         return false;
     });
     jQuery('section').hide();
-
-    // get install info from other SALR(R) extensions
-    port.onMessage.addListener(function(data) {
-        if (data.message == 'salr-button') {
-            if (data.bool == 'true') {
-                jQuery('#displayOmnibarIcon').attr('disabled', true);
-                jQuery('#displayOmnibarIcon').parent().parent().addClass('disabled-options');
-                jQuery('#displayOmnibarHelp2').remove();
-            }
-            else {
-                jQuery('#displayOmnibarHelp1').remove();
-            }
-        }
-        else if (data.message == 'convert') {
-            if (data.bool == 'false') {
-                jQuery('#settings').remove();
-            }
-        }
-    });
-    port.postMessage({'message':'GetSALRButtonStatus'});
-    port.postMessage({'message':'GetSALRStatus'});
 });
 
 function highlightExamples() {
@@ -745,11 +719,6 @@ function configWindow() {
         win.document.close();
     });
 
-}
-
-function transitionSettings() {
-    port.postMessage({'message':'ConvertSettings'});
-    alert("User Notes gotten from SALR!");
 }
 
 /**

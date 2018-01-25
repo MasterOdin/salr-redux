@@ -61,13 +61,6 @@ SALR.prototype.pageInit = function() {
         return (obj.textContent || obj.innerText || $(obj).text() || "").toLowerCase() == meta[3].toLowerCase();
     };
 
-    if (this.settings.displayOmnibarIcon == 'true') {
-        // Display the page action
-        postMessage({
-            'message': 'ShowPageAction'
-        });
-    }
-
     switch (this.currentPage) {
         case '':
         case 'index':

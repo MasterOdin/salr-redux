@@ -69,7 +69,7 @@
         "https://api.imgur.com/*",
         "https://api.twitter.com/*"
     ],
-  "page_action":
+  "browser_action":
     {
         "default_icon": "images/logo16.png",
         "default_title": "Forum Jump List",
