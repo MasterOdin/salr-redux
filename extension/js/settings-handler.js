@@ -222,38 +222,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('d_username').textContent = localStorage.getItem('username');
 
+    // Initialize text entry fields
     let textEntries = document.querySelectorAll('input.text-entry');
     for (let i = 0; i < textEntries.length; i++) {
         // Pre-populate settings field
         populateValues(textEntries[i]);
-    }
-
-    // Initialize text entry fields
-    jQuery('input.text-entry').each(function() {
-        
-        //populateValues(jQuery(this));
 
         // Set focus handler for the entry fields
-        jQuery(this).focus(function() {
-            onInputSelect(jQuery(this));
+        textEntries[i].addEventListener('focus', function() {
+            onInputSelect(this);
         });
 
         // Set blur handler for the entry fields
-        jQuery(this).blur(function() {
-            onInputDeselect(jQuery(this));
+        textEntries[i].addEventListener('blur', function() {
+            onInputDeselect(this);
         });
 
-        jQuery(this).change(function() {
-            if (jQuery(this).attr('id') == 'username') {
-                if (jQuery(this).val() == "") {
-                    jQuery(this).val(localStorage.getItem('username'));
+        textEntries[i].addEventListener('change', function() {
+            if (this.id === 'username') {
+                if (this.value === '') {
+                    this.value = localStorage.getItem('username');
                 }
-                jQuery("#d_username").text(jQuery(this).val());
+                document.getElementById('d_username').textContent = this.value;
             }
-            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).val());
+            localStorage.setItem(this.id, this.value);
             highlightExamples();
-        });
-    });
+        })
+    }
 
     // Initialize checkbox fields
     var obj = {'inlineTweet':'https://api.twitter.com/*','enableQuickReply':'https://api.imgur.com/*'};
@@ -338,10 +333,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let helpElements = document.getElementsByClassName('help');
     for (let i = 0; i < helpElements.length; i++) {
-        //console.log(helpElements[i]);
         helpElements[i].addEventListener('mouseover', function(event) {
-            let helpDesc = this.parentElement.getElementsByClassName('help-desc')[0];
-            helpDesc.style.display = 'block';
+            this.parentElement.getElementsByClassName('help-desc')[0].style.display = 'block';
         });
         helpElements[i].addEventListener('mouseout', function() {
             this.parentElement.getElementsByClassName('help-desc')[0].style.display = 'none';
@@ -586,8 +579,7 @@ function highlightExamples() {
  *
  */
 function onInputSelect(element) {
-    element.css('color', '#000000');
-    //element.val('');
+    element.style.color = '#000000';
 }
 
 /**
@@ -599,13 +591,10 @@ function onInputSelect(element) {
 function onInputDeselect(element) {
     // If the user didn't enter anything,
     // reset it to the saved value
-    if (element.val() == '') {
-        var value = localStorage.getItem(element.attr('id'));
-
-        element.val(value);
+    if (element.value === '') {
+        element.value = localStorage.getItem(element.id);
     }
-
-    element.css('color', '#999999');
+    element.style.color = '#999999';
 }
 
 /**
