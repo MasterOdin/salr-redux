@@ -196,16 +196,6 @@ SALR.prototype.pageInit = function() {
                 jQuery("#thread dl.userinfo dd.title").remove();
             }
 
-            if (this.settings.hideUserGrenade == 'true') {
-                jQuery("#thread dl.userinfo dt.author").removeClass("platinum");
-                jQuery('.impzoneik, #thread .userid-180223 dt.author, #thread dl.userinfo dt.tflcspotter').css({
-                                        "padding-left": "20px",
-                                        "line-height": "16px",
-                                        "background-position": "left center",
-                                        "background-repeat": "no-repeat"
-                });
-            }
-
             if (this.settings.hideGarbageDick == 'true') {
                 jQuery("img[src*='fi.somethingawful.com/images/newbie.gif']").css({'display':'none'});
                 jQuery("img[src*='forumimages.somethingawful.com/images/newbie.gif']").css({'display':'none'});
@@ -1327,6 +1317,12 @@ SALR.prototype.highlightPost = function(post, userid, friends_id) {
     let userNameBox = post.querySelector('dt.author');
     if (!userNameBox) // Something has gone horribly wrong
         return;
+
+    if (this.settings.hideUserGrenade === 'true') {
+        if (userNameBox.className.trim() === 'author platinum' || 
+            userNameBox.className.trim() === 'author platinum op')
+                userNameBox.classList.remove("platinum");
+    }
 
     let highlightColor = '';
 
