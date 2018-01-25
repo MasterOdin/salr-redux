@@ -32,7 +32,7 @@
 
 var port = chrome.runtime.connect({"name":"settings"});
 
-jQuery(document).ready(function() {
+document.addEventListener('DOMContentLoaded', function() {
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
         localStorage.setItem('salrInitialized', 'true');
@@ -209,23 +209,29 @@ jQuery(document).ready(function() {
 
     // Set the version text on the settings page
     var version = chrome.runtime.getManifest().version;
-    var versionQuery = jQuery('#version-text');
-    versionQuery.text(version);
-    versionQuery.attr('href', versionQuery.attr('href')+version.replace(/\./g,""));
+    var versionQuery = document.getElementById('version-text');
+    versionQuery.textContent = version;
+    versionQuery.href = versionQuery.href + version.replace(/\./g, '');
 
     // Check stored settings, if value not set, set to default value
-    for ( var key in defaultSettings ) {
-        if ( localStorage.getItem(key) == undefined ) {
+    for (var key in defaultSettings) {
+        if (localStorage.getItem(key) == undefined) {
             localStorage.setItem(key, defaultSettings[key]);
         }
     }
 
-    jQuery('#d_username').text(localStorage.getItem('username'));
+    document.getElementById('d_username').textContent = localStorage.getItem('username');
+
+    let textEntries = document.querySelectorAll('input.text-entry');
+    for (let i = 0; i < textEntries.length; i++) {
+        // Pre-populate settings field
+        populateValues(textEntries[i]);
+    }
 
     // Initialize text entry fields
     jQuery('input.text-entry').each(function() {
-        // Pre-populate settings field
-        populateValues(jQuery(this));
+        
+        //populateValues(jQuery(this));
 
         // Set focus handler for the entry fields
         jQuery(this).focus(function() {
@@ -319,45 +325,30 @@ jQuery(document).ready(function() {
 
     highlightExamples();
 
-    jQuery('#config').click(function() {
-        configWindow();
-    });
+    // this doesn't actually exist?
+    //document.getElementById('config').addEventListener('click', configWindow);
 
-    jQuery("#logo").click(function() {
-        configWindow();
-    });
+    document.getElementById('logo').addEventListener('click', configWindow);
+    document.getElementById('settings-backup').addEventListener('click', createSettingsBackup);
+    document.getElementById('settings-restore').addEventListener('click', restoreSettingsBackup);
+    document.getElementById('user-notes-local').addEventListener('click', userNotesLocal);
+    document.getElementById('user-notes-sync').addEventListener('click', userNotesSync);
+    document.getElementById('user-notes-delete-sync').addEventListener('click', userNotesSyncClear);
+    document.getElementById('user-notes-delete-local').addEventListener('click', userNotesLocalClear);
 
-    jQuery('#settings-backup').click(function() {
-        createSettingsBackup();
-    });
-
-    jQuery('#settings-restore').click(function() {
-        restoreSettingsBackup();
-    });
-
-    jQuery('#user-notes-local').click(function() {
-        userNotesLocal();
-    });
-
-    jQuery('#user-notes-sync').click(function() {
-        userNotesSync();
-    });
-
-    jQuery('#user-notes-delete-sync').click(function() {
-        userNotesClear(true);
-    });
-
-    jQuery('#user-notes-delete-local').click(function() {
-        userNotesClear(false);
-    });
-
-    jQuery('.help').mouseover(function(e) {
-        var helpBox = jQuery(this).parent().children(".help-box");
-        helpBox.show(100);
-        helpBox.offset({left:jQuery(this).position().left+20,top:jQuery(this).position().top-10});
-    }).mouseout(function() {
-        jQuery(this).parent().children(".help-box").hide(100);
-    });
+    let helpElements = document.getElementsByClassName('help');
+    for (let i = 0; i < helpElements.length; i++) {
+        //console.log(helpElements[i]);
+        helpElements[i].addEventListener('mouseover', function(event) {
+            let helpBox = this.parentElement.getElementsByClassName('help-box')[0];
+            helpBox.style.left = (this.offsetLeft + 20) + 'px';
+            helpBox.style.top = (this.offsetTop - 10) + 'px';
+            helpBox.style.display = 'block';
+        });
+        helpElements[i].addEventListener('mouseout', function() {
+            this.parentElement.getElementsByClassName('help-box')[0].style.display = 'none';
+        })
+    }
 
     jQuery('.preference-title').click(function() {
         if (jQuery(this).parent().next().css('display') == "none") {
@@ -376,7 +367,11 @@ jQuery(document).ready(function() {
         }
         return false;
     });
-    jQuery('section').hide();
+
+    let sections = document.getElementsByTagName('section');
+    for (let i = 0; i < sections.length; i++) {
+        sections[i].style.display = 'none';
+    }
 });
 
 function highlightExamples() {
@@ -622,16 +617,18 @@ function onInputDeselect(element) {
  *
  */
 function populateValues(element) {
-    var value = localStorage.getItem(element.attr('id'));
-
+    var value = localStorage.getItem(element.id);
     if (!value) {
         // If there is no stored setting, use the default
         // value stored within the DOM
-		var defaultCol = element.attr('default');
-        element.attr('value', defaultCol);
-    } else {
+        var defaultCol = element.default;
+        if (defaultCol !== undefined) {
+            element.value = defaultCol;
+        }
+    } 
+    else {
         // Otherwise, write the stored preference
-        element.attr('value',value);
+        element.value = value;
     }
 }
 
@@ -809,9 +806,23 @@ function userNotesSync() {
 }
 
 /** 
+ * Clears user notes from sync storage
+ */
+function userNotesSyncClear() {
+    userNotesClear(true);
+}
+
+/**
+ * Clears user notes from local storage
+ */
+function userNotesLocalClear() {
+    userNotesClear(false);
+}
+
+/** 
  * Clears user notes
  * @param {boolean} sync Whether to clear user notes from sync storage or local storage
-*/
+ */
 function userNotesClear(sync) {
     sync = typeof sync !== 'undefined' ? sync : false;
     if (sync == true) {
