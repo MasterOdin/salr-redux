@@ -144,11 +144,17 @@ img.help {
     height: 12px;
 }
 
-.help-box {
+.help-container {
+    position: relative;
+}
+
+.help-desc {
     display:none;
     border:1px solid #3b3b3d;
     padding:10px;
     position: absolute;
+    left: 30px;
+    top: -10px;
     background-color: #fff;
     z-index: 100;
     width: 500px;

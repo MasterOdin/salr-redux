@@ -340,13 +340,11 @@ document.addEventListener('DOMContentLoaded', function() {
     for (let i = 0; i < helpElements.length; i++) {
         //console.log(helpElements[i]);
         helpElements[i].addEventListener('mouseover', function(event) {
-            let helpBox = this.parentElement.getElementsByClassName('help-box')[0];
-            helpBox.style.left = (this.offsetLeft + 20) + 'px';
-            helpBox.style.top = (this.offsetTop - 10) + 'px';
-            helpBox.style.display = 'block';
+            let helpDesc = this.parentElement.getElementsByClassName('help-desc')[0];
+            helpDesc.style.display = 'block';
         });
         helpElements[i].addEventListener('mouseout', function() {
-            this.parentElement.getElementsByClassName('help-box')[0].style.display = 'none';
+            this.parentElement.getElementsByClassName('help-desc')[0].style.display = 'none';
         })
     }
 
