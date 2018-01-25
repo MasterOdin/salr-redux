@@ -26,7 +26,8 @@
     "env": {
         "browser": true,
         "jquery": true,
-        "webextensions": true
+        "webextensions": true,
+        "es6": true
     },
     "globals": {
         "jQuery": true,

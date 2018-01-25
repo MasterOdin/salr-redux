@@ -51,6 +51,10 @@ div.preference-title {
     font-weight: bold;
 }
 
+section.settings-panel {
+    display: none;
+}
+
 div.settings-panel {
     margin-top: 10px;
     margin-left: 16px;
@@ -146,6 +150,7 @@ img.help {
 
 .help-container {
     position: relative;
+    z-index: 1000;
 }
 
 .help-desc {

@@ -30,16 +30,16 @@
  *
  */
 
-var port = chrome.runtime.connect({"name":"settings"});
+let port = chrome.runtime.connect({"name":"settings"});
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
         localStorage.setItem('salrInitialized', 'true');
     }
 
     // Setting names.
-    var defaultSettings = [];
+    let defaultSettings = [];
     defaultSettings['salrInitialized']              = 'true';
 
     defaultSettings['username']                     = '';
@@ -208,13 +208,13 @@ document.addEventListener('DOMContentLoaded', function() {
     defaultSettings['MouseActiveContext']           = 'false';
 
     // Set the version text on the settings page
-    var version = chrome.runtime.getManifest().version;
-    var versionQuery = document.getElementById('version-text');
+    let version = chrome.runtime.getManifest().version;
+    let versionQuery = document.getElementById('version-text');
     versionQuery.textContent = version;
     versionQuery.href = versionQuery.href + version.replace(/\./g, '');
 
     // Check stored settings, if value not set, set to default value
-    for (var key in defaultSettings) {
+    for (let key in defaultSettings) {
         if (localStorage.getItem(key) == undefined) {
             localStorage.setItem(key, defaultSettings[key]);
         }
@@ -224,30 +224,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize text entry fields
     let textEntries = document.querySelectorAll('input.text-entry');
-    for (let i = 0; i < textEntries.length; i++) {
+    for (let textEntry of textEntries) {
         // Pre-populate settings field
-        populateValues(textEntries[i]);
+        populateValues(textEntry);
 
         // Set focus handler for the entry fields
-        textEntries[i].addEventListener('focus', function() {
-            onInputSelect(this);
+        textEntry.addEventListener('focus', () => {
+            onInputSelect(textEntry);
         });
 
         // Set blur handler for the entry fields
-        textEntries[i].addEventListener('blur', function() {
-            onInputDeselect(this);
+        textEntry.addEventListener('blur', () => {
+            onInputDeselect(textEntry);
         });
 
-        textEntries[i].addEventListener('change', function() {
-            if (this.id === 'username') {
-                if (this.value === '') {
-                    this.value = localStorage.getItem('username');
+        textEntry.addEventListener('change', () => {
+            if (textEntry.id === 'username') {
+                if (textEntry.value === '') {
+                    textEntry.value = localStorage.getItem('username');
                 }
-                document.getElementById('d_username').textContent = this.value;
+                document.getElementById('d_username').textContent = textEntry.value;
             }
-            localStorage.setItem(this.id, this.value);
+            localStorage.setItem(textEntry.id, textEntry.value);
             highlightExamples();
-        })
+        });
     }
 
     // Initialize checkbox fields
@@ -277,8 +277,9 @@ document.addEventListener('DOMContentLoaded', function() {
     var fieldSets = document.querySelectorAll('fieldset');
     for (let fieldSet of fieldSets) {
         let controlInput = fieldSet.querySelector('legend input[type=checkbox]');
-        if (!controlInput)
+        if (!controlInput) {
             continue;
+        }
         fieldSet.disabled = !controlInput.checked;
         controlInput.addEventListener('change', () => {
             fieldSet.disabled = !controlInput.checked;
@@ -332,36 +333,37 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('user-notes-delete-local').addEventListener('click', userNotesLocalClear);
 
     let helpElements = document.getElementsByClassName('help');
-    for (let i = 0; i < helpElements.length; i++) {
-        helpElements[i].addEventListener('mouseover', function(event) {
+    for (let helpElement of helpElements) {
+        helpElement.addEventListener('mouseover', function(event) {
             this.parentElement.getElementsByClassName('help-desc')[0].style.display = 'block';
         });
-        helpElements[i].addEventListener('mouseout', function() {
+        helpElement.addEventListener('mouseout', function() {
             this.parentElement.getElementsByClassName('help-desc')[0].style.display = 'none';
-        })
+        });
     }
 
-    jQuery('.preference-title').click(function() {
-        if (jQuery(this).parent().next().css('display') == "none") {
-            jQuery('.show').parent().next().hide(200);
-            jQuery('.show').find('img').attr('src','images/plus.png');
-            jQuery('.show').removeClass('show');
-
-            jQuery(this).addClass('show');
-            jQuery(this).parent().next().show(200);
-            jQuery('img',this).attr('src','images/minus.png');
-        }
-        else {
-            jQuery(this).removeClass('show');
-            jQuery(this).parent().next().hide(200);
-            jQuery('img',this).attr('src','images/plus.png');
-        }
-        return false;
-    });
-
-    let sections = document.getElementsByTagName('section');
-    for (let i = 0; i < sections.length; i++) {
-        sections[i].style.display = 'none';
+    let sectionHeaders = document.getElementsByClassName('preference-title');
+    for (let sectionHeader of sectionHeaders) {
+        sectionHeader.addEventListener('click', () => {
+            let settingsPanel = sectionHeader.parentElement.nextElementSibling;
+            if (settingsPanel.style.display === 'none' || settingsPanel.style.display === '') {
+                let shownElements = document.getElementsByClassName('show');
+                for (let shown of shownElements) {
+                    shown.parentElement.nextElementSibling.style.display = 'none';
+                    shown.getElementsByTagName('img')[0].src = 'images/plus.png';
+                    shown.classList.remove('show');
+                }
+                sectionHeader.classList.add('show');
+                sectionHeader.getElementsByTagName('img')[0].src = 'images/minus.png';
+                settingsPanel.style.display = 'block';
+            }
+            else {
+                sectionHeader.classList.remove('show');
+                sectionHeader.getElementsByTagName('img')[0].src = 'images/plus.png';
+                settingsPanel.style.display = 'none';
+            }
+            return false;
+        });
     }
 });
 
