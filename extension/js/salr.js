@@ -1063,20 +1063,26 @@ SALR.prototype.inlineWebm = function() {
 };
 
 /**
- * Display Single Post View link under a users post
- *
- *
+ * Display Single Post View link under a user's post.
+ * If already in a single post view, display a link back to the thread.
  */
 SALR.prototype.displaySinglePostLink = function() {
     var getPostID = function(element) {
         return jQuery('a[href^="#post"]', element).attr('href').split('#post')[1];
     };
 
-    var that = this;
-    jQuery('td.postdate').each( function() {
-        jQuery('a[href^="#post"]', this).before('<a title="View as single post" href="'+that.urlSchema+'//forums.somethingawful.com/'+
-                'showthread.php?action=showpost&postid='+getPostID(jQuery(this))+'">1</a> ');
-    });
+    if (window.location.href.indexOf('postid=') === -1) {
+        jQuery('td.postdate').each( function() {
+            jQuery('a[href^="#post"]', this).before('<a title="View as single post" href="https://forums.somethingawful.com/'+
+                    'showthread.php?action=showpost&postid='+getPostID(jQuery(this))+'">1</a> ');
+        });
+    }
+    else {
+        jQuery('td.postdate').each( function() {
+            jQuery('a[href^="#post"]', this).before('<a title="Back to thread" href="https://forums.somethingawful.com/'+
+                    'showthread.php?goto=post&postid='+getPostID(jQuery(this))+'">&#8592;</a> ');
+        });
+    }
 };
 
 SALR.prototype.detectFancySA = function() {
