@@ -449,7 +449,7 @@ function highlightExamples() {
             }
         }
         else {
-            for (let child of unreadThread.childNodes) {
+            for (let child of unreadThread.children) {
                 Object.assign(child.style, {
                     backgroundColor: '',
                     backgroundImage: '',
