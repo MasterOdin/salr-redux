@@ -148,11 +148,6 @@ img.help {
     height: 12px;
 }
 
-.help-container {
-    position: relative;
-    z-index: 1000;
-}
-
 .help-box {
     display: none;
     opacity: 0;
