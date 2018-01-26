@@ -213,27 +213,23 @@ QuickReplyBox.prototype.create = function(username, quote) {
         that.toggleTopbar();
     });
 
-    jQuery('div#sidebar-list').on('click', 'div.sidebar-menu-item', function() {
-        var selected_item = jQuery('div.menu-item-code', this).first().html();
+    // Hook up delegated click event for sidebar menu items
+    let sidebarList = document.getElementById('sidebar-list');
+    sidebarList.addEventListener('click', (event) => {
+        event.stopPropagation();
+        for (let el = event.target; el && el !== event.currentTarget; el = el.parentNode) {
+            if (!el.matches('div.sidebar-menu-item'))
+                continue;
+ 
+            let selected_item = el.getElementsByClassName('menu-item-code')[0].textContent;
+            if (el.classList.contains('bbcode'))
+                that.insertBBCode(selected_item);
+            else // Smilies
+                that.insertText(selected_item, false);
 
-        if (jQuery(this).is('.bbcode')) {
-            var text_area = jQuery('textarea#post-message');
-            var selection = text_area.getSelection();
-            var replacement_text;
-
-            if (selection.text) {
-                replacement_text = '[' + that.bbcodes[selected_item] + ']' + selection.text + '[/' + that.bbcodes[selected_item] + ']';
-
-                text_area.replaceSelection(replacement_text, true);
-            } else {
-                replacement_text = '[' + that.bbcodes[selected_item] + '][/' + that.bbcodes[selected_item] + ']';
-
-                that.appendText(replacement_text);
-            }
-        } else {
-            that.appendText(selected_item);
+            break;
         }
-    });
+    }, false);
 
     this.sidebar_html = '<img class="loading-spinner" src="' + this.base_image_uri + 'loading-spinner.gif" />';
     this.emotes = null;
@@ -378,6 +374,42 @@ QuickReplyBox.prototype.updatePreview = function() {
     }
 };
 
+/**
+ * Inserts text into the quick reply message box at the text cursor.
+ * @param {string}  text    Text to insert/replace.
+ * @param {boolean} replace Whether to replace selected text with new text.
+ */
+QuickReplyBox.prototype.insertText = function(text, replace) {
+    let msg = document.getElementById('post-message');
+    let insertionPoint = replace ? msg.selectionStart : msg.selectionEnd;
+    msg.value = msg.value.substr(0, insertionPoint) + text + msg.value.substr(msg.selectionEnd, msg.value.length);
+    msg.focus();
+
+    // Put text cursor after end of new text
+    msg.setSelectionRange(insertionPoint + text.length, insertionPoint + text.length);
+
+    if (this.quickReplyState.topbar_visible)
+        this.updatePreview();
+};
+
+/**
+ * Inserts BBCode tags into the quick reply message box.
+ * If text is selected, it will be surrounded by the tags.
+ * Otherwise, the tags will be inserted at the text cursor.
+ * @param {string} tag Name of BBCode tag to insert. 
+ */
+QuickReplyBox.prototype.insertBBCode = function(tag) {
+    let text_area = document.getElementById('post-message');
+    let selection = text_area.value.substring(text_area.selectionStart, text_area.selectionEnd);
+    let replacement_text = '[' + this.bbcodes[tag] + ']' + selection + '[/' + this.bbcodes[tag] + ']';
+
+    this.insertText(replacement_text, true);
+};
+
+/**
+ * Appends text to the end of the quick reply message box.
+ * @param {string} text Text to append. 
+ */
 QuickReplyBox.prototype.appendText = function(text) {
     var current_message = document.getElementById('post-message').value;
 
@@ -386,6 +418,10 @@ QuickReplyBox.prototype.appendText = function(text) {
         this.updatePreview();
 };
 
+/**
+ * Adds text to the beginning of the quick reply message box.
+ * @param {string} text Text to prepend. 
+ */
 QuickReplyBox.prototype.prependText = function(text) {
     var current_message = document.getElementById('post-message').value;
 
@@ -530,6 +566,9 @@ QuickReplyBox.prototype.toggleView = function() {
 };
 
 QuickReplyBox.prototype.toggleSidebar = function(element) {
+    // restore focus to the message box so we can still see what was selected
+    document.getElementById('post-message').focus();
+
     var side_bar = jQuery("#side-bar").first();
 
     if(!side_bar.is(':visible')) {
