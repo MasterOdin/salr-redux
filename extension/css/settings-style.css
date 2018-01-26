@@ -153,17 +153,26 @@ img.help {
     z-index: 1000;
 }
 
-.help-desc {
-    display:none;
+.help-box {
+    display: none;
+    opacity: 0;
     border:1px solid #3b3b3d;
     padding:10px;
     position: absolute;
-    left: 30px;
-    top: -10px;
     background-color: #fff;
     z-index: 100;
     width: 500px;
     color: #000;
+}
+.show-help {
+    display: block;
+}
+.hide-help {
+    display: none;
+}
+.fadein-help {
+    transition: opacity 500ms;
+    opacity: 1.0;
 }
 
 .minus {

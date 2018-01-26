@@ -295,6 +295,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    let colorSelectors = document.querySelectorAll('input[type=color]');
+    let colorTimers = {};
+    for (let colorSelector of colorSelectors) {
+        let val = localStorage.getItem(colorSelector.id);
+        colorSelector.value = (val) ? val : colorSelector.default;
+        let textSelector = document.getElementById(colorSelector.id + '-text');
+        textSelector.value = colorSelector.value;
+        textSelector.addEventListener('change', () => {
+            let oldValue = colorSelector.value;
+            colorSelector.value = textSelector.value;
+            if (colorSelector.value !== textSelector.value) {
+                colorSelector.value = oldValue;
+                textSelector.value = oldValue;
+            }
+            else {
+                localStorage.setItem(colorSelector.id, textSelector.value);
+                highlightExamples();
+            }
+        });
+        colorSelector.addEventListener('input', () => {
+            textSelector.value = colorSelector.value;
+            clearTimeout(colorTimers[colorSelector.id]);
+            colorTimers[colorSelector.id] = setTimeout(() => {
+                localStorage.setItem(colorSelector.id, colorSelector.value);
+                highlightExamples();
+            }, 500);
+        });
+    }
+
+    /*
     // Setup color picker handles on the text boxes
 	jQuery('.color-select-text').ColorPicker({
             onSubmit: function(hsb, hex, rgb, el) {
@@ -318,6 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         jQuery(this).css('background-color', backgroundColor);
     });
+    */
 
     highlightExamples();
 
@@ -332,15 +363,29 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('user-notes-delete-sync').addEventListener('click', userNotesSyncClear);
     document.getElementById('user-notes-delete-local').addEventListener('click', userNotesLocalClear);
 
-    let helpElements = document.getElementsByClassName('help');
-    for (let helpElement of helpElements) {
-        helpElement.addEventListener('mouseover', function(event) {
-            this.parentElement.getElementsByClassName('help-desc')[0].style.display = 'block';
-        });
-        helpElement.addEventListener('mouseout', function() {
-            this.parentElement.getElementsByClassName('help-desc')[0].style.display = 'none';
-        });
-    }
+        // Hook up the help boxes
+        let allHelpMarks = document.getElementsByClassName('help');
+        for (let someHelpMark of allHelpMarks) {
+            let currentHelpBoxes = someHelpMark.parentNode.getElementsByClassName('help-box');
+            someHelpMark.addEventListener('mouseover', (event) => {
+                for (let someHelpBox of currentHelpBoxes) {
+                    someHelpBox.style.left = (event.pageX + 20).toString() + 'px';
+                    someHelpBox.style.top = (event.pageY - 10).toString() + 'px';
+                    someHelpBox.classList.add('show-help');
+                    someHelpBox.classList.remove('hide-help');
+                    window.setTimeout(() => {
+                        someHelpBox.classList.add('fadein-help');
+                    }, 10);
+                }
+            });
+            someHelpMark.addEventListener('mouseout', (event) => {
+                for (let someHelpBox of currentHelpBoxes) {
+                    someHelpBox.classList.add('hide-help');
+                    someHelpBox.classList.remove('show-help');
+                    someHelpBox.classList.remove('fadein-help');
+                }
+            });
+        }
 
     let sectionHeaders = document.getElementsByClassName('preference-title');
     for (let sectionHeader of sectionHeaders) {
@@ -370,33 +415,39 @@ document.addEventListener('DOMContentLoaded', () => {
 function highlightExamples() {
     // Thread highlighting samples
 
-    jQuery('tr#thread-read').each(function() {
-        if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {
-                jQuery(this).css({ "background-color" : localStorage.getItem('lightRead'),
-                                   "background-image" : "url('images/gradient.png')",
-                                   "background-repeat" : "repeat-x",
-                                   "background-position" : "left"
-                                 });
-            });
+    let threadReads = document.querySelectorAll('tr#thread-read');
+    for (let threadRead of threadReads) {
+        if (localStorage.getItem('highlightThread') == 'true') {
+            let elements = threadRead.querySelectorAll('td.star, td.title, td.replies, td.rating');
+            for (let element of elements) {
+                Object.assign(element.style, {
+                    backgroundColor: localStorage.getItem('lightRead'),
+                    backgroundImage: "url('images/gradient.png')",
+                    backgroundRepeat: 'repeat-x',
+                    backgroundPosition: 'left'
+                });
+            }
 
-            jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {
-                jQuery(this).css({ "background-color" : localStorage.getItem('darkRead'),
-                                   "background-image" : "url('images/gradient.png')",
-                                   "background-repeat" : "repeat-x",
-                                   "background-position" : "left"
-                                 });
-            });
+            elements = threadRead.querySelectorAll('td.icon, td.author, td.views, td.lastpost');
+            for (let element of elements) {
+                Object.assign(element.style, {
+                    backgroundColor: localStorage.getItem('darkRead'),
+                    backgroundImage: "url('images/gradient.png')",
+                    backgroundRepeat: 'repeat-x',
+                    backgroundPosition: 'left'
+                });
+            }
         } else {
-            jQuery(this).children().each(function() {
-                jQuery(this).css({ "background-color" : '',
-                                   "background-image" : '',
-                                   "background-repeat" : '',
-                                   "background-position": ''
-                                });
-            });
+            for (let child of threadRead.children) {
+                Object.assign(child.style, {
+                    backgroundColor: '',
+                    backgroundImage: '',
+                    backgroundRepeat: '',
+                    backgroundPosition: ''
+                });
+            }
         }
-    });
+    }
 
     jQuery('tr#thread-unread').each(function() {
         if (localStorage.getItem('highlightThread')=='true') {

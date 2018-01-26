@@ -132,42 +132,47 @@
             <td colspan="3">
                 <div class='display-preference'>
                     <label><input id='highlightThread' class='user-preference' type='checkbox' /> Use custom thread highlighting</label>
-                    <div class='help-container'>
-                        <img class="help" src="images/settings_question.png" />
-                        <div class="help-desc">This setting will show up on the forum list and the UCP thread list</div>
-                    </div>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">This setting will show up on the forum list and the UCP thread list</div>
                 </div>
             </td>
         </tr>
         <tr>
             <td> <label>Threads I've seen</label> </td>
-            <td>
+            <td style="padding-right: 20px">
                 <!--<div class='color-select'>
                     <div id='darkRead-box' class='color-select-box'></div>
                 </div>
                 <input id='darkRead' type='text' size='8' default='#6699cc' class='color-select-text text-entry user-preference' style='color: #999999;' />-->
-                <input id='darkRead' type='color' size='8' value='#6699cc' />
+                <input id='darkRead' type='color' size='8' default='#6699cc' />
+                <input id='darkRead-text' type='text' size='8' />
             </td>
             <td>
-                <div class='color-select'>
+                <input id='lightRead' type='color' size='8' default='99ccff' />
+                <input id='lightRead-text' type='text' size='8' />
+                <!--<div class='color-select'>
                     <div id='lightRead-box' class='color-select-box'></div>
                 </div>
-                <input id='lightRead' type='text' size='8' default='#99ccff' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                <input id='lightRead' type='text' size='8' default='#99ccff' class='color-select-text text-entry user-preference' style='color: #999999;' />-->
             </td>
         </tr>
         <tr>
             <td> <label>Threads with unread posts</label> </td>
             <td>
-                <div class='color-select'>
+                <input id='darkNewReplies' type='color' size='8' default='#99cc99' />
+                <input id='darkNewReplies-text' type='text' size='8' />
+                <!--<div class='color-select'>
                     <div id='darkNewReplies-box' class='color-select-box'></div>
                 </div>
-                <input id='darkNewReplies' type='text' size='8' default='#99cc99' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                <input id='darkNewReplies' type='text' size='8' default='#99cc99' class='color-select-text text-entry user-preference' style='color: #999999;' />-->
             </td>
             <td>
-                <div class='color-select'>
+                <input id='lightNewReplies' type='color' size='8' default='#ccffcc' />
+                <input id='lightNewReplies-text' type='text' size='8' />
+                <!--<div class='color-select'>
                     <div id='lightNewReplies-box' class='color-select-box'></div>
                 </div>
-                <input id='lightNewReplies' type='text' size='8' default='#ccffcc' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                <input id='lightNewReplies' type='text' size='8' default='#ccffcc' class='color-select-text text-entry user-preference' style='color: #999999;' />-->
             </td>
         </tr>
         </table>
@@ -217,10 +222,8 @@
                     <td>
                         <div class='display-preference'>
                             <label><input id='highlightOP' class='user-preference' type='checkbox' /> Enable OP post highlighting</label>
-                            <div class='help-container'>
-                                <img class="help" src="images/settings_question.png" />
-                                <div class="help-desc">This setting requires that you turn on the 'Highlight the username of the "original poster" in thread posts' option in "Edit Options" in the User Control Panel.</div>
-                            </div>
+                            <img class="help" src="images/settings_question.png" />
+                            <div class="help-box">This setting requires that you turn on the 'Highlight the username of the "original poster" in thread posts' option in "Edit Options" in the User Control Panel.</div>
                         </div>
                     </td>
                     <td>
@@ -317,10 +320,8 @@
                     <td>
                         <div class='display-preference'>
                             <label><input id='highlightFriends' class='user-preference' type='checkbox' /> Enable friend post highlighting</label>
-                            <div class='help-container'>
-                                <img class="help" src="images/settings_question.png" />
-                                <div class="help-desc">You must visit your User Control Panel once after activating this option for highlighting to work.</div>
-                            </div>
+                            <img class="help" src="images/settings_question.png" />
+                            <div class="help-box">You must visit your User Control Panel once after activating this option for highlighting to work.</div>
                         </div>
                     </td>
                     <td>
@@ -452,10 +453,8 @@
             <legend>
                 <div class='display-preference'>
                     <label><input id='showLastThreePages' class='user-preference' type='checkbox' /> Replace first and last page links with links to the first three and last three pages of thread</label>
-                    <div class='help-container'>
-                        <img class="help" src="images/settings_question.png" />
-                        <div class="help-desc">Set the "Posts per Page" to the same as the "Default Posts per Thread:" option in the UCP.</div>
-                    </div>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">Set the "Posts per Page" to the same as the "Default Posts per Thread:" option in the UCP.</div>
                 </div>
             </legend>
             <div class='sub-options'>
@@ -627,7 +626,7 @@
         <!--<div class='display-preference'>
             <label><input id="embedVideo" class='user-preference' type='checkbox' /> Convert Youtube videos from iframe to embedded</label>
             <img class="help" src="images/settings_question.png" />
-            <div class="help-desc">If you notice that when you scroll on a page with a youtube video and the video leaves artifacts at the top/bottom of your browser, try this EXPERIMENTAL option.</div>
+            <div class="help-box">If you notice that when you scroll on a page with a youtube video and the video leaves artifacts at the top/bottom of your browser, try this EXPERIMENTAL option.</div>
         </div>-->
         <div class='display-preference'>
             <label><input id='inlineVideo' class='user-preference' type='checkbox' /> Convert Youtube links to inline player</label>
@@ -677,10 +676,8 @@
         <div style="clear: both;"></div>
         <div class='display-preference'>
             <label><input id='threadCaching' class='user-preference' type='checkbox' /> Highlight thread counts in yellow if you've posted there before</label>
-            <div class='help-container'>
-                <img class="help" src="images/settings_question.png" />
-                <div class="help-desc">This will only highlight thread counts of threads you posted in after installing SALR and turning on this option.</div>
-            </div>
+            <img class="help" src="images/settings_question.png" />
+            <div class="help-box">This will only highlight thread counts of threads you posted in after installing SALR and turning on this option.</div>
         </div>
         <div class='display-preference'>
             <label><input id='boxQuotes' class='user-preference' type='checkbox' /> Display quotes in simpler style</label>
@@ -703,11 +700,9 @@
             <div class="sub-options">
                 <div class='display-preference'>
                     <label><input id="enableUserNotesSync" class='user-preference' type='checkbox' /> Use sync storage for user notes</label>
-                    <div class='help-container'>
-                        <img class="help" src="images/settings_question.png" />
-                        <div class="help-desc">By default, user notes will sync to your browser's sync provider. This allows user notes to be synced across computers.
-                        If you have issues, try disabling this option.</div>
-                    </div>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">By default, user notes will sync to your browser's sync provider. This allows user notes to be synced across computers.
+                    If you have issues, try disabling this option.</div>
                 </div>
             </div>
         </fieldset>
@@ -724,10 +719,8 @@
             <legend>
                 <div class='display-preference'>
                     <label><input id='adjustAfterLoad' class='user-preference' type='checkbox' /> Adjust window position after threads load</label>
-                    <div class='help-container'>
-                        <img class="help" src="images/settings_question.png" />
-                        <div class="help-desc">This setting is useful when you have settings that change elements on the page (img size, twitter, etc.).</div>
-                    </div>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">This setting is useful when you have settings that change elements on the page (img size, twitter, etc.).</div>
                 </div>
             </legend>
             <div class="sub-options">
@@ -738,10 +731,8 @@
         </fieldset>
         <div class='display-preference'>
             <label><input id='enableSAARSLink' class='user-preference' type='checkbox' /> Show a link to SAARS under a user's post</label>
-            <div class='help-container'>
-                <img class="help" src="images/settings_question.png" />
-                <div class="help-desc">SAARS is a site that will display all the avatars a member has used while on SomethingAwful. It won't display their user text however.</div>
-            </div>
+            <img class="help" src="images/settings_question.png" />
+            <div class="help-box">SAARS is a site that will display all the avatars a member has used while on SomethingAwful. It won't display their user text however.</div>
         </div>
         <div class='display-preference'>
             <label><input id='enableSinglePost' class='user-preference' type='checkbox' /> Enable single post view button</label>
@@ -781,24 +772,22 @@
         </fieldset>
         <div class='display-preference'>
             <label><input id='enableKeyboardShortcuts' class='user-preference' type='checkbox' /> Enable keyboard navigation</label>
-            <div class='help-container'>
-                <img class="help" src="images/settings_question.png" />
-                <div class="help-desc">Keyboard navigation is as follows:<br />
-                    <ul>
-                        <li>N   - Next Post</li>
-                        <li>P/M - Previous Post</li>
-                        <li>J - Next Page</li>
-                        <li>K/H - Previous page</li>
-                        <li>1/F - Jump to first post on page</li>
-                        <li>0/L - Jump to last post on page</li>
-                        <li>O - Reanchor thread</li>
-                        <li>Q - Quick Quote current post</li>
-                        <li>E - Quick Edit current post</li>
-                        <li>R - Quick Reply current thread</li>
-                        <li>ESC - Close Quick Reply/Edit box</li>
-                        <li>B - (When in UCP/Showing Forum/Bookmarked Threads) Hit twice to open all bookmarked threads
-                    </ul>
-                </div>
+            <img class="help" src="images/settings_question.png" />
+            <div class="help-box">Keyboard navigation is as follows:<br />
+                <ul>
+                    <li>N   - Next Post</li>
+                    <li>P/M - Previous Post</li>
+                    <li>J - Next Page</li>
+                    <li>K/H - Previous page</li>
+                    <li>1/F - Jump to first post on page</li>
+                    <li>0/L - Jump to last post on page</li>
+                    <li>O - Reanchor thread</li>
+                    <li>Q - Quick Quote current post</li>
+                    <li>E - Quick Edit current post</li>
+                    <li>R - Quick Reply current thread</li>
+                    <li>ESC - Close Quick Reply/Edit box</li>
+                    <li>B - (When in UCP/Showing Forum/Bookmarked Threads) Hit twice to open all bookmarked threads
+                </ul>
             </div>
         </div>
         <fieldset>
@@ -828,10 +817,8 @@
                 </div>
                 <div class='display-preference'>
                     <label><input id='quickReplyBookmark' class='user-preference' type='checkbox' /> By default, check bookmark thread box</label>
-                    <div class='help-container'>
-                        <img class="help" src="images/settings_question.png" />
-                        <div class="help-desc">Note: This checkbox is checked by default when editing bookmarked threads. Unselecting this option on editing posts will unbookmark this thread. Unselecting this option when just regularly posting won't unbookmark the thread.</div>
-                    </div>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">Note: This checkbox is checked by default when editing bookmarked threads. Unselecting this option on editing posts will unbookmark this thread. Unselecting this option when just regularly posting won't unbookmark the thread.</div>
                 </div>
                 <div class='display-preference'>
                     <label><input id='quickReplyDisableSmilies' class='user-preference' type='checkbox' /> By default, check disable smilies box</label>
@@ -850,10 +837,8 @@
                 </div>
                 <div class='display-preference'>
                     <label><input id='quickReplyYoutube' class'user-preference' type='checkbox' /> Enable auto-formatting of image and youtube pastes</label>
-                    <div class='help-container'>
-                        <img class="help" src="images/settings_question.png" />
-                        <div class="help-desc">When you paste an image or youtube video link into the quick reply, it will be automatically parsed into the image/video tags for you.</div>
-                    </div>
+                    <img class="help" src="images/settings_question.png" />
+                    <div class="help-box">When you paste an image or youtube video link into the quick reply, it will be automatically parsed into the image/video tags for you.</div>
                 </div>
             </div>
         </fieldset>
@@ -901,10 +886,8 @@
                 <legend>
                     <div class='display-preference'>
                         <label><input id='imageLinkHover' class='user-preference' type='checkbox' /> Show linked image when hovering on a link to one</label>
-                        <div class='help-container'>
-                            <img class="help" src="images/settings_question.png" />
-                            <div class="help-desc">Does not appear to cause any problems when used simultaneously with Links-to-images feature above.</div>
-                        </div>
+                        <img class="help" src="images/settings_question.png" />
+                        <div class="help-box">Does not appear to cause any problems when used simultaneously with Links-to-images feature above.</div>
                     </div>
                 </legend>
                 <div class='sub-options'>
@@ -956,10 +939,8 @@
                 <legend>
                     <div class='display-preference'>
                         <label><input id='restrictImageSize' class='user-preference' type='checkbox' /> Restrict size of images to:</label>
-                        <div class='help-container'>
-                            <img class="help" src="images/settings_question.png" />
-                            <div class="help-desc">Limit the size of images posted on the forums. Putting 0 in the below boxes will disable limiting in that particular dimension.</div>
-                        </div>
+                        <img class="help" src="images/settings_question.png" />
+                        <div class="help-box">Limit the size of images posted on the forums. Putting 0 in the below boxes will disable limiting in that particular dimension.</div>
                     </div>
                 </legend>
                 <div class='sub-options'>
@@ -1013,10 +994,8 @@
                     </div>
                     <div class='display-preference'>
                         <label><input id='setImageTooltipSkipEmoticons' class='user-preference' type='checkbox' /> Don't set for emoticons</label>
-                        <div class='help-container'>
-                            <img class="help" src="images/settings_question.png" />
-                            <div class="help-desc">This requires "Only when not already set" to also not be checked to work on emoticons</div>
-                        </div>
+                        <img class="help" src="images/settings_question.png" />
+                        <div class="help-box">This requires "Only when not already set" to also not be checked to work on emoticons</div>
                     </div>
                     <div class='display-preference'>
                         <label><input id='setImageTooltipHideSourceUrl' class='user-preference' type='checkbox' /> Hide image file source url</label>
