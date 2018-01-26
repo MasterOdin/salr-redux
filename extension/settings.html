@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="css/colorpicker.css" />
 <!-- Copies of the live forums CSS, Mozilla doesn't like us loading external resources -->
 <link rel="stylesheet" type="text/css" href="css/somethingawful_main.css" />
 <link rel="stylesheet" type="text/css" href="css/somethingawful_bbcode.css" />
@@ -10,9 +9,6 @@
 <link rel="stylesheet" type="text/css" href="css/settings-style.css" />
 <link rel="shortcut icon" type="image/png" href="images/logo16_trans.png" />
 
-<script type="text/javascript" src="js/jquery/jquery.js"></script>
-<script type="text/javascript" src="js/jquery/jquery-migrate-3.0.1.min.js"></script>
-<script type="text/javascript" src="js/jquery/colorpicker.js"></script>
 <script type="text/javascript" src="js/settings-handler.js"></script>
 <title>SALR Settings</title>
 </head>
@@ -140,20 +136,12 @@
         <tr>
             <td> <label>Threads I've seen</label> </td>
             <td style="padding-right: 20px">
-                <!--<div class='color-select'>
-                    <div id='darkRead-box' class='color-select-box'></div>
-                </div>
-                <input id='darkRead' type='text' size='8' default='#6699cc' class='color-select-text text-entry user-preference' style='color: #999999;' />-->
                 <input id='darkRead' type='color' size='8' default='#6699cc' />
                 <input id='darkRead-text' type='text' size='8' />
             </td>
             <td>
                 <input id='lightRead' type='color' size='8' default='99ccff' />
                 <input id='lightRead-text' type='text' size='8' />
-                <!--<div class='color-select'>
-                    <div id='lightRead-box' class='color-select-box'></div>
-                </div>
-                <input id='lightRead' type='text' size='8' default='#99ccff' class='color-select-text text-entry user-preference' style='color: #999999;' />-->
             </td>
         </tr>
         <tr>
@@ -161,18 +149,10 @@
             <td>
                 <input id='darkNewReplies' type='color' size='8' default='#99cc99' />
                 <input id='darkNewReplies-text' type='text' size='8' />
-                <!--<div class='color-select'>
-                    <div id='darkNewReplies-box' class='color-select-box'></div>
-                </div>
-                <input id='darkNewReplies' type='text' size='8' default='#99cc99' class='color-select-text text-entry user-preference' style='color: #999999;' />-->
             </td>
             <td>
                 <input id='lightNewReplies' type='color' size='8' default='#ccffcc' />
                 <input id='lightNewReplies-text' type='text' size='8' />
-                <!--<div class='color-select'>
-                    <div id='lightNewReplies-box' class='color-select-box'></div>
-                </div>
-                <input id='lightNewReplies' type='text' size='8' default='#ccffcc' class='color-select-text text-entry user-preference' style='color: #999999;' />-->
             </td>
         </tr>
         </table>
@@ -227,10 +207,8 @@
                         </div>
                     </td>
                     <td>
-                        <div class='color-select'>
-                            <div id='highlightOPColor-box' class='color-select-box'></div>
-                        </div>
-                        <input id='highlightOPColor' type='text' size='8' default='#fff2aa' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                        <input id='highlightOPColor' type='color' size='8' default='#fff2aa' />
+                        <input id='highlightOPColor-text' type='text' size='8' />
                     </td>
                 </tr>
                 </table>
@@ -258,10 +236,8 @@
                         </div>
                     </td>
                     <td>
-                        <div class='color-select'>
-                            <div id='highlightSelfColor-box' class='color-select-box'></div>
-                        </div>
-                        <input id='highlightSelfColor' type='text' size='8' default='#f2babb' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                        <input id='highlightSelfColor' type='color' size='8' default='#f2babb' />
+                        <input id='highlightSelfColor-text' type='text' size='8' />
                     </td>
                 </tr>
                 <tr>
@@ -271,10 +247,8 @@
                         </div>
                     </td>
                     <td>
-                        <div class='color-select'>
-                            <div id='userQuote-box' class='color-select-box'></div>
-                        </div>
-                        <input id='userQuote' type='text' size='8' default='#a2cd5a' value='' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                        <input id='userQuote' type='color' size='8' default='#a2cd5a' />
+                        <input id='userQuote-text' type='text' size='8' />
                     </td>
                 </tr>
                 <tr>
@@ -284,10 +258,8 @@
                         </div>
                     </td>
                     <td>
-                        <div class='color-select'>
-                            <div id='usernameHighlight-box' class='color-select-box'></div>
-                        </div>
-                        <input id='usernameHighlight' type='text' size='8' default='#9933ff' value='' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                        <input id='usernameHighlight' type='color' size='8' default='#9933ff' />
+                        <input id='usernameHighlight-text' type='text' size='8' />
                     </td>
                 </tr>
                 </table>
@@ -325,10 +297,8 @@
                         </div>
                     </td>
                     <td>
-                        <div class='color-select'>
-                            <div id='highlightFriendsColor-box' class='color-select-box'></div>
-                        </div>
-                        <input id='highlightFriendsColor' type='text' size='8' default='#f2babb' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                        <input id='highlightFriendsColor' type='color' size='8' default='#f2babb' />
+                        <input id='highlightFriendsColor-text' type='text' size='8' />
                     </td>
                 </tr>
                 </table>
@@ -372,10 +342,8 @@
                         </div>
                     </td>
                     <td>
-                        <div class='color-select'>
-                            <div id='highlightModeratorColor-box' class='color-select-box'></div>
-                        </div>
-                        <input id='highlightModeratorColor' type='text' size='8' default='#b4eeb4' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                        <input id='highlightModeratorColor' type='color' size='8' default='#b4eeb4' />
+                        <input id='highlightModeratorColor-text' type='text' size='8' />
                     </td>
                 </tr>
                 </table>
@@ -405,10 +373,8 @@
                         </div>
                     </td>
                     <td>
-                        <div class='color-select'>
-                            <div id='highlightAdminColor-box' class='color-select-box'></div>
-                        </div>
-                        <input id='highlightAdminColor' type='text' size='8' default='#ff7256' class='color-select-text text-entry user-preference' style='color: #999999;' />
+                        <input id='highlightAdminColor' type='color' size='8' default='#ff7256' />
+                        <input id='highlightAdminColor-text' type='text' size='8' />
                     </td>
                 </tr>
                 </table>
