@@ -250,3 +250,20 @@ function addThreadToCache(thread_id) {
 function findUrlSchema() {
     return location.protocol;
 }
+
+/**
+ * Checks if a thread is in the archives.
+ *      NOTE: As of 05/21/2015, archives can be detected by a thread
+ *      lacking a bookmark star and the thread rate box lacking proper
+ *      children. Before changing how this is determined, make sure to test:
+ *          - Threads from live forums
+ *          - Threads from forums which lack a rate box
+ *          - Threads 'locked for archiving'
+ *          - Archived threads
+ * @return {boolean} Whether the current thread is in the archives.
+ */
+function isThreadInArchives() {
+    let threadRateBox = document.querySelector('div.threadrate');
+    let bookmarkStar = document.querySelector('img.thread_bookmark');
+    return (!bookmarkStar && !!threadRateBox && !threadRateBox.firstChild.nextSibling);
+}

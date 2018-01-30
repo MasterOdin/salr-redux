@@ -106,17 +106,6 @@ SALR.prototype.pageInit = function() {
             }
             break;
         case 'showthread':
-
-            if (window.location.href.indexOf('postid=') >= 0) {
-                // Single post view doesn't work for archived threads
-                // Switch to a goto post link
-                if (jQuery('td.postbody').length == 0) {
-                    var m = window.location.href.match(/postid=(\d+)/);
-                    jumpToPage(this.urlSchema+'//forums.somethingawful.com/showthread.php?goto=post&postid='+m[1]);
-                    return;
-                }
-            }
-
             // Someday, we'll only iterate through the posts table once
             this.handleShowThread();
 
@@ -156,10 +145,6 @@ SALR.prototype.pageInit = function() {
 
             if (this.settings.highlightOwnQuotes == 'true') {
                 this.highlightOwnQuotes();
-            }
-
-            if (this.settings.enableSinglePost == "true") {
-                this.displaySinglePostLink();
             }
 
             if (this.settings.collapseTldrQuotes == 'true') {
@@ -713,7 +698,7 @@ SALR.prototype.updateStyling = function() {
 
 /** 
  * This function will eventually be the only one iterating through the posts table.
-*/
+ */
 SALR.prototype.handleShowThread = function() {
     // Fetch hidden avatars from cache
     var hiddenAvatars = [];
@@ -727,6 +712,10 @@ SALR.prototype.handleShowThread = function() {
         friends_id = this.getStoredFriendNums();
     }
 
+    // Set some flags for the whole thread
+    const inSinglePostView = document.location.href.indexOf('action=showpost') !== -1;
+    const addSinglePostLink = this.settings.enableSinglePost === "true" && !isThreadInArchives();
+
     var posts = document.querySelectorAll('table.post');
     for (let post of posts) {
         if (post.id === 'post') // adbot
@@ -738,8 +727,37 @@ SALR.prototype.handleShowThread = function() {
         let userid = profileLink.href.match(/userid=(\d+)/)[1];
 
         this.highlightPost(post, userid, friends_id);
+        if (addSinglePostLink) {
+            this.insertSinglePostLink(post, inSinglePostView);
+        }
         this.addUserLinksToPost(post, userid, profileLink, hiddenAvatars);
     }
+};
+
+/**
+ * Inserts the single post view (or back to thread) link into a post.
+ * @param {HTMLElement} post             Post to add user links to.
+ * @param {boolean}     inSinglePostView Whether we're already in single post view.
+ */
+SALR.prototype.insertSinglePostLink = function(post, inSinglePostView) {
+    let postIdLink = post.querySelector('td.postdate a[href^="#post"');
+    if (!postIdLink)
+        return;
+
+    let curPostId = post.id.match(/post(\d+)/)[1];
+    let newLink = document.createElement('a');
+    if (inSinglePostView) {
+        newLink.href = "/showthread.php?goto=post&postid=" + curPostId;
+        newLink.title = "Back to thread";
+        newLink.innerHTML = "&#8592;";
+    }
+    else {
+        newLink.href = "/showthread.php?action=showpost&postid=" + curPostId;
+        newLink.title = "View as single post";
+        newLink.textContent = "1";
+    }
+    postIdLink.parentNode.insertBefore(newLink, postIdLink);
+    postIdLink.parentNode.insertBefore(document.createTextNode(" "), postIdLink);
 };
 
 SALR.prototype.modifyImages = function() {
@@ -1060,27 +1078,6 @@ SALR.prototype.inlineWebm = function() {
             jQuery(this).html('<iframe autoplay="true" loop allowfullscreen="" frameborder="0" scrolling="no"  width="660" height="370" src="'+jQuery(this).attr('href')+'#embed"></iframe>');
         }
     });
-};
-
-/**
- * Display Single Post View link under a user's post.
- * If already in a single post view, display a link back to the thread.
- */
-SALR.prototype.displaySinglePostLink = function() {
-    var getPostID = function(element) {
-        return element.querySelector('a[href^="#post"]').href.split('#post')[1];
-    };
-
-    let postidIndex = window.location.href.indexOf('postid=');
-    let postdates = document.querySelectorAll('td.postdate');
-    for (let postdate of postdates) {
-        if (postidIndex === -1) {
-            postdate.querySelector('a[href^="#post"]').insertAdjacentHTML('beforeBegin', '<a title="View as single post" href="https://forums.somethingawful.com/showthread.php?action=showpost&postid='+getPostID(postdate)+'">1</a> ');
-        }
-        else {
-            postdate.querySelector('a[href^="#post"]').insertAdjacentHTML('beforeBegin', '<a title="Back to thread" href="https://forums.somethingawful.com/showthread.php?goto=post&postid='+getPostID(postdate)+'">&#8592;</a> ');
-        }
-    }
 };
 
 SALR.prototype.detectFancySA = function() {
