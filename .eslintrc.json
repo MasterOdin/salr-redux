@@ -49,6 +49,10 @@
         "countPages": true,
         "getCurrentPageNumber": true,
         "findUrlSchema": true,
-        "findForumID": true
+        "findForumID": true,
+        "nextPageUrl": true,
+        "prevPageUrl": true,
+        "getPageUrl": true,
+        "isThreadInArchives": true
     }
 }
