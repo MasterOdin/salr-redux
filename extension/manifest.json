@@ -36,7 +36,6 @@
         "js/jquery/jquery-ui.js",
         "js/jquery/jquery.transform.min.js",
         "js/jquery/jquery.rightclick.js",
-        "js/jquery/jquery.fieldselection.js",
         "js/jquery/jquery.putCursorAtEnd.1.0.js",
         "js/jquery/jquery.ba-replacetext.js",
         "js/bbcode.js",
