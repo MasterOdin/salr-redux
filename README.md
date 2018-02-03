@@ -1,12 +1,12 @@
-Something Awful Last Read Redux Extension for Chrome
+Something Awful Last Read Redux Extension for Chrome and Firefox Quantum
 ==============================================
 
-This is a port of the SALR extension for Firefox to Google Chrome. It adds a number of improvements to the Something Awful Forums on Chrome.
+This is a port of the SALR extension for Firefox to Google Chrome and Firefox Quantum. It adds a number of improvements to the Something Awful Forums.
 
 Installation
 ------------
 
-To install, download the latest version from the [Google Chrome Web Store](https://chrome.google.com/webstore/detail/something-awful-last-read/bogegdelcjhoaakaepmoglademmhiboo "Web Store"). This will handle all updates automatically for you.
+To install, download the latest version from the [Google Chrome Web Store](https://chrome.google.com/webstore/detail/something-awful-last-read/bogegdelcjhoaakaepmoglademmhiboo "Web Store") or [addons.mozilla.org for Firefox](https://addons.mozilla.org/en-US/firefox/addon/salr-redux?src=external-salrgithub "Firefox Addons"). Updates will be delivered automatically per your browser settings.
 
 Alternatively, this can be added to chrome manually by downloading /extension/ and using the unpack option within the extensions page under Developer Mode. (Not Recommended for casual users, as updates will not be pushed automatically.)
 
