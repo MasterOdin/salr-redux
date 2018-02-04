@@ -82,7 +82,6 @@ jQuery(document).ready(function() {
     defaultSettings['showLastThreePagesThread']     = 'true';
 
     // Header Link Display Options
-    //defaultSettings['hideHeaderLinks']              = 'true';
     defaultSettings['showPurchases']                = 'true';
     defaultSettings['topPurchaseAcc']               = 'true';
     defaultSettings['topPurchasePlat']              = 'true';

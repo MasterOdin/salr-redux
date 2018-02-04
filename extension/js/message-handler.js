@@ -115,7 +115,6 @@ defaultSettings['displayNewPostsFirst']         = 'false';
 defaultSettings['hideAdvertisements']           = 'false';
 
 // Header Link Display Options
-//defaultSettings['hideHeaderLinks']              = 'true';
 defaultSettings['showPurchases']                = 'true';
 defaultSettings['topPurchaseAcc']               = 'true';
 defaultSettings['topPurchasePlat']              = 'true';

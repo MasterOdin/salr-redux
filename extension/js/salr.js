@@ -341,6 +341,84 @@ SALR.prototype.openSettings = function() {
     postMessage({'message': 'OpenSettings'});
 };
 
+/** 
+ * Hides top/bottom navigation menu links based on user settings.
+ * A false user setting implies something should be hidden.
+ */
+SALR.prototype.applyNavMenuStyling = function() {
+    var settings = this.settings;
+
+    if (settings.showPurchases === 'false') {
+        document.getElementById('nav_purchase').style.setProperty('display', 'none', 'important');
+    }
+    else {
+        let purchaseNav = document.getElementById('nav_purchase');
+        if (settings['topPurchaseAva'] === 'false') {
+            // Two links exist to purchase an avatar
+            let avAnchs = purchaseNav.querySelectorAll('a[href="https://secure.somethingawful.com/products/titlechange.php"]');
+            for (let avAnch of avAnchs) {
+                avAnch.parentNode.style.display = 'none';
+            }
+        }
+
+        const settingToPurchaseLinkMap = new Map([
+            ['topPurchaseAcc', 'https://secure.somethingawful.com/products/register.php'],
+            ['topPurchasePlat', 'https://secure.somethingawful.com/products/platinum.php'],
+            ['topPurchaseArchives', 'https://secure.somethingawful.com/products/archives.php'],
+            ['topPurchaseNoAds', 'https://secure.somethingawful.com/products/noads.php'],
+            ['topPurchaseUsername', 'https://secure.somethingawful.com/products/namechange.php'],
+            ['topPurchaseBannerAd', 'https://secure.somethingawful.com/products/ad-banner.php'],
+            ['topPurchaseEmoticon', 'https://secure.somethingawful.com/products/smilie.php'],
+            ['topPurchaseSticky', 'https://secure.somethingawful.com/products/sticky-thread.php'],
+            ['topPurchaseGiftCert', 'https://secure.somethingawful.com/products/gift-certificate.php']
+        ]);
+        settingToPurchaseLinkMap.forEach((value, key) => {
+            if (settings[key] === 'false') {
+                // Everything else just has one
+                purchaseNav.querySelector('a[href="' + value + '"]').parentNode.style.display = 'none';
+            }
+        });
+    }
+
+    var navLists = document.getElementsByClassName('navigation');
+    if (settings.showNavigation === 'false') {
+        for (let navList of navLists) {
+            navList.style.setProperty('display', 'none', 'important');
+        }
+    }
+    else {
+        const settingToNavLinkMap = new Map([
+            ['topSAForums', '/index.php'],
+            ['topSALink', '//www.somethingawful.com/'],
+            ['topSearch', '/query.php'],
+            ['topUserCP', '/usercp.php'],
+            ['topPrivMsgs', '/private.php'],
+            ['topForumRules', 'http://www.somethingawful.com/d/forum-rules/forum-rules.php'],
+            ['topSaclopedia', '/dictionary.php'],
+            ['topGloryhole', '/stats.php'],
+            ['topLepersColony', '/banlist.php'],
+            ['topSupport', '/supportmail.php'],
+        ]);
+
+        for (let navList of navLists) {
+            if ((settings.topNavBar === 'false' && navList === navLists[0]) ||
+                (settings.bottomNavBar === 'false' && navList === navLists[1])) {
+                    navList.style.setProperty('display', 'none', 'important');
+            }
+            else {
+                settingToNavLinkMap.forEach((value, key) => {
+                    if (settings[key] === 'false') {
+                        navList.querySelector('a[href="' + value + '"]').parentNode.style.display = 'none';
+                    }
+                });
+                if (settings.topLogout === 'false') {
+                    navList.querySelector('a[href^="/account.php?action=logout"]').parentNode.style.display = 'none';
+                }
+            }
+        }
+    }
+};
+
 // Since we have to wait to receive the settings from the extension,
 // stash the styling logic in it's own function that we can call
 // once we're ready
@@ -509,180 +587,8 @@ SALR.prototype.updateStyling = function() {
         return false;
     });
 
-/*
-    // Hide header/footer links
-    if (this.settings.hideHeaderLinks == 'true') {
-        jQuery('div#globalmenu').each(function() {
-            jQuery(this).html('');
-            jQuery(this).css('height', '0px');
-        });
-    }
-*/
-
-    // Hide each top row of links
-    if (this.settings.showPurchases == 'false') {
-        jQuery('#nav_purchase').each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.showNavigation == 'false') {
-        jQuery('.navigation').each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topNavBar == 'false') {
-        jQuery('#navigation').each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.bottomNavBar == 'false') {
-        var count = 0;
-        jQuery('.navigation').each(function() {
-            if (that.settings.topNavBar == 'false') {
-                jQuery(this).remove();
-            }
-            else {
-                if ((count++) == 1) {
-                    jQuery(this).remove();
-                }
-            }
-        });
-    }
-
-    // Hide individual top menu items
-    if (this.settings.topPurchaseAcc == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/register.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topPurchasePlat == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/platinum.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topPurchaseAva == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/titlechange.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topPurchaseArchives == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/archives.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-        if (this.settings.topPurchaseNoAds == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/noads.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topPurchaseUsername == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/namechange.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topPurchaseBannerAd == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/ad-banner.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topPurchaseEmoticon == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/smilie.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topPurchaseSticky == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/sticky-thread.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topPurchaseGiftCert == 'false') {
-        jQuery("#nav_purchase li:has(a[href='https://secure.somethingawful.com/products/gift-certificate.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topSAForums == 'false') {
-        jQuery(".navigation li:has(a[href='/index.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topSALink == 'false') {
-        jQuery(".navigation li:has(a[href='http://www.somethingawful.com/'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topSearch == 'false') {
-        jQuery(".navigation li:has(a[href='/query.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topUserCP == 'false') {
-        jQuery(".navigation li:has(a[href='/usercp.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-    else {
-        jQuery(".navigation a[href='/usercp.php']").each(function() {
-            jQuery(this).attr("href","/usercp.php?"+jQuery.now());
-        });
-    }
-
-    if (this.settings.topPrivMsgs == 'false') {
-        jQuery(".navigation li:has(a[href='/private.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topForumRules == 'false') {
-        jQuery(".navigation li:has(a[href='http://www.somethingawful.com/d/forum-rules/forum-rules.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topSaclopedia == 'false') {
-        jQuery(".navigation li:has(a[href='/dictionary.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topGloryhole == 'false') {
-        jQuery(".navigation li:has(a[href='/stats.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topLepersColony == 'false') {
-        jQuery(".navigation li:has(a[href='/banlist.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topSupport == 'false') {
-        jQuery(".navigation li:has(a[href='/supportmail.php'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
-
-    if (this.settings.topLogout == 'false') {
-        jQuery(".navigation li:has(a[href*='account.php?action=logout'])").each(function() {
-            jQuery(this).remove();
-        });
-    }
+    // Hide top/bottom menu links based on user settings
+    this.applyNavMenuStyling();
 
     // Hide the advertisements
     if (this.settings.hideAdvertisements == 'true') {
