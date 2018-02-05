@@ -11,8 +11,9 @@
         <input id="dismiss-error-button" type="button" value="Dismiss" />
     </div>
     <div id="dropzone">
-        <h1>Drag an image here</h1>
-        <input type="file" multiple="true" id="filesUpload" />
+        <h1 id="drophint" class="unselectable">Drag an image here or click me</h1>
+        <input type="file" multiple="true" id="filesUpload" 
+            accept=".jpg,.jpeg,.png,.gif,.apng,.tiff,.tif,.bmp,.pdf,.xcf,.webp,.mp4,.mov" />
         <div id="upload-label">
             <div>Uploading...</div>
             <progress id="progress-bar"></progress>
@@ -20,7 +21,7 @@
         </div>
     </div>
     <div id="enter-url">
-        - OR -<br /><br />
+        <span class="unselectable">- OR -</span><br /><br />
         <div>
             <input type="text" size="21" placeholder="Enter an image URL" id="image-url" />
         </div>
@@ -28,15 +29,8 @@
             <input id="url-submit-button" type="button" value="Upload URL" />
         </div>
     </div>
-    <div id="img-result">
-        <div style="text-align: center;"><img id="result-src" /></div>
-        <div style="margin-left: 25px; margin-top: 10px;">
-            <div><input type="radio" value="thumbnail" name="type" checked> Thumbnail</div>
-            <div><input type="radio" value="fullsize" name="type"> Full size</div>
-            <div style="text-align: right; margin-top: 10px;">
-                <input id="submit-button" type="button" value="Add to post" />
-            </div>
-        </div>
+    <div id="thumbnail-option">
+        <label class="unselectable"><input id="thumbnail" type='checkbox' /> Thumbnail image</label>
     </div>
 </body>
 </html>

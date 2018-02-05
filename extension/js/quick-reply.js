@@ -470,7 +470,7 @@ QuickReplyBox.prototype.appendImage = function(original, thumbnail, type) {
 
     if (type == 'thumbnail') {
         result = '[timg]' + thumbnail + '[/timg]\n';
-        result += '[url=' + original + ']Click here to view the full image[/url]\n';
+        // result += '[url=' + original + ']Click here to view the full image[/url]\n';
     } else {
         result = '[img]' + original + '[/img]\n';
     }

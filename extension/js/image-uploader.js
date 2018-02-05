@@ -24,6 +24,18 @@ function attachUploaderEvents() {
             var url = document.getElementById("image-url").value;
             imgurUpload(url);
         });
+    document.getElementById("filesUpload").addEventListener(
+        'change', (event) => {
+            var fileInput = event.target;
+            for (let someFile of fileInput.files) {
+                // Make sure it's an image
+                if (!isThisAnImage(someFile))
+                    continue;
+                imgurUpload(someFile);
+                // Only take the first one for now.
+                break;
+            }
+        });
     document.getElementById("dropzone").addEventListener(
         'dragover', (event) => {
             // Prevent default select and drag behavior
@@ -33,9 +45,9 @@ function attachUploaderEvents() {
                 stillDragging = true;
                 var dropZone = document.getElementById("dropzone");
                 if (areWeDraggingImageFiles(event.dataTransfer) === false) {
-                    dropZone.querySelector("h1").innerText = "That's not an image!";
+                    document.getElementById('drophint').innerText = "Sorry, that's not a valid image!";
                 } else {
-                    dropZone.querySelector("h1").innerText = "Now drop it";
+                    document.getElementById('drophint').innerText = "Now drop it";
                     dropZone.classList.add("drag-over");
                 }
             }
@@ -46,7 +58,7 @@ function attachUploaderEvents() {
             event.preventDefault();
             stillDragging = false;
             var dropZone = event.currentTarget;
-            dropZone.querySelector("h1").innerText = "Drag an image here";
+            document.getElementById('drophint').innerText = "Drag an image here or click me";
             dropZone.classList.remove("drag-over");
         });
     document.getElementById("dropzone").addEventListener(
@@ -57,14 +69,14 @@ function attachUploaderEvents() {
             var dt = event.dataTransfer;
             // Some browsers may only support DataTransfer.items
             if (dt.items) {
-                for (var i=0; i < dt.items.length; i++) {
+                for (let someItem of dt.items) {
                     // Ignore non-files
-                    if (dt.items[i].kind === "file") {
-                        var f = dt.items[i].getAsFile();
+                    if (someItem.kind === "file") {
+                        let someFile = someItem.getAsFile();
                         // Make sure it's an image
-                        if (!f.type.match(/image.*/) || f.type === "image/x-icon")
+                        if (!isThisAnImage(someFile))
                             continue;
-                        imgurUpload(f);
+                        imgurUpload(someFile);
                         // Only take the first one for now.
                         break;
                     }
@@ -72,16 +84,16 @@ function attachUploaderEvents() {
             } else {
                 // Some browsers don't support DataTransfer.items
                 // Use DataTransfer interface to access the file(s)
-                for (var j=0; j < dt.files.length; j++) {
+                for (let someFile of dt.files) {
                     // Make sure it's an image
-                    if (!dt.files[j].type.match(/image.*/) || dt.files[j].type === "image/x-icon")
+                    if (!isThisAnImage(someFile))
                         continue;
-                    imgurUpload(dt.files[j]);
+                    imgurUpload(someFile);
                     // Only take the first one for now.
                     break;
                 }
             }
-            dropZone.querySelector("h1").innerText = "Drag an image here";
+            document.getElementById('drophint').innerText = "Drag an image here or click me";
             dropZone.classList.remove("drag-over");
         });
     document.getElementById("dismiss-error-button").addEventListener(
@@ -98,11 +110,11 @@ function attachUploaderEvents() {
  */
 function areWeDraggingImageFiles(dt) {
     if (dt.items) {
-        for (var i=0; i < dt.items.length; i++) {
+        for (let someItem of dt.items) {
             // Ignore non-files
-            if (dt.items[i].kind === "file") {
+            if (someItem.kind === "file") {
                 // Make sure it's an image
-                if (!dt.items[i].type.match(/image.*/) || dt.items[i].type === "image/x-icon")
+                if (!isThisAnImage(someItem))
                     continue;
                 // Only return the first one for now.
                 return true;
@@ -116,17 +128,29 @@ function areWeDraggingImageFiles(dt) {
 }
 
 /**
+ * Tests if a file is an image.
+ * @param {File} someFile 
+ * @return {Boolean} Whether the file is a valid image for uploading.
+ */
+function isThisAnImage(someFile) {
+    if (!someFile.type.match(/image.*/) || someFile.type === "image/x-icon")
+        return false;
+
+    return true;
+}
+
+/**
  * Uploads a file to imgur.
  * @param {(File|string)} file File or string URL to upload
  */
 function imgurUpload(file) {
     // Hide drop zone while we upload
-    document.getElementById("dropzone").querySelector("h1").style.display = "none";
+    document.getElementById('drophint').style.display = "none";
     document.getElementById("enter-url").style.display = "none";
     // Show upload status
     document.getElementById("upload-label").style.display = "block";
 
-    if (!file || (typeof file !== 'string' && (!file.type.match(/image.*/) || file.type === "image/x-icon"))) {
+    if (!file || (typeof file !== 'string' && !isThisAnImage(file))) {
         uploadFailed("That wasn't an image.");
         return;
     }
@@ -181,11 +205,12 @@ function processImgurResult(respText) {
         // Clean up display
         clearDropZone();
         // Append to post
+        let appendType = document.getElementById('thumbnail').checked === false ? 'original' : 'thumbnail';
         port.postMessage({
             message: 'AppendUploadedImage',
             original: imageurl,
             thumbnail: imageurl,
-            type: 'original'
+            type: appendType
         });
 	}
 }
@@ -195,7 +220,7 @@ function processImgurResult(respText) {
 */
 function clearDropZone() {
     document.getElementById("upload-label").style.display = "none";
-    document.getElementById("dropzone").querySelector("h1").style.display = "block";
+    document.getElementById('drophint').style.display = "block";
     document.getElementById("image-url").value = "";
     document.getElementById("enter-url").style.display = "block";
 }
