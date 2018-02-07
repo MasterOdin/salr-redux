@@ -376,17 +376,27 @@ QuickReplyBox.prototype.updatePreview = function() {
 
 /**
  * Inserts text into the quick reply message box at the text cursor.
- * @param {string}  text    Text to insert/replace.
- * @param {boolean} replace Whether to replace selected text with new text.
+ * @param {string}  text         Text to insert/replace.
+ * @param {boolean} replace      Whether to replace selected text with new text.
+ * @param {number}  [offset = 0] Optional number of characters to put the new text cursor
+ *                               relative to initial location instead of after the new text.
  */
-QuickReplyBox.prototype.insertText = function(text, replace) {
+QuickReplyBox.prototype.insertText = function(text, replace, offset = 0) {
     let msg = document.getElementById('post-message');
+    let insertingText = msg.selectionStart === msg.selectionEnd;
     let insertionPoint = replace ? msg.selectionStart : msg.selectionEnd;
     msg.value = msg.value.substr(0, insertionPoint) + text + msg.value.substr(msg.selectionEnd, msg.value.length);
     msg.focus();
 
-    // Put text cursor after end of new text
-    msg.setSelectionRange(insertionPoint + text.length, insertionPoint + text.length);
+    if (insertingText && offset > 0) {
+        // No text was selected; use custom offset specified
+        insertionPoint += offset;
+    }
+    else {
+        // Put text cursor after end of new text
+        insertionPoint += text.length;
+    }
+    msg.setSelectionRange(insertionPoint, insertionPoint);
 
     if (this.quickReplyState.topbar_visible)
         this.updatePreview();
@@ -401,9 +411,10 @@ QuickReplyBox.prototype.insertText = function(text, replace) {
 QuickReplyBox.prototype.insertBBCode = function(tag) {
     let text_area = document.getElementById('post-message');
     let selection = text_area.value.substring(text_area.selectionStart, text_area.selectionEnd);
-    let replacement_text = '[' + this.bbcodes[tag] + ']' + selection + '[/' + this.bbcodes[tag] + ']';
+    let codeText = this.bbcodes[tag];
+    let replacement_text = '[' + codeText + ']' + selection + '[/' + codeText + ']';
 
-    this.insertText(replacement_text, true);
+    this.insertText(replacement_text, true, codeText.length + 2);
 };
 
 /**
