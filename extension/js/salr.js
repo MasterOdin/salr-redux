@@ -2068,7 +2068,11 @@ SALR.prototype.showLastThreePages = function() {
             });
             break;
         case 'showthread':
-            jQuery('div.pages').each(function() {
+            var pagesDiv = document.querySelector('div.pages');
+            if (pagesDiv.children.length === 0) {
+                break;
+            }
+            jQuery(pagesDiv).each(function() {
                 // number of pages in thread
                 var pages = parseInt( jQuery(this).text().match(/(\d+) /)[1] );
 
