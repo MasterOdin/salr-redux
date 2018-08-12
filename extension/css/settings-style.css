@@ -51,6 +51,10 @@ div.preference-title {
     font-weight: bold;
 }
 
+section.settings-panel {
+    display: none;
+}
+
 div.settings-panel {
     margin-top: 10px;
     margin-left: 16px;
@@ -145,7 +149,8 @@ img.help {
 }
 
 .help-box {
-    display:none;
+    display: none;
+    opacity: 0;
     border:1px solid #3b3b3d;
     padding:10px;
     position: absolute;
@@ -153,6 +158,16 @@ img.help {
     z-index: 100;
     width: 500px;
     color: #000;
+}
+.show-help {
+    display: block;
+}
+.hide-help {
+    display: none;
+}
+.fadein-help {
+    transition: opacity 500ms;
+    opacity: 1.0;
 }
 
 .minus {

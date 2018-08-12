@@ -30,16 +30,16 @@
  *
  */
 
-var port = chrome.runtime.connect({"name":"settings"});
+let port = chrome.runtime.connect({"name":"settings"});
 
-jQuery(document).ready(function() {
+document.addEventListener('DOMContentLoaded', () => {
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
         localStorage.setItem('salrInitialized', 'true');
     }
 
     // Setting names.
-    var defaultSettings = [];
+    let defaultSettings = [];
     defaultSettings['salrInitialized']              = 'true';
 
     defaultSettings['username']                     = '';
@@ -209,76 +209,79 @@ jQuery(document).ready(function() {
     defaultSettings['MouseActiveContext']           = 'false';
 
     // Set the version text on the settings page
-    var version = chrome.runtime.getManifest().version;
-    var versionQuery = jQuery('#version-text');
-    versionQuery.text(version);
-    versionQuery.attr('href', versionQuery.attr('href')+version.replace(/\./g,""));
+    let version = chrome.runtime.getManifest().version;
+    let versionQuery = document.getElementById('version-text');
+    versionQuery.textContent = version;
+    versionQuery.href = versionQuery.href + version.replace(/\./g, '');
 
     // Check stored settings, if value not set, set to default value
-    for ( var key in defaultSettings ) {
-        if ( localStorage.getItem(key) == undefined ) {
+    for (let key in defaultSettings) {
+        if (localStorage.getItem(key) == undefined) {
             localStorage.setItem(key, defaultSettings[key]);
         }
     }
 
-    jQuery('#d_username').text(localStorage.getItem('username'));
+    document.getElementById('d_username').textContent = localStorage.getItem('username');
 
     // Initialize text entry fields
-    jQuery('input.text-entry').each(function() {
+    let textEntries = document.querySelectorAll('input.text-entry');
+    for (let textEntry of textEntries) {
         // Pre-populate settings field
-        populateValues(jQuery(this));
+        populateValues(textEntry);
 
         // Set focus handler for the entry fields
-        jQuery(this).focus(function() {
-            onInputSelect(jQuery(this));
+        textEntry.addEventListener('focus', () => {
+            onInputSelect(textEntry);
         });
 
         // Set blur handler for the entry fields
-        jQuery(this).blur(function() {
-            onInputDeselect(jQuery(this));
+        textEntry.addEventListener('blur', () => {
+            onInputDeselect(textEntry);
         });
 
-        jQuery(this).change(function() {
-            if (jQuery(this).attr('id') == 'username') {
-                if (jQuery(this).val() == "") {
-                    jQuery(this).val(localStorage.getItem('username'));
+        textEntry.addEventListener('change', () => {
+            if (textEntry.id === 'username') {
+                if (textEntry.value === '') {
+                    textEntry.value = localStorage.getItem('username');
                 }
-                jQuery("#d_username").text(jQuery(this).val());
+                document.getElementById('d_username').textContent = textEntry.value;
             }
-            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).val());
+            localStorage.setItem(textEntry.id, textEntry.value);
             highlightExamples();
         });
-    });
+    }
 
     // Initialize checkbox fields
     var obj = {'inlineTweet':'https://api.twitter.com/*','enableQuickReply':'https://api.imgur.com/*'};
-    jQuery('div.display-preference input[type=checkbox]').each(function() {
-        populateCheckboxes(this);
-        jQuery(this).click(function() {
-            var id = this.id;
-            if (id == 'inlineTweet' || id == 'enableQuickReply') {
-                if (jQuery(this).prop('checked') == true) {
+    let checkboxPreferences = document.querySelectorAll('div.display-preference input[type=checkbox]');
+    for (let preference of checkboxPreferences) {
+        populateCheckboxes(preference);
+        preference.addEventListener('click', () => {
+            var id = preference.id;
+            if (id === 'inlineTweet' || id === 'enableQuickReply') {
+                if (preference.checked === true) {
                     chrome.permissions.request({origins: [obj[id]]}, function(granted) {
                         if (!granted) {
-                            jQuery(this).prop('checked',false);
+                            preference.checked = false;
                         }
                     });
                 }
                 else {
-                    chrome.permissions.remove({ origins: [obj[id]] });
+                    chrome.permissions.remove({origins: [obj[id]]});
                 }
             }
-            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).prop('checked'));
+            localStorage.setItem(preference.id, preference.checked);
             highlightExamples();
         });
-    });
+    }
 
     // Rig up listeners for fieldset (suboptions) enabling/disabling
     var fieldSets = document.querySelectorAll('fieldset');
     for (let fieldSet of fieldSets) {
         let controlInput = fieldSet.querySelector('legend input[type=checkbox]');
-        if (!controlInput)
+        if (!controlInput) {
             continue;
+        }
         fieldSet.disabled = !controlInput.checked;
         controlInput.addEventListener('change', () => {
             fieldSet.disabled = !controlInput.checked;
@@ -286,305 +289,320 @@ jQuery(document).ready(function() {
     }
 
     // Initialize drop down menus
-    jQuery('div.display-preference select').each(function() {
-        populateDropDownMenus(jQuery(this));
-
-        jQuery(this).change(function() {
-            localStorage.setItem(jQuery(this).attr('id'), jQuery(this).val());
+    let selectPreferences = document.querySelectorAll('div.display-preference select');
+    for (let preference of selectPreferences) {
+        populateDropDownMenus(preference);
+        
+        preference.addEventListener('change', () => {
+            localStorage.setItem(preference.id, preference.value);
         });
-    });
+    }
 
-    // Setup color picker handles on the text boxes
-	jQuery('.color-select-text').ColorPicker({
-            onSubmit: function(hsb, hex, rgb, el) {
-				jQuery(el).val('#' + hex);
-				jQuery(el).ColorPickerHide();
-                var box = jQuery('#'+jQuery(el).attr('id')+'-box');
-				box.css('background-color', '#' + hex);
-                localStorage.setItem(jQuery(el).attr('id'), jQuery(el).val());
+    let colorSelectors = document.querySelectorAll('input[type=color]');
+    let colorTimers = {};
+    for (let colorSelector of colorSelectors) {
+        let val = localStorage.getItem(colorSelector.id);
+        colorSelector.value = (val) ? val : colorSelector.default;
+        let textSelector = document.getElementById(colorSelector.id + '-text');
+        textSelector.value = colorSelector.value;
+        textSelector.addEventListener('change', () => {
+            let oldValue = colorSelector.value;
+            colorSelector.value = textSelector.value;
+            if (colorSelector.value !== textSelector.value) {
+                colorSelector.value = oldValue;
+                textSelector.value = oldValue;
+            }
+            else {
+                localStorage.setItem(colorSelector.id, textSelector.value);
                 highlightExamples();
-			},
-			onBeforeShow: function () {
-				jQuery(this).ColorPickerSetColor(this.value);
-			}
-	})
-	.bind('keyup', function() {
-		jQuery(this).ColorPickerSetColor(this.value);
-	});
-
-    jQuery('div.color-select-box').each(function() {
-        var backgroundColor = jQuery(this).parent().parent().find('input.color-select-text').val();
-
-        jQuery(this).css('background-color', backgroundColor);
-    });
+            }
+        });
+        colorSelector.addEventListener('input', () => {
+            textSelector.value = colorSelector.value;
+            clearTimeout(colorTimers[colorSelector.id]);
+            colorTimers[colorSelector.id] = setTimeout(() => {
+                localStorage.setItem(colorSelector.id, colorSelector.value);
+                highlightExamples();
+            }, 500);
+        });
+    }
 
     highlightExamples();
 
-    jQuery('#config').click(function() {
-        configWindow();
-    });
+    // this doesn't actually exist?
+    //document.getElementById('config').addEventListener('click', configWindow);
 
-    jQuery("#logo").click(function() {
-        configWindow();
-    });
+    document.getElementById('logo').addEventListener('click', configWindow);
+    document.getElementById('settings-backup').addEventListener('click', createSettingsBackup);
+    document.getElementById('settings-restore').addEventListener('click', restoreSettingsBackup);
+    document.getElementById('user-notes-local').addEventListener('click', userNotesLocal);
+    document.getElementById('user-notes-sync').addEventListener('click', userNotesSync);
+    document.getElementById('user-notes-delete-sync').addEventListener('click', userNotesSyncClear);
+    document.getElementById('user-notes-delete-local').addEventListener('click', userNotesLocalClear);
 
-    jQuery('#settings-backup').click(function() {
-        createSettingsBackup();
-    });
+    // Hook up the help boxes
+    let allHelpMarks = document.getElementsByClassName('help');
+    for (let someHelpMark of allHelpMarks) {
+        let currentHelpBoxes = someHelpMark.parentNode.getElementsByClassName('help-box');
+        someHelpMark.addEventListener('mouseover', (event) => {
+            for (let someHelpBox of currentHelpBoxes) {
+                someHelpBox.style.left = (event.pageX + 20).toString() + 'px';
+                someHelpBox.style.top = (event.pageY - 10).toString() + 'px';
+                someHelpBox.classList.add('show-help');
+                someHelpBox.classList.remove('hide-help');
+                window.setTimeout(() => {
+                    someHelpBox.classList.add('fadein-help');
+                }, 10);
+            }
+        });
+        someHelpMark.addEventListener('mouseout', (event) => {
+            for (let someHelpBox of currentHelpBoxes) {
+                someHelpBox.classList.add('hide-help');
+                someHelpBox.classList.remove('show-help');
+                someHelpBox.classList.remove('fadein-help');
+            }
+        });
+    }
 
-    jQuery('#settings-restore').click(function() {
-        restoreSettingsBackup();
-    });
-
-    jQuery('#user-notes-local').click(function() {
-        userNotesLocal();
-    });
-
-    jQuery('#user-notes-sync').click(function() {
-        userNotesSync();
-    });
-
-    jQuery('#user-notes-delete-sync').click(function() {
-        userNotesClear(true);
-    });
-
-    jQuery('#user-notes-delete-local').click(function() {
-        userNotesClear(false);
-    });
-
-    jQuery('.help').mouseover(function(e) {
-        var helpBox = jQuery(this).parent().children(".help-box");
-        helpBox.show(100);
-        helpBox.offset({left:jQuery(this).position().left+20,top:jQuery(this).position().top-10});
-    }).mouseout(function() {
-        jQuery(this).parent().children(".help-box").hide(100);
-    });
-
-    jQuery('.preference-title').click(function() {
-        if (jQuery(this).parent().next().css('display') == "none") {
-            jQuery('.show').parent().next().hide(200);
-            jQuery('.show').find('img').attr('src','images/plus.png');
-            jQuery('.show').removeClass('show');
-
-            jQuery(this).addClass('show');
-            jQuery(this).parent().next().show(200);
-            jQuery('img',this).attr('src','images/minus.png');
-        }
-        else {
-            jQuery(this).removeClass('show');
-            jQuery(this).parent().next().hide(200);
-            jQuery('img',this).attr('src','images/plus.png');
-        }
-        return false;
-    });
-    jQuery('section').hide();
+    let sectionHeaders = document.getElementsByClassName('preference-title');
+    for (let sectionHeader of sectionHeaders) {
+        sectionHeader.addEventListener('click', () => {
+            let settingsPanel = sectionHeader.parentElement.nextElementSibling;
+            if (settingsPanel.style.display === 'none' || settingsPanel.style.display === '') {
+                let shownElements = document.getElementsByClassName('show');
+                for (let shown of shownElements) {
+                    shown.parentElement.nextElementSibling.style.display = 'none';
+                    shown.getElementsByTagName('img')[0].src = 'images/plus.png';
+                    shown.classList.remove('show');
+                }
+                sectionHeader.classList.add('show');
+                sectionHeader.getElementsByTagName('img')[0].src = 'images/minus.png';
+                settingsPanel.style.display = 'block';
+            }
+            else {
+                sectionHeader.classList.remove('show');
+                sectionHeader.getElementsByTagName('img')[0].src = 'images/plus.png';
+                settingsPanel.style.display = 'none';
+            }
+            return false;
+        });
+    }
 });
 
 function highlightExamples() {
     // Thread highlighting samples
 
-    jQuery('tr#thread-read').each(function() {
-        if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {
-                jQuery(this).css({ "background-color" : localStorage.getItem('lightRead'),
-                                   "background-image" : "url('images/gradient.png')",
-                                   "background-repeat" : "repeat-x",
-                                   "background-position" : "left"
-                                 });
-            });
-
-            jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {
-                jQuery(this).css({ "background-color" : localStorage.getItem('darkRead'),
-                                   "background-image" : "url('images/gradient.png')",
-                                   "background-repeat" : "repeat-x",
-                                   "background-position" : "left"
-                                 });
-            });
-        } else {
-            jQuery(this).children().each(function() {
-                jQuery(this).css({ "background-color" : '',
-                                   "background-image" : '',
-                                   "background-repeat" : '',
-                                   "background-position": ''
-                                });
-            });
-        }
-    });
-
-    jQuery('tr#thread-unread').each(function() {
-        if (localStorage.getItem('highlightThread')=='true') {
-            jQuery(this).children('td.star, td.title, td.replies, td.rating').each(function() {
-                jQuery(this).css({ "background-color" : localStorage.getItem('lightNewReplies'),
-                                   "background-image" : "url('images/gradient.png')",
-                                   "background-repeat" : "repeat-x",
-                                   "background-position": "left"
-                                 });
-            });
-
-            jQuery(this).children('td.icon, td.author, td.views, td.lastpost').each(function() {
-                jQuery(this).css({ "background-color" : localStorage.getItem('darkNewReplies'),
-                                   "background-image" : "url('images/gradient.png')",
-                                   "background-repeat" : "repeat-x",
-                                   "background-position": "left"
-                                 });
-            });
-        } else {
-            jQuery(this).children().each(function() {
-                jQuery(this).css({ "background-color" : '',
-                                   "background-image" : '',
-                                   "background-repeat" : '',
-                                   "background-position": ''
-                                });
-            });
-        }
-    });
-
-    jQuery('div#lastseen-forum').each(function() {
-        if (localStorage.getItem('displayCustomButtons')=='true') {
-            jQuery(this).css('display','none');
-        } else {
-            jQuery(this).css('display','');
-        }
-    });
-
-    jQuery('div#lastseen-custom').each(function() {
-        if (localStorage.getItem('displayCustomButtons')=='true') {
-            jQuery(this).css({
-                'display' : '',
-                'background' : 'none',
-                'border' : 'none'
-            });
-            jQuery('div#lastseen-inline',this).each(function() {
-                if (localStorage.getItem('inlinePostCounts') == 'true') {
-                    jQuery(this).css('display','');
-                } else {
-                    jQuery(this).css('display','none');
-                }
-            });
-            jQuery('a#lastseen-count',this).each(function () {
-                jQuery(this).html('');
-
-                jQuery(this).css({
-                    'border-left' : 'none',
-                    'width' : '7px',
-                    'height' : '16px',
-                    'padding-right' : '11px',
-                    'background-image' : "url('images/lastpost.png')",
-                    'min-width': "0px"
+    let threadReads = document.querySelectorAll('tr#thread-read');
+    for (let threadRead of threadReads) {
+        if (localStorage.getItem('highlightThread') == 'true') {
+            let elements = threadRead.querySelectorAll('td.star, td.title, td.replies, td.rating');
+            for (let element of elements) {
+                Object.assign(element.style, {
+                    backgroundColor: localStorage.getItem('lightRead'),
+                    backgroundImage: "url('images/gradient.png')",
+                    backgroundRepeat: 'repeat-x',
+                    backgroundPosition: 'left'
                 });
+            }
 
-                jQuery(this).addClass('no-after');
-                jQuery(this).parent().css("box-shadow", "0 0 0px #fff");
-            });
-
-            jQuery('a#lastseen-x',this).each(function() {
-                jQuery(this).css({
-                    'background' : 'none',
-                    'background-image' : "url('images/unvisit.png')",
-                    'height' : '16px',
-                    'width' : '14px'
+            elements = threadRead.querySelectorAll('td.icon, td.author, td.views, td.lastpost');
+            for (let element of elements) {
+                Object.assign(element.style, {
+                    backgroundColor: localStorage.getItem('darkRead'),
+                    backgroundImage: "url('images/gradient.png')",
+                    backgroundRepeat: 'repeat-x',
+                    backgroundPosition: 'left'
                 });
-                jQuery(this).parent().css("box-shadow", "0 0 0px #fff");
-                jQuery(this).addClass('no-after');
-
-                jQuery(this).text('');
-            });
+            }
         } else {
-            jQuery(this).css('display','none');
+            for (let child of threadRead.children) {
+                Object.assign(child.style, {
+                    backgroundColor: '',
+                    backgroundImage: '',
+                    backgroundRepeat: '',
+                    backgroundPosition: ''
+                });
+            }
         }
-    });
-    jQuery('div#lastseen-custom-count').each(function() {
+    }
+
+    let unreadThreads = document.querySelectorAll('tr#thread-unread');
+    for (let unreadThread of unreadThreads) {
+        if (localStorage.getItem('highlightThread') == 'true') {
+            let children = unreadThread.querySelectorAll('td.star, td.title, td.replies, td.rating');
+            for (let child of children) {
+                Object.assign(child.style, { 
+                    backgroundColor: localStorage.getItem('lightNewReplies'),
+                    backgroundImage: "url('images/gradient.png')",
+                    backgroundRepeat: "repeat-x",
+                    backgroundPosition: "left"
+              });
+            }
+
+            children = unreadThread.querySelectorAll('td.icon, td.author, td.views, td.lastpost');
+            for (let child of children) {
+                Object.assign(child.style, {
+                    backgroundColor: localStorage.getItem('darkNewReplies'),
+                    backgroundImage: "url('images/gradient.png')",
+                    backgroundRepeat: "repeat-x",
+                    backgroundPosition: "left"
+                });
+            }
+        }
+        else {
+            for (let child of unreadThread.children) {
+                Object.assign(child.style, {
+                    backgroundColor: '',
+                    backgroundImage: '',
+                    backgroundRepeat: '',
+                    backgroundPosition: ''
+                });
+            }
+        }
+    }
+
+    let lastSeenForums = document.querySelectorAll('div#lastseen-forum');
+    for (let lastSeenForum of lastSeenForums) {
+        lastSeenForum.style.display = (localStorage.getItem('displayCustomButtons') == 'true') ? 'none' : '';
+    }
+
+    let lastSeenCustoms = document.querySelectorAll('div#lastseen-custom');
+    for (let lastSeenCustom of lastSeenCustoms) {
+        if (localStorage.getItem('displayCustomButtons') == 'true') {
+            Object.assign(lastSeenCustom.style, {
+                display: '',
+                background: 'none',
+                border: 'none'
+            });
+            let elements = lastSeenCustom.querySelectorAll('div#lastseen-inline');
+            for (let element of elements) {
+                element = (localStorage.getItem('inlinePostCounts') == 'true') ? '' : 'none';
+            }
+            elements = lastSeenCustom.querySelectorAll('a#lastseen-count');
+            for (let element of elements) {
+                element.innerHTML = '';
+
+                Object.assign(element.style, {
+                    borderLeft: 'none',
+                    width: '7px',
+                    height: '16px',
+                    paddingRight: '11px',
+                    backgroundImage: "url('images/lastpost.png')",
+                    minWidth: '0px'
+                });
+                element.classList.add('no-after');
+                element.parentElement.style.boxShadow = '0 0 0px #fff';
+            }
+
+            elements = lastSeenCustom.querySelectorAll('a#lastseen-x');
+            for (let element of elements) {
+                Object.assign(element.style, {
+                    background: 'none',
+                    backgroundImage: "url('images/unvisit.png')",
+                    height: '16px',
+                    width: '14px'
+                });
+                element.parentElement.style.boxShadow = '0 0 0px #fff';
+                element.classList.add('no-after');
+                element.textContent = '';
+            }
+        }
+        else {
+            lastSeenCustom.style.display = 'none';
+        }
+    }
+
+    let elements = document.querySelectorAll('div#lastseen-custom-count');
+    for (let element of elements) {
         if (localStorage.getItem('displayCustomButtons') == 'true' && localStorage.getItem('inlinePostCounts') != 'true') {
-            jQuery(this).css('display', 'inline');
-        } else {
-            jQuery(this).css('display', 'none');
+            element.style.display = 'inline';
         }
-    });
+        else {
+            element.style.display = 'none';
+        }
+    }
 
     // Post highlighting samples
-    jQuery('div#your-quote').each(function() {
-        if (localStorage.getItem('highlightOwnQuotes')=='true') {
-            jQuery(this).css('background-color', localStorage.getItem('userQuote'));
-        } else {
-            jQuery(this).css('background-color', '');
-        }
-    });
+    elements = document.querySelectorAll('div#your-quote');
+    for (let element of elements) {
+        element.style.backgroundColor = (localStorage.getItem('highlightOwnQuotes') == 'true') ? localStorage.getItem('userQuote') : '';
+    }
 
-    jQuery('dt#own-name').each(function() {
+    elements = document.querySelectorAll('dt#own-name');
+    for (let element of elements) {
         if (localStorage.getItem('username') != '') {
-            jQuery(this).text(localStorage.getItem('username'));
+            element.textContent = localStorage.getItem('username');
         }
-    });
-    jQuery('span.your-name').each(function() {
+    }
+
+    elements = document.querySelectorAll('span.your-name');
+    for (let element of elements) {
         if (localStorage.getItem('username') != '') {
-            jQuery(this).text(localStorage.getItem('username'));
+            element.textContent = localStorage.getItem('username');
         }
-        if (localStorage.getItem('highlightOwnUsername') == 'true') {
-            jQuery(this).css('color', localStorage.getItem('usernameHighlight'));
-        } else {
-            jQuery(this).css('color', '');
-        }
-    });
-    jQuery('span.your-name-quote').each(function() {
+        element.style.color = (localStorage.getItem('highlightOwnUsername') == 'true') ? localStorage.getItem('usernameHighlight') : '';
+    }
+    elements = document.querySelectorAll('span.your-name-quote');
+    for (let element of elements) {
         if (localStorage.getItem('username') != '') {
-            jQuery(this).text(localStorage.getItem('username'));
+            element.textContent = localStorage.getItem('username');
         }
         // this isn't how it acts in the while so why do it here?
-        if (/*localStorage.getItem('highlightOwnQuotes') !='true' &&*/ localStorage.getItem('highlightOwnUsername') =='true') {
-            jQuery(this).css('color', localStorage.getItem('usernameHighlight'));
-        } else {
-            jQuery(this).css('color', '');
+        if (/*localStorage.getItem('highlightOwnQuotes') != 'true' &&*/ localStorage.getItem('highlightOwnUsername') == 'true') {
+            element.style.color = localStorage.getItem('usernameHighlight');
         }
-    });
-    jQuery('table#own-post td').each(function() {
-        if (localStorage.getItem('highlightSelf')=='true') {
-            jQuery(this).css('background-color', localStorage.getItem('highlightSelfColor'));
-        } else {
-            jQuery(this).css('background-color', '');
+        else {
+            element.style.color = '';
         }
-    });
-    jQuery('table#friend-post td').each(function() {
-        if (localStorage.getItem('highlightFriends')=='true') {
-            jQuery(this).css('background-color', localStorage.getItem('highlightFriendsColor'));
-        } else {
-            jQuery(this).css('background-color', '');
-        }
-    });
-    jQuery('table#op-post td').each(function() {
-        if (localStorage.getItem('highlightOP')=='true') {
-            jQuery(this).css('background-color', localStorage.getItem('highlightOPColor'));
-        } else {
-            jQuery(this).css('background-color', '');
-        }
-    });
-    jQuery('dt#mod-name').each(function() {
+    }
+    elements = document.querySelectorAll('table#own-post td');
+    for (let element of elements) {
+        element.style.backgroundColor = (localStorage.getItem('highlightSelf') == 'true') ? localStorage.getItem('highlightSelfColor') : '';
+    }
+    elements = document.querySelectorAll('table#friend-post td');
+    for (let element of elements) {
+        element.style.backgroundColor = (localStorage.getItem('highlightFriends') == 'true') ? localStorage.getItem('highlightFriendsColor') : '';
+    }
+    elements = document.querySelectorAll('table#op-post td');
+    for (let element of elements) {
+        element.style.backgroundColor = (localStorage.getItem('highlightOP') == 'true') ? localStorage.getItem('highlightOPColor') : '';
+    }
+    elements = document.querySelectorAll('dt#mod-name');
+    for (let element of elements) {
         if (localStorage.getItem('highlightModAdminUsername') == 'true' && localStorage.getItem('highlightModAdmin')=='true') {
-            jQuery(this).css('color', localStorage.getItem('highlightModeratorColor'));
-        } else {
-            jQuery(this).css('color', '');
+            element.style.color = localStorage.getItem('highlightModeratorColor');
         }
-    });
-    jQuery('dt#admin-name').each(function() {
-        if (localStorage.getItem('highlightModAdminUsername') == 'true' && localStorage.getItem('highlightModAdmin')=='true') {
-            jQuery(this).css('color', localStorage.getItem('highlightAdminColor'));
-        } else {
-            jQuery(this).css('color', '');
+        else {
+            element.style.color = '';
         }
-    });
-    jQuery('table#mod-post td').each(function() {
-        if (localStorage.getItem('highlightModAdminUsername') != 'true' && localStorage.getItem('highlightModAdmin')=='true') {
-            jQuery(this).css('background-color', localStorage.getItem('highlightModeratorColor'));
-        } else {
-            jQuery(this).css('background-color', '');
+    }
+    elements = document.querySelectorAll('dt#admin-name');
+    for (let element of elements) {
+        if (localStorage.getItem('highlightModAdminUsername') == 'true' && localStorage.getItem('highlightModAdmin') == 'true') {
+            element.style.color = localStorage.getItem('highlightAdminColor');
         }
-    });
-    jQuery('table#admin-post td').each(function() {
-        if (localStorage.getItem('highlightModAdminUsername') != 'true' && localStorage.getItem('highlightModAdmin')=='true') {
-            jQuery(this).css('background-color', localStorage.getItem('highlightAdminColor'));
-        } else {
-            jQuery(this).css('background-color', '');
+        else {
+            element.style.color = '';
         }
-    });
+    }
+    elements = document.querySelectorAll('table#mod-post td');
+    for (let element of elements) {
+        if (localStorage.getItem('highlightModAdminUsername') != 'true' && localStorage.getItem('highlightModAdmin') == 'true') {
+            element.style.backgroundColor = localStorage.getItem('highlightModeratorColor');
+        }
+        else {
+            element.style.backgroundColor = '';
+        }
+    }
+    elements = document.querySelectorAll('table#admin-post td');
+    for (let element of elements) {
+        if (localStorage.getItem('highlightModAdminUsername') != 'true' && localStorage.getItem('highlightModAdmin') == 'true') {
+            element.style.backgroundColor = localStorage.getItem('highlightAdminColor');
+        }
+        else {
+            element.style.backgroundColor = '';
+        }
+    }
 }
 
 /**
@@ -594,8 +612,7 @@ function highlightExamples() {
  *
  */
 function onInputSelect(element) {
-    element.css('color', '#000000');
-    //element.val('');
+    element.style.color = '#000000';
 }
 
 /**
@@ -607,13 +624,10 @@ function onInputSelect(element) {
 function onInputDeselect(element) {
     // If the user didn't enter anything,
     // reset it to the saved value
-    if (element.val() == '') {
-        var value = localStorage.getItem(element.attr('id'));
-
-        element.val(value);
+    if (element.value === '') {
+        element.value = localStorage.getItem(element.id);
     }
-
-    element.css('color', '#999999');
+    element.style.color = '#999999';
 }
 
 /**
@@ -623,16 +637,18 @@ function onInputDeselect(element) {
  *
  */
 function populateValues(element) {
-    var value = localStorage.getItem(element.attr('id'));
-
+    var value = localStorage.getItem(element.id);
     if (!value) {
         // If there is no stored setting, use the default
         // value stored within the DOM
-		var defaultCol = element.attr('default');
-        element.attr('value', defaultCol);
-    } else {
+        var defaultCol = element.default;
+        if (defaultCol !== undefined) {
+            element.value = defaultCol;
+        }
+    } 
+    else {
         // Otherwise, write the stored preference
-        element.attr('value',value);
+        element.value = value;
     }
 }
 
@@ -642,10 +658,11 @@ function populateValues(element) {
  */
 function populateCheckboxes(element) {
     // Make sure we're being passed a checkbox
-    if (element.getAttribute('type') !== 'checkbox')
+    if (element.getAttribute('type') !== 'checkbox') {
         return;
+    }
 
-    var value = localStorage.getItem(element.id);
+    let value = localStorage.getItem(element.id);
 
     // If there is a value in localStorage, then set it,
     // otherwise uncheck it
@@ -659,16 +676,11 @@ function populateCheckboxes(element) {
  *
  */
 function populateDropDownMenus(element) {
-    var value = localStorage.getItem(element.attr('id'));
-
-    // Make sure we're getting passed a checkbox
-    if (element.attr('type') != 'select-one')
-        return;
-    if (value == null)
+    let value = localStorage.getItem(element.id);
+    if (value == null) {
         value = '';
-
-    // Set the selected value to the one from LocalStorage
-    jQuery('option[value="' + value + '"]', element).first().attr('selected', 'selected');
+    }
+    element.value = value;
 }
 
 /**
@@ -810,9 +822,23 @@ function userNotesSync() {
 }
 
 /** 
+ * Clears user notes from sync storage
+ */
+function userNotesSyncClear() {
+    userNotesClear(true);
+}
+
+/**
+ * Clears user notes from local storage
+ */
+function userNotesLocalClear() {
+    userNotesClear(false);
+}
+
+/** 
  * Clears user notes
  * @param {boolean} sync Whether to clear user notes from sync storage or local storage
-*/
+ */
 function userNotesClear(sync) {
     sync = typeof sync !== 'undefined' ? sync : false;
     if (sync == true) {
@@ -841,42 +867,50 @@ function userNotesClear(sync) {
 function createSettingsBackup() {
     var settings = {};
     for (var key in localStorage) {
-        if (!localStorage.hasOwnProperty(key))
+        if (!localStorage.hasOwnProperty(key)) {
             continue;
-        if (key == 'friendsList'    ||
-            key == 'friendsListId'  ||
-            key == 'forumsList'     ||
-            key == 'modList'        ||
-            //key == 'saveUserNotes'  ||
-            //key == 'userNotes'      ||
-            //key == 'userNotesOld'   ||
-            //key == 'userNotesLocal' ||
-            //key == 'threadNotes'   ||
-            key == 'forumPostKey' )
+        }
+            
+        if (key === 'friendsList'    ||
+            key === 'friendsListId'  ||
+            key === 'forumsList'     ||
+            key === 'modList'        ||
+            //key === 'saveUserNotes'  ||
+            //key === 'userNotes'      ||
+            //key === 'userNotesOld'   ||
+            //key === 'userNotesLocal' ||
+            //key === 'threadNotes'   ||
+            key === 'forumPostKey' ) {
             continue;
+        }
         settings[key] = localStorage.getItem(key);
     }
     var jsonString = JSON.stringify(settings);
-    if (jQuery('#settings-backup-text').length == 0) {
+    if (document.getElementById('settings-backup-text') === null) {
         var textarea = '<textarea id="settings-backup-text" cols="200" rows="20" readonly>'+jsonString+'</textarea>';
-        jQuery('#settings-backup').parent().append('<br />Copy JSON Setting String Below:<br />'+textarea);
+        let element = document.createElement('div');
+        element.style.marginTop = '10px';
+        element.innerHTML = 'Copy JSON Setting String Below:<br />' + textarea;
+        document.getElementById('settings-backup').parentNode.appendChild(element);
     }
-    console.log(jsonString);
 }
 
 function restoreSettingsBackup() {
-    if (jQuery('#settings-restore-text').length == 0) {
+    if (document.getElementById('settings-restore-text') === null) {
         var textarea = '<textarea id="settings-restore-text" cols="200" rows="20"></textarea>';
         var button = '<button style="margin-left:400px; width: 115px;" id="execute-restore">Restore Settings</button> (this will only overwrite settings in string)';
-        jQuery('#settings-restore').parent().append('<br />Paste JSON Setting String below:<br />'+textarea+'<br />'+button);
-        jQuery("#execute-restore").click(function() {
+        let element = document.createElement('div');
+        element.style.marginTop = '10px';
+        element.innerHTML = 'Paste JSON Setting String below:<br />' + textarea + '<br />' + button;
+        document.getElementById('settings-restore').parentNode.appendChild(element);
+        document.getElementById('execute-restore').addEventListener('click', () => {
             performSettingsRestore();
         });
     }
 }
 
 function performSettingsRestore() {
-    var restoresettings = JSON.parse(jQuery('#settings-restore-text').val());
+    var restoresettings = JSON.parse(document.getElementById('settings-restore-text').value);
     //localStorage.clear();
     for (var key in restoresettings) {
         if (restoresettings.hasOwnProperty(key))
