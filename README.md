@@ -18,7 +18,7 @@ If you run into any issues using this extension, please report them in the appro
 Development  
 -----------  
 
-All work on SALR Redux happens in this repository. The master branch will contain the base code for the latest release on the chrome web store. The "dev" branch will generally contain my _in-progress_ work and is as such not recommended for people to use ever. However, if people want to contribute, looking towards that branch might be best. If a critical bug comes out during work on the next dev release, I may just apply the patch directly to the master and then push that to the "dev" branch. All changes are recorded in the the [Changelog](https://github.com/MasterOdin/salr-chrome/blob/master/CHANGELOG.md).
+All work on SALR Redux happens in this repository. The master branch will contain the base code for the latest release on the chrome web store. The "dev" branch will generally contain my _in-progress_ work and is as such not recommended for people to use ever. However, if people want to contribute, looking towards that branch might be best. If a critical bug comes out during work on the next dev release, I may just apply the patch directly to the master and then push that to the "dev" branch. All changes are recorded in the [Changelog](https://github.com/MasterOdin/salr-chrome/blob/master/CHANGELOG.md).
 
 License
 -------
