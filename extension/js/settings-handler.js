@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let selectPreferences = document.querySelectorAll('div.display-preference select');
     for (let preference of selectPreferences) {
         populateDropDownMenus(preference);
-        
+
         preference.addEventListener('change', () => {
             localStorage.setItem(preference.id, preference.value);
         });
@@ -523,16 +523,11 @@ function highlightExamples() {
     }
 
     // Post highlighting samples
-    elements = document.querySelectorAll('div#your-quote');
-    for (let element of elements) {
-        element.style.backgroundColor = (localStorage.getItem('highlightOwnQuotes') == 'true') ? localStorage.getItem('userQuote') : '';
-    }
+    document.getElementById('your-quote').style.backgroundColor = (localStorage.getItem('highlightOwnQuotes') == 'true') ? localStorage.getItem('userQuote') : '';
 
-    elements = document.querySelectorAll('dt#own-name');
-    for (let element of elements) {
-        if (localStorage.getItem('username') != '') {
-            element.textContent = localStorage.getItem('username');
-        }
+    let ownNameElement = document.getElementById('own-name');
+    if (localStorage.getItem('username') != '') {
+        ownNameElement.textContent = localStorage.getItem('username');
     }
 
     elements = document.querySelectorAll('span.your-name');
@@ -567,24 +562,23 @@ function highlightExamples() {
     for (let element of elements) {
         element.style.backgroundColor = (localStorage.getItem('highlightOP') == 'true') ? localStorage.getItem('highlightOPColor') : '';
     }
-    elements = document.querySelectorAll('dt#mod-name');
-    for (let element of elements) {
-        if (localStorage.getItem('highlightModAdminUsername') == 'true' && localStorage.getItem('highlightModAdmin')=='true') {
-            element.style.color = localStorage.getItem('highlightModeratorColor');
-        }
-        else {
-            element.style.color = '';
-        }
+
+    let modNameElement = document.getElementById('mod-name');
+    if (localStorage.getItem('highlightModAdminUsername') == 'true' && localStorage.getItem('highlightModAdmin') == 'true') {
+        modNameElement.style.color = localStorage.getItem('highlightModeratorColor');
     }
-    elements = document.querySelectorAll('dt#admin-name');
-    for (let element of elements) {
-        if (localStorage.getItem('highlightModAdminUsername') == 'true' && localStorage.getItem('highlightModAdmin') == 'true') {
-            element.style.color = localStorage.getItem('highlightAdminColor');
-        }
-        else {
-            element.style.color = '';
-        }
+    else {
+        modNameElement.style.color = '';
     }
+
+    let adminNameElement = document.getElementById('admin-name');
+    if (localStorage.getItem('highlightModAdminUsername') == 'true' && localStorage.getItem('highlightModAdmin') == 'true') {
+        adminNameElement.style.color = localStorage.getItem('highlightAdminColor');
+    }
+    else {
+        adminNameElement.style.color = '';
+    }
+
     elements = document.querySelectorAll('table#mod-post td');
     for (let element of elements) {
         if (localStorage.getItem('highlightModAdminUsername') != 'true' && localStorage.getItem('highlightModAdmin') == 'true') {
@@ -705,7 +699,7 @@ function configWindow() {
                 key == 'userNotes'      ||
                 key == 'userNotesOld'   ||
                 key == 'userNotesLocal' ||
-                key == 'hiddenAvatarsList' ||
+                key == 'hiddenAvatarsLocal' ||
                 key == 'threadNotes'   ||
                 key == 'forumPostKey' )
                 continue;
@@ -886,22 +880,48 @@ function createSettingsBackup() {
         settings[key] = localStorage.getItem(key);
     }
     var jsonString = JSON.stringify(settings);
-    if (document.getElementById('settings-backup-text') === null) {
-        var textarea = '<textarea id="settings-backup-text" cols="200" rows="20" readonly>'+jsonString+'</textarea>';
+    let existingBackupText = document.getElementById('settings-backup-text');
+    if (existingBackupText === null) {
+        let textBox = document.createElement('textarea');
+        textBox.id = 'settings-backup-text';
+        textBox.cols = 200;
+        textBox.rows = 20;
+        textBox.readOnly = true;
+        textBox.value = jsonString;
+
         let element = document.createElement('div');
         element.style.marginTop = '10px';
-        element.innerHTML = 'Copy JSON Setting String Below:<br />' + textarea;
+        element.innerText = 'Copy JSON Setting String Below:';
+        element.appendChild(document.createElement('br'));
+        element.appendChild(textBox);
         document.getElementById('settings-backup').parentNode.appendChild(element);
+    }
+    else {
+        existingBackupText.value = jsonString;
     }
 }
 
 function restoreSettingsBackup() {
     if (document.getElementById('settings-restore-text') === null) {
-        var textarea = '<textarea id="settings-restore-text" cols="200" rows="20"></textarea>';
-        var button = '<button style="margin-left:400px; width: 115px;" id="execute-restore">Restore Settings</button> (this will only overwrite settings in string)';
+        let textBox = document.createElement('textarea');
+        textBox.id = 'settings-restore-text';
+        textBox.cols = 200;
+        textBox.rows = 20;
+
+        let restoreButton = document.createElement('button');
+        restoreButton.style = 'margin-left:400px; width: 115px;';
+        restoreButton.id = 'execute-restore';
+        restoreButton.innerText = 'Restore Settings';
+
         let element = document.createElement('div');
         element.style.marginTop = '10px';
-        element.innerHTML = 'Paste JSON Setting String below:<br />' + textarea + '<br />' + button;
+        element.innerText = 'Paste JSON Setting String below:';
+        element.appendChild(document.createElement('br'));
+        element.appendChild(textBox);
+        element.appendChild(document.createElement('br'));
+        element.appendChild(restoreButton);
+        element.insertAdjacentText('beforeend', ' (this will only overwrite the settings in the string)');
+
         document.getElementById('settings-restore').parentNode.appendChild(element);
         document.getElementById('execute-restore').addEventListener('click', () => {
             performSettingsRestore();
