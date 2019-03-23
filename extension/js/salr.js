@@ -393,7 +393,7 @@ SALR.prototype.applyNavMenuStyling = function() {
             ['topSearch', '/query.php'],
             ['topUserCP', '/usercp.php'],
             ['topPrivMsgs', '/private.php'],
-            ['topForumRules', 'http://www.somethingawful.com/d/forum-rules/forum-rules.php'],
+            ['topForumRules', 'https://www.somethingawful.com/d/forum-rules/forum-rules.php'],
             ['topSaclopedia', '/dictionary.php'],
             ['topGloryhole', '/stats.php'],
             ['topLepersColony', '/banlist.php'],
