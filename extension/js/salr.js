@@ -986,21 +986,6 @@ SALR.prototype.inlineWebm = function() {
     });
 };
 
-SALR.prototype.detectFancySA = function() {
-    var fancyId = 'ohlohgldhcaajjhadleledokhlpgamjm';
-    chrome.runtime.sendMessage(fancyId, {message:"installcheck"}, function(response) {
-        if (response === undefined)
-            return;
-        if (response.message != "yes")
-            return;
-
-        jQuery('div.threadbar.top').before($("#salrbar"));
-        jQuery("#salrbar").css({'float':'none','padding':'3px 3px 0px 3px'});
-        if (findRealForumID() != 219)
-            jQuery("#salrbar").css({'background-color':'#dddddd'});
-    });
-};
-
 /**
  * Bar above a thread to contain SALR tools
  *
