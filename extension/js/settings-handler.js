@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
             onInputDeselect(textEntry);
         });
 
-        textEntry.addEventListener('change', () => {
+        textEntry.addEventListener('input', () => {
             if (textEntry.id === 'username') {
                 if (textEntry.value === '') {
                     textEntry.value = localStorage.getItem('username');
@@ -431,7 +431,7 @@ function highlightExamples() {
         if (localStorage.getItem('highlightThread') == 'true') {
             let children = unreadThread.querySelectorAll('td.star, td.title, td.replies, td.rating');
             for (let child of children) {
-                Object.assign(child.style, { 
+                Object.assign(child.style, {
                     backgroundColor: localStorage.getItem('lightNewReplies'),
                     backgroundImage: "url('images/gradient.png')",
                     backgroundRepeat: "repeat-x",
@@ -474,28 +474,24 @@ function highlightExamples() {
                 background: 'none',
                 border: 'none'
             });
-            let elements = lastSeenCustom.querySelectorAll('div#lastseen-inline');
-            for (let element of elements) {
-                element = (localStorage.getItem('inlinePostCounts') == 'true') ? '' : 'none';
-            }
-            elements = lastSeenCustom.querySelectorAll('a#lastseen-count');
-            for (let element of elements) {
-                element.innerHTML = '';
 
-                Object.assign(element.style, {
-                    borderLeft: 'none',
-                    width: '7px',
-                    height: '16px',
-                    paddingRight: '11px',
-                    backgroundImage: "url('images/lastpost.png')",
-                    minWidth: '0px'
-                });
-                element.classList.add('no-after');
-                element.parentElement.style.boxShadow = '0 0 0px #fff';
-            }
+            document.getElementById('lastseen-inline').style.display = (localStorage.getItem('inlinePostCounts') == 'true') ? 'block' : 'none'
 
-            elements = lastSeenCustom.querySelectorAll('a#lastseen-x');
-            for (let element of elements) {
+            const element = document.getElementById('lastseen-count');
+            element.innerHTML = '';
+
+            Object.assign(element.style, {
+                borderLeft: 'none',
+                width: '7px',
+                height: '16px',
+                paddingRight: '11px',
+                backgroundImage: "url('images/lastpost.png')",
+                minWidth: '0px'
+            });
+            element.classList.add('no-after');
+            element.parentElement.style.boxShadow = '0 0 0px #fff';
+
+            for (let element of lastSeenCustom.querySelectorAll('a#lastseen-x')) {
                 Object.assign(element.style, {
                     background: 'none',
                     backgroundImage: "url('images/unvisit.png')",
@@ -639,7 +635,7 @@ function populateValues(element) {
         if (defaultCol !== undefined) {
             element.value = defaultCol;
         }
-    } 
+    }
     else {
         // Otherwise, write the stored preference
         element.value = value;
@@ -743,7 +739,7 @@ function countLocalUserNotes() {
     return count;
 }
 
-/** 
+/**
  * Backs up synced user notes locally
 */
 function userNotesLocal() {
@@ -785,7 +781,7 @@ function userNotesLocal() {
     });
 }
 
-/** 
+/**
  * Backs up local user notes to storage.sync
 */
 function userNotesSync() {
@@ -815,7 +811,7 @@ function userNotesSync() {
     });
 }
 
-/** 
+/**
  * Clears user notes from sync storage
  */
 function userNotesSyncClear() {
@@ -829,7 +825,7 @@ function userNotesLocalClear() {
     userNotesClear(false);
 }
 
-/** 
+/**
  * Clears user notes
  * @param {boolean} sync Whether to clear user notes from sync storage or local storage
  */
@@ -864,7 +860,7 @@ function createSettingsBackup() {
         if (!localStorage.hasOwnProperty(key)) {
             continue;
         }
-            
+
         if (key === 'friendsList'    ||
             key === 'friendsListId'  ||
             key === 'forumsList'     ||
