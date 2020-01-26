@@ -113,10 +113,6 @@ SALR.prototype.pageInit = function() {
                 this.inlineYoutubes();
             }
 
-            if (this.settings.inlineWebm == 'true') {
-                this.inlineWebm();
-            }
-
             if (this.settings.inlineVine == 'true') {
                 this.inlineVines();
             }
@@ -948,41 +944,6 @@ SALR.prototype.inlineVines = function() {
     vines.each(function() {
         jQuery(this).html('<iframe class="vine-embed" src="'+jQuery(this).attr('href')+'/embed/simple" width="600" height="600" frameborder="0"></iframe>'+
                           '<script async src="//platform.vine.co/static/scripts/embed.js" charset="utf-8"></script>');
-    });
-};
-
-SALR.prototype.inlineWebm = function() {
-    var that = this;
-    var webms = jQuery('.postbody a[href$="webm"],a[href$="gifv"],a[href*="gfycat.com"]');
-    if(that.settings.dontReplaceWebmNWS == 'true')
-    {
-        webms = webms.not(".postbody:has(img[title=':nws:']) a").not(".postbody:has(img[title=':nms:']) a");
-    }
-    // spoiler'd links
-    if(that.settings.dontReplaceWebmSpoiler == 'true') {
-        webms = webms.not('.bbc-spoiler a');
-    }
-    webms.each(function() {
-
-        if (jQuery(this).attr('href').substr(jQuery(this).attr('href').length-5).indexOf('webm') != -1) {
-            var autoplay = (that.settings.inlineWemAutoplay == "true") ? "autoplay" : "";
-            jQuery(this).html('<video '+autoplay+' loop width="450" muted="true" controls> <source src="'+jQuery(this).attr('href')+'" type="video/webm"> </video>');
-        }
-        else if (jQuery(this).attr('href').indexOf('gfycat.com') != -1) {
-            jQuery(this).parent().append('\n'+
-'                <script>\n' +
-'(function(d, t) {\n' +
-'    var g = d.createElement(t),\n' +
-'       s = d.getElementsByTagName(t)[0];\n' +
-'   g.src = \'http://assets.gfycat.com/js/gfyajax-0.517d.js\';\n' +
-'    s.parentNode.insertBefore(g, s);\n' +
-'}(document, \'script\'));\n' +
-'</script>\n' +
-'<img class="gfyitem" data-id="'+jQuery(this).attr('href')+'" />');
-        }
-        else {
-            jQuery(this).html('<iframe autoplay="true" loop allowfullscreen="" frameborder="0" scrolling="no"  width="660" height="370" src="'+jQuery(this).attr('href')+'#embed"></iframe>');
-        }
     });
 };
 
