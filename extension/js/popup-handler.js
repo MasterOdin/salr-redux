@@ -39,7 +39,7 @@ function openTab(event) {
         return;
     if (button == 0 && !event.ctrlKey) { // Left click
         event.preventDefault();
-        chrome.tabs.query({active: true}, function (tabs) {
+        chrome.tabs.query({currentWindow: true, active: true}, function (tabs) {
             chrome.tabs.update(tabs[0].id, {url: tabUrl});
             window.close();
         });
