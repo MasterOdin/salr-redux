@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const archiver = require('archiver');
+const webExt = require('web-ext').default;
 
 function copyFileSync( source, target ) {
 
@@ -71,28 +72,40 @@ var deleteFolderRecursive = function(path) {
   }
 };
 
-if (fs.existsSync('tmp-chrome')) {
-  deleteFolderRecursive('tmp-chrome');
+var targetBrowser = process.argv[2];
+if (targetBrowser === 'chrome') {
+  if (fs.existsSync('tmp-chrome')) {
+    deleteFolderRecursive('tmp-chrome');
+  }
+
+  copyFolderSync('extension', 'tmp-chrome');
+
+  let config = JSON.parse(fs.readFileSync('tmp-chrome/manifest.json'));
+  delete config['applications'];
+  delete config['key'];
+  fs.writeFileSync('tmp-chrome/manifest.json', JSON.stringify(config), 'utf8');
+
+  let output = fs.createWriteStream('extension-chrome.zip');
+  let archive = archiver('zip');
+
+  output.on('close', () => {
+    console.log(archive.pointer() + ' total bytes');
+  });
+
+  archive.on('error', function(err){
+    throw err;
+  });
+
+  archive.pipe(output);
+  archive.directory('tmp-chrome', false);
+  archive.finalize();
 }
-
-copyFolderSync('extension', 'tmp-chrome');
-
-let config = JSON.parse(fs.readFileSync('tmp-chrome/manifest.json'));
-delete config['applications'];
-delete config['key'];
-fs.writeFileSync('tmp-chrome/manifest.json', JSON.stringify(config), 'utf8');
-
-let output = fs.createWriteStream('extension-chrome.zip');
-let archive = archiver('zip');
-
-output.on('close', () => {
-  console.log(archive.pointer() + ' total bytes');
-});
-
-archive.on('error', function(err){
-  throw err;
-});
-
-archive.pipe(output);
-archive.directory('tmp-chrome', false);
-archive.finalize();
+else if (targetBrowser === 'firefox') {
+  webExt.cmd.lint({
+    sourceDir: './extension'
+  });
+  webExt.cmd.build({
+    sourceDir: './extension',
+    artifactsDir: './web-ext-artifacts'
+  });
+}
