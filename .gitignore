@@ -6,3 +6,6 @@
 node_modules/
 tmp-chrome/
 tmp-firefox/
+jsconfig.json
+web-ext-artifacts/
+.vscode/

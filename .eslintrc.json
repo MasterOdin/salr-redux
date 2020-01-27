@@ -32,6 +32,7 @@
     "globals": {
         "jQuery": true,
         "content": false,
+        "SALR": true,
         "PostHistory": true,
         "PreviewParser": true,
         "EmoteParser": true,
