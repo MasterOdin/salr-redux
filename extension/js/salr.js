@@ -272,7 +272,7 @@ SALR.prototype.pageInit = function() {
             break;
         case 'member':
             if (window.location.href.indexOf('action=getinfo') >= 0) {
-                this.addRapSheetToProfile();
+                /* user profile skeleton */
             }
 
             break;
@@ -2443,21 +2443,6 @@ SALR.prototype.threadNotes = function() {
             }
         });
     });
-};
-
-/**
- *
- *  Add a rap sheet link to user's profiles
- *
- **/
-SALR.prototype.addRapSheetToProfile = function() {
-    var link = jQuery('table a[href*=userid]:first');
-    var userid = link.attr('href').split('userid=')[1];
-    var el = link.parent().clone();
-    jQuery('a',el).attr('href', this.urlSchema+'//forums.somethingawful.com/banlist.php?userid='+userid);
-    jQuery('a',el).text('Rap Sheet');
-    link.parent().append(' ');
-    link.parent().append(el);
 };
 
 /**
