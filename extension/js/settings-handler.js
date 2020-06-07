@@ -471,7 +471,7 @@ function highlightExamples() {
                 border: 'none'
             });
 
-            document.getElementById('lastseen-inline').style.display = (localStorage.getItem('inlinePostCounts') == 'true') ? 'block' : 'none'
+            document.getElementById('lastseen-inline').style.display = (localStorage.getItem('inlinePostCounts') == 'true') ? 'block' : 'none';
 
             const element = document.getElementById('lastseen-count');
             element.innerHTML = '';
