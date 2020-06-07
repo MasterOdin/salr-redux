@@ -946,8 +946,9 @@ QuickReplyBox.prototype.pasteText = function(event) {
 
             // Detect youtube here!!
             // http://www.youtube.com/watch?v=rK1XnD9f8Bc&feature=g-vrec
-            if ((/^([^\.]+\.)?youtube(-nocookie)?\.com$/).test(urlinfo.domain) ||
-                (/^([^\.]+\.)?youtu\.be$/).test(urlinfo.domain)) {
+            if ((/^([^\.]+\.)?youtube(-nocookie)?\.com$/.test(urlinfo.domain) ||
+                /^([^\.]+\.)?youtu\.be$/.test(urlinfo.domain)) &&
+                /^\/user|^\/channel|^\/playlist/.test(urlinfo.path) === false) {
                 var getYTStart = function(timeStr) {
                     var timeSearch = timeStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/);
                     // return time in seconds to work around BBCode parser bug with time conversion
@@ -1014,6 +1015,7 @@ QuickReplyBox.prototype.pasteText = function(event) {
             if (!handled) {
                 switch(extension) {
                     case 'jpg':
+                    case 'jpeg':
                     case 'gif':
                     case 'png':
                             //console.log('Clipboard is an image URL: ', paste);
