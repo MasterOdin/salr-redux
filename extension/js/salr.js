@@ -127,10 +127,6 @@ SALR.prototype.pageInit = function() {
                 this.displayUserNotesHandler();
             }
 
-            if (this.settings.highlightModAdmin == 'true') {
-                this.skimModerators();
-            }
-
             if (this.settings.boxQuotes == 'true') {
                 this.boxQuotes();
             }
@@ -618,6 +614,14 @@ SALR.prototype.handleShowThread = function() {
     const inSinglePostView = document.location.href.indexOf('action=showpost') !== -1;
     const addSinglePostLink = this.settings.enableSinglePost === "true" && !isThreadInArchives();
 
+    let modList = null;
+    let modListUpdate = false;
+
+    // Initialize modList
+    if (this.settings.highlightModAdmin === 'true') {
+        modList = this.skimModerators();
+    }
+
     var posts = document.querySelectorAll('table.post');
     for (let post of posts) {
         if (post.id === 'post') // adbot
@@ -628,11 +632,57 @@ SALR.prototype.handleShowThread = function() {
 
         let userid = profileLink.href.match(/userid=(\d+)/)[1];
 
-        this.highlightPost(post, userid, friends_id);
+        let modEntryChanged = this.highlightPost(post, userid, friends_id, modList);
+        if (!modListUpdate)
+            modListUpdate = modEntryChanged;
+
         if (addSinglePostLink) {
             this.insertSinglePostLink(post, inSinglePostView);
         }
         this.addUserLinksToPost(post, userid, profileLink, hiddenAvatars);
+    }
+
+    if (modListUpdate) {
+        postMessage({ 'message': 'ChangeSetting',
+                           'option' : 'modList',
+                           'value'  : JSON.stringify(modList) });
+    }
+};
+
+/**
+ * 
+ * @param {Object} modList  Object containing list of mods.
+ * @param {string} userid   string userid of mod to update.
+ * @param {string} username username of mod to update.
+ * @param {string} newRole  'A' or 'M', for now.
+ * @returns {boolean} Whether the mod list entry changed.
+ */
+SALR.prototype.updateModList = function(modList, userid, username, newRole) {
+    // There is no modlist! Abort! Abort!
+    if (!modList)
+        return false;
+
+    let roleChanged = false;
+    if (modList[userid] == null) {
+        modList[userid] = {'username' : [username], 'mod' : newRole};
+        return true;
+    } else {
+        // Existing entry, let's update it if we see an Admin:
+        // Eventually, this should be tweaked so showthread can report downgrades
+        if (modList[userid].mod !== newRole && newRole === 'A')  {
+            roleChanged = true;
+            modList[userid].mod = newRole;
+        }
+        if (modList[userid].username != username) {
+            var namechange = true;
+            for (var unum in modList[userid].username)
+                if (username == modList[userid].username[unum])
+                    namechange = false;
+            if (namechange) {
+                modList[userid].username.push(username);
+            }
+        }
+        return (roleChanged || namechange);
     }
 };
 
@@ -814,6 +864,10 @@ SALR.prototype.modifyImages = function() {
     });
 };
 
+/**
+ * Initialize/update moderator list.
+ * @returns {Object} Moderator list.
+ */
 SALR.prototype.skimModerators = function() {
     var modList;
     var modupdate = false;
@@ -848,51 +902,32 @@ SALR.prototype.skimModerators = function() {
         }
     }
 
-    // TODO: How can you tell if a mod has been demodded?
-
     // Moderator list on forumdisplay.php
+    var that = this;
     if (findRealForumID() != 26) {
-    jQuery('div#mods > b > a').each(function() {
-        var userid = jQuery(this).attr('href').split('userid=')[1];
-        var username = jQuery(this).html();
-        if (modList[userid] == null) {
-            modList[userid] = {'username' : [username], 'mod' : 'M'};
-            modupdate = true;
-        } else {
-            var namechange=true;
-            for (var unum in modList[userid].username)
-                if (username == modList[userid].username[unum])
-                    namechange=false;
-            if (namechange)
-                modList[userid].username.push(username);
-            modupdate = true;
-        }
-    });
+        jQuery('div#mods > b > a').each(function() {
+            var userid = jQuery(this).attr('href').split('userid=')[1];
+            var username = jQuery(this).html();
+            if (that.updateModList(modList, userid, username, 'M'))
+                modupdate = true;
+        });
     }
 
     // Moderator lists on index.php
     jQuery('td.moderators > a').each(function() {
         var userid = jQuery(this).attr('href').split('userid=')[1];
         var username = jQuery(this).html();
-        if (modList[userid] == null) {
-            modList[userid] = {'username' : [username], 'mod' : 'M'};
+        if (that.updateModList(modList, userid, username, 'M'))
             modupdate = true;
-        } else if (modList[userid].username != username) {
-            var namechange=true;
-            for (var unum in modList[userid].username)
-                if (username == modList[userid].username[unum])
-                    namechange=false;
-            if (namechange)
-                modList[userid].username.push(username);
-            modupdate = true;
-        }
-    });
+});
 
     if (modupdate) {
         postMessage({ 'message': 'ChangeSetting',
                            'option' : 'modList',
                            'value'  : JSON.stringify(modList) });
     }
+
+    return modList;
 };
 
 SALR.prototype.inlineYoutubes = function() {
@@ -1155,11 +1190,13 @@ SALR.prototype.getStoredFriendNums = function() {
 
 /**
  * Perform color highlighting on a single post
- * @param {HTMLElement} post       Post to check for color highlighting
- * @param {string}      userid     string userid of current poster
- * @param {Object}      friends_id null, or an object containing our list of friends with number userids as keys
+ * @param {HTMLElement}   post       Post to check for color highlighting
+ * @param {string}        userid     string userid of current poster
+ * @param {(Object|null)} friends_id null, or an object containing our list of friends with number userids as keys
+ * @param {(Object|null)} modList    Object containing list of mods, or null if highlighting is off.
+ * @returns {boolean} Whether we will need to update the mod list.
  */
-SALR.prototype.highlightPost = function(post, userid, friends_id) {
+SALR.prototype.highlightPost = function(post, userid, friends_id, modList) {
     let userNameBox = post.querySelector('dt.author');
     if (!userNameBox) // Something has gone horribly wrong
         return;
@@ -1171,6 +1208,7 @@ SALR.prototype.highlightPost = function(post, userid, friends_id) {
     }
 
     let highlightColor = '';
+    let modEntryChanged = false;
 
     // Highlight friend posts
     if (friends_id && this.isUserAFriend(userid, friends_id)) {
@@ -1191,7 +1229,10 @@ SALR.prototype.highlightPost = function(post, userid, friends_id) {
 
     // Highlight mod/admin posts
     if (this.settings.highlightModAdmin === 'true') {
+        let userName = userNameBox.textContent;
         if (userNameBox.classList.contains('role-admin')) {
+            // Found an Admin; update the modList
+            modEntryChanged = this.updateModList(modList, userid, userName, 'A');
             let statusText = document.createElement('dd');
             statusText.textContent = 'Forum Administrator';
             statusText.style.fontWeight = 'bold';
@@ -1205,6 +1246,8 @@ SALR.prototype.highlightPost = function(post, userid, friends_id) {
             userNameBox.insertAdjacentElement('afterend', statusText);
         }
         else if (userNameBox.classList.contains('role-mod')) {
+            // Found a Mod; update the modList
+            modEntryChanged = this.updateModList(modList, userid, userName, 'M');
             let statusText = document.createElement('dd');
             statusText.textContent = 'Forum Moderator';
             statusText.style.fontWeight = 'bold';
@@ -1239,6 +1282,7 @@ SALR.prototype.highlightPost = function(post, userid, friends_id) {
             sometd.style.borderCollapse = 'collapse';
         }
     }
+    return modEntryChanged;
 };
 
 /**
