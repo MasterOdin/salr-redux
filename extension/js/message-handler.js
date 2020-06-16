@@ -87,10 +87,10 @@ chrome.runtime.onConnect.addListener(function(port) {
 // New assoc array for storing default settings.
 var defaultSettings = [];
 defaultSettings['highlightThread']              = 'false';
-defaultSettings['darkRead']                     = '#6699cc';
-defaultSettings['lightRead']                    = '#99ccff';
-defaultSettings['darkNewReplies']               = '#99cc99';
-defaultSettings['lightNewReplies']              = '#ccffcc';
+defaultSettings['darkRead']                     = '#bbccdd';
+defaultSettings['lightRead']                    = '#ddeeff';
+defaultSettings['darkNewReplies']               = '#cfdfcf';
+defaultSettings['lightNewReplies']              = '#e1f1e1';
 defaultSettings['displayCustomButtons']         = 'true';
 defaultSettings['inlinePostCounts']             = 'false';
 
@@ -152,7 +152,7 @@ defaultSettings['hideGarbageDick']              = 'false';
 //defaultSettings['hideStupidNewbie']             = 'false';
 defaultSettings['inlineVideo']                  = 'false';
 //defaultSettings['embedVideo']                   = 'false';
-defaultSettings['youtubeHighlight']             = '#ff00ff';
+defaultSettings['youtubeHighlight']             = '#ffcccc';
 defaultSettings['inlineVine']                   = 'false';
 defaultSettings['dontReplaceVineNWS']           = 'false';
 defaultSettings['dontReplaceVineSpoiler']       = 'false';
