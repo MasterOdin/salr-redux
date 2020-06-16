@@ -918,22 +918,22 @@ QuickReplyBox.prototype.pasteText = function(event) {
     var that = this;
     setTimeout(function() {
         var new_elem = elem.val();
-        var paste;
+        var pasteData;
         if (start == end) {
-            paste = new_elem.substr(start,new_elem.length-orig.length);
+            pasteData = new_elem.substr(start,new_elem.length-orig.length);
         }
         else {
             // start < end
             var temp = orig.substr(0,start) + orig.substr(end);
-            paste = new_elem.substr(start,new_elem.length-temp.length);
+            pasteData = new_elem.substr(start,new_elem.length-temp.length);
         }
         elem.val(orig);
         elem[0].selectionStart = start;
         elem[0].selectionEnd = end;
 
-        if ((/^https?:\/\//).test(paste) && paste.indexOf('\n') == -1 && paste.indexOf('\r') == -1) {
+        if ((/^https?:\/\//).test(pasteData) && pasteData.indexOf('\n') == -1 && pasteData.indexOf('\r') == -1) {
             // So far a URL.
-            var urlinfo = that.parseURL(paste);
+            var urlinfo = that.parseURL(pasteData);
             var extension = '';
             var filename = '';
             var handled = false;
@@ -958,56 +958,56 @@ QuickReplyBox.prototype.pasteText = function(event) {
                 };
                 var ytparms;
                 if (urlinfo.query.v) {
-                    //console.log('Clipboard is a Youtube video: ', paste);
-                    paste = '[video type="youtube"';
+                    //console.log('Clipboard is a Youtube video: ', pasteData);
+                    pasteData = '[video type="youtube"';
                     if (urlinfo.query.hd) {
-                        paste += ' res="hd"';
+                        pasteData += ' res="hd"';
                     }
 
                     if (urlinfo.query.t)
-                        paste += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                        pasteData += ' start="' + getYTStart(urlinfo.query.t) + '"';
                     else if (urlinfo.fragment) {
                         ytparms = that.parseQueryString(urlinfo.fragment);
                         if (ytparms.t)
                         {
-                            paste += ' start="' + getYTStart(ytparms.t) + '"';
+                            pasteData += ' start="' + getYTStart(ytparms.t) + '"';
                         }
                     }
 
-                    paste += ']' + urlinfo.query.v + '[/video]';
+                    pasteData += ']' + urlinfo.query.v + '[/video]';
                     handled = true;
                 }
                 else if ((/^\/embed/).test(urlinfo.path)) {
-                    //console.log('Clipboard is an embedded Youtube video: ', paste);
-                    paste = '[video type="youtube"';
+                    //console.log('Clipboard is an embedded Youtube video: ', pasteData);
+                    pasteData = '[video type="youtube"';
                     if (urlinfo.query.hd) {
-                        paste += ' res="hd"';
+                        pasteData += ' res="hd"';
                     }
 
                     if (urlinfo.query.start) {
-                        paste += ' start="' + getYTStart(urlinfo.query.start) + '"';
+                        pasteData += ' start="' + getYTStart(urlinfo.query.start) + '"';
                     }
 
-                    paste += ']' + urlinfo.path.substr(urlinfo.path.lastIndexOf('/') + 1) + '[/video]';
+                    pasteData += ']' + urlinfo.path.substr(urlinfo.path.lastIndexOf('/') + 1) + '[/video]';
                     handled = true;
                 }
                 else {
-                    //console.log('Clipboard is a short-link Youtube video: ', paste);
-                    paste = '[video type="youtube"';
+                    //console.log('Clipboard is a short-link Youtube video: ', pasteData);
+                    pasteData = '[video type="youtube"';
                     if (urlinfo.query.hd) {
-                        paste += ' res="hd"';
+                        pasteData += ' res="hd"';
                     }
 
                     if (urlinfo.query.t)
-                        paste += ' start="' + getYTStart(urlinfo.query.t) + '"';
+                        pasteData += ' start="' + getYTStart(urlinfo.query.t) + '"';
                     else if (urlinfo.fragment) {
                         ytparms = that.parseQueryString(urlinfo.fragment);
                         if (ytparms.t) {
-                            paste += ' start="' + getYTStart(ytparms.t) + '"';
+                            pasteData += ' start="' + getYTStart(ytparms.t) + '"';
                         }
                     }
 
-                    paste += ']' + urlinfo.path.substr(1) + '[/video]';
+                    pasteData += ']' + urlinfo.path.substr(1) + '[/video]';
                     handled = true;
                 }
             }
@@ -1018,20 +1018,26 @@ QuickReplyBox.prototype.pasteText = function(event) {
                     case 'jpeg':
                     case 'gif':
                     case 'png':
-                            //console.log('Clipboard is an image URL: ', paste);
-                            paste = '[img]' + paste + '[/img]';
+                            //console.log('Clipboard is an image URL: ', pasteData);
+                            pasteData = '[img]' + pasteData + '[/img]';
                         break;
                     default:
-                        // console.log('Clipboard is a URL: ', data);
-                        // data = '[url]' + data + '[/url]';
+                        // console.log('Clipboard is a URL: ', pasteData);
+                        // Make sure users want URLs parsed
+                        var wantsParsing = $('input[name="parseurl"]').is(':checked');
+
+                        // Only use this for wikipedia links (for now?)
+                        if (wantsParsing && /^([^\.]+\.)?wikipedia\.org$/.test(urlinfo.domain)) {
+                            pasteData = '[url]' + pasteData + '[/url]';
+                        }
                         break;
                 }
             }
         }
 
         that.previous_text = orig;
-        elem.val(orig.substr(0,start)+paste+orig.substr(end));
-        var set = orig.substr(0,start).length + paste.length;
+        elem.val(orig.substr(0,start)+pasteData+orig.substr(end));
+        var set = orig.substr(0,start).length + pasteData.length;
         elem[0].selectionStart = set;
         elem[0].selectionEnd = set;
     }, 5);
