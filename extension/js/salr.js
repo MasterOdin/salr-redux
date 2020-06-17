@@ -1115,6 +1115,7 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
             title.appendChild(child);
         }
 
+        link.setAttribute('id', 'salr-open-threads-link');
         link.appendChild(document.createTextNode('Open updated threads'));
 
         wrapper.setAttribute('id', 'salr-title-with-open-threads-link');
@@ -1124,7 +1125,7 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
     }
 
     // Open all updated threads in tabs
-    jQuery('#salr-title-with-open-threads-link a').click( function() {
+    jQuery('#salr-open-threads-link').click( function() {
         jQuery('tr.thread').each( function() {
             var other = this;
 
