@@ -1246,6 +1246,21 @@ SALR.prototype.highlightPost = function(post, userid, friends_id, modList) {
             }
             userNameBox.insertAdjacentElement('afterend', statusText);
         }
+        else if (userNameBox.classList.contains('role-supermod')) {
+            // Found a Mod; update the modList
+            modEntryChanged = this.updateModList(modList, userid, userName, 'M');
+            let statusText = document.createElement('dd');
+            statusText.textContent = 'Super Moderator';
+            statusText.style.fontWeight = 'bold';
+            if (this.settings.highlightModAdminUsername === 'true') {
+                userNameBox.style.color = this.settings.highlightModeratorColor;
+                statusText.style.color = this.settings.highlightModeratorColor;
+            }
+            else {
+                highlightColor = this.settings.highlightModeratorColor;
+            }
+            userNameBox.insertAdjacentElement('afterend', statusText);
+        }
         else if (userNameBox.classList.contains('role-mod')) {
             // Found a Mod; update the modList
             modEntryChanged = this.updateModList(modList, userid, userName, 'M');
