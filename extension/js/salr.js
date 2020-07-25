@@ -1043,6 +1043,7 @@ SALR.prototype.addSearchThreadForm = function() {
             'method="post" _lpchecked="1">'+
            '<input id="salrSearch" name="q" size="25" style="">'+
            '<input name="action" value="query" type="hidden">'+
+           '<input name="threadid" value="' + threadid +'" type="hidden">'+
            '<button type="submit">Search</button>'+
            '</form>'+
            '</span>';
@@ -1064,8 +1065,6 @@ SALR.prototype.addSearchThreadForm = function() {
         // Don't submit a blank search
         if (keywords.val().trim() == '')
             return false;
-        // Append threadid to search string
-        keywords.val(keywords.val()+' threadid:'+threadid);
     });
 };
 
