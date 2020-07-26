@@ -159,10 +159,9 @@ PageNavigator.prototype.bindButtonEvents = function() {
 
 PageNavigator.prototype.display = function() {
     jQuery('nav#page-nav').addClass('displayed');
-    jQuery('div.jump_top.right').css("right","-100px");
+    $('html > head').append($('<style>div.jump_top.right { right: -100px; }</style>'));
 };
 
 PageNavigator.prototype.hide = function() {
     jQuery('nav#page-nav').removeClass('displayed');
-    jQuery('div.jump_top.right').css("right","0px");
 };
