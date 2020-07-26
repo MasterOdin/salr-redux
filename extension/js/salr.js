@@ -2294,7 +2294,7 @@ SALR.prototype.highlightOwnUsername = function() {
 SALR.prototype.highlightOwnQuotes = function() {
     var that = this;
 
-    jQuery('.userquoted').attr("style", "background: "+this.settings.userQuote+"!important");
+    $('html > head').append($('<style>.userquoted { background: '+this.settings.userQuote+ '!important; }</style>'));
     var usernameQuoteMatch = that.settings.username+' posted:';
     jQuery('.bbc-block h4:contains(' + usernameQuoteMatch + ')').each(function() {
         if (jQuery(this).text() != usernameQuoteMatch)
