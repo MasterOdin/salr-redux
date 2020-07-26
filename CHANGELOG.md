@@ -11,6 +11,15 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="221"></a>v2.2.1 (07/26/2020)
+
+```
+* Thread search box now uses a threadid input instead of adding text into the box on submit
+* Fix race conditions potentially breaking userquoted highlighting and "UP" to-top-of-page arrow
+* Fix last three pages option breaking when there aren't pages (showpost)
+* Updated jQuery to 3.5.1 and jquery-migrate to 3.3.1
+```
+
 ### <a name="220"></a>v2.2.0 (07/13/2020)
 
 ```
