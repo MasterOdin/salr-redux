@@ -2074,7 +2074,7 @@ SALR.prototype.showLastThreePages = function() {
             break;
         case 'showthread':
             var pagesDiv = document.querySelector('div.pages');
-            if (pagesDiv.children.length === 0) {
+            if (!pagesDiv || pagesDiv.children.length === 0) {
                 break;
             }
             jQuery(pagesDiv).each(function() {
