@@ -994,7 +994,6 @@ SALR.prototype.addSalrBar = function() {
         return;
 
     jQuery('div.threadbar.top').prepend('<div id="salrbar"></div>');
-    jQuery('.threadbar').css({'height':'25px'});
 
     if(that.settings.salrLogoHide != "true") {
         var salr_logo = this.base_image_uri+"logo16_trans.png";
