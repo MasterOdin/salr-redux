@@ -105,7 +105,12 @@ function findForumID() {
  *
  */
 function findRealForumID() {
-    var crumb = jQuery('div.breadcrumbs:first a[href*=forumid]:last');
+    // Try body data-forum first
+    var crumb = jQuery('body').data('forum');
+    if (crumb)
+        return crumb;
+    // Fall back to breadcrumbs detection
+    crumb = jQuery('div.breadcrumbs:first span.mainbodytextlarge a[href*=forumid]:last');
     if (crumb.attr('href'))
         return crumb.attr('href').split('forumid=')[1];
 }
