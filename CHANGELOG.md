@@ -11,6 +11,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="222"></a>v2.2.2 (09/23/2020)
+
+```
+* Repair forum ID detection (fixes issues in YOSPOS)
+```
+
 ### <a name="221"></a>v2.2.1 (07/26/2020)
 
 ```
