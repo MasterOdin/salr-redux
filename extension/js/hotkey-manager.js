@@ -186,7 +186,7 @@ HotKeyManager.prototype.bindHotKeys = function() {
 
 HotKeyManager.prototype.refreshImageCache = function() {
     postMessage({ 'message': 'OpenCloseTab',
-                  'url'    : 'http://fi.somethingawful.com/images/sa-edit.gif?'+jQuery.now()
+                  'url'    : 'https://fi.somethingawful.com/images/sa-edit.gif?'+jQuery.now()
                });
 };
 
@@ -198,7 +198,7 @@ HotKeyManager.prototype.openUCP = function() {
         case 'bookmarkthreads':
         case 'search':
         case 'banlist':
-            jumpToPage("http://forums.somethingawful.com/usercp.php?"+jQuery.now());
+            jumpToPage("https://forums.somethingawful.com/usercp.php?"+jQuery.now());
     }
 };
 
@@ -429,7 +429,7 @@ HotKeyManager.prototype.openAllBookmarks = function() {
             if (jQuery('a[class*=count]', other).length > 0) {
                 var href = jQuery('a[class*=count]', other).attr('href');
                 postMessage({ 'message': 'OpenTab',
-                    'url'  : 'http://forums.somethingawful.com'+href });
+                    'url'  : 'https://forums.somethingawful.com'+href });
             }
         };
 

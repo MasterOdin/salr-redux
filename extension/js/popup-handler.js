@@ -102,7 +102,7 @@ function populateMenu() {
             newHTML += '<hr/>';
         } else if (indent == 0) {
             newHTML += '<div class="header-link">';
-            newHTML += '<a href="http://forums.somethingawful.com/forumdisplay.php?forumid=' + this.id + '" class="link link'+ indent +'">' + title + '</a><br/>';
+            newHTML += '<a href="https://forums.somethingawful.com/forumdisplay.php?forumid=' + this.id + '" class="link link'+ indent +'">' + title + '</a><br/>';
             newHTML += '</div>';
 
         } else {
@@ -136,7 +136,7 @@ function populateMenuHelper(forum, color, stuck) {
     // Dynamically set the 10's digit for padding here, since we can have any number
     // of indentations
     subHTML += '<div class="forum-link" style="padding-left: ' + indent + '0px; background: ' + color + ';">';
-    subHTML += '<a href="http://forums.somethingawful.com/forumdisplay.php?forumid=' + forum.id + '">' + title + '</a><br/>';
+    subHTML += '<a href="https://forums.somethingawful.com/forumdisplay.php?forumid=' + forum.id + '">' + title + '</a><br/>';
     subHTML += '</div>';
     return subHTML;
 }

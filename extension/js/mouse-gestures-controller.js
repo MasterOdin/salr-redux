@@ -203,7 +203,7 @@ MouseGesturesController.prototype.bindCanvasEvent = function() {
 */
 
 MouseGesturesController.prototype.setPageSpecificCSS = function() {
-    if (window.location.href == 'http://forums.somethingawful.com/'
+    if (window.location.href == 'https://forums.somethingawful.com/'
             || this.currentPageName == 'index') {
         this.disableGesture('up');
         this.disableGesture('left');
@@ -315,7 +315,7 @@ MouseGesturesController.prototype.topAction = function() {
     // All if UCP option isn't enabled, else just go there
     if (this.is_enabled(this.topAction)) {
         if (this.settings.enableMouseUpUCP == 'true') {
-            location.href ='http://forums.somethingawful.com/usercp.php';
+            location.href ='https://forums.somethingawful.com/usercp.php';
         }
         else if (this.currentPageName == 'showthread'
             || this.currentPageName == 'usercp'
@@ -328,10 +328,10 @@ MouseGesturesController.prototype.topAction = function() {
                 href = '';
             }
 
-            location.href = 'http://forums.somethingawful.com/' + href;
+            location.href = 'https://forums.somethingawful.com/' + href;
         }
         else {
-            location.href = 'http://forums.somethingawful.com';
+            location.href = 'https://forums.somethingawful.com';
         }
     }
 };
