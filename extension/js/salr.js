@@ -190,9 +190,11 @@ SALR.prototype.pageInit = function() {
                 this.renderWhoPostedInThreadLink();
             }
 
+/*
             if (this.settings.searchThreadHide != 'true') {
                 this.addSearchThreadForm();
             }
+*/
 
             if (this.settings.retinaImages == 'true') {
                 this.swapRetinaEmotes();

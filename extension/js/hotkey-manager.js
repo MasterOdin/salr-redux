@@ -50,6 +50,7 @@ function HotKeyManager(quickReply, settings, currentPage, countPages) {
     this.current_post = findFirstUnreadPost();
     this.first_keypress = true;
     this.b_count = 0;
+    this.searchBox = jQuery('.threadsearch input[type=text]');
 }
 
 HotKeyManager.prototype.bindHotKeys = function() {
@@ -76,6 +77,9 @@ HotKeyManager.prototype.bindHotKeys = function() {
         var quick_reply_block = false;
 
         if(!jQuery(document).data("enableSALRHotkeys"))
+            return;
+
+        if (that.searchBox.is(':focus'))
             return;
 
         if (event.which == 98)
