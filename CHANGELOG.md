@@ -3,13 +3,21 @@ SALR Redux Changelog
 
 Listed below are the various bugfixes and enhancements that go into a given version. No idea what got changed/fixed between v0.8 and v1.5.5 so don't ask.
 
-General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is addition.   
-After 2.0.0 is that * is a change, - is a removal, and + is an addition.  
+General format before v2.0.0 and after 1.5.5 is that - is change/remove and + is addition.
+After 2.0.0 is that * is a change, - is a removal, and + is an addition.
 
 Developer only seen features (such as internal functions) may or may not be recorded in the changelog.
 
 Changelog List
 --------------
+
+### <a name="223"></a>v2.2.3 (10/14/2020)
+
+```
+* Fix unintentional keyboard navigation while SA 'search thread' box is active
+* Use https: for more URLs
+- Remove SALR 'search thread' box
+```
 
 ### <a name="222"></a>v2.2.2 (09/23/2020)
 
