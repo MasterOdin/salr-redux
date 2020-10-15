@@ -180,8 +180,7 @@ SALR.prototype.pageInit = function() {
                 this.fixCancerPosts();
             }
 
-            if (this.settings.whoPostedHide != 'true' ||
-                this.settings.searchThreadHide != 'true')
+            if (this.settings.whoPostedHide != 'true')
             {
                 this.addSalrBar();
             }
@@ -189,12 +188,6 @@ SALR.prototype.pageInit = function() {
             if (this.settings.whoPostedHide != 'true') {
                 this.renderWhoPostedInThreadLink();
             }
-
-/*
-            if (this.settings.searchThreadHide != 'true') {
-                this.addSearchThreadForm();
-            }
-*/
 
             if (this.settings.retinaImages == 'true') {
                 this.swapRetinaEmotes();
@@ -1021,54 +1014,6 @@ SALR.prototype.renderWhoPostedInThreadLink = function() {
     var linkHTML = '<a href="'+href+'">Who Posted?</a>';
     salrbar.append(linkHTML);
 };
-
-/**
- *
- *  Add search bar to threads
- *
- **/
-SALR.prototype.addSearchThreadForm = function() {
-    //  Only valid on thread pages
-    if(findCurrentPage() != 'showthread')
-        return;
-
-    var salrbar = jQuery('#salrbar');
-    if (!salrbar.length)
-        return;
-
-    var forumid = findRealForumID();
-    var threadid = findThreadID();
-    var searchHTML = '<span id="salrsearch">'+
-           '<form id="salrSearchForm" '+
-            'action="'+this.urlSchema+'//forums.somethingawful.com/query.php" '+
-            'method="post" _lpchecked="1">'+
-           '<input id="salrSearch" name="q" size="25" style="">'+
-           '<input name="action" value="query" type="hidden">'+
-           '<input name="threadid" value="' + threadid +'" type="hidden">'+
-           '<button type="submit">Search</button>'+
-           '</form>'+
-           '</span>';
-
-    salrbar.append(searchHTML);
-
-    jQuery('input#salrSearch').keypress( function(evt) {
-        // Press Enter, Submit Form
-        if (evt.keyCode == 13) {
-            jQuery('form#salrSearchForm').submit();
-            return false;
-        }
-        // Prevent hotkeys from receiving keypress
-        evt.stopPropagation();
-    });
-
-    jQuery('form#salrSearchForm').submit( function() {
-        var keywords = jQuery('input#salrSearch');
-        // Don't submit a blank search
-        if (keywords.val().trim() == '')
-            return false;
-    });
-};
-
 
 /**
  * Open all of your tracked and updated threads in a new tab
