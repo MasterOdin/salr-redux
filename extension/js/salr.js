@@ -156,8 +156,6 @@ SALR.prototype.pageInit = function() {
                 this.threadNotes();
             }
 
-            console.log(this.settings.hideUserAvatar);
-            console.log(this.settings.hideUserAvatarImage);
             //zephmod - hide/show avatar entirely
             if (this.settings.hideUserAvatar == 'true') {
                 jQuery("#thread dl.userinfo dd.title").remove();
