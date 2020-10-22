@@ -145,8 +145,8 @@ defaultSettings['expandBreadcrumbs']            = 'false';
 defaultSettings['displayMods']                  = 'false';
 
 // Thread Options
-defaultSettings['showUserAvatarImage']          = 'true';
-defaultSettings['showUserAvatar']               = 'true';
+defaultSettings['hideUserAvatarImage']          = 'false';
+defaultSettings['hideUserAvatar']               = 'false';
 defaultSettings['hideUserGrenade']              = 'false';
 defaultSettings['hideGarbageDick']              = 'false';
 //defaultSettings['hideStupidNewbie']             = 'false';
@@ -310,39 +310,13 @@ function getPageSettings() {
  *
  */
 function fixSettings() {
-    if (localStorage.getItem('disableCustomButtons') == 'true') {
-        localStorage.setItem('displayCustomButtons', 'false');
-        localStorage.removeItem('disableCustomButtons');
-    } else if (localStorage.getItem('disableCustomButtons') == 'false') {
-        localStorage.setItem('displayCustomButtons', 'true');
-        localStorage.removeItem('disableCustomButtons');
+    if (localStorage.getItem('showUserAvatar') !== null) {
+        localStorage.setItem('hideUserAvatar', (localStorage.getItem('showUserAvatar') == 'false').toString());
+        localStorage.removeItem('showUserAvatar');
     }
-    if (localStorage.getItem('ignore_bookmark_star')) {
-        localStorage.setItem('ignoreBookmarkStar', localStorage.getItem('ignore_bookmark_star'));
-        localStorage.removeItem('ignore_bookmark_star');
-    }
-    if (localStorage.getItem('highlightCancer')) {
-        localStorage.setItem('fixCancer', localStorage.getItem('highlightCancer'));
-        localStorage.removeItem('highlightCancer');
-    }
-    if (localStorage.getItem('saveUserNotes') != 'true') {
-        localStorage.setItem('userNotesLocal',localStorage.getItem('userNotesOld'));
-        localStorage.setItem('saveUserNotes','true');
-    }
-
-    if (localStorage.getItem('embedVideo')) {
-        if (localStorage.getItem('enableQuickReply') != 'true') {
-            chrome.permissions.remove({ origins: ['https://api.imgur.com/*'] });
-        }
-        if (localStorage.getItem('inlineTweet') != 'true') {
-            chrome.permissions.remove({ origins: ['https://api.twitter.com/*'] });
-        }
-        localStorage.removeItem('embedVideo');
-    }
-
-    if (localStorage.getItem('enableSOAPLink')) {
-        localStorage.setItem('enableSAARSLink', localStorage.getItem('enableSOAPLink'));
-        localStorage.removeItem('enableSOAPLink');
+    if (localStorage.getItem('showUserAvatarImage') !== null) {
+        localStorage.setItem('hideUserAvatarImage', (localStorage.getItem('showUserAvatarImage') == 'false').toString());
+        localStorage.removeItem('showUserAvatarImage');
     }
 }
 

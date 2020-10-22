@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
     defaultSettings['displayMods']                  = 'false';
 
     // Thread Options
-    defaultSettings['showUserAvatarImage']          = 'true';
-    defaultSettings['showUserAvatar']               = 'true';
+    defaultSettings['hideUserAvatarImage']          = 'false';
+    defaultSettings['hideUserAvatar']               = 'false';
     defaultSettings['hideUserGrenade']              = 'false';
     defaultSettings['hideGarbageDick']              = 'false';
     //defaultSettings['hideStupidNewbie']             = 'false';
