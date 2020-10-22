@@ -156,15 +156,18 @@ SALR.prototype.pageInit = function() {
                 this.threadNotes();
             }
 
+            console.log(this.settings.hideUserAvatar);
+            console.log(this.settings.hideUserAvatarImage);
+            //zephmod - hide/show avatar entirely
+            if (this.settings.hideUserAvatar == 'true') {
+                jQuery("#thread dl.userinfo dd.title").remove();
+            }
             //zephmod - hide/show avatar image
-            if (this.settings.showUserAvatarImage != 'true') {
+            else if (this.settings.hideUserAvatarImage == 'true') {
                 jQuery("#thread dl.userinfo dd.title img").remove();
             }
 
-            //zephmod - hide/show avatar entirely
-            if (this.settings.showUserAvatar != 'true') {
-                jQuery("#thread dl.userinfo dd.title").remove();
-            }
+
 
             if (this.settings.hideGarbageDick == 'true') {
                 jQuery("img[src*='fi.somethingawful.com/images/newbie.gif']").css({'display':'none'});
@@ -328,7 +331,7 @@ SALR.prototype.openSettings = function() {
     postMessage({'message': 'OpenSettings'});
 };
 
-/** 
+/**
  * Hides top/bottom navigation menu links based on user settings.
  * A false user setting implies something should be hidden.
  */
@@ -589,7 +592,7 @@ SALR.prototype.updateStyling = function() {
     }
 };
 
-/** 
+/**
  * This function will eventually be the only one iterating through the posts table.
  */
 SALR.prototype.handleShowThread = function() {
@@ -621,7 +624,7 @@ SALR.prototype.handleShowThread = function() {
     for (let post of posts) {
         if (post.id === 'post') // adbot
             continue;
-        let profileLink = post.querySelector('ul.profilelinks a[href*="userid="]'); 
+        let profileLink = post.querySelector('ul.profilelinks a[href*="userid="]');
         if (!profileLink)
             continue;
 
@@ -645,7 +648,7 @@ SALR.prototype.handleShowThread = function() {
 };
 
 /**
- * 
+ *
  * @param {Object} modList  Object containing list of mods.
  * @param {string} userid   string userid of mod to update.
  * @param {string} username username of mod to update.
@@ -1148,7 +1151,7 @@ SALR.prototype.highlightPost = function(post, userid, friends_id, modList) {
         return;
 
     if (this.settings.hideUserGrenade === 'true') {
-        if (userNameBox.className.trim() === 'author platinum' || 
+        if (userNameBox.className.trim() === 'author platinum' ||
             userNameBox.className.trim() === 'author platinum op')
                 userNameBox.classList.remove("platinum");
     }
@@ -1818,7 +1821,7 @@ SALR.prototype.clickToggleAvatar = function(idToToggle, hiddenAvatars, event) {
     var reachedSelf = false;
 
     for (let post of posts) {
-        let profileLink = post.querySelector('ul.profilelinks a[href*="userid="]'); 
+        let profileLink = post.querySelector('ul.profilelinks a[href*="userid="]');
         if (!profileLink)
             continue;
         let posterId = profileLink.href.match(/userid=(\d+)/i)[1];
