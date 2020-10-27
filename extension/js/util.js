@@ -142,7 +142,7 @@ function getCurrentPageNumber() {
 }
 
 function buildUrl(rootPageType, basePageID, page) {
-    return 'http://forums.somethingawful.com/' + findCurrentPage() + '.php?' + rootPageType + '=' + basePageID + '&pagenumber=' + page;
+    return 'https://forums.somethingawful.com/' + findCurrentPage() + '.php?' + rootPageType + '=' + basePageID + '&pagenumber=' + page;
 }
 
 function nextPageUrl() {
@@ -222,7 +222,7 @@ function findFirstUnreadPost() {
             var posticon_img = jQuery('img[src*=posticon]', this);
 
             count++;
-            if (posticon_img.attr('src') == 'http://fi.somethingawful.com/style/posticon-seen.gif') {
+            if (posticon_img.attr('src') == 'https://fi.somethingawful.com/style/posticon-seen.gif') {
                 index = count;
             }
         } else {
