@@ -1547,8 +1547,7 @@ SALR.prototype.updateForumsList = function() {
  * Fetches the username of the current user from the user CP
  */
 SALR.prototype.updateUsernameFromCP = function() {
-    var titleText = jQuery('title').text();
-    var username = titleText.match(/- User Control Panel For (.+)/)[1];
+    var username = jQuery('#loggedinusername').text();
     if (this.settings.username != username) {
         postMessage({ 'message' : 'ChangeSetting',
                            'option'  : 'username',
