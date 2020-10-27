@@ -11,6 +11,14 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="224"></a>v2.2.4 (10/27/2020)
+
+```
++ Support new bookmark star/highlight colors
+* Fix breakage on user control panel pages
+* "Show User's Avatar [...]" settings renamed to "Hide User's Avatar [...]" to more accurately reflect their behavior.
+```
+
 ### <a name="223"></a>v2.2.3 (10/14/2020)
 
 ```
