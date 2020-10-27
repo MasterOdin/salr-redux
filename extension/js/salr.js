@@ -1038,6 +1038,15 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
         if (this.settings.ignoreForumStarYellow == 'true') {
             stars.push("bm2");
         }
+        if (this.settings.ignoreForumStarCyan == 'true') {
+            stars.push("bm3");
+        }
+        if (this.settings.ignoreForumStarGreen == 'true') {
+            stars.push("bm4");
+        }
+        if (this.settings.ignoreForumStarLavender == 'true') {
+            stars.push("bm5");
+        }
     }
     else {
         if (this.settings.ignoreBookmarkStarGold == 'true') {
@@ -1048,6 +1057,15 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
         }
         if (this.settings.ignoreBookmarkStarYellow == 'true') {
             stars.push("bm2");
+        }
+        if (this.settings.ignoreBookmarkStarCyan == 'true') {
+            stars.push("bm3");
+        }
+        if (this.settings.ignoreBookmarkStarGreen == 'true') {
+            stars.push("bm4");
+        }
+        if (this.settings.ignoreBookmarkStarLavender == 'true') {
+            stars.push("bm5");
         }
     }
 
@@ -1071,7 +1089,7 @@ SALR.prototype.renderOpenUpdatedThreadsButton = function() {
     }
 
     // Open all updated threads in tabs
-    jQuery('#salr-open-threads-link').click( function() {
+    jQuery('#salr-open-threads-link').on('click', function() {
         jQuery('tr.thread').each( function() {
             var other = this;
 

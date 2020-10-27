@@ -194,11 +194,17 @@ document.addEventListener('DOMContentLoaded', () => {
     defaultSettings['ignoreBookmarkStarGold']       = 'false';
     defaultSettings['ignoreBookmarkStarRed']        = 'false';
     defaultSettings['ignoreBookmarkStarYellow']     = 'false';
+    defaultSettings['ignoreBookmarkStarCyan']       = 'false';
+    defaultSettings['ignoreBookmarkStarGreen']      = 'false';
+    defaultSettings['ignoreBookmarkStarLavender']   = 'false';
     defaultSettings['openAllForumUnreadLink']       = 'true';
     defaultSettings['ignoreForumStarNone']          = 'false';
     defaultSettings['ignoreForumStarGold']          = 'false';
     defaultSettings['ignoreForumStarRed']           = 'false';
     defaultSettings['ignoreForumStarYellow']        = 'false';
+    defaultSettings['ignoreForumStarCyan']          = 'false';
+    defaultSettings['ignoreForumStarGreen']         = 'false';
+    defaultSettings['ignoreForumStarLavender']      = 'false';
     defaultSettings['fixUserCPFont']                = 'false';
 
     // Misc Options (don't show up on settings.html)
