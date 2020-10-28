@@ -9,3 +9,4 @@ tmp-firefox/
 jsconfig.json
 web-ext-artifacts/
 .vscode/
+.env
