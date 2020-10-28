@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 const fs = require('fs');
 const path = require('path');
 const archiver = require('archiver');
@@ -58,34 +60,37 @@ function copyFolderRecursiveSync(source, target) {
   }
 }
 
-var deleteFolderRecursive = function(path) {
-  if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach(function(file, index){
-      var curPath = path + "/" + file;
+var deleteFolderRecursive = function(dirPath) {
+  if (fs.existsSync(dirPath)) {
+    fs.readdirSync(dirPath).forEach((file, index) => {
+      var curPath = path.join(dirPath, file);
       if (fs.lstatSync(curPath).isDirectory()) { // recurse
         deleteFolderRecursive(curPath);
       } else { // delete file
         fs.unlinkSync(curPath);
       }
     });
-    fs.rmdirSync(path);
+    fs.rmdirSync(dirPath);
   }
 };
 
 var targetBrowser = process.argv[2];
+const rootDir = path.join(__dirname, '..');
 if (targetBrowser === 'chrome') {
-  if (fs.existsSync('tmp-chrome')) {
-    deleteFolderRecursive('tmp-chrome');
+  const tmpDir = path.join(rootDir, 'tmp-chrome');
+  if (fs.existsSync(tmpDir)) {
+    deleteFolderRecursive(tmpDir);
   }
 
-  copyFolderSync('extension', 'tmp-chrome');
+  copyFolderSync(path.join(rootDir, 'extension'), tmpDir);
 
-  let config = JSON.parse(fs.readFileSync('tmp-chrome/manifest.json'));
+  const manifestFile = path.join(tmpDir, 'manifest.json');
+  let config = JSON.parse(fs.readFileSync(manifestFile));
   delete config['applications'];
   delete config['key'];
-  fs.writeFileSync('tmp-chrome/manifest.json', JSON.stringify(config), 'utf8');
+  fs.writeFileSync(manifestFile, JSON.stringify(config), 'utf8');
 
-  let output = fs.createWriteStream('extension-chrome.zip');
+  let output = fs.createWriteStream(path.join(rootDir, 'extension-chrome.zip'));
   let archive = archiver('zip');
 
   output.on('close', () => {
@@ -97,15 +102,18 @@ if (targetBrowser === 'chrome') {
   });
 
   archive.pipe(output);
-  archive.directory('tmp-chrome', false);
-  archive.finalize();
+  archive.directory(tmpDir, false);
+  archive.finalize().then(() => {
+    deleteFolderRecursive(tmpDir);
+  });
 }
 else if (targetBrowser === 'firefox') {
+  const sourceDir = path.join(__dirname, '..', 'extension');
   webExt.cmd.lint({
-    sourceDir: './extension'
+    sourceDir: sourceDir
   });
   webExt.cmd.build({
-    sourceDir: './extension',
-    artifactsDir: './web-ext-artifacts'
+    sourceDir: sourceDir,
+    artifactsDir: path.join(__dirname, '..', 'web-ext-artifacts')
   });
 }
