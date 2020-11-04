@@ -16,6 +16,8 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run build:chrome
+
       - run: npm run release:chrome
         env:
           EXTENSION_ID: ${{ secrets.CHROME_EXTENSION_ID }}
