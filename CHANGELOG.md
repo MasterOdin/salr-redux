@@ -11,6 +11,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="225"></a>v2.2.5 (11/04/2020)
+
+```
+* Fix youtube embed fullscreen button on chromium-based browsers
+```
+
 ### <a name="224"></a>v2.2.4 (10/27/2020)
 
 ```
