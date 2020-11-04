@@ -948,7 +948,7 @@ SALR.prototype.inlineYoutubes = function() {
             var videoId = match[3];
 
             jQuery(this).after('<div><iframe class="salr-player youtube-player"></iframe></div>');
-            jQuery(this).next().children("iframe").attr("src", "//www.youtube.com/embed/" + videoId);
+            jQuery(this).next().children("iframe").attr("src", "https://www.youtube.com/embed/" + videoId);
             jQuery(this).next().children("iframe").attr("width","640");
             jQuery(this).next().children("iframe").attr("height","385");
             jQuery(this).next().children("iframe").attr("type","text/html");
