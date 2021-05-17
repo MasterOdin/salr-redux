@@ -11,6 +11,13 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="230"></a>v2.3.0 (17/05/2021)
+
+```
++ Add support for detection of dark mode
+* Improve styling of quick reply when running under dark mode
+```
+
 ### <a name="225"></a>v2.2.5 (11/04/2020)
 
 ```
