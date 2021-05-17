@@ -10,6 +10,10 @@ div#title-bar {
     padding-bottom: 20px;
 }
 
+.salr-dark div#title-bar {
+    color: #ccc;
+}
+
 div#title-bar:hover {
     cursor: pointer;
 }
@@ -35,6 +39,10 @@ span.post-options {
     font-size: 0.8em;
 }
 
+.salr-dark span.post-options {
+    color: #ccc;
+}
+
 div#submit-buttons {
     padding-top: 6px;
     text-align: right;
@@ -58,6 +66,10 @@ div.modal {
     -webkit-border-top-right-radius: 6px;
 }
 
+div.salr-dark.modal {
+    background: #0d111e;
+}
+
 div.modal.show {
     -webkit-transform: translateY(0px);
 }
@@ -78,6 +90,10 @@ div#side-bar {
     z-index: 99;
 }
 
+div#side-bar.salr-dark {
+    background: #0d111e;
+}
+
 div#top-bar {
     width: 600px;
     height: 300px;
@@ -96,6 +112,10 @@ div#top-bar {
     z-index: 99;
 }
 
+div#top-bar.salr-dark  {
+    background: #0d111e;
+}
+
 div#topbar-preview {
     width: 600px;
     height: 270px;
@@ -104,6 +124,10 @@ div#topbar-preview {
     word-wrap: break-word;
     border: 1px solid #999;
     z-index: 99;
+}
+
+.salr-dark div#topbar-preview {
+    background: #0d111e;
 }
 
 div#preview-content {
@@ -177,8 +201,8 @@ div.sidebar-menu-item:hover {
 div#post-warning {
     float: left;
     margin-top: 5px;
-    background: #de94d6; 
-    color: #333; 
+    background: #de94d6;
+    color: #333;
     border: 1px blue solid;
     padding: 0px;
     height: 25px;
@@ -187,7 +211,7 @@ div#post-warning {
 div#post-warning h4 {
     background: url('http://fi.somethingawful.com/images/warning.gif') no-repeat left;
     padding: 4px;
-    padding-left: 16px;    
+    padding-left: 16px;
     margin-right: 4px;
     margin-top: 0px;
     margin-left: 2px;

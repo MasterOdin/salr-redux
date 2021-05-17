@@ -34,6 +34,8 @@ function SALR(settings, base_image_uri) {
     this.mouseGesturesContoller = null;
     this.hotKeyManager = null;
 
+    this.darkMode = false;
+
     this.pageInit();
 }
 
@@ -43,6 +45,10 @@ SALR.prototype.pageInit = function() {
     this.pageCount = countPages();
     this.getCurrentPage = getCurrentPageNumber();
     this.urlSchema = findUrlSchema();
+
+    this.darkMode = [...document.styleSheets].find(
+        (stylesheet) => stylesheet.href && stylesheet.href.includes('dark.css')
+    ) !== undefined;
 
     // Update the styles now that we have
     // the settings
@@ -148,7 +154,7 @@ SALR.prototype.pageInit = function() {
                     //this.settings.forumPostKey = -1;
                 //}
                 // new QuickReplyBox(this.settings.forumPostKey,this.base_image_uri,this.settings);
-                this.quickReply = new QuickReplyBox(this.base_image_uri, this.settings, this.urlSchema);
+                this.quickReply = new QuickReplyBox(this.base_image_uri, this.settings, this.urlSchema, this.darkMode);
                 this.bindQuickReply();
             }
 

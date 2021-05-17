@@ -30,11 +30,13 @@
 // http://forums.somethingawful.com/newreply.php?action=newreply&postid=379818033
 // http://forums.somethingawful.com/newreply.php?s=&action=newreply&threadid=3208437
 // function QuickReplyBox(forum_post_key, base_image_uri, settings) {
-function QuickReplyBox(base_image_uri, settings, urlSchema) {
+function QuickReplyBox(base_image_uri, settings, urlSchema, darkMode) {
     //this.forum_post_key = forum_post_key;
     this.base_image_uri = base_image_uri;
     this.settings = settings;
     this.urlSchema = urlSchema;
+    this.darkMode = darkMode;
+
     this.reply_url = this.urlSchema + '//forums.somethingawful.com/newreply.php';
     this.edit_url = this.urlSchema + '//forums.somethingawful.com/editpost.php';
 
@@ -89,17 +91,17 @@ QuickReplyBox.prototype.create = function(username, quote) {
     // Begin fetching and parsing the emotes as soon as we create the quick-reply
     this.emote_parser = new EmoteParser(this);
 
-    var html = '<div id="side-bar">' +
+    var html = `<div ${this.darkMode ? "class='salr-dark'" : ''} id="side-bar">` +
                 '   <div id="sidebar-list">' +
                 '   </div>' +
                 '</div>' +
-                '<div id="top-bar">' +
+                `<div ${this.darkMode ? "class='salr-dark'" : ''} id="top-bar">` +
                 '   <div id="topbar-preview">' +
                 '      <div id="preview-content">' +
                 '      </div>' +
                 '   </div>' +
                 '</div>' +
-                '<div id="quick-reply"> ' +
+                `<div ${this.darkMode ? "class='salr-dark'" : ''} id="quick-reply"> ` +
                 '   <form id="quick-reply-form" enctype="multipart/form-data" action="newreply.php" name="vbform" method="POST" onsubmit="addThreadToCache(' + findThreadID() + '); return validate(this);">' +
                 '       <input id="quick-reply-action" type="hidden" name="action" value="postreply">' +
                 '       <input type="hidden" name="threadid" value="' + findThreadID() + '">' +
@@ -220,7 +222,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
         for (let el = event.target; el && el !== event.currentTarget; el = el.parentNode) {
             if (!el.matches('div.sidebar-menu-item'))
                 continue;
- 
+
             let selected_item = el.getElementsByClassName('menu-item-code')[0].textContent;
             if (el.classList.contains('bbcode'))
                 that.insertBBCode(selected_item);
@@ -406,7 +408,7 @@ QuickReplyBox.prototype.insertText = function(text, replace, offset = 0) {
  * Inserts BBCode tags into the quick reply message box.
  * If text is selected, it will be surrounded by the tags.
  * Otherwise, the tags will be inserted at the text cursor.
- * @param {string} tag Name of BBCode tag to insert. 
+ * @param {string} tag Name of BBCode tag to insert.
  */
 QuickReplyBox.prototype.insertBBCode = function(tag) {
     let text_area = document.getElementById('post-message');
@@ -419,7 +421,7 @@ QuickReplyBox.prototype.insertBBCode = function(tag) {
 
 /**
  * Appends text to the end of the quick reply message box.
- * @param {string} text Text to append. 
+ * @param {string} text Text to append.
  */
 QuickReplyBox.prototype.appendText = function(text) {
     var current_message = document.getElementById('post-message').value;
@@ -431,7 +433,7 @@ QuickReplyBox.prototype.appendText = function(text) {
 
 /**
  * Adds text to the beginning of the quick reply message box.
- * @param {string} text Text to prepend. 
+ * @param {string} text Text to prepend.
  */
 QuickReplyBox.prototype.prependText = function(text) {
     var current_message = document.getElementById('post-message').value;
@@ -952,8 +954,8 @@ QuickReplyBox.prototype.pasteText = function(event) {
                 var getYTStart = function(timeStr) {
                     var timeSearch = timeStr.match(/(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/);
                     // return time in seconds to work around BBCode parser bug with time conversion
-                    return ((timeSearch[1] ? parseInt(timeSearch[1],10) * 3600 : 0) + 
-                        (timeSearch[2] ? parseInt(timeSearch[2],10) * 60 : 0) + 
+                    return ((timeSearch[1] ? parseInt(timeSearch[1],10) * 3600 : 0) +
+                        (timeSearch[2] ? parseInt(timeSearch[2],10) * 60 : 0) +
                         (timeSearch[3] ? parseInt(timeSearch[3],10) : 0));
                 };
                 var ytparms;
