@@ -700,12 +700,7 @@ SALR.prototype.insertSinglePostLink = function(post, inSinglePostView) {
 
     let curPostId = post.id.match(/post(\d+)/)[1];
     let newLink = document.createElement('a');
-    if (inSinglePostView) {
-        newLink.href = "/showthread.php?goto=post&postid=" + curPostId;
-        newLink.title = "Back to thread";
-        newLink.innerHTML = "&#8592;";
-    }
-    else {
+    if (!inSinglePostView) {
         newLink.href = "/showthread.php?action=showpost&postid=" + curPostId;
         newLink.title = "View as single post";
         newLink.textContent = "1";
