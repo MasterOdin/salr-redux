@@ -11,6 +11,16 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="240"></a>v2.4.0 (02/12/2021)
+
+```
++ Add toggles to hide "Donate on Patreon" and "Donations" store items
++ Add dark mode toggle around thread color settings (wip)
+* Fix hiding top store items
+* Fixes for youtube fullscreen issue on chromium
+- Remove "Back to thread" link in single post view (threads do it natively)
+```
+
 ### <a name="230"></a>v2.3.0 (17/05/2021)
 
 ```
@@ -29,7 +39,7 @@ Changelog List
 ```
 + Support new bookmark star/highlight colors
 * Fix breakage on user control panel pages
-* "Show User's Avatar [...]" settings renamed to "Hide User's Avatar [...]" to more accurately reflect their behavior.
+* "Show User's Avatar [...]" settings renamed to "Hide User's Avatar [...]" to more accurately reflect their behavior
 ```
 
 ### <a name="223"></a>v2.2.3 (10/14/2020)
