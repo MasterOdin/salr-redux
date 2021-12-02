@@ -1,7 +1,7 @@
 {
     "extends": "eslint:recommended",
     "rules": {
-        "complexity": [1,12],
+        "complexity": "off",
         "eqeqeq": [1, "smart"],
         "no-unused-vars": [1, {"vars": "all", "args": "none", "varsIgnorePattern": "Handler"}],
         "no-use-before-define": [2, "nofunc"],
@@ -11,7 +11,7 @@
         "no-new-object": 1,
         "no-new-wrappers": 2,
         "no-spaced-func": 2,
-        "no-useless-escape": 1,        
+        "no-useless-escape": 1,
         "comma-dangle": [0, "always-multiline"],
         "no-empty": 1,
         "no-mixed-spaces-and-tabs": [1, "smart-tabs"],
@@ -21,7 +21,7 @@
         "linebreak-style": 0,
         "semi": [2, "always"],
         "keyword-spacing": 0,
-        "no-console": 1
+        "no-console": ["error", {"allow": ["warn", "error"]}]
     },
     "env": {
         "browser": true,
