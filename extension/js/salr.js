@@ -346,30 +346,37 @@ SALR.prototype.applyNavMenuStyling = function() {
         document.getElementById('nav_purchase').style.setProperty('display', 'none', 'important');
     }
     else {
-        let purchaseNav = document.getElementById('nav_purchase');
-        if (settings['topPurchaseAva'] === 'false') {
-            // Two links exist to purchase an avatar
-            let avAnchs = purchaseNav.querySelectorAll('a[href="https://secure.somethingawful.com/products/titlechange.php"]');
-            for (let avAnch of avAnchs) {
-                avAnch.parentNode.style.display = 'none';
-            }
+        const purchaseNav = document.getElementById('nav_purchase');
+        if (!purchaseNav) {
+            console.warn('SALR: unable to find nav_purchase element');
+            return;
         }
 
         const settingToPurchaseLinkMap = new Map([
-            ['topPurchaseAcc', 'https://secure.somethingawful.com/products/register.php'],
-            ['topPurchasePlat', 'https://secure.somethingawful.com/products/platinum.php'],
-            ['topPurchaseArchives', 'https://secure.somethingawful.com/products/archives.php'],
-            ['topPurchaseNoAds', 'https://secure.somethingawful.com/products/noads.php'],
-            ['topPurchaseUsername', 'https://secure.somethingawful.com/products/namechange.php'],
-            ['topPurchaseBannerAd', 'https://secure.somethingawful.com/products/ad-banner.php'],
-            ['topPurchaseEmoticon', 'https://secure.somethingawful.com/products/smilie.php'],
-            ['topPurchaseSticky', 'https://secure.somethingawful.com/products/sticky-thread.php'],
-            ['topPurchaseGiftCert', 'https://secure.somethingawful.com/products/gift-certificate.php']
+            ['topPurchaseAcc', 'https://store.somethingawful.com/products/register.php'],
+            ['topPurchasePlat', 'https://store.somethingawful.com/products/platinum.php'],
+            ['topPurchaseAva', 'https://store.somethingawful.com/products/titlechange.php'],
+            ['topPurchaseArchives', 'https://store.somethingawful.com/products/archives.php'],
+            ['topPurchaseNoAds', 'https://store.somethingawful.com/products/noads.php'],
+            ['topPurchaseUsername', 'https://store.somethingawful.com/products/namechange.php'],
+            ['topPurchaseDonatePatreon', 'https://www.patreon.com/SomethingAwful'],
+            ['topPurchaseBannerAd', 'https://store.somethingawful.com/products/ad-banner.php'],
+            ['topPurchaseEmoticon', 'https://store.somethingawful.com/products/smilie.php'],
+            ['topPurchaseSticky', 'https://store.somethingawful.com/products/sticky-thread.php'],
+            ['topPurchaseGiftCert', 'https://store.somethingawful.com/products/gift-certificate.php'],
+            ['topPurchaseDonations', 'https://store.somethingawful.com/products/donate.php'],
         ]);
         settingToPurchaseLinkMap.forEach((value, key) => {
             if (settings[key] === 'false') {
                 // Everything else just has one
-                purchaseNav.querySelector('a[href="' + value + '"]').parentNode.style.display = 'none';
+                const elems = purchaseNav.querySelectorAll('a[href="' + value + '"]');
+                if (elems.length === 0) {
+                    console.warn('SALR: unable to find purchase link for ' + key);
+                    return;
+                }
+                for (const elem of elems) {
+                    elem.parentNode.style.display = 'none';
+                }
             }
         });
     }
