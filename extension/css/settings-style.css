@@ -85,6 +85,7 @@ fieldset:disabled > div.sub-options {
     color: #cccccc;
 }
 
+div.preference,
 div.display-preference {
     padding: 1px;
     display: flex;
@@ -109,13 +110,13 @@ div.username-field, div.color-preference {
     float: left;
     margin-left: 16px;
 }
-    
+
 div.color-select-input {
     float: left;
     width: 400px;
 	margin-top: 2px;
 }
-    
+
 div.color-select {
     height: 28px;
     position: relative;

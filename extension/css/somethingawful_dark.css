@@ -1,0 +1,655 @@
+/**
+* This is a modified version of the Dark stylesheet so that it only targets the thread / post lists, and
+* not the entire page.
+*
+* The changes here are:
+*	Remove "input" styles
+*	Remove the "select" styles
+*	Remove body styles
+*	Scope the generic table selectors to table.threadlist
+*/
+
+@namespace url(http://www.w3.org/1999/xhtml);
+/* Background */
+
+/* Navigation bars */
+
+#navigation, .navigation, #container .navigation, .searchresults .search_container #search_info, #cpmain .inner,#buddylist {
+	background-color:#1b1c22;
+	border-color:#1d1d1d;
+}
+
+#content ul#usercpnav, .threads_editthread #content table#main_wide.standard table.thread-modnotes tr td {
+	background-color:#13171e;
+	border:none;
+}
+
+/* General Tables */
+
+table.threadlist td,div.standard, table.standard, table.standard td, div.standard dl, div.standard dd, div.standard dt,.member_account_features dl.features,.getinfo table.standard td#thread,.getinfo table.standard td.info,.getinfo table.standard tr:last-child td, .priv_sendprivmsg table#main_full.standard tr:nth-child(2) td, .priv_sendprivmsg table#main_full.standard tr:nth-child(4) td, ul.contactlist, .search_form, .whoposted table.standard td.altcolor1, .whoposted table.standard td.altcolor2, .threads_editthread #content table.standard tr td, #bbindex .tag, #cpmain div.standard table.standard tr td { /*PARENT CELL*/
+	background-color:#1b1c22;
+}
+
+#forum th, div.threadbar, div.forumbar, #forums th, #forums th a, #forums th a:visited, #pm th, #pm th a, #pm th a:visited, #pm th a:hover, #info th, #forum th a, #forum th a:visited, .standard h2, table.standard th, .standard h2 a, .standard h2 a:visited, .getinfo .standard th a, .getinfo .standard th a:visited, .gloryhole table.stats th, .privfolder tfoot tr td, #bbindex tr th {
+	background-color:#304867;
+}
+
+table.threadlist, div.standard, table.standard td, table.threadlist td, table.threadlist th, .member_account_features dl.features dd.enabled h5, .warn,.whoposted table.standard td  {
+	border-color:#1c212a!important;
+	border-width:1px!important;
+	color:#CCC!important;
+}
+
+table th a {
+	background-color:transparent!important;
+	color:#EEE!important;
+}
+
+/* Forums index */
+
+#forums {
+	box-shadow:none;
+}
+
+#forums a.forum, #forums .subforums a {
+	color:#DDD;
+}
+
+#forums #pm td, #info td, #forums td.title {
+	background-color:#1b1c22  !important;
+}
+
+#forums td.icon {
+	background-color:#1c2026  !important;
+}
+
+#forums td.moderators {
+	background-color:#18191f !important;
+}
+
+#info th, #pm th, #forums th {
+	border: inherit;
+}
+
+/* Comedy Goldmine */
+#forums .forum_21 a.forum, #forums .forum_21 .subforums a {
+	color:#000!important;
+}
+
+.forumhome #forums tr.forum_21 td.title {
+	filter:opacity(0.7);
+}
+
+.forumhome #forums tr.forum_21 td.moderators {
+	filter:opacity(0.6);
+}
+
+/* Thread List */
+#subforums tbody tr:first-child td {
+	border:none!important;
+}
+
+#subforums {
+	border:solid 1px #333!important;
+}
+
+#subforums a {
+	color:#ccc;
+}
+
+#subforums .subforum dd, #mods, .postdate, #something_awful.announcement td.postdate.userinfo .title, #thread table.post p.editedby span, #posts li .byline, .depth2,.searchresults .blurb, #onlineusers li a {
+	color:#aaa; /* background text gets #AAA */
+}
+
+#something_awful.announcement td.postdate {
+	color:#aaa!important;
+}
+
+#subforums .subforum .topics,
+#subforums .subforum .posts {
+	display:none!important;
+}
+
+/* Filter posts */
+#filter {
+	background-color: #1c212a;
+	border-color: #1d1d1d !important;
+	box-shadow: none;
+}
+
+#filter .toggle_tags:not(:hover) {
+	color:#CCC;
+}
+
+a.thread_title:not(:hover) {
+	color:#CCC;
+}
+
+#forum td {
+	background-image:none!important;
+	border:solid 1px #333333!important;
+}
+
+#forum tr.thread td.star, #forum tr.thread td.title, #forum tr.thread td.replies, #forum tr.thread td.rating, #forum tr.thread td.votes, #forum tr.thread td.button_remove {
+	background-color: #1b1c22;
+}
+
+#forum tr.thread td.icon, #forum tr.thread td.icon2,#forum tr.thread td.author, #forum tr.thread td.views, #forum tr.thread td.lastpost {
+	background-color: #18191f;
+}
+
+#forum tr.seen td.star, #forum tr.seen td.title, #forum tr.seen td.replies, #forum tr.seen td.rating, #forum tr.seen td.votes, #forum tr.seen td.button_remove, .warn {
+	background-color: #13171e;
+}
+
+#forum tr.seen td.icon, #forum tr.seen td.icon2,#forum tr.seen td.author, #forum tr.seen td.views, #forum tr.seen td.lastpost {
+	background-color: #0e141b;
+}
+
+/* bookmarks */
+
+/* tan */
+#forum.threadlist tr.thread.category0 td {
+	background-color: #1f1818;
+}
+
+/* red */
+#forum.threadlist tr.thread.category1 td {
+	background-color: #2c0e0e;
+}
+
+/* yellow */
+#forum.threadlist tr.thread.category2 td {
+	background-color: #504a31;
+}
+
+/* blue */
+#forum.threadlist tr.thread.category3 td {
+	background-color:#0d1933;
+}
+
+/* green */
+#forum.threadlist tr.thread.category4 td {
+	background-color:#111e11;
+}
+
+/* purple */
+#forum.threadlist tr.thread.category5 td {
+	background-color:#2a1930;
+}
+
+td.title div.lastseen {
+	border-color:#333!important;
+	background-color:transparent!important;
+	background-image:none!important;
+	box-shadow: inset 1px 1px 1px rgba(101, 161, 238, .6),inset -1px -1px 1px rgba(101, 161, 238, .6),2px 2px 2px rgba(96,96,96,.19);
+
+}
+
+#forum td.title div.lastseen a.x, #forum td.title div.lastseen a.count {
+	background-color:transparent;
+	background-image:none;
+	border-color:#242424;
+	color:#CCc;
+	box-shadow: inset 1px 1px 1px rgba(101, 161, 238, .6),inset -1px -1px 1px rgba(101, 161, 238, .6),2px 2px 2px rgba(96,96,96,.19);
+}
+
+#forum td.title div.lastseen a.count:hover {
+	background-color:#304867;
+	color:#eee;
+	box-shadow: inset 1px 1px 1px #65a1ee,inset -1px -1px 1px #65a1ee;
+}
+
+.forumbar, .threadbar, #nav_purchase, .standard h2, .threads_editthread table.standard tr:last-child td, .privfolder tfoot tr td, .smilie_list h3 {
+	background-color:#304867;
+	border-color:#242424!important;
+}
+
+table#forum.archives tr th, div.forumbar.archives {
+	background-color: #450909 !important;
+}
+
+/* Archives */
+#ac_timemachine {
+	background:none!important;
+	border:none!important;
+	color:#CCC!important;
+}
+
+table.post tr.seen1 td.userinfo,
+table.post tr.seen1 td.postbody,
+table.post tr.seen2 td.userinfo,
+table.post tr.seen2 td.postbody,
+table.post tr.seen2 td.postlinks,
+table.post tr.seen2 td.postdate,
+table.post tr.altcolor1 td.userinfo,
+table.post tr.altcolor1 td.postbody,
+table.post tr.altcolor1 td.postlinks,
+table.post tr.altcolor1 td.postdate,
+table.post tr.altcolor2 td.userinfo,
+table.post tr.altcolor2 td.postbody,
+table.post tr.altcolor2 td.postlinks,
+table.post tr.altcolor2 td.postdate,
+table.post tr.seen1 td.postlinks,
+table.post tr.seen1 td.postdate,
+.privfolder .standard td {
+	background-image:none!important;
+}
+
+.altcolor1 td.postdate a:hover,
+.altcolor1 td.postlinks ul.profilelinks li a:hover,
+.altcolor2 td.postdate a:hover,
+.altcolor2 td.postlinks ul.profilelinks li a:hover,
+.seen1 td.postdate a:hover,
+.seen1 td.postlinks ul.profilelinks li a:hover,
+.seen2 td.postdate a:hover,
+.seen2 td.postlinks ul.profilelinks li a:hover,
+.dictnav a:hover,
+#main_full td a:hover,
+.searchresults #main_full tr .smalltext a:hover,
+.privmsg #thread table.post td.postlinks a:hover,
+.newthread #content table.standard tr.altcolor2 td:last-child a:hover,
+.newthread #content table.standard tr:first-child a:hover,
+.newreply #main_full div.postinfo div.save-state a:hover,
+.newreply #main_full tr.altcolor2 td:last-child a:hover,
+.newreply #content table.standard tr:first-child td a:hover,
+.threads_editthread table#main_wide.standard td.user_loggedin a:hover
+{
+	background-color: #304867;
+	color: #fff;
+}
+
+#thread tr.seen1 td,
+#thread tr.seen1 ul.postbuttons{
+	background-color:#151a2b !important;
+}
+
+#thread tr.seen2 td,
+#thread tr.seen2 ul.postbuttons {
+	background-color:#0d111e !important;
+}
+
+#thread tr.altcolor1 td,#something_awful.announcement #thread table.post, #something_awful.announcement #thread td {
+	background-color:#1f2027 !important;
+}
+
+#thread tr.altcolor2 td {
+	background-color:#191a1f !important;
+}
+
+td.postdate a, td.postlinks ul.profilelinks li a, .dictnav a, #main_full td a, .searchresults #main_full tr .smalltext a, .newthread #content table.standard tr.altcolor2 td:last-child a, .newreply #main_full div.postinfo div.save-state a, .newreply #main_full tr.altcolor2 td:last-child a, .newthread #content table.standard tr:first-child a, .newreply #content table.standard tr:first-child a, .threads_editthread table#main_wide.standard td.user_loggedin a, .letternav li a {
+	border: 1px solid #304867;
+	text-shadow: 1px 1px 0 #eee;
+}
+
+.postlinks a img, .postdate a img {
+	border: none;
+	box-shadow:none!important;
+}
+
+.postlinks a:hover, .postdate a:hover, #something_awful.announcement td.postbody a:hover  {
+	background-color:inherit;
+}
+
+dd.special_title {
+	background-color:#343138;
+	color:#aaa!important;
+}
+
+dd.special_title_v2 {
+	background-color: #304867;
+	color:#aaa!important;
+}
+
+tr[id^="pti"] > td:nth-child(1), .postdate {
+	border-right:solid 2px #242424!important;
+}
+
+.banlink b {
+	color:orangered!important;
+}
+
+.postbuttons div.modqueue_ctl {
+	background-image: url(//fi.somethingawful.com/images/buttons/dark/dark-modtools-button.png) !important;
+	border: #304867 solid 1px!important;
+	background-color:transparent;
+}
+
+/*Bold/Spoilers/Quotes/etc*/
+#thread table.post {
+	border: 2px solid #1c212a;
+	border-top-width: 2px;
+	/* border-right-color: #999; */;
+	border-bottom-width: 0;
+	margin-top: -1px;
+	table-layout: fixed;
+}
+
+img.timg.complete {
+	box-shadow:2px 2px 1px #444;
+}
+
+#something_awful.announcement #thread td.postbody {
+	border:none!important;
+}
+
+.bbc-block {
+	background-color:#1b202b!important;
+	border-color:#343434!important;
+	box-shadow: none!important;
+}
+
+.bbc-block h4, .bbc-block h5 {
+	color: #999;
+}
+
+.bbc-block h5 {
+	border-color: #343434;
+}
+
+/* Spoilers */
+.bbc-spoiler, .bbc-spoiler li, .bbc-spoiler code, .bbc-spoiler pre, bbc-spoiler a {
+	background-color:#777;
+	color:#777;
+}
+
+.bbc-spoiler a, .bbc-spoiler a:link, .bbc-spoiler a:visited, .bbc-spoiler a:active, .bbc-spoiler a:link {
+	color:#777;
+}
+
+.bbc-spoiler.reveal li, .bbc-spoiler.reveal, .bbc-spoiler.stay, .bbc-spoiler.stay li, .bbc-spoiler.reveal code, .bbc-spoiler.reveal pre, .bbc-spoiler.stay code, .bbc-spoiler.stay pre {
+	background-color:#1c212a;
+
+	color: #ccc;
+}
+
+.bbc-spoiler.remain a:not(:hover),
+.bbc-spoiler.stay a:not(:hover),
+.bbc-spoiler:hover a:not(:hover),
+.bbc-spoiler:hover blockquote a:not(:hover),
+blockquote .bbc-spoiler:hover a:not(:hover),
+.bbc-spoiler.stay blockquote a:not(:hover),
+blockquote .bbc-spoiler.stay a:not(:hover),
+.bbc-spoiler.remain blockquote a:not(:hover),
+blockquote .bbc-spoiler.remain a:not(:hover) {
+	color:#65a1ee;
+}
+
+.bbc-spoiler:hover, .bbc-spoiler.reveal, .bbc-spoiler.stay  {
+	background-color:#1c212a;
+	color:#CCC;
+}
+
+.bbc-block blockquote {
+	color:#A5B7CF;
+}
+
+.bbc-spoiler blockquote a:not(:hover), blockquote .bbc-spoiler a:not(:hover) {
+	color:#304867;
+}
+
+.bbc-spoiler blockquote, blockquote .bbc-spoiler, blockquote .bbc-spoiler li, .bbc-spoiler blockquote li{
+	background-color:#304867;
+	color:#304867;
+}
+
+.bbc-spoiler.reveal blockquote, .bbc-spoiler.stay blockquote, .bbc-spoiler:hover blockquote,
+blockquote .bbc-spoiler.reveal, blockquote .bbc-spoiler.stay, blockquote .bbc-spoiler:hover,
+blockquote .bbc-spoiler.reveal li, blockquote .bbc-spoiler.stay li, blockquote .bbc-spoiler:hover li,
+.bbc-spoiler.reveal blockquote li, .bbc-spoiler.stay blockquote li, .bbc-spoiler:hover blockquote  li{
+	background-color:inherit; /* Better spoiler background in quote? */
+	color:#A5B7CF;
+}
+
+#thread dl.userinfo dd, #thread tr.postbar td, div.threadrate, div.subscribe, #filter div.toggle_tags:hover, #filter div.thread_tags div.remove_tag a:hover, body#something_awful #copyright {
+	color:#DDD;
+}
+
+pre, code, pre code {
+	color:#cccccc;
+}
+
+
+/* Breadcrumbs
+
+/* Hover over forum name on thread list */
+div.breadcrumbs a.up span {
+	background-color: rgba(28,33,42,0.9);
+	box-shadow: none;
+	border: 1px solid #333;
+}
+
+div.pages span.disabled {
+	border: 1px solid #333;
+	color: #555;
+	box-shadow: none;
+}
+
+select.forumselect{
+	background-image:none;
+}
+
+div.breadcrumbs a.index, .letternav li a, .messages_nextprev a, div.pages a, div.pages select, .modqueue #main_full div.pages a {
+	box-shadow: inset 1px 1px 1px #65a1ee,inset -1px -1px 1px #65a1ee,2px 2px 2px rgba(96,96,96,.39);
+}
+
+.smalltext .bginput {
+	background-color:inherit;
+}
+
+/* self-quoted text color - a */
+.bbc-block.userquoted {
+	background-color: #81055e !important;
+}
+
+.bbc-block.userquoted blockquote {
+	color:#ddd !important;
+}
+
+table.standard th, table.standard td {
+	border: 1px #304867 solid;
+}
+
+#thread dl.userinfo dt.platinum {
+	background-image: url("https://downloads.somethingawful.com/misc/gren-left-white.svg");
+	background-size:10px;
+}
+
+#thread dl.userinfo dt.author {
+	color: #ccc;
+}
+
+/* Reply previews */
+#thread table.post td, .inner.postbody {
+	color: #cccccc!important;
+}
+
+/* User Control Panel */
+.usercp #content table td {
+	background-color:#090a0d;
+}
+.standard {
+	background-color:inherit;
+}
+
+.privfolder .standard td {
+	border-color:#242424!important;
+}
+
+#buddylist dl a.pm,#buddylist dl.offline a.pm {
+	background-color:transparent;
+	border: 1px solid #666;
+}
+
+.private_messages h2 a {
+	background-color:transparent;
+}
+.privmsg .post td, #bbindex td {
+	background-color:#13171e!important;
+}
+
+/* Leper's colony */
+.banlist table.standard.full td {
+	background-color:#13171e !important;
+	border: #304867 solid 1px !important;
+}
+.banlist table.standard.full td:nth-child(1), .banlist table.standard.full td:nth-child(3) {
+	background-color:#1c212a !important;
+}
+.banlist table.standard.full td:nth-child(4) {
+	background-color:#18191f !important;
+}
+
+.privfolder #content table tr td.title, .privfolder #content table tr td.icon, .privfolder #content table tr td.status {
+	background-color:#1b1c22;
+}
+
+.privfolder #content table tr td.sender, .privfolder #content table tr td.date, .privfolder #content table tr td.check {
+	background-color:#13171e;
+}
+
+.privmsg #thread table.post td.userinfo, .privmsg #thread table.post td.postdate,.privmsg #thread table.post td.postbody, .privmsg #thread table.post td.postlinks {
+	border: #1c212a 1px solid;
+}
+
+/* Posting gloryhole */
+.stats td {
+	background-color:#13171e;
+	border-color:#304867;
+}
+
+/* SAClopedia */
+#posts li .byline {
+	color:#aaa!important;
+}
+
+/* Support */
+
+/* Search */
+
+body.searchresults .blurb em {
+	font-weight:bold;
+	color:#eee;
+}
+
+body.searchresults ul.pages li.page_number .this_page {
+	color:#aaa;
+}
+
+body.searchresults ul.pages li a {
+	border: none;
+}
+
+body.searchresults .blurb {
+	color:#aaa;
+}
+
+.search_container .search_forum.hover {
+	background-color:#304867;
+}
+
+.search_forum.depth2 {
+	color:#aaa;
+}
+
+.search_forum.depth3 {
+	color:#999;
+}
+
+/* Old Search \m/ */
+
+.searchresults #main_full .preview {
+	background-color: #1c2029;
+	border: 1px #304867 solid;
+	color: #ccc;
+	box-shadow: none;
+}
+
+.searchresults #main_full td {
+	background: #1b1c22;
+}
+
+/* Smileys */
+.smilie_list ul.smilie_group li {
+	border:#304867 1px solid;
+}
+
+/* adtrw */
+.forum_27 .breadcrumbs {
+	background-color: #1c212a;
+	border-color: #1c212a;
+}
+
+/* imp zone */
+body.forum_267 {
+	background: url(//fi.somethingawful.com/images/imp-bg2.png) #cedbf0 !important;
+	background-size:100% !important;
+}
+
+.forum_267 .breadcrumbs a.up, .forum_267 .breadcrumbs a.bclast, .forum_267 .breadcrumbs .online_users, .forum_267 .breadcrumbs .mainbodytextlarge b {
+	box-shadow: none!important;
+	background: #1b1c22!important;
+	border: 1px solid #304867!important;
+}
+
+/* byob thread list thread */
+
+#forum tr#thread3918699 td.star, #forum tr#thread3918699 td.icon, #forum tr#thread3918699 td.author, #forum tr#thread3918699 td.views, #forum tr#thread3918699 td.lastpost, #forum tr#thread3918699 td.button_remove {
+	opacity: 0.5;
+}
+
+#forum tr#thread3918699 td.rating, #forum tr#thread3918699 td.replies {
+	opacity: 0.5;
+}
+
+#forum tr#thread3918699 td.title {
+	opacity: 0.5;
+}
+
+#forum tr#thread3918699 td a:not(:hover) {
+	color: #333;
+}
+
+/* System Message */
+#system {
+	background:#508827;
+	color:#000;
+}
+
+#system a {
+	color:#44a;
+}
+
+#system h1 {
+	color:#000;
+}
+
+#probation_warn {
+	background-color:#2a1930;
+	color:#DDD;
+	border-color:#9c1ec8;
+}
+
+/* bbcode page */
+i.bt {
+	color: #65a1ee!important;
+}
+
+/* Links */
+a,#nav_purchase a,#thread td.postbody, #thread dl.userinfo, #forum td.replies, #forum td.views, #forum td.author, a:visited, #copyright a, .gloryhole div#main_small table.stats td, .online_users div.inner, div.breadcrumbs a:not(:hover), #index a, #index :visited,.breadcrumbs a, .pages a, .pages .disabled, .postbody a.quote_link,.forumhome #navigation.navigation a, div#buddylist dl.online a.user,#forum td.title div.lastseen a.x,#subforums tr.subforum td.title a, .letternav li, #something_awful.announcement td.postbody, #thread dl.userinfo dt.author.op, .searchresults .hit_info .forumtitle a {
+	color:#65a1ee;
+}
+
+a:hover, a:hover:visited {
+	text-decoration:underline;
+	color: #a7392b;
+}
+
+#thread li.post.even, #subforums, #subforums td, #forums td.title, #pm td, #info td.posts, #info td.banned, #thread.pm td, .box {
+	background:#1b1c22;
+}
+
+/* this thing is blinding white */
+img[src="https://fi.somethingawful.com/images/newbie.gif"] {
+	display: none;
+}

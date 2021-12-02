@@ -391,6 +391,19 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         });
     }
+
+    // Dark mode toggle
+    const stylesheets = document.head.getElementsByTagName('LINK');
+    const darkIdx = [...stylesheets].findIndex((stylesheet) => stylesheet.href.includes('somethingawful_dark.css'));
+    const elements = document.querySelectorAll('.dark-mode-toggle');
+    for (const element of elements) {
+        element.addEventListener('change', (e) => {
+            for (const innerElem of elements) {
+                innerElem.checked = e.target.checked;
+            }
+            stylesheets[darkIdx].disabled = !e.target.checked;
+        });
+    }
 });
 
 function highlightExamples() {
