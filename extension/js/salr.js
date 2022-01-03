@@ -705,15 +705,15 @@ SALR.prototype.insertSinglePostLink = function(post, inSinglePostView) {
     if (!postIdLink)
         return;
 
-    let curPostId = post.id.match(/post(\d+)/)[1];
-    let newLink = document.createElement('a');
     if (!inSinglePostView) {
+        let curPostId = post.id.match(/post(\d+)/)[1];
+        let newLink = document.createElement('a');
         newLink.href = "/showthread.php?action=showpost&postid=" + curPostId;
         newLink.title = "View as single post";
         newLink.textContent = "1";
+        postIdLink.parentNode.insertBefore(newLink, postIdLink);
+        postIdLink.parentNode.insertBefore(document.createTextNode(" "), postIdLink);
     }
-    postIdLink.parentNode.insertBefore(newLink, postIdLink);
-    postIdLink.parentNode.insertBefore(document.createTextNode(" "), postIdLink);
 };
 
 SALR.prototype.modifyImages = function() {
