@@ -135,6 +135,8 @@ div#preview-content {
 }
 
 textarea#post-message {
+    font-family: roboto,sans-serif;
+    padding: 3px;
     width: 590px;
 }
 
