@@ -11,6 +11,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="241"></a>v2.4.1 (07/10/2022)
+
+```
+* Fix quick reply using monospace font on windows
+```
+
 ### <a name="240"></a>v2.4.0 (02/12/2021)
 
 ```
