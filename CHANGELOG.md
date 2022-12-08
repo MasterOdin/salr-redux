@@ -11,6 +11,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="242"></a>v2.4.2 (12/08/2022)
+
+```
+* Add accept-charset attribute to quick reply window
+```
+
 ### <a name="241"></a>v2.4.1 (07/10/2022)
 
 ```
