@@ -102,7 +102,7 @@ QuickReplyBox.prototype.create = function(username, quote) {
                 '   </div>' +
                 '</div>' +
                 `<div ${this.darkMode ? "class='salr-dark'" : ''} id="quick-reply"> ` +
-                '   <form id="quick-reply-form" enctype="multipart/form-data" action="newreply.php" name="vbform" method="POST" onsubmit="addThreadToCache(' + findThreadID() + '); return validate(this);">' +
+                '   <form id="quick-reply-form" enctype="multipart/form-data" accept-charset="ISO-8859-1" action="newreply.php" name="vbform" method="POST" onsubmit="addThreadToCache(' + findThreadID() + '); return validate(this);">' +
                 '       <input id="quick-reply-action" type="hidden" name="action" value="postreply">' +
                 '       <input type="hidden" name="threadid" value="' + findThreadID() + '">' +
                 '       <input id="quick-reply-postid" type="hidden" name="postid" value="">' +
