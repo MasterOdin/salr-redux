@@ -35,18 +35,33 @@ var salr_client = false;
  * within the extension.
  *
  */
-var port = chrome.runtime.connect();
-
-port.onMessage.addListener(function(data) {
-    if (!salr_client) {
-        salr_client = new SALR(data, chrome.extension.getURL("images/"));
-    }
-});
+var port = createPort();
 
 // Request the settings from the extension
 port.postMessage({'message': 'GetPageSettings'});
 
+// Create a port to communicate through.
+function createPort() {
+    let p = chrome.runtime.connect();
+    p.onMessage.addListener(function(data) {
+        if (!salr_client) {
+            salr_client = new SALR(data, chrome.extension.getURL("images/"));
+        }
+    });
+    p.onDisconnect.addListener(() => {
+        port = null;
+        p = null;
+        salr_client = false;
+    });
+
+    return p;
+}
+
 // Gateway method for components to post to the extension
 function postMessage(message_object) {
+    if (port === null) {
+        port = createPort();
+    }
+
     port.postMessage(message_object);
 }
