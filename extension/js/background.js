@@ -37,27 +37,30 @@ var salr_client = false;
  */
 var port = createPort();
 
-// Request the settings from the extension
+// Set up the listener for when we request our settings.
+port.onMessage.addListener(function init(data) {
+  salr_client = new SALR(data, chrome.extension.getURL("images/"));
+  port.onMessage.removeListener(init);
+});
+
+// Request the settings from the extension.
 port.postMessage({'message': 'GetPageSettings'});
 
 // Create a port to communicate through.
 function createPort() {
     let p = chrome.runtime.connect();
-    p.onMessage.addListener(function(data) {
-        if (!salr_client) {
-            salr_client = new SALR(data, chrome.extension.getURL("images/"));
-        }
-    });
+
+    // If we disconnect, clear our port variable so we know the reconnect the port when we next send a message.
+    // Chromium browsers keep the port open for a while, but Firefox can very quickly close the port.
     p.onDisconnect.addListener(() => {
         port = null;
         p = null;
-        salr_client = false;
     });
 
     return p;
 }
 
-// Gateway method for components to post to the extension
+// Gateway method for components to post to the extension.
 function postMessage(message_object) {
     if (port === null) {
         port = createPort();
