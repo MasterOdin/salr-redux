@@ -409,7 +409,7 @@ SALR.prototype.applyNavMenuStyling = function() {
             else {
                 settingToNavLinkMap.forEach((value, key) => {
                     if (settings[key] === 'false') {
-                        navList.querySelector('a[href="' + value + '"]').parentNode.style.display = 'none';
+                        navList.querySelector('a[href*="' + value + '"]').parentNode.style.display = 'none';
                     }
                 });
                 if (settings.topLogout === 'false') {
