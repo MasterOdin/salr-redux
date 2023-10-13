@@ -1,15 +1,19 @@
 {
   "devDependencies": {
-    "archiver": "^3.1.1",
-    "chrome-webstore-upload-cli": "^1.2.0",
-    "web-ext": "^5.3.0"
+    "archiver": "^6.0.1",
+    "chrome-webstore-upload-cli": "^2.2.2",
+    "tsx": "^3.13.0",
+    "web-ext": "^7.8.0"
   },
   "scripts": {
     "build": "npm run build:chrome && npm run build:firefox",
-    "build:chrome": "node scripts/build.js chrome",
-    "build:firefox": "node scripts/build.js firefox",
-    "build:emoticons": "node scripts/build_emoticon_list.js",
+    "build:chrome": "tsx scripts/build.ts chrome",
+    "build:firefox": "tsx scripts/build.ts firefox",
+    "build:emoticons": "tsx scripts/build_emoticon_list.ts",
     "release:chrome": "webstore upload --source=extension-chrome.zip --auto-publish",
     "release:firefox": "echo firefox"
+  },
+  "dependencies": {
+    "@types/archiver": "^5.3.3"
   }
 }
