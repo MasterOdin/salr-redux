@@ -409,7 +409,12 @@ SALR.prototype.applyNavMenuStyling = function() {
             else {
                 settingToNavLinkMap.forEach((value, key) => {
                     if (settings[key] === 'false') {
-                        navList.querySelector('a[href*="' + value + '"]').parentNode.style.display = 'none';
+                        const elem = navList.querySelector('a[href*="' + value + '"]');
+                        if (!elem) {
+                            console.error(`Could not find element for ${key}`);
+                            continue;
+                        }
+                        elem.parentNode.style.display = 'none';
                     }
                 });
                 if (settings.topLogout === 'false') {
