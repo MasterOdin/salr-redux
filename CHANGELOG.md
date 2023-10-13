@@ -11,6 +11,13 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="243"></a>v2.4.3 (10/13/2023)
+
+```
+* Auto reconnect runtime port if disconnected (thanks @LoneBoco)
+* Fix hiding nav list URLs using a contains attribute selector (thanks @LoneBoco)
+```
+
 ### <a name="242"></a>v2.4.2 (12/08/2022)
 
 ```
