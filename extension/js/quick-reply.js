@@ -226,12 +226,11 @@ QuickReplyBox.prototype.create = function(username, quote) {
         var button = jQuery('input[name="submit"]');
         if  (button.length > 0) {
             button.click(function() {
-                var history = new PostHistory(function(result,id) {
-                    if (result == false) {
-                        history.addThread(id);
-                    }
-                });
-                history.getThreadStatus(findThreadID());
+                var history = new PostHistory();
+                const id = findThreadID();
+                if (!history.getThreadStatus(id)) {
+                    history.addThread(id);
+                }
             });
 
         }

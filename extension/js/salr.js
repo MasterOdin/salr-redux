@@ -2336,12 +2336,11 @@ SALR.prototype.bindThreadCaching = function() {
         var button = jQuery('input[name="submit"]');
         if  (button.length > 0) {
             button.click(function() {
-                var history = new PostHistory(function(result,id) {
-                    if (result == false) {
-                        history.addThread(id);
-                    }
-                });
-                history.getThreadStatus(findThreadID());
+                const history = new PostHistory();
+                const id = findThreadID();
+                if (!history.getThreadStatus(id)) {
+                    history.addThread(id);
+                }
             });
 
         }
@@ -2468,32 +2467,23 @@ SALR.prototype.fixCancerPosts = function() {
     });
 };
 
+/**
+ * Highlights thread postcount in yellow if the user has posted in that thread
+ * before.
+ */
 SALR.prototype.queryVisibleThreads = function() {
-    //return false;
-    var post_history = new PostHistory(this.tagPostedThreads);
+    var post_history = new PostHistory();
 
     jQuery('tr.thread').each(function() {
         if (jQuery(this).attr('id') == undefined) return;
         var thread_id = jQuery(this).attr('id').substr(6);
-        post_history.getThreadStatus(thread_id);
+        if (post_history.getThreadStatus(thread_id)) {
+            jQuery('tr#thread' + thread_id + ' > td.replies').each(function() {
+                jQuery(this).css('background-color', 'yellow');
+            });
+        }
     });
 };
-
-/**
- * Asynchronous callback that updates thread postcount highlighting if the user
- * has posted in that thread before
- *
- */
-SALR.prototype.tagPostedThreads = function(result, thread_id) {
-    result = (result == true) || false;
-
-    if (result == true) {
-        jQuery('tr#thread' + thread_id + ' > td.replies').each(function() {
-            jQuery(this).css('background-color', 'yellow');
-        });
-    }
-};
-
 
 SALR.prototype.swapRetinaEmotes = function() {
     $(function() {

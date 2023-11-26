@@ -1,44 +1,37 @@
-function PostHistory(callback) {
-    this.database = window.openDatabase("salr_post_history_db", "1.0", "SALR Post History", 1024 * 1024);
-    this.callback = callback || false;
+const storageKey = "postHistory";
 
-    if (!this.database) {
-        console.log("Error opening database");
+// eslint-disable-next-line no-redeclare
+function PostHistory() {
+    console.log('existing thread data', JSON.stringify(this.getThreadData(), null, 2));
+}
+
+PostHistory.prototype.getThreadData = function() {
+    try {
+        return JSON.parse(localStorage.getItem(storageKey)) || {};
+    } catch (err) {
+        console.error('Could not parse stored post history data, resetting', err);
+        this.setThreadData({});
+        return {};
     }
-
-    this.initDatabase();
-}
-
-PostHistory.prototype.initDatabase = function() {
-    this.database.transaction(function(query) {
-        query.executeSql('CREATE TABLE threads(id INTEGER PRIMARY KEY AUTOINCREMENT, thread_id VARCHAR(25) UNIQUE)',
-            []);
-    });
 };
 
-PostHistory.prototype.addThread = function(thread_id) {
-    this.database.transaction(function(query) {
-        query.executeSql('INSERT INTO threads(thread_id) VALUES(?)', [thread_id]);
-    });
+PostHistory.prototype.setThreadData = function(data) {
+    localStorage.setItem(storageKey, JSON.stringify(data));
 };
 
-PostHistory.prototype.getThreadStatus = function(thread_id) {
-    var that = this;
-
-    this.database.transaction(function(query) {
-        query.executeSql("SELECT * FROM threads WHERE thread_id = ?", [thread_id],
-            function(transaction, result) {
-                if (result.rows.length > 0) {
-                    that.callback(true, thread_id);
-                } else {
-                    that.callback(false, thread_id);
-                }
-            });
-    });
+PostHistory.prototype.getThreadStatus = function(threadId) {
+    const data = this.getThreadData();
+    return data[threadId] || false;
 };
 
-PostHistory.prototype.deleteThread = function(thread_id) {
-    this.database.transaction(function(query) {
-        query.executeSql('DELETE FROM threads WHERE thread_id=?', [thread_id]);
-    });
-}
+PostHistory.prototype.addThread = function(threadId) {
+    const data = this.getThreadData();
+    data[threadId] = true;
+    this.setThreadData(data);
+};
+
+PostHistory.prototype.deleteThread = function(threadId) {
+    const data = this.getThreadData();
+    delete data[threadId];
+    this.setThreadData(data);
+};
