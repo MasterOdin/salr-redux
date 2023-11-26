@@ -11,6 +11,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="250"></a>v2.5.0 (11/26/2023)
+
+```
+* Fix Post Count Highligting feature, uses localStorage over removed WebSQL. Note, all existing indicators are lost.
+```
+
 ### <a name="243"></a>v2.4.3 (10/13/2023)
 
 ```
@@ -307,7 +313,7 @@ Changelog List
 ### v2.1.2 (04/14/2014)
 
 ```
-* Fix SALR crash when using Post Cout Highlighting on forum page with global announcement
+* Fix SALR crash when using Post Count Highlighting on forum page with global announcement
 * Fix logic on image resizing
 ```
 
