@@ -12,7 +12,7 @@ var port = createPort();
 
 // Set up the listener for when we request our settings.
 port.onMessage.addListener(function init(data) {
-  salr_client = new SALR(data, chrome.extension.getURL("images/"));
+  salr_client = new SALR(data, chrome.runtime.getURL("images/"));
   port.onMessage.removeListener(init);
 });
 

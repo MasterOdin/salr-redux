@@ -692,7 +692,7 @@ QuickReplyBox.prototype.setBBCodeSidebar = function() {
 };
 
 QuickReplyBox.prototype.setImgurImagesSidebar = function() {
-    var html = '<iframe src="' + chrome.extension.getURL('/') + 'imgur-upload.html" width="162" height="245" frameborder="0"></iframe>';
+    var html = '<iframe src="' + chrome.runtime.getURL('/') + 'imgur-upload.html" width="162" height="245" frameborder="0"></iframe>';
     jQuery('#sidebar-list').html(html);
 
     this.sidebar_html = html;

@@ -9,19 +9,28 @@ chrome.runtime.onConnect.addListener(function(port) {
                 chrome.runtime.openOptionsPage();
                 break;
             case 'ChangeSetting':
-                localStorage.setItem(data.option, data.value);
+                chrome.storage.local.set({ [data.option]: data.value }).catch((err) => {
+                    console.error(err);
+                });
+                break;
+            case 'ConvertSettings':
+                data.settings['salrInitialized'] = true;
+                chrome.storage.local.set(data.settings).catch((err) => {
+                    console.error(err);
+                });
                 break;
             case 'SetHideAvatarStatus':
                 setHideAvatarStatus(data);
                 break;
             case 'ChangeSyncSetting':
                 if (data.option == 'userNotes') {
-                    if (localStorage.getItem('enableUserNotesSync') != 'true') {
-                        localStorage.setItem('userNotesLocal',data.value);
-                    }
-                    else {
-                        chrome.storage.sync.set({'userNotes' : data.value});
-                    }
+                    chrome.storage.local.get('enableUserNotesSync').then(({ enableUserNotesSync }) => {
+                        if (enableUserNotesSync != 'true') {
+                            chrome.storage.local.set({ userNotesLocal: data.value });
+                        } else {
+                            chrome.storage.sync.set({ userNotes: data.value });
+                        }
+                    });
                 }
                 else {
                     console.log("can't sync that particular setting");
@@ -38,10 +47,14 @@ chrome.runtime.onConnect.addListener(function(port) {
                 break;
             case 'GetPageSettings':
             case 'GetForumsJumpList':
-                port.postMessage(getPageSettings());
+                getPageSettings().then((settings) => {
+                    port.postMessage(settings);
+                });
                 break;
             case 'ChangeSALRSetting':
-                localStorage.setItem(data.option, data.value);
+                chrome.storage.local.set({ [data.option]: data.value }).catch((err) => {
+                    console.error(err);
+                });
                 //port.postMessage({"message":"setting changed"});
                 break;
             case 'AppendUploadedImage':
@@ -250,55 +263,40 @@ function reloadTab() {
 /**
  * Sets up default preferences for highlighting and menus only
  */
-function setupDefaultPreferences() {
+async function setupDefaultPreferences() {
+    const items = await chrome.storage.local.get();
+    const toSet = {};
     // New, more scalable method for setting default prefs.
-    for ( var key in defaultSettings ) {
-        if ( localStorage.getItem(key) == undefined ) {
-            localStorage.setItem(key, defaultSettings[key]);
+    for (const key in defaultSettings) {
+        if (items[key] == undefined) {
+            toSet[key] = defaultSettings[key];
         }
     }
+    await chrome.storage.local.set(toSet);
 }
 
 /**
  * Returns page settings to local and remote message requests
  *
  */
-function getPageSettings() {
-    // Don't wipe the settings made by previous versions
-    if (localStorage.getItem('username')) {
-        localStorage.setItem('salrInitialized', 'true');
+async function getPageSettings() {
+    const keys = await chrome.storage.local.getKeys();
+    const { salrInitialized = false } = await chrome.storage.local.get('salrInitialized');
+    if (true || (!salrInitialized && typeof localStorage === 'undefined')) {
+        await chrome.offscreen.createDocument({
+            url: 'offscreen.html',
+            reasons: [chrome.offscreen.Reason.LOCAL_STORAGE],
+            justification: 'Copies localStorage to chrome.storage.local.'
+        });
+        await chrome.offscreen.closeDocument();
     }
 
     // If we don't have stored settings, set defaults
-    setupDefaultPreferences();
-
-    fixSettings();
-
-    var response = {};
-
-    for ( var index in localStorage ) {
-        if (localStorage.hasOwnProperty(index))
-            response[index] = localStorage.getItem(index);
-    }
+    await setupDefaultPreferences();
+    const response = await chrome.storage.local.get();
 
     response['message'] = 'SettingsResult';
-
     return response;
-}
-
-/**
- * Update settings from old versions
- *
- */
-function fixSettings() {
-    if (localStorage.getItem('showUserAvatar') !== null) {
-        localStorage.setItem('hideUserAvatar', (localStorage.getItem('showUserAvatar') == 'false').toString());
-        localStorage.removeItem('showUserAvatar');
-    }
-    if (localStorage.getItem('showUserAvatarImage') !== null) {
-        localStorage.setItem('hideUserAvatarImage', (localStorage.getItem('showUserAvatarImage') == 'false').toString());
-        localStorage.removeItem('showUserAvatarImage');
-    }
 }
 
 /**
@@ -308,10 +306,10 @@ function fixSettings() {
  * @param {string}  messageData.idToToggle          The user ID for which we want to hide or show avatars
  * @param {boolean} messageData.newHideAvatarStatus Whether we want to hide or show avatars
  */
-function setHideAvatarStatus(messageData) {
+async function setHideAvatarStatus(messageData) {
     var idToToggle = messageData.idToToggle;
     var newHideAvatarStatus = messageData.newHideAvatarStatus;
-    var rawAvatars = localStorage.getItem('hiddenAvatarsLocal');
+    var { hiddenAvatarsLocal: rawAvatars } = await chrome.storage.local.get('hiddenAvatarsLocal');
     var hiddenAvatars = rawAvatars ? JSON.parse(rawAvatars) : [];
     var alreadyHiddenIndex = hiddenAvatars.indexOf(parseInt(idToToggle, 10));
 
@@ -319,12 +317,12 @@ function setHideAvatarStatus(messageData) {
     if (newHideAvatarStatus === false && alreadyHiddenIndex > -1) {
         hiddenAvatars.splice(alreadyHiddenIndex, 1);
         // Update the stored value
-        localStorage.setItem('hiddenAvatarsLocal', JSON.stringify(hiddenAvatars));
+        await chrome.storage.local.set({ hiddenAvatarsLocal: JSON.stringify(hiddenAvatars) });
     }
     // add them to the list BUT make sure they weren't already
     else if (newHideAvatarStatus === true && alreadyHiddenIndex === -1) {
         hiddenAvatars.push(parseInt(idToToggle, 10));
         // Update the stored value
-        localStorage.setItem('hiddenAvatarsLocal', JSON.stringify(hiddenAvatars));
+        await chrome.storage.local.set({ hiddenAvatarsLocal: JSON.stringify(hiddenAvatars) });
     }
 }

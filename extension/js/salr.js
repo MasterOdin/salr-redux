@@ -877,8 +877,8 @@ SALR.prototype.skimModerators = function() {
 
         // If old style of modList is detected, force reset
         if (typeof(modList['23684'].username) == 'string') {
-// This probably isn't behaving as expected - localstorage from
-// content script = the domain of the content, not the extension
+            // This probably isn't behaving as expected - localstorage from
+            // content script = the domain of the content, not the extension
             localStorage.removeItem('modList');
             return;
         }
@@ -2411,7 +2411,7 @@ SALR.prototype.threadNotes = function() {
     jQuery("#container").append(notesHTML);
     jQuery("#threadnotes").addClass('displayed');
     jQuery("#threadnotes-show").css({
-        'background': 'url("' + chrome.extension.getURL('images/') + 'note.png") no-repeat left center'
+        'background': 'url("' + chrome.runtime.getURL('images/') + 'note.png") no-repeat left center'
     });
 
     jQuery('body').append("<div id='salr-threadnotes-config' title='Thread notes' style='display:none'>"+
@@ -2487,7 +2487,7 @@ SALR.prototype.queryVisibleThreads = function() {
 
 SALR.prototype.swapRetinaEmotes = function() {
     $(function() {
-        $.getJSON(chrome.extension.getURL('/images/emoticons/emoticons.json'), function(list) {
+        $.getJSON(chrome.runtime.getURL('/images/emoticons/emoticons.json'), function(list) {
 
             jQuery('.postbody img').each(function() {
 
@@ -2503,7 +2503,7 @@ SALR.prototype.swapRetinaEmotes = function() {
                         //console.log('swapping in' + f);
                         var height = item.height();
                         var width = item.width();
-                        item.attr('src',chrome.extension.getURL('/images/emoticons/'+f))
+                        item.attr('src',chrome.runtime.getURL('/images/emoticons/'+f))
                             .width(width)
                             .height(height);
                     }

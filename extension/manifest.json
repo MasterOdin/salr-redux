@@ -1,7 +1,7 @@
 {
   "name": "Something Awful Last Read Redux",
   "version": "2.5.0",
-  "manifest_version": 2,
+  "manifest_version": 3,
   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC/ODZliWIb6YDyaHICQGfRDOiDmNOqCVPDNro6/Kwi1KpSFL7jI0Sn+HpvPt60Yb5tKPPMUIseTCSdDAjpr/d3aHU93r4g9ziq+wLKtTjuOryW/6izrGSf548A3QeyqIsWM+ONdbvOdU5bnXeAgIqa1CymocuJOASbvnz+ztaZXQIDAQAB",
   "description": "Enhances the Something Awful forums with a host of new and exciting features",
   "browser_specific_settings": {
@@ -19,7 +19,7 @@
       "scripts": [
           "js/message-handler.js"
       ],
-      "persistent": false
+      "service_worker": "js/message-handler.js"
   },
   "options_ui": {
       "page": "settings.html",
@@ -56,34 +56,41 @@
         "js/background.js"
       ],
       "matches": [
-        "*://forums.somethingawful.com/*"
+        "https://forums.somethingawful.com/*"
       ],
       "run_at": "document_end"
     }
   ],
-  "permissions":
-    [
-        "*://forums.somethingawful.com/*",
-        "tabs",
-        "storage",
-        "unlimitedStorage"
-    ],
-  "optional_permissions":
-    [
-        "https://api.imgur.com/*",
-        "https://api.twitter.com/*"
-    ],
-  "browser_action":
-    {
-        "default_icon": "images/logo16.png",
-        "default_title": "Forum Jump List",
-        "default_popup": "popup.html"
-    },
+  "permissions": [
+    "offscreen",
+    "tabs",
+    "storage",
+    "unlimitedStorage"
+  ],
+  "host_permissions": [
+    "https://forums.somethingawful.com/*"
+  ],
+  "optional_host_permissions": [
+    "https://api.imgur.com/*",
+    "https://api.twitter.com/*"
+  ],
+  "action": {
+    "default_icon": "images/logo16.png",
+    "default_title": "Forum Jump List",
+    "default_popup": "popup.html"
+  },
   "web_accessible_resources": [
-    "images/*.gif",
-    "images/*.png",
-    "imgur-upload.html",
-    "images/emoticons/*",
-    "js/jquery/jquery.min.map"
+    {
+      "resources": [
+        "images/*.gif",
+        "images/*.png",
+        "imgur-upload.html",
+        "images/emoticons/*",
+        "js/jquery/jquery.min.map"
+      ],
+      "matches": [
+        "https://forums.somethingawful.com/*"
+      ]
+    }
   ]
 }

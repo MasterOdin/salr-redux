@@ -3,8 +3,6 @@
  *
  */
 
-let port = chrome.runtime.connect({"name":"settings"});
-
 document.addEventListener('DOMContentLoaded', () => {
     // Don't wipe the settings made by previous versions
     if (localStorage.getItem('username')) {
