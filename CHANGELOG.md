@@ -11,6 +11,13 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="300"></a>v3.0.0 (12/27/2024)
+
+```
+* Migrate to Manifest v3
+* Replace usage of localStorage with chrome.storage.local
+```
+
 ### <a name="250"></a>v2.5.0 (11/26/2023)
 
 ```

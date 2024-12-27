@@ -84,6 +84,7 @@ async function buildChrome(): Promise<void> {
   const manifestFile = path.join(tmpDir, 'manifest.json');
   let config = JSON.parse(fs.readFileSync(manifestFile, 'utf-8'));
   delete config['applications'];
+  delete config['background']['scripts'];
   delete config['key'];
   fs.writeFileSync(manifestFile, JSON.stringify(config), 'utf8');
 
@@ -100,26 +101,40 @@ async function buildChrome(): Promise<void> {
 
   archive.pipe(output);
   archive.directory(tmpDir, false);
-  await archive.finalize().then(() => {
-    deleteFolderRecursive(tmpDir);
-  });
+  await archive.finalize();
+  deleteFolderRecursive(tmpDir);
 }
 
 async function buildFirefox(): Promise<void> {
-  const sourceDir = path.join(__dirname, '..', 'extension');
+  const tmpDir = path.join(rootDir, 'tmp-firefox');
+
+  if (fs.existsSync(tmpDir)) {
+    deleteFolderRecursive(tmpDir);
+  }
+  copyFolderSync(path.join(rootDir, 'extension'), tmpDir);
+  const manifestFile = path.join(tmpDir, 'manifest.json');
+  let config = JSON.parse(fs.readFileSync(manifestFile, 'utf-8'));
+  delete config['background']['service_worker'];
+  config.permissions = config.permissions.filter((p: string) => p !== 'offscreen');
+  fs.writeFileSync(manifestFile, JSON.stringify(config), 'utf8');
+
+  await rm(path.join(tmpDir, 'js', 'offscreen.js'));
+  await rm(path.join(tmpDir, 'offscreen.html'));
+
   await rm(path.join(__dirname, '..', 'web-ext-artifacts'), { recursive: true, force: true });
   await webExt.cmd.lint(
     {
-      sourceDir: sourceDir
+      sourceDir: tmpDir,
     },
     {
       shouldExitProgram: false,
     }
   );
   await webExt.cmd.build({
-    sourceDir: sourceDir,
+    sourceDir: tmpDir,
     artifactsDir: path.join(__dirname, '..', 'web-ext-artifacts')
   });
+  deleteFolderRecursive(tmpDir);
 }
 
 var targetBrowser = process.argv[2];

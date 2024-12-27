@@ -28,23 +28,41 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
             break;
     }
 
-    if (localStorage.getItem("MouseActiveContext") == undefined || localStorage.getItem("MouseActiveContext") == null) {
-        localStorage.setItem("MouseActiveContext", false);
-    }
+    chrome.storage.local.get('MouseActiveContext')
+        .then(( { MouseActiveContext }) => {
+            if (MouseActiveContext == undefined || MouseActiveContext == null) {
+                chrome.storage.local.set({MouseActiveContext: 'false'});
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
 
     document.addEventListener("contextmenu", (event) => {
-        if (that.settings.enableMouseMenu == "true" && localStorage.getItem("MouseActiveContext") == 'false') {
-            event.preventDefault();
-            event.stopPropagation();
-            return false;
-        }
+        chrome.storage.local.get('MouseActiveContext')
+            .then(( { MouseActiveContext }) => {
+                if (that.settings.enableMouseMenu == "true" && MouseActiveContext == 'false') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    return false;
+                }
+            })
+            .catch((err) => {
+                console.error(err);
+            });
+
     });
 
     jQuery(document).keydown(function(event) {
         if (event.keyCode == 18) {
             if (that.settings.enableMouseMenu == "true") {
-                var not_context = localStorage.getItem("MouseActiveContext") != 'true' ? 'true' : 'false';
-                localStorage.setItem("MouseActiveContext", not_context);
+                chrome.storage.local.get('MouseActiveContext')
+                    .then(({ MouseActiveContext }) => {
+                        chrome.storage.local.set({ MouseActiveContext: MouseActiveContext == 'true' ? 'false' : 'true' });
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
             }
         }
     });
@@ -114,25 +132,38 @@ function MouseGesturesController(base_image_uri, settings, currentPage, countPag
 
         jQuery(this).rightMouseDown(function(event) {
             // Bail if the alt-toggle setting is enabled and it's context menu time
-            if (that.settings.enableMouseMenu == "true" && localStorage.getItem("MouseActiveContext") == 'true')
-                return;
-            jQuery('body').append(that.gesture_overlay_html);
-            jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
-                                    'top': event.pageY - 115});
+            chrome.storage.local.get('MouseActiveContext')
+                .then(( { MouseActiveContext }) => {
+                    if (that.settings.enableMouseMenu == "true" && MouseActiveContext == 'true') {
+                        return;
+                    }
+                    jQuery('body').append(that.gesture_overlay_html);
+                    jQuery('div#gesture-overlay').css({'left': event.pageX - 115,
+                                            'top': event.pageY - 115});
 
-            that.setPageSpecificCSS();
+                    that.setPageSpecificCSS();
 
-            jQuery('div#gesture-overlay').rightMouseUp(function(event) {
-                removeOverlay(event.pageX, event.pageY);
-            });
+                    jQuery('div#gesture-overlay').rightMouseUp(function(event) {
+                        removeOverlay(event.pageX, event.pageY);
+                    });
 
-            jQuery('div#gesture-overlay').mousemove(drawIndicator);
+                    jQuery('div#gesture-overlay').mousemove(drawIndicator);
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
         });
 
         jQuery(this).rightMouseUp(function(event) {
-            if (localStorage.getItem("MouseActiveContext") == 'false') {
-                removeOverlay(event.pageX, event.pageY);
-            }
+            chrome.storage.local.get('MouseActiveContext')
+                .then(( { MouseActiveContext }) => {
+                    if (MouseActiveContext == 'false') {
+                        removeOverlay(event.pageX, event.pageY);
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                });
         });
     });
 }

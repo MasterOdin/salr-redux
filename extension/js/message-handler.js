@@ -27,7 +27,8 @@ chrome.runtime.onConnect.addListener(function(port) {
                     chrome.storage.local.get('enableUserNotesSync').then(({ enableUserNotesSync }) => {
                         if (enableUserNotesSync != 'true') {
                             chrome.storage.local.set({ userNotesLocal: data.value });
-                        } else {
+                        }
+                        else {
                             chrome.storage.sync.set({ userNotes: data.value });
                         }
                     });
@@ -280,15 +281,28 @@ async function setupDefaultPreferences() {
  *
  */
 async function getPageSettings() {
-    const keys = await chrome.storage.local.getKeys();
+
     const { salrInitialized = false } = await chrome.storage.local.get('salrInitialized');
-    if (true || (!salrInitialized && typeof localStorage === 'undefined')) {
-        await chrome.offscreen.createDocument({
-            url: 'offscreen.html',
-            reasons: [chrome.offscreen.Reason.LOCAL_STORAGE],
-            justification: 'Copies localStorage to chrome.storage.local.'
-        });
-        await chrome.offscreen.closeDocument();
+    if (!salrInitialized) {
+        // Need to convert from localStorage to chrome.storage.local for Chrome service-worker.
+        // Unfortunately Firefox does not support chrome.offscreen API, which complicates the
+        // conversion process.
+        if (typeof localStorage === 'undefined') {
+            await chrome.offscreen.createDocument({
+                url: 'offscreen.html',
+                reasons: [chrome.offscreen.Reason.LOCAL_STORAGE],
+                justification: 'Copies localStorage to chrome.storage.local.'
+            });
+            await chrome.offscreen.closeDocument();
+        }
+        else {
+            const settings = {};
+            for (var i = 0, len = localStorage.length; i < len; ++i) {
+                settings[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
+            }
+            settings['salrInitialized'] = true;
+            await chrome.storage.local.set(settings);
+        }
     }
 
     // If we don't have stored settings, set defaults
