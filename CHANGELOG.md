@@ -11,6 +11,12 @@ Developer only seen features (such as internal functions) may or may not be reco
 Changelog List
 --------------
 
+### <a name="301"></a>v3.0.1 (12/31/2024)
+
+```
+* Fix enabling/disabling mouse gestures via alt key
+```
+
 ### <a name="300"></a>v3.0.0 (12/27/2024)
 
 ```
