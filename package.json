@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "archiver": "^6.0.1",
-    "chrome-webstore-upload-cli": "^2.2.2",
+    "chrome-webstore-upload-cli": "^3.5.0",
     "tsx": "^3.13.0",
     "web-ext": "^7.8.0"
   },
