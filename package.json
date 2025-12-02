@@ -3,7 +3,7 @@
     "archiver": "^6.0.1",
     "chrome-webstore-upload-cli": "^3.5.0",
     "tsx": "^4.21.0",
-    "web-ext": "^7.8.0"
+    "web-ext": "^9.2.0"
   },
   "scripts": {
     "build": "npm run build:chrome && npm run build:firefox",
